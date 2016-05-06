@@ -1,9 +1,20 @@
 Package: desctable
-Title: What the Package Does (one line, title case)
+Title: Produce Descriptive and Comparative Tables Easily
 Version: 0.0.0.9000
-Authors@R: person("First", "Last", email = "first.last@example.com", role = c("aut", "cre"))
-Description: What the package does (one paragraph).
-Depends: R (>= 3.2.3)
-License: What license is it under?
+Authors@R: person("Maxime", "Wack", email = "maximewack@free.fr", role = c("aut", "cre"))
+Description: This package provides functions to easily create descriptive and
+    comparative tables. It makes use and integrates directly with the dplyr family
+    of packages and pipes. Tables are produced as data frames/lists of data frames
+    for easy manipulation after creation, and ready to be saved as csv, piped to
+    datatable or pander to integrate into reports.
+Depends:
+    R (>= 3.2.3)
+License: GPL-3
 Encoding: UTF-8
 LazyData: true
+Imports:
+    dplyr
+Suggests:
+    datatable,
+    pander
+RoxygenNote: 5.0.1
