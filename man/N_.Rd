@@ -14,7 +14,7 @@ A vector of sample sizes
 }
 \description{
 Return the number of observations.
-For numerical values, return the sample size
-For factors, return the sample size for each level
+For numerical values, return the sample size. Missing values are omitted.
+For factors, return the sample size for each level.
 }
 
