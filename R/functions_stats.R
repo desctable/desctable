@@ -31,6 +31,9 @@ mean_ <- function(x)
   if (is.numeric(x))
   {
     mean(x, na.rm = T)
+  } else if (is.factor(x))
+  {
+    rep(NA, 1 + nlevels(x))
   } else
   {
     NA
@@ -52,7 +55,7 @@ N_mean_ <- function(x)
     mean(x, na.rm = T)
   } else if (is.factor(x))
   {
-    summary(x)
+    c(x %>% na.omit %>% length, x %>% na.omit %>% summary)
   } else
   {
     NA
