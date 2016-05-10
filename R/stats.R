@@ -18,6 +18,7 @@ N_ <- function(x)
     NA
   }
 }
+attr(N_, "label") <- "N"
 
 #' Return the mean
 #'
@@ -39,6 +40,7 @@ mean_ <- function(x)
     NA
   }
 }
+attr(mean_, "label") <- "Mean"
 
 #' Return the number of observations / mean
 #'
@@ -61,3 +63,4 @@ N_mean_ <- function(x)
     NA
   }
 }
+attr(N_mean_, "label") <- "N / mean"
