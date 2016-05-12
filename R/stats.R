@@ -7,16 +7,14 @@
 #' @return A vector of sample sizes
 N <- function(x)
 {
-  if (is.numeric(x))
+  x %>% na.omit %>% length -> out
+
+  if (is.factor(x))
   {
-    x %>% na.omit %>% length
-  } else if (is.factor(x))
-  {
-    c(x %>% na.omit %>% length, x %>% na.omit %>% summary)
-  } else
-  {
-    NA
+    c(out, x %>% na.omit %>% summary) -> out
   }
+
+  out
 }
 attr(N, "label") <- "N"
 
