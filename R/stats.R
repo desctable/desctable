@@ -52,13 +52,10 @@ N_Mean <- function(x)
 {
   if (is.numeric(x))
   {
-    mean(x, na.rm = T)
-  } else if (is.factor(x))
-  {
-    c(x %>% na.omit %>% length, x %>% na.omit %>% summary)
+    Mean(x)
   } else
   {
-    NA
+    N(x)
   }
 }
 attr(N_Mean, "label") <- "N / mean"
