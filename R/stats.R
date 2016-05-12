@@ -5,7 +5,7 @@
 #' For factors, return the sample size for each level.
 #' @param x A vector
 #' @return A vector of sample sizes
-N_ <- function(x)
+N <- function(x)
 {
   if (is.numeric(x))
   {
@@ -18,7 +18,7 @@ N_ <- function(x)
     NA
   }
 }
-attr(N_, "label") <- "N"
+attr(N, "label") <- "N"
 
 #' Return the mean
 #'
@@ -27,7 +27,7 @@ attr(N_, "label") <- "N"
 #' For non-numerical vectors, return NA.
 #' @param x A vector
 #' @return The mean of the vector
-mean_ <- function(x)
+Mean <- function(x)
 {
   if (is.numeric(x))
   {
@@ -40,7 +40,7 @@ mean_ <- function(x)
     NA
   }
 }
-attr(mean_, "label") <- "Mean"
+attr(Mean, "label") <- "Mean"
 
 #' Return the number of observations / mean
 #'
@@ -50,7 +50,7 @@ attr(mean_, "label") <- "Mean"
 #' For factors, return the sample size for each level
 #' @param x A vector
 #' @return A vector of sample sizes
-N_mean_ <- function(x)
+N_Mean <- function(x)
 {
   if (is.numeric(x))
   {
@@ -63,4 +63,4 @@ N_mean_ <- function(x)
     NA
   }
 }
-attr(N_mean_, "label") <- "N / mean"
+attr(N_Mean, "label") <- "N / mean"
