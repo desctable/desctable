@@ -58,4 +58,4 @@ N_Mean <- function(x)
     N(x)
   }
 }
-attr(N_Mean, "label") <- "N / mean"
+attr(N_Mean, "label") <- "N / Mean"
