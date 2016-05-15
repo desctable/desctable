@@ -58,3 +58,23 @@ N_Mean <- function(x)
   }
 }
 attr(N_Mean, "label") <- "N / Mean"
+
+#' Return the percentage of observations
+#'
+#' Return the percentage of observations.
+#' For numerical values, return NA.
+#' For factors, return the percentage of each level.
+#' @param x A vector
+#' @return A vector of percentages
+Pct <- function(x)
+{
+  if (is.factor(x))
+  {
+    c(NA, x %>% na.omit %>% summary / x %>% na.omit %>% length)
+  } else
+  {
+    NA
+  }
+}
+attr(Pct, "label") <- "%"
+
