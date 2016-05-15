@@ -100,3 +100,22 @@ Sd <- function(x)
 }
 attr(Sd, "label") <- "Sd"
 
+#' Return the percentage / sd
+#'
+#' Return the sd of a numeric vector.
+#' NAs are removed by default.
+#' For factors, return the percentage of each level
+#' @param x A vector
+#' @return A vector of sd / percentages
+Sd_Pct <- function(x)
+{
+  if (is.double(x))
+  {
+    Sd(x)
+  } else
+  {
+    Pct(x)
+  }
+}
+attr(Sd_Pct, "label") <- "Sd / %"
+
