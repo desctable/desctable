@@ -43,11 +43,10 @@ attr(Mean, "label") <- "Mean"
 #' Return the number of observations / mean
 #'
 #' Return the mean of a numeric vector.
-#' For numerical values, return the sample size
 #' NAs are removed by default.
 #' For factors, return the sample size for each level
 #' @param x A vector
-#' @return A vector of sample sizes
+#' @return A vector of means / sample sizes
 N_Mean <- function(x)
 {
   if (is.double(x))
@@ -58,4 +57,4 @@ N_Mean <- function(x)
     N(x)
   }
 }
-attr(N_Mean, "label") <- "N / mean"
+attr(N_Mean, "label") <- "N / Mean"
