@@ -78,3 +78,25 @@ Pct <- function(x)
 }
 attr(Pct, "label") <- "%"
 
+#' Return the standard deviation
+#'
+#' Return the standard deviation of a numeric vectorr
+#' NAs are removed by default.
+#' For non-numerical vectors, return NA.
+#' @param x A vector
+#' @return The standard deviation of the vector
+Sd <- function(x)
+{
+  if (is.double(x))
+  {
+    sd(x, na.rm = T)
+  } else if (is.factor(x))
+  {
+    rep(NA, 1 + nlevels(x))
+  } else
+  {
+    NA
+  }
+}
+attr(Sd, "label") <- "Sd"
+
