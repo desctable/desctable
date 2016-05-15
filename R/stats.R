@@ -27,7 +27,7 @@ attr(N, "label") <- "N"
 #' @return The mean of the vector
 Mean <- function(x)
 {
-  if (is.numeric(x))
+  if (is.double(x))
   {
     mean(x, na.rm = T)
   } else if (is.factor(x))
@@ -50,7 +50,7 @@ attr(Mean, "label") <- "Mean"
 #' @return A vector of sample sizes
 N_Mean <- function(x)
 {
-  if (is.numeric(x))
+  if (is.double(x))
   {
     Mean(x)
   } else
