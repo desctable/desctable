@@ -38,7 +38,7 @@ statTable <- function(data, stats)
 #'
 #' @param data The dataframe to get the names from
 #' @param labels The optional named character vector containing the keypairs var = "Label"
-#' @return A character vector of variable names/labels/levels
+#' @return A character vector of variable names/labels and levels
 #' @importFrom purrr map map_lgl
 varColumn <- function(data, labels = NULL)
 {
@@ -59,4 +59,29 @@ varColumn <- function(data, labels = NULL)
   {
     base_names
   }
+}
+
+#' Generate a simple statistics table
+#'
+#' Generate a simple statistics table with variable names/labels and levels
+#'
+#' labels is an option named character vector used to make the table prettier.
+#' If given, the variable names for which there is a label will be replaced by their corresponding label.
+#' Not all variables need to have a label, and labels for non-existing variables are ignored.
+#' 
+#' The resulting dataframe is directly pipe-able to pander or DT, or can be exported like any dataframe to csv, etc.
+#'
+#' @param data The dataframe to analyse
+#' @param stats A list of statistics to apply to each element of the dataframe
+#' @param labels A named character vector of labels to use instead of variable names
+#' @return A table of statistics for all variables
+#' @importFrom dplyr as_data_frame
+simpleTable <- function(data, stats, labels = NULL)
+{
+  data.frame(Variables = varColumn(data, labels)) %>%
+    bind_cols(statTable(data, stats) %>% as_data_frame) -> tbl
+
+  attr(tbl, "types") <- data %>% map(class)
+
+  tbl
 }
