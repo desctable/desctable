@@ -14,7 +14,8 @@ Encoding: UTF-8
 LazyData: true
 Imports:
     dplyr,
-    purrr
+    purrr,
+    stringr
 Suggests:
     datatable,
     pander

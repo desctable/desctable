@@ -39,7 +39,7 @@ statTable <- function(data, stats)
 #' @param data The dataframe to get the names from
 #' @param labels The optional named character vector containing the keypairs var = "Label"
 #' @return A character vector of variable names/labels and levels
-#' @importFrom purrr map map_lgl
+#' @importFrom purrr map map_lgl at_depth
 varColumn <- function(data, labels = NULL)
 {
 # Replace variable names by their labels, if they exist
@@ -53,7 +53,7 @@ varColumn <- function(data, labels = NULL)
       map_lgl(is.factor) %>%
       which %>%
       insert(x = base_names,
-             y = select(data, .) %>% map(levels),
+             y = select(data, .) %>% map(levels) %>% at_depth(1, ~ stringr::str_c("\t", .)),
              position = .)
   } else
   {
