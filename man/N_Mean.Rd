@@ -10,11 +10,10 @@ N_Mean(x)
 \item{x}{A vector}
 }
 \value{
-A vector of sample sizes
+A vector of means / sample sizes
 }
 \description{
 Return the mean of a numeric vector.
-For numerical values, return the sample size
 NAs are removed by default.
 For factors, return the sample size for each level
 }
