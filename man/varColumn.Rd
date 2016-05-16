@@ -12,7 +12,7 @@ varColumn(data, labels = NULL)
 \item{labels}{The optional named character vector containing the keypairs var = "Label"}
 }
 \value{
-A character vector of variable names/labels/levels
+A character vector of variable names/labels and levels
 }
 \description{
 Generates the variable column.
