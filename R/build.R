@@ -3,11 +3,12 @@
 #' @param stat The statistic to use
 #' @param data The dataframe to apply the statistic to
 #' @return A vector for one statistic column
+#' @importFrom purrr map flatten_dbl
 statColumn <- function(stat, data)
 {
   data %>%
-    lapply(stat) %>%
-    unlist
+    map(stat) %>%
+    flatten_dbl
 }
 
 #' Generate the table of all statistics for all variables
@@ -38,6 +39,7 @@ statTable <- function(data, stats)
 #' @param data The dataframe to get the names from
 #' @param labels The optional named character vector containing the keypairs var = "Label"
 #' @return A character vector of variable names/labels/levels
+#' @importFrom purrr map map_lgl
 varColumn <- function(data, labels = NULL)
 {
 # Replace variable names by their labels, if they exist
@@ -45,18 +47,16 @@ varColumn <- function(data, labels = NULL)
   base_names[base_names %in% names(labels)] <- labels[base_names[base_names %in% names(labels)]]
 
   # Insert levels for factors after the variable name
-  if (any(data %>% lapply(is.factor) %>% unlist))
+  if (any(data %>% map_lgl(is.factor)))
   {
     data %>%
-      lapply(is.factor) %>%
-      unlist %>%
+      map_lgl(is.factor) %>%
       which %>%
       insert(x = base_names,
-             y = select(data, .) %>% lapply(levels),
+             y = select(data, .) %>% map(levels),
              position = .)
   } else
   {
     base_names
   }
 }
-
