@@ -13,7 +13,9 @@ License: GPL-3
 Encoding: UTF-8
 LazyData: true
 Imports:
-    dplyr
+    dplyr,
+    purrr,
+    stringr
 Suggests:
     datatable,
     pander
