@@ -2,8 +2,3 @@
 
 export("%>%")
 importFrom(dplyr,"%>%")
-importFrom(dplyr,as_data_frame)
-importFrom(purrr,at_depth)
-importFrom(purrr,flatten_dbl)
-importFrom(purrr,map)
-importFrom(purrr,map_lgl)
