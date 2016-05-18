@@ -5,6 +5,7 @@
 #' For factors, return the sample size for each level.
 #' @param x A vector
 #' @return A vector of sample sizes
+#' @export
 N <- function(x)
 {
   x %>% na.omit %>% length -> out
@@ -25,6 +26,7 @@ attr(N, "label") <- "N"
 #' For non-numerical vectors, return NA.
 #' @param x A vector
 #' @return The mean of the vector
+#' @export
 Mean <- function(x)
 {
   if (is.double(x))
@@ -47,6 +49,7 @@ attr(Mean, "label") <- "Mean"
 #' For factors, return the sample size for each level
 #' @param x A vector
 #' @return A vector of means / sample sizes
+#' @export
 N_Mean <- function(x)
 {
   if (is.double(x))
@@ -66,6 +69,7 @@ attr(N_Mean, "label") <- "N / Mean"
 #' For factors, return the percentage of each level.
 #' @param x A vector
 #' @return A vector of percentages
+#' @export
 Pct <- function(x)
 {
   if (is.factor(x))
@@ -85,6 +89,7 @@ attr(Pct, "label") <- "%"
 #' For non-numerical vectors, return NA.
 #' @param x A vector
 #' @return The standard deviation of the vector
+#' @export
 Sd <- function(x)
 {
   if (is.double(x))
@@ -107,6 +112,7 @@ attr(Sd, "label") <- "Sd"
 #' For factors, return the percentage of each level
 #' @param x A vector
 #' @return A vector of sd / percentages
+#' @export
 Sd_Pct <- function(x)
 {
   if (is.double(x))
