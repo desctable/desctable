@@ -76,9 +76,5 @@ varColumn <- function(data, labels = NULL)
 simpleTable <- function(data, stats, labels = NULL)
 {
   data.frame(Variables = varColumn(data, labels)) %>%
-    dplyr::bind_cols(statTable(data, stats) %>% dplyr::as_data_frame()) -> tbl
-
-  attr(tbl, "types") <- data %>% purrr::map(class)
-
-  tbl
+    dplyr::bind_cols(statTable(data, stats) %>% dplyr::as_data_frame())
 }
