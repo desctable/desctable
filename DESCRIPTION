@@ -15,7 +15,8 @@ LazyData: true
 Imports:
     dplyr,
     purrr,
-    stringr
+    stringr,
+    tibble
 Suggests:
     datatable,
     pander

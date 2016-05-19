@@ -22,7 +22,7 @@ statTable <- function(data, stats)
   stats %>%
     sapply(attr, "label") -> colnames(tbl)
 
-  tbl
+  tbl %>% tibble::as_data_frame()
 }
 
 #' Generate the variable column to display as row names
@@ -76,5 +76,5 @@ varColumn <- function(data, labels = NULL)
 simpleTable <- function(data, stats, labels = NULL)
 {
   data.frame(Variables = varColumn(data, labels)) %>%
-    dplyr::bind_cols(statTable(data, stats) %>% dplyr::as_data_frame())
+    dplyr::bind_cols(statTable(data, stats))
 }
