@@ -217,6 +217,30 @@ Q1 <- function(x)
   }
 }
 attr(Q1, "label") <- "Q1"
+
+#' Return the third quartile
+#'
+#' Return the third quartile of a numeric vector.
+#' NAs are removed by default.
+#' For non-numerical vectors, return NA.
+#' @param x A vector
+#' @return The third quartile of the vector
+#' @export
+Q3 <- function(x)
+{
+  if (is.numeric(x))
+  {
+    quantile(x, .75, na.rm = T)
+  } else if (is.factor(x))
+  {
+    rep(NA, 1 + nlevels(x))
+  } else
+  {
+    NA
+  }
+}
+attr(Q3, "label") <- "Q3"
+
 #' Return the inter-quartile range
 #'
 #' Return the inter-quartile range of a numeric vector.
