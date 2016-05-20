@@ -194,6 +194,29 @@ Med <- function(x)
   }
 }
 attr(Med, "label") <- "Median"
+
+#' Return the first quartile
+#'
+#' Return the first quartile of a numeric vector.
+#' NAs are removed by default.
+#' For non-numerical vectors, return NA.
+#' @param x A vector
+#' @return The first quartile of the vector
+#' @export
+Q1 <- function(x)
+{
+  if (is.numeric(x))
+  {
+    quantile(x, .25, na.rm = T)
+  } else if (is.factor(x))
+  {
+    rep(NA, 1 + nlevels(x))
+  } else
+  {
+    NA
+  }
+}
+attr(Q1, "label") <- "Q1"
 #' Return the inter-quartile range
 #'
 #' Return the inter-quartile range of a numeric vector.
