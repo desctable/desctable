@@ -171,6 +171,29 @@ Max <- function(x)
 }
 attr(Max, "label") <- "Max"
 
+
+#' Return the median
+#'
+#' Return the median of a numeric vector.
+#' NAs are removed by default.
+#' For non-numerical vectors, return NA.
+#' @param x A vector
+#' @return The median of the vector
+#' @export
+Med <- function(x)
+{
+  if (is.double(x))
+  {
+    median(x, na.rm = T)
+  } else if (is.factor(x))
+  {
+    rep(NA, 1 + nlevels(x))
+  } else
+  {
+    NA
+  }
+}
+attr(Med, "label") <- "Median"
 #' Return the inter-quartile range
 #'
 #' Return the inter-quartile range of a numeric vector.
