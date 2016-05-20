@@ -4,7 +4,7 @@
 #' For numerical values, return the sample size. Missing values are omitted.
 #' For factors, return the sample size for each level.
 #' @param x A vector
-#' @return A vector of sample sizes
+#' @return The sample size without missing values
 #' @export
 N <- function(x)
 {
@@ -48,7 +48,7 @@ attr(Mean, "label") <- "Mean"
 #' NAs are removed by default.
 #' For factors, return the sample size for each level
 #' @param x A vector
-#' @return A vector of means / sample sizes
+#' @return The mean of the vector / sample size without missing values
 #' @export
 N_Mean <- function(x)
 {
@@ -68,7 +68,7 @@ attr(N_Mean, "label") <- "N / Mean"
 #' For numerical values, return NA.
 #' For factors, return the percentage of each level.
 #' @param x A vector
-#' @return A vector of percentages
+#' @return The percentages of observations for each level of a factor
 #' @export
 Pct <- function(x)
 {
@@ -111,7 +111,7 @@ attr(Sd, "label") <- "Sd"
 #' NAs are removed by default.
 #' For factors, return the percentage of each level
 #' @param x A vector
-#' @return A vector of sd / percentages
+#' @return The sd of the vector / percentages of each level of the factor
 #' @export
 Sd_Pct <- function(x)
 {

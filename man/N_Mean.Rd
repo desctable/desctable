@@ -10,7 +10,7 @@ N_Mean(x)
 \item{x}{A vector}
 }
 \value{
-A vector of means / sample sizes
+The mean of the vector / sample size without missing values
 }
 \description{
 Return the mean of a numeric vector.

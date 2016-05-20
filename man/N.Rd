@@ -10,7 +10,7 @@ N(x)
 \item{x}{A vector}
 }
 \value{
-A vector of sample sizes
+The sample size without missing values
 }
 \description{
 Return the number of observations.

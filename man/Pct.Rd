@@ -10,7 +10,7 @@ Pct(x)
 \item{x}{A vector}
 }
 \value{
-A vector of percentages
+The percentages of observations for each level of a factor
 }
 \description{
 Return the percentage of observations.

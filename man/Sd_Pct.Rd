@@ -10,7 +10,7 @@ Sd_Pct(x)
 \item{x}{A vector}
 }
 \value{
-A vector of sd / percentages
+The sd of the vector / percentages of each level of the factor
 }
 \description{
 Return the sd of a numeric vector.
