@@ -125,3 +125,25 @@ Sd_Pct <- function(x)
 }
 attr(Sd_Pct, "label") <- "Sd / %"
 
+#' Return the inter-quartile range
+#'
+#' Return the inter-quartile range of a numeric vector.
+#' NAs are removed by default.
+#' For non-numerical vectors, return NA.
+#' @param x A vector
+#' @return The inter-quartile range of the vector
+#' @export
+IQR <- function(x)
+{
+  if (is.numeric(x))
+  {
+    quantile(x, .75, na.rm = T) - quantile(x, .25, na.rm = T)
+  } else if (is.factor(x))
+  {
+    rep(NA, 1 + nlevels(x))
+  } else
+  {
+    NA
+  }
+}
+attr(IQR, "label") <- "IQR"
