@@ -125,6 +125,29 @@ Sd_Pct <- function(x)
 }
 attr(Sd_Pct, "label") <- "Sd / %"
 
+#' Return the minimal value
+#'
+#' Return the minimal value of a numeric vector.
+#' NAs are removed by default.
+#' For non-numerical vectors, return NA.
+#' @param x A vector
+#' @return The minimal value of the vector
+#' @export
+Min <- function(x)
+{
+  if (is.double(x))
+  {
+    min(x, na.rm = T)
+  } else if (is.factor(x))
+  {
+    rep(NA, 1 + nlevels(x))
+  } else
+  {
+    NA
+  }
+}
+attr(Min, "label") <- "Min"
+
 #' Return the maximal value
 #'
 #' Return the maximal value of a numeric vector.
