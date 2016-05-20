@@ -2,6 +2,7 @@
 
 export("%>%")
 export(IQR)
+export(Max)
 export(Mean)
 export(N)
 export(N_Mean)

@@ -125,6 +125,29 @@ Sd_Pct <- function(x)
 }
 attr(Sd_Pct, "label") <- "Sd / %"
 
+#' Return the maximal value
+#'
+#' Return the maximal value of a numeric vector.
+#' NAs are removed by default.
+#' For non-numerical vectors, return NA.
+#' @param x A vector
+#' @return The maximal value of the vector
+#' @export
+Max <- function(x)
+{
+  if (is.double(x))
+  {
+    max(x, na.rm = T)
+  } else if (is.factor(x))
+  {
+    rep(NA, 1 + nlevels(x))
+  } else
+  {
+    NA
+  }
+}
+attr(Max, "label") <- "Max"
+
 #' Return the inter-quartile range
 #'
 #' Return the inter-quartile range of a numeric vector.
