@@ -171,6 +171,28 @@ Max <- function(x)
 }
 attr(Max, "label") <- "Max"
 
+#' Return the range
+#'
+#' Return the range of a numeric vector.
+#' NAs are removed by default.
+#' For non-numerical vectors, return NA.
+#' @param x A vector
+#' @return The range of the vector
+#' @export
+Range <- function(x)
+{
+  if (is.double(x))
+  {
+    max(x, na.rm = T) - min(x, na.rm = T)
+  } else if (is.factor(x))
+  {
+    rep(NA, 1 + nlevels(x))
+  } else
+  {
+    NA
+  }
+}
+attr(Range, "label") <- "Range"
 
 #' Return the median
 #'
