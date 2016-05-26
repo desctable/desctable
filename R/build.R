@@ -78,3 +78,9 @@ simpleTable <- function(data, stats, labels = NULL)
   data.frame(Variables = varColumn(data, labels)) %>%
     dplyr::bind_cols(statTable(data, stats))
 }
+
+desctable <- function(data, stats, labels = NULL)
+{
+  data %>%
+    dplyr::do(stats = statTable(., stats))
+}
