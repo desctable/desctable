@@ -13,7 +13,7 @@ statColumn <- function(stat, data)
 #' Generate the table of all statistics for all variables
 #'
 #' @param data The dataframe to apply the statistic to
-#' @param stat A list of statistics to use
+#' @param stats A list of statistics to use
 #' @return A dataframe of all statistics for all variables
 statTable <- function(data, stats)
 {

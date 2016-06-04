@@ -8,11 +8,11 @@
 #' @export
 N <- function(x)
 {
-  x %>% na.omit %>% length -> out
+  x %>% stats::na.omit %>% length -> out
 
   if (is.factor(x))
   {
-    c(out, x %>% na.omit %>% summary) -> out
+    c(out, x %>% stats::na.omit %>% summary) -> out
   }
 
   out
@@ -74,7 +74,7 @@ Pct <- function(x)
 {
   if (is.factor(x))
   {
-    c(NA, x %>% na.omit %>% summary / x %>% na.omit %>% length)
+    c(NA, x %>% stats::na.omit %>% summary / x %>% stats::na.omit %>% length)
   } else
   {
     NA
@@ -94,7 +94,7 @@ Sd <- function(x)
 {
   if (is.double(x))
   {
-    sd(x, na.rm = T)
+    stats::sd(x, na.rm = T)
   } else if (is.factor(x))
   {
     rep(NA, 1 + nlevels(x))
@@ -206,7 +206,7 @@ Med <- function(x)
 {
   if (is.double(x))
   {
-    median(x, na.rm = T)
+    stats::median(x, na.rm = T)
   } else if (is.factor(x))
   {
     rep(NA, 1 + nlevels(x))
@@ -229,7 +229,7 @@ Q1 <- function(x)
 {
   if (is.numeric(x))
   {
-    quantile(x, .25, na.rm = T)
+    stats::quantile(x, .25, na.rm = T)
   } else if (is.factor(x))
   {
     rep(NA, 1 + nlevels(x))
@@ -252,7 +252,7 @@ Q3 <- function(x)
 {
   if (is.numeric(x))
   {
-    quantile(x, .75, na.rm = T)
+    stats::quantile(x, .75, na.rm = T)
   } else if (is.factor(x))
   {
     rep(NA, 1 + nlevels(x))
@@ -275,7 +275,7 @@ IQR <- function(x)
 {
   if (is.numeric(x))
   {
-    quantile(x, .75, na.rm = T) - quantile(x, .25, na.rm = T)
+    stats::quantile(x, .75, na.rm = T) - stats::quantile(x, .25, na.rm = T)
   } else if (is.factor(x))
   {
     rep(NA, 1 + nlevels(x))

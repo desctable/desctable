@@ -18,6 +18,6 @@ Imports:
     stringr,
     tibble
 Suggests:
-    datatable,
+    DT,
     pander
 RoxygenNote: 5.0.1
