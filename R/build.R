@@ -80,7 +80,7 @@ desctable <- function(data, stats = list(N_Mean, Sd_Pct), labels = NULL)
 {
   if (data %>% dplyr::groups() %>% length == 0)
   {
-    bind_cols(varColumn(data, labels), statTable(data, stats))
+    dplyr::bind_cols(varColumn(data, labels), statTable(data, stats))
   } else
   {
     data %>%
