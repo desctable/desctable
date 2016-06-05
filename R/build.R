@@ -37,7 +37,7 @@ statTable <- function(data, stats)
 #'
 #' @param data The dataframe to get the names from
 #' @param labels The optional named character vector containing the keypairs var = "Label"
-#' @return A character vector of variable names/labels and levels
+#' @return A dataframe with one variable named "Variables", a character vector of variable names/labels and levels
 varColumn <- function(data, labels = NULL)
 {
 # Replace variable names by their labels, if they exist
@@ -52,11 +52,10 @@ varColumn <- function(data, labels = NULL)
       which %>%
       insert(x = base_names,
              y = dplyr::select(data, .) %>% purrr::map(levels) %>% purrr::at_depth(1, ~ stringr::str_c("\t", .)),
-             position = .)
-  } else
-  {
-    base_names
+             position = .) -> base_names
   }
+
+  tibble::data_frame(Variables = base_names)
 }
 
 #' Generate a simple statistics table
