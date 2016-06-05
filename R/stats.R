@@ -8,11 +8,11 @@
 #' @export
 N <- function(x)
 {
-  x %>% stats::na.omit %>% length -> out
+  x %>% stats::na.omit() %>% length -> out
 
   if (is.factor(x))
   {
-    c(out, x %>% stats::na.omit %>% summary) -> out
+    c(out, x %>% stats::na.omit() %>% summary) -> out
   }
 
   out
@@ -74,7 +74,7 @@ Pct <- function(x)
 {
   if (is.factor(x))
   {
-    c(NA, x %>% stats::na.omit %>% summary / x %>% stats::na.omit %>% length)
+    c(NA, x %>% stats::na.omit() %>% summary / x %>% stats::na.omit() %>% length) * 100
   } else
   {
     NA
