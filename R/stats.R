@@ -45,49 +45,6 @@ percent <- function(x)
 {
   c(NA, x %>% summary / x %>% length) * 100
 }
-#' Return the number of observations
-#'
-#' Return the number of observations.
-#' For numerical values, return the sample size. Missing values are omitted.
-#' For factors, return the sample size for each level.
-#' @param x A vector
-#' @return The sample size without missing values
-#' @export
-N <- function(x)
-{
-  x %>% stats::na.omit() %>% length -> out
-
-  if (is.factor(x))
-  {
-    c(out, x %>% stats::na.omit() %>% summary) -> out
-  }
-
-  out
-}
-attr(N, "label") <- "N"
-
-#' Return the mean
-#'
-#' Return the mean of the numeric vector.
-#' NAs are removed by default.
-#' For non-numerical vectors, return NA.
-#' @param x A vector
-#' @return The mean of the vector
-#' @export
-Mean <- function(x)
-{
-  if (is.double(x))
-  {
-    mean(x, na.rm = T)
-  } else if (is.factor(x))
-  {
-    rep(NA, 1 + nlevels(x))
-  } else
-  {
-    NA
-  }
-}
-attr(Mean, "label") <- "Mean"
 
 #' Return the number of observations / mean
 #'
@@ -109,28 +66,6 @@ N_Mean <- function(x)
 }
 attr(N_Mean, "label") <- "N / Mean"
 
-#' Return the standard deviation
-#'
-#' Return the standard deviation of a numeric vectorr
-#' NAs are removed by default.
-#' For non-numerical vectors, return NA.
-#' @param x A vector
-#' @return The standard deviation of the vector
-#' @export
-Sd <- function(x)
-{
-  if (is.double(x))
-  {
-    stats::sd(x, na.rm = T)
-  } else if (is.factor(x))
-  {
-    rep(NA, 1 + nlevels(x))
-  } else
-  {
-    NA
-  }
-}
-attr(Sd, "label") <- "Sd"
 
 #' Return the percentage / sd
 #'
@@ -152,51 +87,6 @@ Sd_Pct <- function(x)
 }
 attr(Sd_Pct, "label") <- "Sd / %"
 
-#' Return the minimal value
-#'
-#' Return the minimal value of a numeric vector.
-#' NAs are removed by default.
-#' For non-numerical vectors, return NA.
-#' @param x A vector
-#' @return The minimal value of the vector
-#' @export
-Min <- function(x)
-{
-  if (is.double(x))
-  {
-    min(x, na.rm = T)
-  } else if (is.factor(x))
-  {
-    rep(NA, 1 + nlevels(x))
-  } else
-  {
-    NA
-  }
-}
-attr(Min, "label") <- "Min"
-
-#' Return the maximal value
-#'
-#' Return the maximal value of a numeric vector.
-#' NAs are removed by default.
-#' For non-numerical vectors, return NA.
-#' @param x A vector
-#' @return The maximal value of the vector
-#' @export
-Max <- function(x)
-{
-  if (is.double(x))
-  {
-    max(x, na.rm = T)
-  } else if (is.factor(x))
-  {
-    rep(NA, 1 + nlevels(x))
-  } else
-  {
-    NA
-  }
-}
-attr(Max, "label") <- "Max"
 
 #' Return the range
 #'
@@ -221,28 +111,6 @@ Range <- function(x)
 }
 attr(Range, "label") <- "Range"
 
-#' Return the median
-#'
-#' Return the median of a numeric vector.
-#' NAs are removed by default.
-#' For non-numerical vectors, return NA.
-#' @param x A vector
-#' @return The median of the vector
-#' @export
-Med <- function(x)
-{
-  if (is.double(x))
-  {
-    stats::median(x, na.rm = T)
-  } else if (is.factor(x))
-  {
-    rep(NA, 1 + nlevels(x))
-  } else
-  {
-    NA
-  }
-}
-attr(Med, "label") <- "Median"
 
 #' Return the first quartile
 #'
@@ -289,26 +157,3 @@ Q3 <- function(x)
   }
 }
 attr(Q3, "label") <- "Q3"
-
-#' Return the inter-quartile range
-#'
-#' Return the inter-quartile range of a numeric vector.
-#' NAs are removed by default.
-#' For non-numerical vectors, return NA.
-#' @param x A vector
-#' @return The inter-quartile range of the vector
-#' @export
-IQR <- function(x)
-{
-  if (is.numeric(x))
-  {
-    stats::quantile(x, .75, na.rm = T) - stats::quantile(x, .25, na.rm = T)
-  } else if (is.factor(x))
-  {
-    rep(NA, 1 + nlevels(x))
-  } else
-  {
-    NA
-  }
-}
-attr(IQR, "label") <- "IQR"
