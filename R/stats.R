@@ -58,10 +58,10 @@ N_Mean <- function(x)
 {
   if (is.double(x))
   {
-    Mean(x)
+    mean(x)
   } else
   {
-    N(x)
+    length(x)
   }
 }
 attr(N_Mean, "label") <- "N / Mean"
@@ -79,10 +79,10 @@ Sd_Pct <- function(x)
 {
   if (is.double(x))
   {
-    Sd(x)
+    sd(x)
   } else
   {
-    Pct(x)
+    percent(x)
   }
 }
 attr(Sd_Pct, "label") <- "Sd / %"
@@ -98,16 +98,7 @@ attr(Sd_Pct, "label") <- "Sd / %"
 #' @export
 Range <- function(x)
 {
-  if (is.double(x))
-  {
-    max(x, na.rm = T) - min(x, na.rm = T)
-  } else if (is.factor(x))
-  {
-    rep(NA, 1 + nlevels(x))
-  } else
-  {
-    NA
-  }
+  max(x) - min(x)
 }
 attr(Range, "label") <- "Range"
 
@@ -122,16 +113,7 @@ attr(Range, "label") <- "Range"
 #' @export
 Q1 <- function(x)
 {
-  if (is.numeric(x))
-  {
-    stats::quantile(x, .25, na.rm = T)
-  } else if (is.factor(x))
-  {
-    rep(NA, 1 + nlevels(x))
-  } else
-  {
-    NA
-  }
+  stats::quantile(x, .25)
 }
 attr(Q1, "label") <- "Q1"
 
@@ -145,15 +127,6 @@ attr(Q1, "label") <- "Q1"
 #' @export
 Q3 <- function(x)
 {
-  if (is.numeric(x))
-  {
-    stats::quantile(x, .75, na.rm = T)
-  } else if (is.factor(x))
-  {
-    rep(NA, 1 + nlevels(x))
-  } else
-  {
-    NA
-  }
+  stats::quantile(x, .75, na.rm = T)
 }
 attr(Q3, "label") <- "Q3"
