@@ -34,6 +34,17 @@ statify <- function(x, f)
       NA
   }
 }
+
+#' Return the percentages for the levels of a factor
+#'
+#' Return a compatible vector of length nlevels(x) + 1
+#' to print the percentages of each level of a factor
+#' @param x A factor
+#' @return A nlevels(x) + 1 length vector of percentages
+percent <- function(x)
+{
+  c(NA, x %>% summary / x %>% length) * 100
+}
 #' Return the number of observations
 #'
 #' Return the number of observations.
@@ -97,26 +108,6 @@ N_Mean <- function(x)
   }
 }
 attr(N_Mean, "label") <- "N / Mean"
-
-#' Return the percentage of observations
-#'
-#' Return the percentage of observations.
-#' For numerical values, return NA.
-#' For factors, return the percentage of each level.
-#' @param x A vector
-#' @return The percentages of observations for each level of a factor
-#' @export
-Pct <- function(x)
-{
-  if (is.factor(x))
-  {
-    c(NA, x %>% stats::na.omit() %>% summary / x %>% stats::na.omit() %>% length) * 100
-  } else
-  {
-    NA
-  }
-}
-attr(Pct, "label") <- "%"
 
 #' Return the standard deviation
 #'
