@@ -1,3 +1,39 @@
+#' Transform any function into a valid stat function for the table
+#'
+#' Transform a function into a valid stat function for the table
+#' NA values are removed from the data
+#' Applying the function on a numerical vector should return one value
+#' Applying the function on a factor should return nlevels + 1 value, or one value per factor level
+#' @param x A vector
+#' @param f The function to try to apply
+#' @return The results for the function applied on the vector, compatible with the format of the result table
+statify <- function(x, f)
+{
+  x <- x %>% stats::na.omit()
+
+  res <- tryCatch(x %>% f,
+                  error = function(e) NA,
+                  warning = function(e) suppressWarnings(x %>% f))
+
+  if (x %>% is.factor)
+  {
+    if (res %>% length == nlevels(x) + 1)
+      res
+    else if (res %>% length == 1)
+      c(res, purrr::map_dbl(x %>% levels, . %>% {
+                              tryCatch(x[x == .] %>% f,
+                                       error = function(e) NA,
+                                       warning = function(e) suppressWarnings(x[x == .] %>% f))}))
+    else
+      NA
+  } else
+  {
+    if (res %>% length == 1)
+      res
+    else
+      NA
+  }
+}
 #' Return the number of observations
 #'
 #' Return the number of observations.
