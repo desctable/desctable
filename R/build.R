@@ -73,7 +73,7 @@ varColumn <- function(data, labels = NULL)
 #' @param labels A named character vector of labels to use instead of variable names
 #' @return A table of statistics for all variables
 #' @seealso \code{\link{petrify}}
-desctable <- function(data, stats = list("N/Mean" = N_Mean, "sd/%" = Sd_Pct), labels = NULL)
+desctable <- function(data, stats = list("N" = length, "Mean/%" = mean ~ percent, "sd" = sd, "med" = median, "IQR" = IQR), labels = NULL)
 {
   if (data %>% dplyr::groups() %>% length == 0)
   {
