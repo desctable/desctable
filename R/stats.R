@@ -25,16 +25,16 @@ statify.default <- function(x, f)
   {
     if (res %>% length == nlevels(x) + 1)
       res
-    else if (res %>% length == 1)
+    else if (res %>% length == 1 & res %>% is.numeric | res %>% is.na)
       c(res, purrr::map_dbl(x %>% levels, . %>% {
                               tryCatch(x[x == .] %>% f,
                                        error = function(e) NA,
                                        warning = function(e) suppressWarnings(x[x == .] %>% f))}))
     else
-      NA
+      rep(NA, nlevels(x) + 1)
   } else
   {
-    if (res %>% length == 1)
+    if (res %>% length == 1 & res %>% is.numeric | res %>% is.na)
       res
     else
       NA
