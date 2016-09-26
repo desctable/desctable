@@ -6,7 +6,7 @@
 statColumn <- function(stat, data)
 {
   data %>%
-    purrr::map(stat) %>%
+    purrr::map(~ statify(., stat)) %>%
     purrr::flatten_dbl()
 }
 
