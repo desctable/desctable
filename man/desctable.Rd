@@ -4,8 +4,8 @@
 \alias{desctable}
 \title{Generate a statistics table}
 \usage{
-desctable(data, stats = list(`N/Mean` = N_Mean, `sd/\%` = Sd_Pct),
-  labels = NULL)
+desctable(data, stats = list(N = length, `Mean/\%` = mean ~ percent, sd = sd,
+  med = median, IQR = IQR), labels = NULL)
 }
 \arguments{
 \item{data}{The dataframe to analyse}
