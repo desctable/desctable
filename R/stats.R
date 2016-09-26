@@ -4,10 +4,16 @@
 #' NA values are removed from the data
 #' Applying the function on a numerical vector should return one value
 #' Applying the function on a factor should return nlevels + 1 value, or one value per factor level
+#' If a formula is provided as lhs ~ rhs, the rhs function will be applied for factors, and the lhs function for all other types'
+#' @param f The function to try to apply, or a formula combining two functions
 #' @param x A vector
-#' @param f The function to try to apply
 #' @return The results for the function applied on the vector, compatible with the format of the result table
 statify <- function(x, f)
+{
+  UseMethod("statify", f)
+}
+
+statify.default <- function(x, f)
 {
   x <- x %>% stats::na.omit()
 
@@ -33,6 +39,16 @@ statify <- function(x, f)
     else
       NA
   }
+}
+
+statify.formula <- function(x, f)
+{
+  fns <- f %>% terms %>% attr("variables") %>% eval
+
+  if (x %>% is.factor)
+    statify.default(x, fns[[2]])
+  else
+    statify.default(x, fns[[1]])
 }
 
 #' Return the percentages for the levels of a factor
