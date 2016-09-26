@@ -64,8 +64,6 @@ N_Mean <- function(x)
     length(x)
   }
 }
-attr(N_Mean, "label") <- "N / Mean"
-
 
 #' Return the percentage / sd
 #'
@@ -85,8 +83,6 @@ Sd_Pct <- function(x)
     percent(x)
   }
 }
-attr(Sd_Pct, "label") <- "Sd / %"
-
 
 #' Return the range
 #'
@@ -100,8 +96,6 @@ Range <- function(x)
 {
   max(x) - min(x)
 }
-attr(Range, "label") <- "Range"
-
 
 #' Return the first quartile
 #'
@@ -115,7 +109,6 @@ Q1 <- function(x)
 {
   stats::quantile(x, .25)
 }
-attr(Q1, "label") <- "Q1"
 
 #' Return the third quartile
 #'
@@ -129,4 +122,3 @@ Q3 <- function(x)
 {
   stats::quantile(x, .75, na.rm = T)
 }
-attr(Q3, "label") <- "Q3"

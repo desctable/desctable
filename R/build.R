@@ -13,16 +13,13 @@ statColumn <- function(stat, data)
 #' Generate the table of all statistics for all variables
 #'
 #' @param data The dataframe to apply the statistic to
-#' @param stats A list of statistics to use
+#' @param stats A list of named statistics to use
 #' @return A dataframe of all statistics for all variables
 statTable <- function(data, stats)
 {
   stats %>%
-    sapply(statColumn, data) -> tbl
-  stats %>%
-    sapply(attr, "label") -> colnames(tbl)
-
-  tbl %>% tibble::as_data_frame()
+    sapply(statColumn, data) %>%
+    tibble::as_data_frame()
 }
 
 #' Generate the variable column to display as row names
@@ -72,11 +69,11 @@ varColumn <- function(data, labels = NULL)
 #' For a grouped table, the output is list of dataframes that can be manipulated, prior to passing to the petrify() function which will make it pipe-able to pander or DT.
 #'
 #' @param data The dataframe to analyse
-#' @param stats A list of statistics to apply to each element of the dataframe
+#' @param stats A list of named statistics to apply to each element of the dataframe
 #' @param labels A named character vector of labels to use instead of variable names
 #' @return A table of statistics for all variables
 #' @seealso \code{\link{petrify}}
-desctable <- function(data, stats = list(N_Mean, Sd_Pct), labels = NULL)
+desctable <- function(data, stats = list("N/Mean" = N_Mean, "sd/%" = Sd_Pct), labels = NULL)
 {
   if (data %>% dplyr::groups() %>% length == 0)
   {
