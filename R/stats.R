@@ -101,3 +101,14 @@ Q3 <- function(x)
 {
   stats::quantile(x, .75, na.rm = T)
 }
+
+#' Return the inter-quartile range
+#'
+#' Safe version of IQR for statify
+#' @param x A vector
+#' @return The IQR
+#' @export
+IQR <- function(x)
+{
+  base::diff(stats::quantile(x, c(0.25, 0.75), na.rm = T))
+}
