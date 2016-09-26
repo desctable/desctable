@@ -63,44 +63,6 @@ percent <- function(x)
   c(NA, x %>% summary / x %>% length) * 100
 }
 
-#' Return the number of observations / mean
-#'
-#' Return the mean of a numeric vector.
-#' NAs are removed by default.
-#' For factors, return the sample size for each level
-#' @param x A vector
-#' @return The mean of the vector / sample size without missing values
-#' @export
-N_Mean <- function(x)
-{
-  if (is.double(x))
-  {
-    mean(x)
-  } else
-  {
-    length(x)
-  }
-}
-
-#' Return the percentage / sd
-#'
-#' Return the sd of a numeric vector.
-#' NAs are removed by default.
-#' For factors, return the percentage of each level
-#' @param x A vector
-#' @return The sd of the vector / percentages of each level of the factor
-#' @export
-Sd_Pct <- function(x)
-{
-  if (is.double(x))
-  {
-    sd(x)
-  } else
-  {
-    percent(x)
-  }
-}
-
 #' Return the range
 #'
 #' Return the range of a numeric vector.
