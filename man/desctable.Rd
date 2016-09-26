@@ -4,12 +4,13 @@
 \alias{desctable}
 \title{Generate a statistics table}
 \usage{
-desctable(data, stats = list(N_Mean, Sd_Pct), labels = NULL)
+desctable(data, stats = list(`N/Mean` = N_Mean, `sd/\%` = Sd_Pct),
+  labels = NULL)
 }
 \arguments{
 \item{data}{The dataframe to analyse}
 
-\item{stats}{A list of statistics to apply to each element of the dataframe}
+\item{stats}{A list of named statistics to apply to each element of the dataframe}
 
 \item{labels}{A named character vector of labels to use instead of variable names}
 }

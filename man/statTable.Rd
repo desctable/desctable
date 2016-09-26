@@ -9,7 +9,7 @@ statTable(data, stats)
 \arguments{
 \item{data}{The dataframe to apply the statistic to}
 
-\item{stats}{A list of statistics to use}
+\item{stats}{A list of named statistics to use}
 }
 \value{
 A dataframe of all statistics for all variables
