@@ -104,5 +104,5 @@ desctable <- function(data, stats = list("N" = length, "Mean/%" = mean ~ percent
 #' @seealso \code{\link{desctable}}
 petrify <- function(data, digits = 2, ...)
 {
-  data %>% purrr::dmap(prettyNum, digits = digits, ...)
+  data %>% purrr::dmap(prettyNum, digits = digits, ...) %>% purrr::dmap(base::gsub, pattern = "^NA$", replacement = "")
 }
