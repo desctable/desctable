@@ -35,7 +35,7 @@ statify.default <- function(x, f)
   } else
   {
     if (res %>% length == 1 & res %>% is.numeric | res %>% is.na)
-      res
+      res %>% as.double
     else
       NA
   }
