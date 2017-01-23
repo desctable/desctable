@@ -70,16 +70,20 @@ varColumn <- function(data, labels = NULL)
 #' labels must be given in the form c(unquoted_variable_name = "label")
 #'
 #' @param data The dataframe to analyse
-#' @param stats A list of named statistics to apply to each element of the dataframe
+#' @param stats A list of named statistics to apply to each element of the dataframe, or a function returning a list of named statistics
 #' @param labels A named character vector of labels to use instead of variable names
 #' @return A table of statistics for all variables
 #' @seealso \code{\link{petrify}}
 #' @export
-desctable <- function(data, stats = list("N" = length, "Mean/%" = mean ~ percent, "sd" = sd, "med" = median, "IQR" = IQR), labels = NULL)
+desctable <- function(data, stats = stats_auto, labels = NULL)
 {
   # Replace every logical vector with a factor and nice labels
   if (any(data %>% purrr::map(is.logical) %>% flatten_lgl))
     data %>% purrr::dmap_if(is.logical, factor, levels = c(F, T), labels = c("No", "Yes")) -> data
+
+  # Call the stats arg_function passed, or use the provided list as-is
+  if (is.function(stats))
+    stats = stats(data)
 
   if (data %>% dplyr::groups() %>% length == 0)
   {
