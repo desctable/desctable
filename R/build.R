@@ -76,6 +76,10 @@ varColumn <- function(data, labels = NULL)
 #' @export
 desctable <- function(data, stats = list("N" = length, "Mean/%" = mean ~ percent, "sd" = sd, "med" = median, "IQR" = IQR), labels = NULL)
 {
+  # Replace every logical vector with a factor and nice labels
+  if (any(data %>% purrr::map(is.logical) %>% flatten_lgl))
+    data %>% purrr::dmap_if(is.logical, factor, levels = c(F, T), labels = c("No", "Yes")) -> data
+
   if (data %>% dplyr::groups() %>% length == 0)
   {
     dplyr::bind_cols(varColumn(data, labels), statTable(data, stats))
