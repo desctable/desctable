@@ -73,6 +73,7 @@ varColumn <- function(data, labels = NULL)
 #' @param labels A named character vector of labels to use instead of variable names
 #' @return A table of statistics for all variables
 #' @seealso \code{\link{petrify}}
+#' @export
 desctable <- function(data, stats = list("N" = length, "Mean/%" = mean ~ percent, "sd" = sd, "med" = median, "IQR" = IQR), labels = NULL)
 {
   if (data %>% dplyr::groups() %>% length == 0)
@@ -102,6 +103,7 @@ desctable <- function(data, stats = list("N" = length, "Mean/%" = mean ~ percent
 #' @param ... Arguments to pass to prettyNum
 #' @return A petrified desctable
 #' @seealso \code{\link{desctable}}
+#' @export
 petrify <- function(data, digits = 2, ...)
 {
   data %>% purrr::dmap(prettyNum, digits = digits, ...) %>% purrr::dmap(base::gsub, pattern = "^NA$", replacement = "")
