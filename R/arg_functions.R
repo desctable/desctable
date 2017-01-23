@@ -32,7 +32,7 @@ stats_auto <- function(data)
 
   any(shapiro) -> param
   any(!shapiro) -> nonparam
-  data %>% purrr::map(is.factor) %>% flatten_lgl %>% any -> fact
+  data %>% purrr::map(is.factor) %>% purrr::flatten_lgl() %>% any -> fact
 
   if (fact & param & !nonparam)
     stats_param(data)
