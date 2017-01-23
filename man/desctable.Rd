@@ -4,13 +4,12 @@
 \alias{desctable}
 \title{Generate a statistics table}
 \usage{
-desctable(data, stats = list(N = length, `Mean/\%` = mean ~ percent, sd = sd,
-  med = median, IQR = IQR), labels = NULL)
+desctable(data, stats = stats_auto, labels = NULL)
 }
 \arguments{
 \item{data}{The dataframe to analyse}
 
-\item{stats}{A list of named statistics to apply to each element of the dataframe}
+\item{stats}{A list of named statistics to apply to each element of the dataframe, or a function returning a list of named statistics}
 
 \item{labels}{A named character vector of labels to use instead of variable names}
 }
@@ -29,6 +28,7 @@ If data is a grouped dataframe (using group_by), subtables are created and stati
 
 For a simple descriptive table (without groups), the resulting dataframe is directly pipe-able to pander or DT, or can be exported like any dataframe to csv, etc.
 For a grouped table, the output is list of dataframes that can be manipulated, prior to passing to the petrify() function which will make it pipe-able to pander or DT.
+labels must be given in the form c(unquoted_variable_name = "label")
 }
 \seealso{
 \code{\link{petrify}}
