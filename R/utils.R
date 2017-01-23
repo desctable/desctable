@@ -28,3 +28,26 @@ insert <- function(x, y, position)
 
   unlist(result)
 }
+
+#' Test if distribution is parametric
+#'
+#' @param x A numerical vector
+#' @return A boolean
+is.param <- function(x)
+{
+  (shapiro.test(x)$p.value > .1) & (length(x) >= 30)
+}
+
+#' List the parametric variables in the dataframe
+#'
+#' @param data A dataframe
+#' @return A list of variable names
+#' @export
+list_param <- function(data)
+{
+  data %>%
+    purrr::keep(is.numeric) %>%
+    purrr::map_lgl(is.param) %>%
+    purrr::keep(`==`,T) %>%
+    names
+}
