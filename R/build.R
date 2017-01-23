@@ -67,6 +67,7 @@ varColumn <- function(data, labels = NULL)
 #' 
 #' For a simple descriptive table (without groups), the resulting dataframe is directly pipe-able to pander or DT, or can be exported like any dataframe to csv, etc.
 #' For a grouped table, the output is list of dataframes that can be manipulated, prior to passing to the petrify() function which will make it pipe-able to pander or DT.
+#' labels must be given in the form c(unquoted_variable_name = "label")
 #'
 #' @param data The dataframe to analyse
 #' @param stats A list of named statistics to apply to each element of the dataframe
