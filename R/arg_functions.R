@@ -8,16 +8,22 @@ stats_default <- function(data)
   list("N" = length, "Mean/%" = mean ~ percent, "sd" = sd, "Med" = median, "IQR" = IQR)
 }
 
+#' @rdname stats_default
+#' @export
 stats_param <- function(data)
 {
   list("N" = length, "Mean/%" = mean ~ percent, "sd" = sd)
 }
 
+#' @rdname stats_default
+#' @export
 stats_nonparam <- function(data)
 {
   list("N" = length, "Median/%" = median ~ percent, "IQR" = IQR)
 }
 
+#' @rdname stats_default
+#' @export
 stats_auto <- function(data)
 {
   data %>%

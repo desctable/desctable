@@ -7,7 +7,6 @@
 #' If a formula is provided as lhs ~ rhs, the rhs function will be applied for factors, and the lhs function for all other types'
 #' @param f The function to try to apply, or a formula combining two functions
 #' @param x A vector
-#' @export
 #' @return The results for the function applied on the vector, compatible with the format of the result table
 statify <- function(x, f)
 {
