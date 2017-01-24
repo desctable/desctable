@@ -28,7 +28,8 @@ stats_auto <- function(data)
 {
   data %>%
     purrr::keep(is.numeric) %>%
-    purrr::map_dbl(is.param) -> shapiro
+    purrr::map(is.param) %>%
+    purrr::flatten_lgl() -> shapiro
 
   any(shapiro) -> param
   any(!shapiro) -> nonparam
