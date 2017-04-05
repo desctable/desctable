@@ -35,7 +35,8 @@ insert <- function(x, y, position)
 #' @return A boolean
 is.param <- function(x)
 {
-  (stats::shapiro.test(x)$p.value > .1) & (length(x) >= 30)
+  if (length(x) >= 30) stats::shapiro.test(x)$p.value > .1
+  else F
 }
 
 #' List the parametric variables in the dataframe
