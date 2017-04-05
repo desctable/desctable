@@ -17,6 +17,10 @@ statColumn <- function(stat, data)
 #' @return A dataframe of all statistics for all variables
 statTable <- function(data, stats)
 {
+  # Call the stats arg_function passed, or use the provided list as-is
+  if (is.function(stats))
+    stats = stats(data)
+
   stats %>%
     sapply(statColumn, data) %>%
     tibble::as_data_frame()
@@ -80,10 +84,6 @@ desctable <- function(data, stats = stats_auto, labels = NULL)
   # Replace every logical vector with a factor and nice labels
   if (any(data %>% purrr::map(is.logical) %>% purrr::flatten_lgl()))
     data %>% purrr::dmap_if(is.logical, factor, levels = c(F, T), labels = c("No", "Yes")) -> data
-
-  # Call the stats arg_function passed, or use the provided list as-is
-  if (is.function(stats))
-    stats = stats(data)
 
   if (data %>% dplyr::groups() %>% length == 0)
   {
