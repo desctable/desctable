@@ -29,26 +29,26 @@ insert <- function(x, y, position)
   unlist(result)
 }
 
-#' Test if distribution is parametric
+#' Test if distribution is normal
 #'
 #' @param x A numerical vector
 #' @return A boolean
-is.param <- function(x)
+is.normal <- function(x)
 {
   if (length(x) >= 30) stats::shapiro.test(x)$p.value > .1
   else F
 }
 
-#' List the parametric variables in the dataframe
+#' List the normal variables in the dataframe
 #'
 #' @param data A dataframe
 #' @return A list of variable names
 #' @export
-list_param <- function(data)
+list_normal <- function(data)
 {
   data %>%
     purrr::keep(is.numeric) %>%
-    purrr::map_lgl(is.param) %>%
+    purrr::map_lgl(is.normal) %>%
     purrr::keep(`==`,T) %>%
     names
 }
