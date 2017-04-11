@@ -31,5 +31,5 @@ The FALSE option can be omitted, and the TRUE can be replaced with NA
 parse_formula(is.factor ~ percent | (is.normal ~ mean | median), factor(rep(LETTERS[1:3], 5)))
 
 # To use one column selectively for a type of variable
-parse_formula(is.normal ~ mean)
+parse_formula(is.normal ~ mean, rnorm(1000))
 }

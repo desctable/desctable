@@ -12,7 +12,7 @@ stats_default <- function(data)
 #' @export
 stats_normal <- function(data)
 {
-  list("N" = length, "Mean/%" = is.factor ~ percent | mean, "sd" = sd)
+  list("N" = length, "Mean/%" = is.factor ~ percent | mean, "sd" = stats::sd)
 }
 
 #' @rdname stats_default
@@ -44,9 +44,9 @@ stats_auto <- function(data)
   else if (!fact & normal & nonnormal)
     list("N" = length, "Mean" = is.normal ~ mean, "sd" = is.normal ~ sd, "Med" = is.normal ~ NA | median, "IQR" = is.normal ~ NA | IQR)
   else if (!fact & normal & !nonnormal)
-    list("N" = length, "Mean" = mean, "sd" = sd)
+    list("N" = length, "Mean" = mean, "sd" = stats::sd)
   else if (!fact & !normal & nonnormal)
-    list("N" = length, "Med" = median, "IQR" = IQR)
+    list("N" = length, "Med" = stats::median, "IQR" = IQR)
   else
     stats_default(data)
 }
