@@ -56,3 +56,53 @@ list_normal <- function(data)
     purrr::keep(`==`,T) %>%
     names
 }
+
+#' Parse a formula
+#'
+#' Parse a formula defining the conditions to pick a stat/test
+#'
+#' Parse a formula defining the conditions to pick a stat/test
+#' and return the function to use.
+#' The formula is to be given in the form of
+#' conditional ~ T | F
+#' and conditions can be nested such as
+#' conditional1 ~ (conditional2 ~ T | F) | F
+#' The FALSE option can be omitted, and the TRUE can be replaced with NA
+#'
+#' @param x The variable to test it on
+#' @param f A formula to parse
+#' @return A function to use as a stat/test
+#' @examples
+#' # To use one column for different statistics depending on the variable
+#' parse_formula(is.factor ~ percent | (is.normal ~ mean | median), factor(rep(LETTERS[1:3], 5)))
+#' 
+#' # To use one column selectively for a type of variable
+#' parse_formula(is.normal ~ mean)
+parse_formula <- function(x, f)
+{
+  parse_f <- function(x)
+  {
+    if (length(x) == 1)
+      as.character(x)
+    else
+    {
+      if (as.character(x[[1]]) == "~") 
+      {
+        paste0("if (", x[[2]] %>% parse_f, "(x)) ",
+               "{",
+               x[[3]] %>% parse_f,
+               "}")
+      } else if (as.character(x[[1]] == "|"))
+      {
+        paste0(x[[2]] %>% parse_f,
+               "} else ",
+               "{",
+               x[[3]] %>% parse_f)
+      } else if (as.character(x[[1]] == "("))
+      {
+        x[[2]] %>% parse_f
+      }
+    }
+  }
+  parse(text = parse_f(f)) %>% eval
+}
