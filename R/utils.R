@@ -35,8 +35,12 @@ insert <- function(x, y, position)
 #' @return A boolean
 is.normal <- function(x)
 {
-  if (length(x) >= 30) stats::shapiro.test(x)$p.value > .1
-  else F
+  if (!is.numeric(x)) 
+    F
+  else if (length(x) >= 30)
+    stats::shapiro.test(x)$p.value > .1
+  else
+    F
 }
 
 #' List the normal variables in the dataframe
