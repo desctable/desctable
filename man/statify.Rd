@@ -19,5 +19,5 @@ Transform a function into a valid stat function for the table
 NA values are removed from the data
 Applying the function on a numerical vector should return one value
 Applying the function on a factor should return nlevels + 1 value, or one value per factor level
-If a formula is provided as lhs ~ rhs, the rhs function will be applied for factors, and the lhs function for all other types'
+See `parse_formula` for the usage for formulaes.
 }
