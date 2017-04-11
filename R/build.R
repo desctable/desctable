@@ -50,10 +50,11 @@ varColumn <- function(data, labels = NULL)
   {
     data %>%
       purrr::map_lgl(is.factor) %>%
-      which %>%
+      which -> factors_idx
+
       insert(x = base_names,
-             y = dplyr::select(data, .) %>% purrr::map(levels) %>% purrr::at_depth(1, ~ stringr::str_c("\t", .)),
-             position = .) -> base_names
+             y = dplyr::select(data, factors_idx) %>% purrr::map(levels) %>% purrr::at_depth(1, ~ stringr::str_c("\t", .x)),
+             position = factors_idx) -> base_names
   }
 
   tibble::data_frame(Variables = base_names)
