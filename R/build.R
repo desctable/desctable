@@ -91,8 +91,25 @@ desctable <- function(data, stats = stats_auto, labels = NULL)
     dplyr::bind_cols(varColumn(data, labels), statTable(data, stats))
   } else
   {
-    data %>%
-      dplyr::do(stats = statTable(., stats))
+    subtable <- function(df, stats, grps)
+    {
+      if (length(grps) == 1)
+      {
+        df %>% 
+          select(- eval(grps[[1]])) %>%
+          by(eval(grps[[1]], envir = df), statTable, stats)
+      } else
+      {
+        df %>%
+          select(- eval(grps[[1]])) %>%
+          by(eval(grps[[1]], envir = df),
+             subtable,
+             stats,
+             grps[-1])
+      }
+    }
+    list(Variables = varColumn(data, labels),
+         stats = subtable(data, stats, data %>% dplyr::groups()))
   }
 }
 
