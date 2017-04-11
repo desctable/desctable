@@ -17,4 +17,3 @@ A vector for one statistic column
 \description{
 Generate one statistic for all variables
 }
-

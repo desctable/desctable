@@ -31,4 +31,3 @@ it is 'petrified'.
 \seealso{
 \code{\link{desctable}}
 }
-

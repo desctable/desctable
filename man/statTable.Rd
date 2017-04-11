@@ -17,4 +17,3 @@ A dataframe of all statistics for all variables
 \description{
 Generate the table of all statistics for all variables
 }
-

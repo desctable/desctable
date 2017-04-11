@@ -13,4 +13,3 @@ A dataset containing every type of variables encountered in statistical analyses
 with NA and NaN values as well.
 }
 \keyword{datasets}
-

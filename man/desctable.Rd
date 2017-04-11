@@ -33,4 +33,3 @@ labels must be given in the form c(unquoted_variable_name = "label")
 \seealso{
 \code{\link{petrify}}
 }
-

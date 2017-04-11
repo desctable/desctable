@@ -19,4 +19,3 @@ The combined vector
 \description{
 Insert a vector y inside another vector x at position
 }
-

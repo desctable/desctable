@@ -24,4 +24,3 @@ labels is an option named character vector used to make the table prettier.
 If given, the variable names for which there is a label will be replaced by their corresponding label.
 Not all variables need to have a label, and labels for non-existing variables are ignored.
 }
-

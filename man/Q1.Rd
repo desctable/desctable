@@ -17,4 +17,3 @@ Return the first quartile of a numeric vector.
 NAs are removed by default.
 For non-numerical vectors, return NA.
 }
-

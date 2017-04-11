@@ -15,4 +15,3 @@ The IQR
 \description{
 Safe version of IQR for statify
 }
-
