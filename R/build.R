@@ -96,20 +96,25 @@ desctable <- function(data, stats = stats_auto, labels = NULL)
       if (length(grps) == 1)
       {
         df %>% 
-          select(- eval(grps[[1]])) %>%
-          by(eval(grps[[1]], envir = df), statTable, stats)
+          dplyr::select(- eval(grps[[1]])) %>%
+          by(eval(grps[[1]], envir = df), statTable, stats, simplify = F)
       } else
       {
         df %>%
-          select(- eval(grps[[1]])) %>%
+          dplyr::select(- eval(grps[[1]])) %>%
           by(eval(grps[[1]], envir = df),
              subtable,
              stats,
-             grps[-1])
+             grps[-1],
+             simplify = F)
       }
     }
-    list(Variables = varColumn(data, labels),
-         stats = subtable(data, stats, data %>% dplyr::groups()))
+
+    grps <- data %>% dplyr::groups()
+    data <- dplyr::ungroup(data)
+
+    list(Variables = varColumn(data[!names(data) %in% (grps %>% purrr::map_chr(as.character))], labels),
+         stats = subtable(data, stats, grps))
   }
 }
 
