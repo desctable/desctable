@@ -46,12 +46,7 @@ statify.default <- function(x, f)
 
 statify.formula <- function(x, f)
 {
-  fns <- f %>% stats::terms() %>% attr("variables") %>% eval
-
-  if (x %>% is.factor)
-    statify.default(x, fns[[2]])
-  else
-    statify.default(x, fns[[1]])
+  statify.default(x, parse_formula(x, f))
 }
 
 #' Return the percentages for the levels of a factor
