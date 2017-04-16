@@ -8,6 +8,15 @@
 #' @usage lhs \%>\% rhs
 NULL
 
+#' Group a tbl by one or more variables.
+#'
+#' @name group_by
+#' @keywords internal
+#' @export
+#' @importFrom dplyr group_by
+#' @usage group_by(.data, ..., add = FALSE)
+NULL
+
 #' Insert a vector y inside another vector x at position
 #'
 #' @param x A vector
