@@ -80,7 +80,7 @@ varColumn <- function(data, labels = NULL)
 #' @return A table of statistics for all variables
 #' @seealso \code{\link{petrify}}
 #' @export
-desctable <- function(data, stats = stats_auto, labels = NULL)
+desctable <- function(data, stats = stats_auto, tests = NULL, labels = NULL)
 {
   # Replace every logical vector with a factor and nice labels
   if (any(data %>% purrr::map(is.logical) %>% purrr::flatten_lgl()))
@@ -89,21 +89,34 @@ desctable <- function(data, stats = stats_auto, labels = NULL)
   NextMethod("desctable", data)
 }
 
-desctable.default <- function(data, stats = stats_auto, labels = NULL)
+desctable.default <- function(data, stats = stats_auto, tests = NULL, labels = NULL)
 {
   dplyr::bind_cols(varColumn(data, labels), statTable(data, stats))
 }
 
-desctable.grouped_df <- function(data, stats = stats_auto, labels = NULL)
+desctable.grouped_df <- function(data, stats = stats_auto, tests = NULL, labels = NULL)
 {
   subtable <- function(df, stats, grps)
   {
     if (length(grps) == 1)
     {
-      df %>% 
-        dplyr::select(- eval(grps[[1]])) %>%
-        by(eval(grps[[1]], envir = df), statTable, stats, simplify = F)
-    } else
+       df %>% 
+         dplyr::select(- eval(grps[[1]])) %>%
+         by(eval(grps[[1]], df), statTable, stats, simplify = F) -> stats
+
+      stats %>%
+         dplyr::bind_cols(df %>%
+           dplyr::select(- eval(grps[[1]])) %>%
+           purrr::map2_dbl(.y = tests, function(x, f) {f(x ~ eval(grps[[1]], df))$p.value}) %>%
+           tibble::data_frame(p = .)) %>%
+      setNames(paste(c(eval(grps[[1]], df) %>%
+                     factor %>%
+                     levels %>% 
+                     map(function(x) {c(x, rep("    ", length(stats[[x]]) - 1))}) %>% purrr::flatten_chr(), "    "),
+                   names(.),
+                   sep = "\n"))
+    }
+    else
     {
       df %>%
         dplyr::select(- eval(grps[[1]])) %>%
@@ -111,15 +124,24 @@ desctable.grouped_df <- function(data, stats = stats_auto, labels = NULL)
            subtable,
            stats,
            grps[-1],
-           simplify = F)
+           simplify = F) -> stats
+
+        stats %>%
+          dplyr::bind_cols() %>%
+      setNames(paste(eval(grps[[1]], df) %>%
+                      factor %>%
+                      levels %>% 
+                     map(function(x) {c(x, rep("    ", length(stats[[x]]) - 1))}) %>% purrr::flatten_chr(),
+                   names(.),
+                   sep = "\n"))
     }
   }
 
   grps <- data %>% dplyr::groups()
   data <- dplyr::ungroup(data)
 
-  list(Variables = varColumn(data[!names(data) %in% (grps %>% purrr::map_chr(as.character))], labels),
-       stats = subtable(data, stats, grps))
+  varColumn(data[!names(data) %in% (grps %>% purrr::map_chr(as.character))], labels) %>%
+    dplyr::bind_cols(subtable(data, stats, grps))
 }
 
 #' Petrifies a table for output
