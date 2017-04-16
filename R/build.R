@@ -52,9 +52,9 @@ varColumn <- function(data, labels = NULL)
       purrr::map_lgl(is.factor) %>%
       which -> factors_idx
 
-      insert(x = base_names,
-             y = dplyr::select(data, factors_idx) %>% purrr::map(levels) %>% purrr::at_depth(1, ~ stringr::str_c("\t", .x)),
-             position = factors_idx) -> base_names
+    insert(x = base_names,
+           y = dplyr::select(data, factors_idx) %>% purrr::map(levels) %>% purrr::at_depth(1, ~ stringr::str_c("\t", .x)),
+           position = factors_idx) -> base_names
   }
 
   tibble::data_frame(Variables = base_names)
@@ -86,36 +86,40 @@ desctable <- function(data, stats = stats_auto, labels = NULL)
   if (any(data %>% purrr::map(is.logical) %>% purrr::flatten_lgl()))
     data %>% purrr::dmap_if(is.logical, factor, levels = c(F, T), labels = c("No", "Yes")) -> data
 
-  if (data %>% dplyr::groups() %>% length == 0)
+  NextMethod("desctable", data)
+}
+
+desctable.default <- function(data, stats = stats_auto, labels = NULL)
+{
+  dplyr::bind_cols(varColumn(data, labels), statTable(data, stats))
+}
+
+desctable.grouped_df <- function(data, stats = stats_auto, labels = NULL)
+{
+  subtable <- function(df, stats, grps)
   {
-    dplyr::bind_cols(varColumn(data, labels), statTable(data, stats))
-  } else
-  {
-    subtable <- function(df, stats, grps)
+    if (length(grps) == 1)
     {
-      if (length(grps) == 1)
-      {
-        df %>% 
-          dplyr::select(- eval(grps[[1]])) %>%
-          by(eval(grps[[1]], envir = df), statTable, stats, simplify = F)
-      } else
-      {
-        df %>%
-          dplyr::select(- eval(grps[[1]])) %>%
-          by(eval(grps[[1]], envir = df),
-             subtable,
-             stats,
-             grps[-1],
-             simplify = F)
-      }
+      df %>% 
+        dplyr::select(- eval(grps[[1]])) %>%
+        by(eval(grps[[1]], envir = df), statTable, stats, simplify = F)
+    } else
+    {
+      df %>%
+        dplyr::select(- eval(grps[[1]])) %>%
+        by(eval(grps[[1]], envir = df),
+           subtable,
+           stats,
+           grps[-1],
+           simplify = F)
     }
-
-    grps <- data %>% dplyr::groups()
-    data <- dplyr::ungroup(data)
-
-    list(Variables = varColumn(data[!names(data) %in% (grps %>% purrr::map_chr(as.character))], labels),
-         stats = subtable(data, stats, grps))
   }
+
+  grps <- data %>% dplyr::groups()
+  data <- dplyr::ungroup(data)
+
+  list(Variables = varColumn(data[!names(data) %in% (grps %>% purrr::map_chr(as.character))], labels),
+       stats = subtable(data, stats, grps))
 }
 
 #' Petrifies a table for output
