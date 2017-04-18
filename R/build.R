@@ -100,40 +100,44 @@ desctable.grouped_df <- function(data, stats = stats_auto, tests = NULL, labels 
   {
     if (length(grps) == 1)
     {
-       df %>% 
+       df %>%
          dplyr::select(- eval(grps[[1]])) %>%
          by(eval(grps[[1]], df), statTable, stats, simplify = F) -> stats
 
-      stats %>%
-         dplyr::bind_cols(df %>%
+       df %>%
            dplyr::select(- eval(grps[[1]])) %>%
-           purrr::map2_dbl(.y = tests, function(x, f) {f(x ~ eval(grps[[1]], df))$p.value}) %>%
-           tibble::data_frame(p = .)) %>%
-      setNames(paste(c(eval(grps[[1]], df) %>%
-                     factor %>%
-                     levels %>% 
-                     map(function(x) {c(x, rep("    ", length(stats[[x]]) - 1))}) %>% purrr::flatten_chr(), "    "),
-                   names(.),
-                   sep = "\n"))
+           purrr::map2_dbl(.y = tests, function(x, f) {f(x ~ eval(grps[[1]], df))$p.value}) -> pvalues
+
+         c(paste(eval(grps[[1]], df) %>%
+                 factor %>%
+                 levels %>%
+                 purrr::map(~rep(.x, length(stats[[.x]]))) %>%
+                 purrr::flatten_chr(),
+               names(dplyr::bind_cols(stats)),
+               sep = "\n"),
+           "\r\np") -> header
+
+         stats %>%
+           dplyr::bind_cols(tibble::data_frame(p = pvalues)) %>%
+           stats::setNames(header)
     }
     else
     {
       df %>%
         dplyr::select(- eval(grps[[1]])) %>%
-        by(eval(grps[[1]], envir = df),
-           subtable,
-           stats,
-           grps[-1],
-           simplify = F) -> stats
+        by(eval(grps[[1]], envir = df), subtable, stats, grps[-1], simplify = F) -> stats
+
+      paste(eval(grps[[1]], df) %>%
+            factor %>%
+            levels %>%
+            purrr::map(~ rep(.x, length(stats[[.x]]))) %>%
+            purrr::flatten_chr(),
+          names(dplyr::bind_cols(stats)),
+          sep = "\n") -> header
 
         stats %>%
           dplyr::bind_cols() %>%
-      setNames(paste(eval(grps[[1]], df) %>%
-                      factor %>%
-                      levels %>% 
-                     map(function(x) {c(x, rep("    ", length(stats[[x]]) - 1))}) %>% purrr::flatten_chr(),
-                   names(.),
-                   sep = "\n"))
+          stats::setNames(header)
     }
   }
 
