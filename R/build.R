@@ -67,15 +67,16 @@ varColumn <- function(data, labels = NULL)
 #' labels is an option named character vector used to make the table prettier.
 #' If given, the variable names for which there is a label will be replaced by their corresponding label.
 #' Not all variables need to have a label, and labels for non-existing variables are ignored.
-#' 
+#'
 #' If data is a grouped dataframe (using group_by), subtables are created and statistic tests are perfored over each sub-group.
-#' 
+#'
 #' For a simple descriptive table (without groups), the resulting dataframe is directly pipe-able to pander or DT, or can be exported like any dataframe to csv, etc.
 #' For a grouped table, the output is list of dataframes that can be manipulated, prior to passing to the petrify() function which will make it pipe-able to pander or DT.
 #' labels must be given in the form c(unquoted_variable_name = "label")
 #'
 #' @param data The dataframe to analyse
 #' @param stats A list of named statistics to apply to each element of the dataframe, or a function returning a list of named statistics
+#' @param tests A list of statistcal tests to use when calling desctable with a grouped_df
 #' @param labels A named character vector of labels to use instead of variable names
 #' @return A table of statistics for all variables
 #' @seealso \code{\link{petrify}}

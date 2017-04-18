@@ -4,12 +4,14 @@
 \alias{desctable}
 \title{Generate a statistics table}
 \usage{
-desctable(data, stats = stats_auto, labels = NULL)
+desctable(data, stats = stats_auto, tests = NULL, labels = NULL)
 }
 \arguments{
 \item{data}{The dataframe to analyse}
 
 \item{stats}{A list of named statistics to apply to each element of the dataframe, or a function returning a list of named statistics}
+
+\item{tests}{A list of statistcal tests to use when calling desctable with a grouped_df}
 
 \item{labels}{A named character vector of labels to use instead of variable names}
 }
