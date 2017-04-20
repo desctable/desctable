@@ -121,11 +121,27 @@ subNames <- function(grp, df)
 
 testColumn <- function(df, tests, grp)
 {
-    group <- eval(grp, df)
+  group <- eval(grp, df)
 
-    df %>%
-      dplyr::select(- eval(grp)) %>%
-      purrr::map2_dbl(.y = tests, function(x, f) {f(x ~ group)$p.value})
+  df <- df %>% 
+      dplyr::select(- eval(grp))
+
+  if (is.function(tests))
+  {
+    ftests <- df %>%
+      purrr::map(tests, group)
+  } else if (!is.null(tests$.auto))
+  {
+    ftests <- df %>%
+      purrr::map(tests$.auto, group)
+  } else ftests <- tests
+
+  names(tests) %>% setdiff(".auto") -> base_names
+  ftests[base_names %in% names(df)] <- tests[base_names %in% names(df)]
+  ftests <- ftests[names(ftests) %in% names(df)]
+
+  df %>%
+    purrr::map2_dbl(.y = ftests, function(x, f) {f(x ~ group)$p.value})
 }
 
 subTable <- function(df, stats, tests, grps)
