@@ -53,7 +53,7 @@ varColumn <- function(data, labels = NULL)
       which -> factors_idx
 
     insert(x = base_names,
-           y = dplyr::select(data, factors_idx) %>% purrr::map(levels) %>% purrr::at_depth(1, ~ stringr::str_c("\t", .x)),
+           y = dplyr::select(data, factors_idx) %>% purrr::map(levels) %>% purrr::at_depth(1, ~ stringr::str_c("* ", .x)),
            position = factors_idx) -> base_names
   }
 
