@@ -81,7 +81,7 @@ varColumn <- function(data, labels = NULL)
 #' @return A table of statistics for all variables
 #' @seealso \code{\link{petrify}}
 #' @export
-desctable <- function(data, stats = stats_auto, tests = NULL, labels = NULL)
+desctable <- function(data, stats = stats_auto, tests = tests_auto, labels = NULL)
 {
   # Replace every logical vector with a factor and nice labels
   if (any(data %>% purrr::map(is.logical) %>% purrr::flatten_lgl()))
