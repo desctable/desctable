@@ -109,6 +109,16 @@ desctable.grouped_df <- function(data, stats = stats_auto, tests = NULL, labels 
   `class<-`("desctable")
 }
 
+subNames <- function(grp, df)
+{
+  paste0(as.character(grp),
+         ": ",
+         eval(grp, df) %>% factor %>% levels,
+         " (n=",
+         summary(eval(grp, df) %>% factor),
+         ")")
+}
+
 subTable <- function(df, stats, tests, grps)
 {
   # Final group, make tests
@@ -121,13 +131,7 @@ subTable <- function(df, stats, tests, grps)
       dplyr::select(- eval(grps[[1]])) %>%
       by(group, statTable, stats) %>%
       # Name the subtables with info about group and group size
-      setNames(paste0(as.character(grps[[1]]),
-                      ": ",
-                      group %>% factor %>% levels,
-                      " (n=",
-                      summary(group %>% factor),
-                      ")"
-                      )) -> stats
+      setNames(subNames(grps[[1]], df)) -> stats
 
     # Create the subtable tests
     df %>%
@@ -146,13 +150,7 @@ subTable <- function(df, stats, tests, grps)
       dplyr::select(- eval(grps[[1]])) %>%
       by(group, subTable, stats, tests, grps[-1]) %>%
       # Name the subtables with info about group and group size
-      setNames(paste0(as.character(grps[[1]]),
-                      ": ",
-                      group %>% factor %>% levels,
-                      " (n=",
-                      summary(group %>% factor),
-                      ")"
-                      ))
+      setNames(subNames(grps[[1]], df))
   }
 }
 
