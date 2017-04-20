@@ -131,7 +131,7 @@ subTable <- function(df, stats, tests, grps)
       dplyr::select(- eval(grps[[1]])) %>%
       by(group, statTable, stats) %>%
       # Name the subtables with info about group and group size
-      setNames(subNames(grps[[1]], df)) -> stats
+      stats::setNames(subNames(grps[[1]], df)) -> stats
 
     # Create the subtable tests
     df %>%
@@ -150,7 +150,7 @@ subTable <- function(df, stats, tests, grps)
       dplyr::select(- eval(grps[[1]])) %>%
       by(group, subTable, stats, tests, grps[-1]) %>%
       # Name the subtables with info about group and group size
-      setNames(subNames(grps[[1]], df))
+      stats::setNames(subNames(grps[[1]], df))
   }
 }
 
