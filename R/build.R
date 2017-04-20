@@ -204,7 +204,7 @@ subTable <- function(df, stats, tests, grps)
 #' @export
 petrify <- function(data, digits = 2, ...)
 {
-  data %>% purrr::dmap(prettyNum, digits = digits, ...) %>% purrr::dmap(base::gsub, pattern = "^NA$", replacement = "")
+  data %>% lapply(prettyNum, digits = digits, ...) %>% lapply(base::gsub, pattern = "^NA$", replacement = "") %>% data.frame(check.names = F)
 }
 
 print.desctable <- function(df)
