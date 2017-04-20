@@ -99,56 +99,61 @@ desctable.default <- function(data, stats = stats_auto, labels = NULL)
 
 desctable.grouped_df <- function(data, stats = stats_auto, tests = NULL, labels = NULL)
 {
-  subtable <- function(df, stats, grps)
-  {
-    if (length(grps) == 1)
-    {
-       df %>%
-         dplyr::select(- eval(grps[[1]])) %>%
-         by(eval(grps[[1]], df), statTable, stats, simplify = F) -> stats
-
-       df %>%
-           dplyr::select(- eval(grps[[1]])) %>%
-           purrr::map2_dbl(.y = tests, function(x, f) {f(x ~ eval(grps[[1]], df))$p.value}) -> pvalues
-
-         c(paste(eval(grps[[1]], df) %>%
-                 factor %>%
-                 levels %>%
-                 purrr::map(~rep(.x, length(stats[[.x]]))) %>%
-                 purrr::flatten_chr(),
-               names(dplyr::bind_cols(stats)),
-               sep = "\n"),
-           "\r\np") -> header
-
-         stats %>%
-           dplyr::bind_cols(tibble::data_frame(p = pvalues)) %>%
-           stats::setNames(header)
-    }
-    else
-    {
-      df %>%
-        dplyr::select(- eval(grps[[1]])) %>%
-        by(eval(grps[[1]], envir = df), subtable, stats, grps[-1], simplify = F) -> stats
-
-      paste(eval(grps[[1]], df) %>%
-            factor %>%
-            levels %>%
-            purrr::map(~ rep(.x, length(stats[[.x]]))) %>%
-            purrr::flatten_chr(),
-          names(dplyr::bind_cols(stats)),
-          sep = "\n") -> header
-
-        stats %>%
-          dplyr::bind_cols() %>%
-          stats::setNames(header)
-    }
-  }
-
+  # Get groups then ungroup dataframe
   grps <- data %>% dplyr::groups()
   data <- dplyr::ungroup(data)
 
-  varColumn(data[!names(data) %in% (grps %>% purrr::map_chr(as.character))], labels) %>%
-    dplyr::bind_cols(subtable(data, stats, grps))
+  # Build the complete table recursively, assign "desctable" class
+  c(Variables = list(varColumn(data[!names(data) %in% (grps %>% purrr::map_chr(as.character))], labels)),
+    subTable(data, stats, tests, grps)) %>%
+  `class<-`("desctable")
+}
+
+subTable <- function(df, stats, tests, grps)
+{
+  # Final group, make tests
+  if (length(grps) == 1)
+  {
+    group <- eval(grps[[1]], df)
+
+    # Create the subtable stats
+    df %>%
+      dplyr::select(- eval(grps[[1]])) %>%
+      by(group, statTable, stats) %>%
+      # Name the subtables with info about group and group size
+      setNames(paste0(as.character(grps[[1]]),
+                      ": ",
+                      group %>% factor %>% levels,
+                      " (n=",
+                      summary(group %>% factor),
+                      ")"
+                      )) -> stats
+
+    # Create the subtable tests
+    df %>%
+      dplyr::select(- eval(grps[[1]])) %>%
+      purrr::map2_dbl(.y = tests, function(x, f) {f(x ~ group)$p.value}) -> pvalues
+
+
+    c(stats, pvalues = list(tibble::data_frame(p = pvalues)))
+  }
+  else
+  {
+    group <- eval(grps[[1]], df)
+
+    # Recursively go through the grouping levels and build the subtables
+    df %>%
+      dplyr::select(- eval(grps[[1]])) %>%
+      by(group, subTable, stats, tests, grps[-1]) %>%
+      # Name the subtables with info about group and group size
+      setNames(paste0(as.character(grps[[1]]),
+                      ": ",
+                      group %>% factor %>% levels,
+                      " (n=",
+                      summary(group %>% factor),
+                      ")"
+                      ))
+  }
 }
 
 #' Petrifies a table for output
