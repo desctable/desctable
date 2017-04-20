@@ -133,11 +133,11 @@ testColumn <- function(df, tests, grp)
   if (is.function(tests))
   {
     ftests <- df %>%
-      purrr::map(tests, group)
+      purrr::map(tests, group %>% factor)
   } else if (!is.null(tests$.auto))
   {
     ftests <- df %>%
-      purrr::map(tests$.auto, group)
+      purrr::map(tests$.auto, group %>% factor)
   } else if (!is.null(tests$.default))
   {
     ftests <- df %>%
