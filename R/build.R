@@ -90,9 +90,11 @@ desctable <- function(data, stats = stats_auto, tests = NULL, labels = NULL)
   NextMethod("desctable", data)
 }
 
-desctable.default <- function(data, stats = stats_auto, tests = NULL, labels = NULL)
+desctable.default <- function(data, stats = stats_auto, labels = NULL)
 {
-  dplyr::bind_cols(varColumn(data, labels), statTable(data, stats))
+  # Build the complete table
+  varColumn(data, labels) %>%
+    dplyr::bind_cols(statTable(data, stats))
 }
 
 desctable.grouped_df <- function(data, stats = stats_auto, tests = NULL, labels = NULL)
