@@ -47,8 +47,11 @@ statify.default <- function(x, f)
 
 statify.formula <- function(x, f)
 {
+  # if expression quoted with ~, evaluate the expression
   if (length(f) == 2)
-    statify.default(x, eval(f[[2]]))
+    eval(f[[2]])
+    # statify.default(x, eval(f[[2]]))
+  # else parse the formula (cond ~ T | F)
   else
     statify.default(x, parse_formula(x, f))
 }
