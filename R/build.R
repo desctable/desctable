@@ -134,10 +134,14 @@ testColumn <- function(df, tests, grp)
   {
     ftests <- df %>%
       purrr::map(tests$.auto, group)
-  } else ftests <- tests
+  } else
+  {
+    ftests <- df %>%
+      purrr::map(function(x){kruskal.test})
+  }
 
-  names(tests) %>% setdiff(".auto") -> base_names
-  ftests[base_names %in% names(df)] <- tests[base_names %in% names(df)]
+  names(tests) %>% setdiff(".auto") -> forced_tests
+  ftests[names(ftests) %in% forced_tests] <- tests[forced_tests %in% names(df)]
   ftests <- ftests[names(ftests) %in% names(df)]
 
   df %>%
