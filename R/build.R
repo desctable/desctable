@@ -119,6 +119,15 @@ subNames <- function(grp, df)
          ")")
 }
 
+testColumn <- function(df, tests, grp)
+{
+    group <- eval(grp, df)
+
+    df %>%
+      dplyr::select(- eval(grp)) %>%
+      purrr::map2_dbl(.y = tests, function(x, f) {f(x ~ group)$p.value})
+}
+
 subTable <- function(df, stats, tests, grps)
 {
   # Final group, make tests
@@ -134,10 +143,7 @@ subTable <- function(df, stats, tests, grps)
       stats::setNames(subNames(grps[[1]], df)) -> stats
 
     # Create the subtable tests
-    df %>%
-      dplyr::select(- eval(grps[[1]])) %>%
-      purrr::map2_dbl(.y = tests, function(x, f) {f(x ~ group)$p.value}) -> pvalues
-
+    testColumn(df, tests, grps[[1]]) -> pvalues
 
     c(stats, pvalues = list(tibble::data_frame(p = pvalues)))
   }
