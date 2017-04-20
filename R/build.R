@@ -198,3 +198,8 @@ petrify <- function(data, digits = 2, ...)
 {
   data %>% purrr::dmap(prettyNum, digits = digits, ...) %>% purrr::dmap(base::gsub, pattern = "^NA$", replacement = "")
 }
+
+print.desctable <- function(df)
+{
+  print(df %>% purrr::reduce(dplyr::bind_cols))
+}
