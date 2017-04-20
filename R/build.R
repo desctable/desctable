@@ -87,17 +87,17 @@ desctable <- function(data, stats = stats_auto, tests = NULL, labels = NULL)
   if (any(data %>% purrr::map(is.logical) %>% purrr::flatten_lgl()))
     data %>% purrr::dmap_if(is.logical, factor, levels = c(F, T), labels = c("No", "Yes")) -> data
 
-  NextMethod("desctable", data)
+  NextMethod("desctable", data, stats = stats, tests = tests, labels = labels)
 }
 
-desctable.default <- function(data, stats = stats_auto, labels = NULL)
+desctable.default <- function(data, stats, tests, labels)
 {
   # Build the complete table
   varColumn(data, labels) %>%
     dplyr::bind_cols(statTable(data, stats))
 }
 
-desctable.grouped_df <- function(data, stats = stats_auto, tests = NULL, labels = NULL)
+desctable.grouped_df <- function(data, stats, tests, labels)
 {
   # Get groups then ungroup dataframe
   grps <- data %>% dplyr::groups()
