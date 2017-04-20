@@ -67,3 +67,28 @@ stats_auto <- function(data)
   else
     stats_default(data)
 }
+
+#' Functions to choose a statistical test
+#'
+#' @param var The variable to test
+#' @param grp The variable for the groups
+#' @export
+tests_auto <- function(var, grp)
+{
+  if (is.factor(var))
+  {
+    chisq.test
+  } else
+  {
+    if ((var %>% tapply(grp, is.normal) %>% all) & (bartlett.test(var ~ grp) > .1))
+    {
+      if (nlevels(grp) == 2)
+        t.test
+      else
+        ANOVA
+    } else if (nlevels(grp) == 2)
+      wilcox.test
+    else
+      kruskal.test
+  }
+}
