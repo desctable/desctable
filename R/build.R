@@ -134,6 +134,10 @@ testColumn <- function(df, tests, grp)
   {
     ftests <- df %>%
       purrr::map(tests$.auto, group)
+  } else if (!is.null(tests$.default))
+  {
+    ftests <- df %>%
+      purrr::map(function(x){tests$.default})
   } else
   {
     ftests <- df %>%
