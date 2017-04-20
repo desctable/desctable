@@ -134,6 +134,7 @@ testColumn <- function(df, tests, grp)
   {
     ftests <- df %>%
       purrr::map(tests, group %>% factor)
+    tests <- ftests
   } else if (!is.null(tests$.auto))
   {
     ftests <- df %>%
@@ -148,8 +149,8 @@ testColumn <- function(df, tests, grp)
       purrr::map(function(x){kruskal.test})
   }
 
-  names(tests) %>% setdiff(".auto") -> forced_tests
-  ftests[names(ftests) %in% forced_tests] <- tests[forced_tests %in% names(df)]
+  names(tests) %>% setdiff(".auto") %>% intersect(names(df)) -> forced_tests
+  ftests[names(ftests) %in% forced_tests] <- tests[forced_tests]
   ftests <- ftests[names(ftests) %in% names(df)]
 
   df %>%
