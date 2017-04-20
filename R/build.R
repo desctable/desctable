@@ -90,6 +90,8 @@ desctable <- function(data, stats = stats_auto, tests = NULL, labels = NULL)
   NextMethod("desctable", data, stats = stats, tests = tests, labels = labels)
 }
 
+#' @rdname desctable
+#' @export
 desctable.default <- function(data, stats, tests, labels)
 {
   # Build the complete table
@@ -97,6 +99,8 @@ desctable.default <- function(data, stats, tests, labels)
     dplyr::bind_cols(statTable(data, stats))
 }
 
+#' @rdname desctable
+#' @export
 desctable.grouped_df <- function(data, stats, tests, labels)
 {
   # Get groups then ungroup dataframe
@@ -207,6 +211,7 @@ petrify <- function(data, digits = 2, ...)
   data %>% lapply(prettyNum, digits = digits, ...) %>% lapply(base::gsub, pattern = "^NA$", replacement = "") %>% data.frame(check.names = F)
 }
 
+#' @export
 print.desctable <- function(df)
 {
   print(df %>% purrr::reduce(dplyr::bind_cols))

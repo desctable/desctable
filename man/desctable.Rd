@@ -2,9 +2,15 @@
 % Please edit documentation in R/build.R
 \name{desctable}
 \alias{desctable}
+\alias{desctable.default}
+\alias{desctable.grouped_df}
 \title{Generate a statistics table}
 \usage{
 desctable(data, stats = stats_auto, tests = NULL, labels = NULL)
+
+desctable.default(data, stats, tests, labels)
+
+desctable.grouped_df(data, stats, tests, labels)
 }
 \arguments{
 \item{data}{The dataframe to analyse}
