@@ -284,4 +284,31 @@ pander.desctable <- function(x = NULL, ...)
     data.frame(check.names = F) %>%
     pander::pandoc.table(keep.line.breaks = T, split.tables = Inf)
 }
+
+#' Datatable
+#'
+#' @inheritParams DT::datatable
+#' @export
+datatable <- function(data, options = list(), class = "display", callback = JS("return table;"),
+                      rownames, colnames, container, caption = NULL, filter = c("none", "bottom", "top"), escape = TRUE, style = "default", width = NULL, height = NULL, elementId = NULL, fillContainer = getOption("DT.fillContainer", NULL), autoHideNavigation = getOption("DT.autoHideNavigation", NULL), selection = c("multiple", "single", "none"), extensions = list(), plugins = NULL)
+{
+  UseMethod("datatable")
+}
+
+datatable.default <- function(data, ...)
+{
+  DT::datatable(data, ...)
+}
+
+#' datatable method for desctable
+#'
+#' @param data A desctable
+#' @param ... Additional datatable parameters
+datatable.desctable <- function(data = NULL, ...)
+{
+  Reduce(cbind, data) %>%
+    lapply(prettyNum, ...) %>%
+    lapply(gsub, pattern = "^NA$", replacement = "") %>%
+    data.frame(check.names = F) %>%
+    DT::datatable()
 }
