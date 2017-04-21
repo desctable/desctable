@@ -95,8 +95,9 @@ desctable <- function(data, stats = stats_auto, tests = tests_auto, labels = NUL
 desctable.default <- function(data, stats, tests, labels)
 {
   # Build the complete table
-  varColumn(data, labels) %>%
-    dplyr::bind_cols(statTable(data, stats))
+  list(Variables = varColumn(data, labels),
+    stats = statTable(data, stats)) %>%
+  `class<-`("desctable")
 }
 
 #' @rdname desctable
