@@ -90,12 +90,12 @@ stats_auto <- function(data)
 #' @export
 tests_auto <- function(var, grp)
 {
-  if (is.factor(var))
+  grp <- grp %>% factor
   {
     fisher.test
   } else
   {
-    if ((var %>% tapply(grp, is.normal) %>% all) & tryCatch(stats::bartlett.test(var ~ grp) > .1, warning = function(e) F, error = function(e) F))
+    if (all(var %>% tapply(grp, is.normal)) & tryCatch(stats::bartlett.test(var ~ grp)$p.value > .1, warning = function(e) F, error = function(e) F))
     {
       if (nlevels(grp) == 2)
         stats::t.test
