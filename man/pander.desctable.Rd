@@ -4,7 +4,7 @@
 \alias{pander.desctable}
 \title{Pander method for desctable}
 \usage{
-\method{pander}{desctable}(x = NULL, digits = 2, justify = "left", ...)
+pander.desctable(x = NULL, digits = 2, justify = "left", ...)
 }
 \arguments{
 \item{x}{A desctable}

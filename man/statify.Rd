@@ -2,9 +2,15 @@
 % Please edit documentation in R/stats.R
 \name{statify}
 \alias{statify}
+\alias{statify.default}
+\alias{statify.formula}
 \title{Transform any function into a valid stat function for the table}
 \usage{
 statify(x, f)
+
+\method{statify}{default}(x, f)
+
+\method{statify}{formula}(x, f)
 }
 \arguments{
 \item{x}{A vector}

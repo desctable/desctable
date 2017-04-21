@@ -7,12 +7,15 @@
 #' See `parse_formula` for the usage for formulaes.
 #' @param f The function to try to apply, or a formula combining two functions
 #' @param x A vector
+#' @export
 #' @return The results for the function applied on the vector, compatible with the format of the result table
 statify <- function(x, f)
 {
   UseMethod("statify", f)
 }
 
+#' @rdname statify
+#' @export
 statify.default <- function(x, f)
 {
   x <- x %>% stats::na.omit()
@@ -46,6 +49,8 @@ statify.default <- function(x, f)
   }
 }
 
+#' @rdname statify
+#' @export
 statify.formula <- function(x, f)
 {
   # if expression quoted with ~, evaluate the expression

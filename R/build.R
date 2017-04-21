@@ -257,6 +257,7 @@ print.desctable <- function(x, ...)
 #' @param ... Additional pander parameters
 #' @inheritParams pander::pandoc.table
 #' @inheritParams base::prettyNum
+#' @export
 pander.desctable <- function(x = NULL, digits = 2, justify = "left", ...)
 {
   x$Variables$Variables <- gsub("\\+ (.*)", "**\\1**", x$Variables$Variables)
