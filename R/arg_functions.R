@@ -45,13 +45,13 @@ stats_nonnormal <- function(data)
 stats_auto <- function(data)
 {
   data %>%
-    purrr::keep(is.numeric) %>%
-    purrr::map(is.normal) %>%
-    purrr::flatten_lgl() -> shapiro
+    Filter(f = is.numeric) %>%
+    lapply(is.normal) %>%
+    unlist -> shapiro
 
   any(shapiro) -> normal
   any(!shapiro) -> nonnormal
-  data %>% purrr::map(is.factor) %>% purrr::flatten_lgl() %>% any -> fact
+  any(data %>% lapply(is.factor) %>% unlist) -> fact
 
   if (fact & normal & !nonnormal)
     stats_normal(data)
@@ -91,6 +91,7 @@ stats_auto <- function(data)
 tests_auto <- function(var, grp)
 {
   grp <- grp %>% factor
+  if (var %>% is.factor)
   {
     fisher.test
   } else

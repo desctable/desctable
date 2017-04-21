@@ -6,8 +6,8 @@
 statColumn <- function(stat, data)
 {
   data %>%
-    purrr::map(~ statify(., stat)) %>%
-    purrr::flatten_dbl()
+    lapply(statify, stat) %>%
+    unlist
 }
 
 #' Generate the table of all statistics for all variables
@@ -23,7 +23,7 @@ statTable <- function(data, stats)
 
   stats %>%
     sapply(statColumn, data) %>%
-    tibble::as_data_frame()
+    data.frame(check.names = F, row.names = NULL, stringsAsFactors = F)
 }
 
 #' Generate the variable column to display as row names
@@ -45,20 +45,21 @@ varColumn <- function(data, labels = NULL)
   base_names[base_names %in% names(labels)] <- labels[base_names[base_names %in% names(labels)]]
 
   # Insert levels for factors after the variable name
-  if (any(data %>% purrr::map_lgl(is.factor)))
+  if (any(data %>% lapply(is.factor) %>% unlist))
   {
     data %>%
-      purrr::map_lgl(is.factor) %>%
+      lapply(is.factor) %>%
+      unlist %>%
       which -> factors_idx
 
-    base_names[factors_idx] <- stringr::str_c("+ ", base_names[factors_idx])
+    base_names[factors_idx] <- paste0("+ ", base_names[factors_idx])
 
     insert(x = base_names,
-           y = dplyr::select(data, factors_idx) %>% purrr::map(levels) %>% purrr::at_depth(1, ~ stringr::str_c("* ", .x)),
+           y = data[factors_idx] %>% lapply(levels) %>% purrr::at_depth(1, ~ paste0("* ", .x)),
            position = factors_idx) -> base_names
   }
 
-  tibble::data_frame(Variables = base_names)
+  data.frame(Variables = base_names, check.names = F, row.names = NULL, stringsAsFactors = F)
 }
 
 #' Generate a statistics table
@@ -112,7 +113,7 @@ varColumn <- function(data, labels = NULL)
 desctable <- function(data, stats = stats_auto, tests = tests_auto, labels = NULL)
 {
   # Replace every logical vector with a factor and nice labels
-  if (any(data %>% purrr::map(is.logical) %>% purrr::flatten_lgl()))
+  if (any(data %>% lapply(is.logical) %>% unlist))
     data %>% purrr::dmap_if(is.logical, factor, levels = c(F, T), labels = c("No", "Yes")) -> data
 
   NextMethod("desctable", data, stats = stats, tests = tests, labels = labels)
@@ -137,7 +138,7 @@ desctable.grouped_df <- function(data, stats, tests, labels)
   data <- dplyr::ungroup(data)
 
   # Build the complete table recursively, assign "desctable" class
-  c(Variables = list(varColumn(data[!names(data) %in% (grps %>% purrr::map_chr(as.character))], labels)),
+  c(Variables = list(varColumn(data[!names(data) %in% (grps %>% lapply(as.character) %>% unlist)], labels)),
     subTable(data, stats, tests, grps)) %>%
   `class<-`("desctable")
 }
@@ -170,26 +171,26 @@ testColumn <- function(df, tests, grp)
 {
   group <- eval(grp, df)
 
-  df <- df %>% 
+  df <- df %>%
       dplyr::select(- eval(grp))
 
   if (is.function(tests))
   {
     ftests <- df %>%
-      purrr::map(tests, group %>% factor)
+      lapply(tests, group %>% factor)
     tests <- ftests
   } else if (!is.null(tests$.auto))
   {
     ftests <- df %>%
-      purrr::map(tests$.auto, group %>% factor)
+      lapply(tests$.auto, group %>% factor)
   } else if (!is.null(tests$.default))
   {
     ftests <- df %>%
-      purrr::map(function(x){tests$.default})
+      lapply(function(x){tests$.default})
   } else
   {
     ftests <- df %>%
-      purrr::map(function(x){stats::kruskal.test})
+      lapply(function(x){stats::kruskal.test})
   }
 
   names(tests) %>% setdiff(".auto") %>% intersect(names(df)) -> forced_tests
@@ -197,7 +198,7 @@ testColumn <- function(df, tests, grp)
   ftests <- ftests[names(ftests) %in% names(df)]
 
   df %>%
-    purrr::map2(ftests, testify, group) %>% purrr::flatten_dbl()
+    purrr::map2(ftests, testify, group) %>% unlist
 }
 
 #' Create a subtable in a grouped desctable
@@ -224,7 +225,7 @@ subTable <- function(df, stats, tests, grps)
     # Create the subtable tests
     testColumn(df, tests, grps[[1]]) -> pvalues
 
-    c(stats, pvalues = list(tibble::data_frame(p = pvalues)))
+    c(stats, pvalues = list(data.frame(p = pvalues, check.names = F, row.names = NULL, stringsAsFactors = F)))
   }
   else
   {
@@ -247,7 +248,7 @@ subTable <- function(df, stats, tests, grps)
 #' @export
 print.desctable <- function(x, ...)
 {
-  print(x %>% purrr::reduce(dplyr::bind_cols))
+  print(Reduce(dplyr::bind_cols, x))
 }
 
 #' Pander method for desctable
@@ -257,10 +258,10 @@ print.desctable <- function(x, ...)
 #' @export
 pander.desctable <- function(x = NULL, ...)
 {
-  Reduce(cbind, x) %>%
+  Reduce(dplyr::bind_cols, x) %>%
     lapply(prettyNum, ...) %>%
     lapply(gsub, pattern = "^NA$", replacement = "") %>%
-    data.frame(check.names = F) %>%
+    data.frame(check.names = F, row.names = NULL, stringsAsFactors = F) %>%
     pander::pandoc.table(keep.line.breaks = T, split.tables = Inf)
 }
 
@@ -285,7 +286,7 @@ datatable.default <- function(data, ...)
 #' @param ... Additional datatable parameters
 datatable.desctable <- function(data = NULL, ...)
 {
-  Reduce(cbind, data) %>%
+  Reduce(dplyr::bind_cols, data) %>%
     lapply(prettyNum, ...) %>%
     lapply(gsub, pattern = "^NA$", replacement = "") %>%
     data.frame(check.names = F) %>%

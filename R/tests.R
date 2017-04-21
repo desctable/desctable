@@ -12,7 +12,7 @@ testify <- function(x, f, group)
   p <- tryCatch(f(x ~ group)$p.value[1],
                 error = function(e) {message(e);NaN})
   if (is.factor(x))
-    c(p, rep(NA, nlevels(x)))
+    c(p, NA %>% rep(nlevels(x)))
   else
     p
 }

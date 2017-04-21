@@ -26,19 +26,20 @@ statify.default <- function(x, f)
   # If it is a numeric, return f(x) if it behaves as expected (ONE value), or fail with NA
   if (x %>% is.factor)
   {
-    if (res %>% length == nlevels(x) + 1)
+    if (length(res) == nlevels(x) + 1)
       res
-    else if (res %>% length == 1 & res %>% is.numeric | res %>% is.na)
-      c(res, purrr::map_dbl(x %>% levels, function(lvl)
-                            {
-                              tryCatch(x[x == lvl] %>% f,
-                                       error = function(e) NA,
-                                       warning = function(e) suppressWarnings(x[x == lvl] %>% f))}))
+    else if (length(res) == 1 & res %>% is.numeric | res %>% is.na)
+      c(res, lapply(levels(x), function(lvl)
+                    {
+                      tryCatch(f(x[x == lvl]),
+                               error = function(e) NA,
+                               warning = function(e) suppressWarnings(f(x[x == lvl])))
+                    }) %>% unlist)
     else
       rep(NA, nlevels(x) + 1)
   } else
   {
-    if (res %>% length == 1 & res %>% is.numeric | res %>% is.na)
+    if (length(res) == 1 & res %>% is.numeric | res %>% is.na)
       res %>% as.double
     else
       NA
@@ -65,7 +66,7 @@ statify.formula <- function(x, f)
 #' @return A nlevels(x) + 1 length vector of percentages
 percent <- function(x)
 {
-  c(NA, x %>% summary / x %>% length) * 100
+  c(NA, summary(x) / length(x)) * 100
 }
 
 #' Return the range
@@ -104,7 +105,7 @@ Q1 <- function(x)
 #' @export
 Q3 <- function(x)
 {
-  stats::quantile(x, .75, na.rm = T)
+  stats::quantile(x, .75)
 }
 
 #' Return the inter-quartile range
