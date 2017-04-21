@@ -1,3 +1,12 @@
+testify <- function(x, f, group)
+{
+  p <- f(x ~ group)$p.value[1]
+  if (is.factor(x))
+    c(p, rep(NA, nlevels(x)))
+  else
+    p
+}
+
 fisher.test.default <- stats::chisq.test
 
 fisher.test <- function(...)

@@ -154,7 +154,7 @@ testColumn <- function(df, tests, grp)
   ftests <- ftests[names(ftests) %in% names(df)]
 
   df %>%
-    purrr::map2_dbl(.y = ftests, function(x, f) {f(x ~ group)$p.value})
+    purrr::map2(ftests, testify, group) %>% purrr::flatten_dbl()
 }
 
 subTable <- function(df, stats, tests, grps)
