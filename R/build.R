@@ -270,3 +270,18 @@ print.desctable <- function(x, ...)
 {
   print(x %>% purrr::reduce(dplyr::bind_cols))
 }
+
+#' Pander method for desctable
+#'
+#' @param x A desctable
+#' @param ... Additional pander parameters
+#' @export
+pander.desctable <- function(x = NULL, ...)
+{
+  Reduce(cbind, x) %>%
+    lapply(prettyNum, ...) %>%
+    lapply(gsub, pattern = "^NA$", replacement = "") %>%
+    data.frame(check.names = F) %>%
+    pander::pandoc.table(keep.line.breaks = T, split.tables = Inf)
+}
+}
