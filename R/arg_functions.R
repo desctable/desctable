@@ -1,5 +1,15 @@
 #' Functions to create a list of statistics to use in desctable
 #'
+#' These functions take a dataframe as argument and return a list of statistcs in the form accepted by desctable.
+#'
+#' Already defined are
+#' - stats_default with length, mean/%, sd, med and IQR
+#' - stats_normal with length, mean/% and sd
+#' - stats_nonnormal with length, median/% and IQR
+#' - stats_auto, which picks stats depending of the data
+#'
+#' You can define your own automatic functions, as long as they take a dataframe as argument and return a list of functions or formulas defining conditions to use a stat function.
+#'
 #' @param data The dataframe to apply the statistic to
 #' @return A list of statistics to use, potentially assessed from the dataframe
 #' @export
@@ -70,8 +80,13 @@ stats_auto <- function(data)
 
 #' Functions to choose a statistical test
 #'
+#' These functions take a variable and a grouping variable as arguments, and return a statistcal test to use.
+#'
+#' Currently, only tests_auto is defined, and picks between t test, wilcoxon, anova, kruskal-wallis and fisher depending on the number of groups, the type of the variable, the normality and homoskedasticity of the distributions.
+#'
 #' @param var The variable to test
 #' @param grp The variable for the groups
+#' @return A statistical test function
 #' @export
 tests_auto <- function(var, grp)
 {

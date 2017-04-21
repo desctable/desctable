@@ -13,16 +13,16 @@ desctable.default(data, stats, tests, labels)
 desctable.grouped_df(data, stats, tests, labels)
 }
 \arguments{
-\item{data}{The dataframe to analyse}
+\item{data}{The dataframe to analyze}
 
 \item{stats}{A list of named statistics to apply to each element of the dataframe, or a function returning a list of named statistics}
 
-\item{tests}{A list of statistcal tests to use when calling desctable with a grouped_df}
+\item{tests}{A list of statistical tests to use when calling desctable with a grouped_df}
 
 \item{labels}{A named character vector of labels to use instead of variable names}
 }
 \value{
-A table of statistics for all variables
+A desctable object, which prints to a table of statistics for all variables
 }
 \description{
 Generate a statistics table with variable names/labels and levels
@@ -31,13 +31,43 @@ Generate a statistics table with variable names/labels and levels
 labels is an option named character vector used to make the table prettier.
 If given, the variable names for which there is a label will be replaced by their corresponding label.
 Not all variables need to have a label, and labels for non-existing variables are ignored.
-
-If data is a grouped dataframe (using group_by), subtables are created and statistic tests are perfored over each sub-group.
-
-For a simple descriptive table (without groups), the resulting dataframe is directly pipe-able to pander or DT, or can be exported like any dataframe to csv, etc.
-For a grouped table, the output is list of dataframes that can be manipulated, prior to passing to the petrify() function which will make it pipe-able to pander or DT.
 labels must be given in the form c(unquoted_variable_name = "label")
+
+The stats can be a function which takes a dataframe and returns a list of statistical functions to use.
+stats can also be a named list of statistical functions, or formulas. The names will be used as column names in the resulting table. If an element of the list is a function, it will be used as-is for the stats. If an element of the list is a formula, it can be used to conditionally use stats depending on the variable. The general form is `condition ~ T | F`, and can be nested, such as `is.factor ~ percent | (is.normal ~ mean | median)`, for example.
+
+The tests can be a function which takes a variable and a grouping variable, and returns an appropriate statistical test to use in that case.
+tests can also be a named list of statistical test functions, associating the name of a variable in the data, and a test to use specifically for that variable. You don't have to specify tests for all the variables: a default test for all other variables can be defined with the name .default, and an automatic test can be defined with the name .auto.
+
+If data is a grouped dataframe (using group_by), subtables are created and statistic tests are performed over each sub-group.
+
+The output is a desctable object, which is a list of named dataframes that can be further manipulated. Methods for printing, using in pander and DT::datatable are present. Printing reduces the object to a dataframe.
+}
+\examples{
+iris \%>\% desctable
+
+mtcars \%>\% desctable(labels = c(hp = "Horse Power"))
+
+iris \%>\%
+  group_by(Species) \%>\%
+  desctable
+
+mtcars \%>\%
+  group_by(vs, cyl) \%>\%
+  desctable
+
+iris \%>\%
+  group_by(Petal.Length > 5) \%>\%
+  desctable(tests = list(.auto = tests_auto, Species = chisq.test))
 }
 \seealso{
-\code{\link{petrify}}
+\code{\link{stats_auto}}
+
+\code{\link{tests_auto}}
+
+\code{\link{print.desctable}}
+
+\code{\link{pander.desctable}}
+
+\code{\link{datatable.desctable}}
 }

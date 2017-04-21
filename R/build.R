@@ -29,8 +29,7 @@ statTable <- function(data, stats)
 #' Generate the variable column to display as row names
 #'
 #' Generates the variable column.
-#' Replaces the variable names by their label if given in the named character vector labels
-#' Inserts levels for factors
+#' Replaces the variable names by their label if given in the named character vector labels, and inserts levels for factors.
 #'
 #' labels is an option named character vector used to make the table prettier.
 #' If given, the variable names for which there is a label will be replaced by their corresponding label.
@@ -69,20 +68,45 @@ varColumn <- function(data, labels = NULL)
 #' labels is an option named character vector used to make the table prettier.
 #' If given, the variable names for which there is a label will be replaced by their corresponding label.
 #' Not all variables need to have a label, and labels for non-existing variables are ignored.
-#'
-#' If data is a grouped dataframe (using group_by), subtables are created and statistic tests are perfored over each sub-group.
-#'
-#' For a simple descriptive table (without groups), the resulting dataframe is directly pipe-able to pander or DT, or can be exported like any dataframe to csv, etc.
-#' For a grouped table, the output is list of dataframes that can be manipulated, prior to passing to the petrify() function which will make it pipe-able to pander or DT.
 #' labels must be given in the form c(unquoted_variable_name = "label")
 #'
-#' @param data The dataframe to analyse
+#' The stats can be a function which takes a dataframe and returns a list of statistical functions to use.
+#' stats can also be a named list of statistical functions, or formulas. The names will be used as column names in the resulting table. If an element of the list is a function, it will be used as-is for the stats. If an element of the list is a formula, it can be used to conditionally use stats depending on the variable. The general form is `condition ~ T | F`, and can be nested, such as `is.factor ~ percent | (is.normal ~ mean | median)`, for example.
+#'
+#' The tests can be a function which takes a variable and a grouping variable, and returns an appropriate statistical test to use in that case.
+#' tests can also be a named list of statistical test functions, associating the name of a variable in the data, and a test to use specifically for that variable. You don't have to specify tests for all the variables: a default test for all other variables can be defined with the name .default, and an automatic test can be defined with the name .auto.
+#'
+#' If data is a grouped dataframe (using group_by), subtables are created and statistic tests are performed over each sub-group.
+#'
+#' The output is a desctable object, which is a list of named dataframes that can be further manipulated. Methods for printing, using in pander and DT::datatable are present. Printing reduces the object to a dataframe.
+#'
+#' @param data The dataframe to analyze
 #' @param stats A list of named statistics to apply to each element of the dataframe, or a function returning a list of named statistics
-#' @param tests A list of statistcal tests to use when calling desctable with a grouped_df
+#' @param tests A list of statistical tests to use when calling desctable with a grouped_df
 #' @param labels A named character vector of labels to use instead of variable names
-#' @return A table of statistics for all variables
-#' @seealso \code{\link{petrify}}
+#' @return A desctable object, which prints to a table of statistics for all variables
+#' @seealso \code{\link{stats_auto}}
+#' @seealso \code{\link{tests_auto}}
+#' @seealso \code{\link{print.desctable}}
+#' @seealso \code{\link{pander.desctable}}
+#' @seealso \code{\link{datatable.desctable}}
 #' @export
+#' @examples
+#' iris %>% desctable
+#'
+#' mtcars %>% desctable(labels = c(hp = "Horse Power"))
+#'
+#' iris %>%
+#'   group_by(Species) %>%
+#'   desctable
+#'
+#' mtcars %>%
+#'   group_by(vs, cyl) %>%
+#'   desctable
+#'
+#' iris %>%
+#'   group_by(Petal.Length > 5) %>%
+#'   desctable(tests = list(.auto = tests_auto, Species = chisq.test))
 desctable <- function(data, stats = stats_auto, tests = tests_auto, labels = NULL)
 {
   # Replace every logical vector with a factor and nice labels
@@ -116,6 +140,14 @@ desctable.grouped_df <- function(data, stats, tests, labels)
   `class<-`("desctable")
 }
 
+#' Create the subtables names
+#'
+#' Create the subtables names, as
+#' factor: level (n=sub-group length)
+#'
+#' @param grp Grouping factor
+#' @param df Dataframe containing the grouping factor
+#' @return A character vector with the names for the subtables
 subNames <- function(grp, df)
 {
   paste0(as.character(grp),
@@ -126,6 +158,12 @@ subNames <- function(grp, df)
          ")")
 }
 
+#' Create the pvalues column
+#'
+#' @param df Dataframe to use for the tests
+#' @param tests Test function or list of functions
+#' @param grp Grouping factor
+#' @return A numeric vector of pvalues
 testColumn <- function(df, tests, grp)
 {
   group <- eval(grp, df)
@@ -160,6 +198,13 @@ testColumn <- function(df, tests, grp)
     purrr::map2(ftests, testify, group) %>% purrr::flatten_dbl()
 }
 
+#' Create a subtable in a grouped desctable
+#'
+#' @param df Dataframe to use
+#' @param stats Stats list/function to use
+#' @param tests Tests list/function to use
+#' @param grps List of symbols for grouping factors
+#' @return A nested list of statTables and testColumns
 subTable <- function(df, stats, tests, grps)
 {
   # Final group, make tests
@@ -183,7 +228,7 @@ subTable <- function(df, stats, tests, grps)
   {
     group <- eval(grps[[1]], df)
 
-    # Recursively go through the grouping levels and build the subtables
+    # Go through the next grouping levels and build the subtables
     df %>%
       dplyr::select(- eval(grps[[1]])) %>%
       by(group, subTable, stats, tests, grps[-1]) %>%
@@ -215,6 +260,11 @@ petrify <- function(data, digits = 2, ...)
   data %>% lapply(prettyNum, digits = digits, ...) %>% lapply(base::gsub, pattern = "^NA$", replacement = "") %>% data.frame(check.names = F)
 }
 
+#' Print method for desctable
+#'
+#' @param x A desctable
+#' @param ... Additional print parameters
+#' @return A flat dataframe
 #' @export
 print.desctable <- function(x, ...)
 {

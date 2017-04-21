@@ -16,8 +16,7 @@ A dataframe with one variable named "Variables", a character vector of variable 
 }
 \description{
 Generates the variable column.
-Replaces the variable names by their label if given in the named character vector labels
-Inserts levels for factors
+Replaces the variable names by their label if given in the named character vector labels, and inserts levels for factors.
 }
 \details{
 labels is an option named character vector used to make the table prettier.
