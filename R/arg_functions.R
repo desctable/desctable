@@ -80,7 +80,7 @@ tests_auto <- function(var, grp)
     chisq.test
   } else
   {
-    if ((var %>% tapply(grp, is.normal) %>% all) & (bartlett.test(var ~ grp) > .1))
+    if ((var %>% tapply(grp, is.normal) %>% all) & tryCatch(bartlett.test(var ~ grp) > .1, error = function(e) F))
     {
       if (nlevels(grp) == 2)
         t.test
