@@ -255,14 +255,17 @@ print.desctable <- function(x, ...)
 #'
 #' @param x A desctable
 #' @param ... Additional pander parameters
-#' @export
-pander.desctable <- function(x = NULL, ...)
+#' @inheritParams pander::pandoc.table
+#' @inheritParams base::prettyNum
+pander.desctable <- function(x = NULL, digits = 2, justify = "left", ...)
 {
+  x$Variables$Variables <- gsub("\\+ (.*)", "**\\1**", x$Variables$Variables)
+  x$Variables$Variables <- gsub("\\* (.*)", "*\\1*", x$Variables$Variables)
   Reduce(dplyr::bind_cols, x) %>%
-    lapply(prettyNum, ...) %>%
+    lapply(prettyNum, digits = digits, ...) %>%
     lapply(gsub, pattern = "^NA$", replacement = "") %>%
     data.frame(check.names = F, row.names = NULL, stringsAsFactors = F) %>%
-    pander::pandoc.table(keep.line.breaks = T, split.tables = Inf)
+    pander::pandoc.table(justify = justify, keep.line.breaks = T, split.tables = Inf, ...)
 }
 
 #' Datatable

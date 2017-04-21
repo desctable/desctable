@@ -4,10 +4,14 @@
 \alias{pander.desctable}
 \title{Pander method for desctable}
 \usage{
-pander.desctable(x = NULL, ...)
+\method{pander}{desctable}(x = NULL, digits = 2, justify = "left", ...)
 }
 \arguments{
 \item{x}{A desctable}
+
+\item{digits}{passed to \code{format}. Can be a vector specifying values for each column (has to be the same length as number of columns).}
+
+\item{justify}{defines alignment in cells passed to \code{format}. Can be \code{left}, \code{right} or \code{centre}, which latter can be also spelled as \code{center}. Defaults to \code{centre}. Can be abbreviated to a string consisting of the letters \code{l}, \code{c} and \code{r} (e.g. 'lcr' instead of c('left', 'centre', 'right').}
 
 \item{...}{Additional pander parameters}
 }
