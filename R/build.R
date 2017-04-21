@@ -237,29 +237,6 @@ subTable <- function(df, stats, tests, grps)
   }
 }
 
-#' Petrifies a table for output
-#'
-#' Using prettyNum, it turns a desctable to stone as a character dataframe
-#'
-#' This function turns a desctable into stone as a single character dataframe.
-#' It combines the multiple tables for a group'ed desctable into one, with headers.
-#' The ... arguments are passed to prettyNum to pretty-print the numeric columns.
-#' The 'digits' argument is passed with a value of 2 by default, but can be overriden.
-#'
-#' The result being a less mutable dataframe (thus turned to stone), with prettified numbers,
-#' it is 'petrified'.
-#'
-#' @param data The structure returned by desctable
-#' @param digits Argument for prettyNum. Defaults to 2
-#' @param ... Arguments to pass to prettyNum
-#' @return A petrified desctable
-#' @seealso \code{\link{desctable}}
-#' @export
-petrify <- function(data, digits = 2, ...)
-{
-  data %>% lapply(prettyNum, digits = digits, ...) %>% lapply(base::gsub, pattern = "^NA$", replacement = "") %>% data.frame(check.names = F)
-}
-
 #' Print method for desctable
 #'
 #' @param x A desctable
