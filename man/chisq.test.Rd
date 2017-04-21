@@ -36,3 +36,6 @@ chisq.test(x, y = NULL, correct = TRUE, p = rep(1/length(x), length(x)),
 \description{
 Chi-square test
 }
+\seealso{
+stats::chisq.test
+}

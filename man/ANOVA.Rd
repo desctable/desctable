@@ -12,3 +12,6 @@ ANOVA(formula)
 \description{
 Wrapper for summary(aov)
 }
+\seealso{
+stats::aov
+}

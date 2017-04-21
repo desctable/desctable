@@ -37,6 +37,7 @@ fisher.test.formula <- function(x, ...)
 #' Chi-square test
 #'
 #' @inheritParams stats::chisq.test
+#' @seealso stats::chisq.test
 #' @export
 chisq.test <- function(x, y = NULL, correct = TRUE, p = rep(1/length(x), length(x)), rescale.p = FALSE, simulate.p.value = FALSE, B = 2000)
 {
@@ -53,6 +54,7 @@ chisq.test.formula <- function(x, y = NULL, correct = TRUE, p = rep(1/length(x),
 #' Wrapper for summary(aov)
 #'
 #' @param formula An anova formula (variable ~ grouping variable)
+#' @seealso stats::aov
 #' @export
 ANOVA <- function(formula)
 {

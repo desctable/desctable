@@ -92,9 +92,8 @@ tests_auto <- function(var, grp)
 {
   grp <- grp %>% factor
   if (var %>% is.factor)
-  {
     fisher.test
-  } else
+  else
   {
     if (all(var %>% tapply(grp, is.normal)) & tryCatch(stats::bartlett.test(var ~ grp)$p.value > .1, warning = function(e) F, error = function(e) F))
     {
