@@ -52,20 +52,6 @@ is.normal <- function(x)
     F
 }
 
-#' List the normal variables in the dataframe
-#'
-#' @param data A dataframe
-#' @return A list of variable names
-#' @export
-list_normal <- function(data)
-{
-  data %>%
-    purrr::keep(is.numeric) %>%
-    purrr::map_lgl(is.normal) %>%
-    purrr::keep(`==`,T) %>%
-    names
-}
-
 #' Parse a formula
 #'
 #' Parse a formula defining the conditions to pick a stat/test
