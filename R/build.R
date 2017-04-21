@@ -92,6 +92,7 @@ varColumn <- function(data, labels = NULL)
 #' @seealso \code{\link{datatable.desctable}}
 #' @export
 #' @examples
+#' \dontrun{
 #' iris %>% desctable
 #'
 #' mtcars %>% desctable(labels = c(hp = "Horse Power"))
@@ -107,6 +108,7 @@ varColumn <- function(data, labels = NULL)
 #' iris %>%
 #'   group_by(Petal.Length > 5) %>%
 #'   desctable(tests = list(.auto = tests_auto, Species = chisq.test))
+#' }
 desctable <- function(data, stats = stats_auto, tests = tests_auto, labels = NULL)
 {
   # Replace every logical vector with a factor and nice labels
