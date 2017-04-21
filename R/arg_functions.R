@@ -77,18 +77,18 @@ tests_auto <- function(var, grp)
 {
   if (is.factor(var))
   {
-    fisher.test
+    stats::fisher.test
   } else
   {
-    if ((var %>% tapply(grp, is.normal) %>% all) & tryCatch(bartlett.test(var ~ grp) > .1, warning = function(e) F, error = function(e) F))
+    if ((var %>% tapply(grp, is.normal) %>% all) & tryCatch(stats::bartlett.test(var ~ grp) > .1, warning = function(e) F, error = function(e) F))
     {
       if (nlevels(grp) == 2)
-        t.test
+        stats::t.test
       else
         ANOVA
     } else if (nlevels(grp) == 2)
-      wilcox.test
+      stats::wilcox.test
     else
-      kruskal.test
+      stats::kruskal.test
   }
 }

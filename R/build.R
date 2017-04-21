@@ -149,7 +149,7 @@ testColumn <- function(df, tests, grp)
   } else
   {
     ftests <- df %>%
-      purrr::map(function(x){kruskal.test})
+      purrr::map(function(x){stats::kruskal.test})
   }
 
   names(tests) %>% setdiff(".auto") %>% intersect(names(df)) -> forced_tests
@@ -216,7 +216,7 @@ petrify <- function(data, digits = 2, ...)
 }
 
 #' @export
-print.desctable <- function(df)
+print.desctable <- function(x, ...)
 {
-  print(df %>% purrr::reduce(dplyr::bind_cols))
+  print(x %>% purrr::reduce(dplyr::bind_cols))
 }

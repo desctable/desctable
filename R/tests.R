@@ -34,6 +34,6 @@ chisq.test.formula <- function(formula, ...)
 
 ANOVA <- function(formula)
 {
-  summary(aov(formula))[[1]] %>%
-    setNames(c("Df", "Sum Sq", "Mean Sq", "F value", "p.value"))
+  summary(stats::aov(formula))[[1]] %>%
+    stats::setNames(c("Df", "Sum Sq", "Mean Sq", "F value", "p.value"))
 }
