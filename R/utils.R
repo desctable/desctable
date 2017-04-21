@@ -25,7 +25,7 @@ NULL
 #' @return The combined vector
 insert <- function(x, y, position)
 {
-  if (!is.list(y))
+  if (! y %>% is.list)
     y <- list(y)
 
   stopifnot(length(y) == length(position))
@@ -44,7 +44,7 @@ insert <- function(x, y, position)
 #' @return A boolean
 is.normal <- function(x)
 {
-  if (!is.numeric(x)) 
+  if (! x %>% is.numeric) 
     F
   else if (length(x) >= 30)
     stats::shapiro.test(x)$p.value > .1
@@ -93,22 +93,22 @@ parse_formula <- function(x, f)
   parse_f <- function(x)
   {
     if (length(x) == 1)
-      as.character(x)
+      x %>% as.character
     else
     {
-      if (as.character(x[[1]]) == "~") 
+      if (x[[1]] %>% as.character == "~") 
       {
         paste0("if (", x[[2]] %>% parse_f, "(x)) ",
                "{",
                x[[3]] %>% parse_f,
                "}")
-      } else if (as.character(x[[1]] == "|"))
+      } else if (x[[1]] %>% as.character == "|")
       {
         paste0(x[[2]] %>% parse_f,
                "} else ",
                "{",
                x[[3]] %>% parse_f)
-      } else if (as.character(x[[1]] == "("))
+      } else if (x[[1]] %>% as.character == "(")
       {
         x[[2]] %>% parse_f
       }
