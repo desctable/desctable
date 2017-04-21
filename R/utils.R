@@ -67,7 +67,6 @@ is.normal <- function(x)
 #' @param x The variable to test it on
 #' @param f A formula to parse
 #' @return A function to use as a stat/test
-#' @export
 #' @examples
 #' # To use one column for different statistics depending on the variable
 #' parse_formula(is.factor ~ percent | (is.normal ~ mean | median), factor(rep(LETTERS[1:3], 5)))
