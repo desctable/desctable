@@ -28,7 +28,7 @@ chisq.test <- function(...)
 
 chisq.test.formula <- function(formula, ...)
 {
-  chisq.test.default(x = eval(formula[[2]]), y = eval(formula[[3]]), ...)
+  chisq.test.default(x = eval(formula[[2]], envir = parent.frame()), y = eval(formula[[3]], envir = parent.frame()), ...)
 }
 
 ANOVA <- function(formula)
