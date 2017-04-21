@@ -7,7 +7,7 @@ testify <- function(x, f, group)
     p
 }
 
-fisher.test.default <- stats::chisq.test
+fisher.test.default <- stats::fisher.test
 
 fisher.test <- function(...)
 {
@@ -16,7 +16,7 @@ fisher.test <- function(...)
 
 fisher.test.formula <- function(formula, ...)
 {
-  fisher.test.default(x = eval(formula[[2]]), y = eval(formula[[3]]), ...)
+  fisher.test.default(x = eval(formula[[2]], envir = parent.frame()), y = eval(formula[[3]], envir = parent.frame()), ...)
 }
 
 chisq.test.default <- stats::chisq.test
