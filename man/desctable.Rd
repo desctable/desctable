@@ -6,7 +6,7 @@
 \alias{desctable.grouped_df}
 \title{Generate a statistics table}
 \usage{
-desctable(data, stats = stats_auto, tests = NULL, labels = NULL)
+desctable(data, stats = stats_auto, tests = tests_auto, labels = NULL)
 
 desctable.default(data, stats, tests, labels)
 
