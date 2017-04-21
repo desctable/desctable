@@ -5,7 +5,7 @@
 \title{Datatable}
 \usage{
 datatable(data, options = list(), class = "display",
-  callback = JS("return table;"), rownames, colnames, container,
+  callback = DT::JS("return table;"), rownames, colnames, container,
   caption = NULL, filter = c("none", "bottom", "top"), escape = TRUE,
   style = "default", width = NULL, height = NULL, elementId = NULL,
   fillContainer = getOption("DT.fillContainer", NULL),
