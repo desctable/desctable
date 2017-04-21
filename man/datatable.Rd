@@ -2,6 +2,8 @@
 % Please edit documentation in R/build.R
 \name{datatable}
 \alias{datatable}
+\alias{datatable.default}
+\alias{datatable.desctable}
 \title{Datatable}
 \usage{
 datatable(data, options = list(), class = "display",
@@ -12,9 +14,13 @@ datatable(data, options = list(), class = "display",
   autoHideNavigation = getOption("DT.autoHideNavigation", NULL),
   selection = c("multiple", "single", "none"), extensions = list(),
   plugins = NULL)
+
+\method{datatable}{default}(data, ...)
+
+\method{datatable}{desctable}(data = NULL, ...)
 }
 \arguments{
-\item{data}{a data object (either a matrix or a data frame)}
+\item{data}{A desctable}
 
 \item{options}{a list of initialization options (see
 \url{http://datatables.net/reference/option/}); the character options
@@ -98,7 +104,11 @@ extensions (\url{http://datatables.net/extensions/index})}
 
 \item{plugins}{a character vector of the names of DataTables plug-ins
 (\url{http://rstudio.github.io/DT/plugins.html})}
+
+\item{...}{Additional datatable parameters}
 }
 \description{
 Datatable
+
+datatable method for desctable
 }

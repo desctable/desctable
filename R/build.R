@@ -279,6 +279,8 @@ datatable <- function(data, options = list(), class = "display", callback = DT::
   UseMethod("datatable")
 }
 
+#' @rdname datatable
+#' @export
 datatable.default <- function(data, ...)
 {
   DT::datatable(data, ...)
@@ -288,6 +290,8 @@ datatable.default <- function(data, ...)
 #'
 #' @param data A desctable
 #' @param ... Additional datatable parameters
+#' @rdname datatable
+#' @export
 datatable.desctable <- function(data = NULL, ...)
 {
   Reduce(dplyr::bind_cols, data) %>%
