@@ -9,6 +9,17 @@ print.desctable <- function(x, ...)
   print(Reduce(dplyr::bind_cols, x))
 }
 
+#' As.data.frame method for desctable
+#'
+#' @param x A desctable
+#' @param ... Additional as.data.frame parameters
+#' @return A flat dataframe
+#' @export
+as.data.frame.desctable <- function(x, ...)
+{
+  Reduce(dplyr::bind_cols, x) %>% as.data.frame(...)
+}
+
 #' Pander method for desctable
 #'
 #' @param x A desctable
