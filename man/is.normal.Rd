@@ -13,5 +13,6 @@ is.normal(x)
 A boolean
 }
 \description{
-Test if distribution is normal
+Test if distribution is normal.
+The condition for normality is length > 30 and non-significant Shapiro-Wilks test with p > .1
 }

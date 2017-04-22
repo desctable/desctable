@@ -40,7 +40,11 @@ insert <- function(x, y, position)
 
 #' Test if distribution is normal
 #'
+#' Test if distribution is normal.
+#' The condition for normality is length > 30 and non-significant Shapiro-Wilks test with p > .1
+#'
 #' @param x A numerical vector
+#' @export
 #' @return A boolean
 is.normal <- function(x)
 {
