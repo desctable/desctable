@@ -209,8 +209,7 @@ testColumn <- function(df, tests, grp)
   }
 
   names(tests) %>% setdiff(".auto") %>% intersect(names(df)) -> forced_tests
-  ftests[names(ftests) %in% forced_tests] <- tests[forced_tests]
-  ftests <- ftests[names(ftests) %in% names(df)]
+  ftests[names(ftests) %in% forced_tests][forced_tests] <- tests[forced_tests]
 
   df %>%
     purrr::map2(ftests, testify, group) %>%
