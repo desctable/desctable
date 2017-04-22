@@ -26,10 +26,3 @@ and conditions can be nested such as
 conditional1 ~ (conditional2 ~ T | F) | F
 The FALSE option can be omitted, and the TRUE can be replaced with NA
 }
-\examples{
-# To use one column for different statistics depending on the variable
-parse_formula(is.factor ~ percent | (is.normal ~ mean | median), factor(rep(LETTERS[1:3], 5)))
-
-# To use one column selectively for a type of variable
-parse_formula(is.normal ~ mean, rnorm(1000))
-}

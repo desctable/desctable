@@ -34,12 +34,6 @@ insert <- function(x, y, position)
 #' @param x The variable to test it on
 #' @param f A formula to parse
 #' @return A function to use as a stat/test
-#' @examples
-#' # To use one column for different statistics depending on the variable
-#' parse_formula(is.factor ~ percent | (is.normal ~ mean | median), factor(rep(LETTERS[1:3], 5)))
-#' 
-#' # To use one column selectively for a type of variable
-#' parse_formula(is.normal ~ mean, rnorm(1000))
 parse_formula <- function(x, f)
 {
   parse_f <- function(x)
