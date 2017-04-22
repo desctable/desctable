@@ -37,7 +37,7 @@ The stats can be a function which takes a dataframe and returns a list of statis
 stats can also be a named list of statistical functions, or formulas. The names will be used as column names in the resulting table. If an element of the list is a function, it will be used as-is for the stats. If an element of the list is a formula, it can be used to conditionally use stats depending on the variable. The general form is `condition ~ T | F`, and can be nested, such as `is.factor ~ percent | (is.normal ~ mean | median)`, for example.
 
 The tests can be a function which takes a variable and a grouping variable, and returns an appropriate statistical test to use in that case.
-tests can also be a named list of statistical test functions, associating the name of a variable in the data, and a test to use specifically for that variable. You don't have to specify tests for all the variables: a default test for all other variables can be defined with the name .default, and an automatic test can be defined with the name .auto.
+tests can also be a named list of statistical test functions, associating the name of a variable in the data, and a test to use specifically for that variable. That test name must be expressed as a single-term formula (e.g. ~t.test). You don't have to specify tests for all the variables: a default test for all other variables can be defined with the name .default, and an automatic test can be defined with the name .auto.
 
 If data is a grouped dataframe (using group_by), subtables are created and statistic tests are performed over each sub-group.
 
@@ -59,7 +59,7 @@ mtcars \%>\%
 
 iris \%>\%
   group_by(Petal.Length > 5) \%>\%
-  desctable(tests = list(.auto = tests_auto, Species = chisq.test))
+  desctable(tests = list(.auto = tests_auto, Species = ~chisq.test))
 }
 }
 \seealso{

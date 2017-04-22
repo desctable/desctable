@@ -80,7 +80,7 @@ stats_auto <- function(data)
 
 #' Functions to choose a statistical test
 #'
-#' These functions take a variable and a grouping variable as arguments, and return a statistcal test to use.
+#' These functions take a variable and a grouping variable as arguments, and return a statistcal test to use, expressed as a single-term formula.
 #'
 #' Currently, only tests_auto is defined, and picks between t test, wilcoxon, anova, kruskal-wallis and fisher depending on the number of groups, the type of the variable, the normality and homoskedasticity of the distributions.
 #'
@@ -92,18 +92,18 @@ tests_auto <- function(var, grp)
 {
   grp <- grp %>% factor
   if (var %>% is.factor)
-    fisher.test
+    ~fisher.test
   else
   {
     if (all(var %>% tapply(grp, is.normal)) & tryCatch(stats::bartlett.test(var ~ grp)$p.value > .1, warning = function(e) F, error = function(e) F))
     {
       if (nlevels(grp) == 2)
-        stats::t.test
+        ~t.test
       else
-        ANOVA
+        ~ANOVA
     } else if (nlevels(grp) == 2)
-      stats::wilcox.test
+      ~wilcox.test
     else
-      stats::kruskal.test
+      ~kruskal.test
   }
 }

@@ -9,12 +9,18 @@
 #' @return The results for the function applied on the vector, compatible with the format of the result table
 testify <- function(x, f, group)
 {
+  fun <- f[[2]] %>% as.character
+  f <- eval(f[[2]])
   p <- tryCatch(f(x ~ group)$p.value[1],
                 error = function(e) {message(e);NaN})
   if (is.factor(x))
-    c(p, NA %>% rep(nlevels(x)))
+    data.frame(p = c(p, NA %>% rep(nlevels(x))),
+               test = c(fun, NA %>% rep(nlevels(x))),
+               row.names = NULL, check.names = F, stringsAsFactors = F)
   else
-    p
+    data.frame(p = p,
+               test = fun,
+               row.names = NULL, check.names = F, stringsAsFactors = F)
 }
 
 #' Fisher test

@@ -15,7 +15,7 @@ tests_auto(var, grp)
 A statistical test function
 }
 \description{
-These functions take a variable and a grouping variable as arguments, and return a statistcal test to use.
+These functions take a variable and a grouping variable as arguments, and return a statistcal test to use, expressed as a single-term formula.
 }
 \details{
 Currently, only tests_auto is defined, and picks between t test, wilcoxon, anova, kruskal-wallis and fisher depending on the number of groups, the type of the variable, the normality and homoskedasticity of the distributions.

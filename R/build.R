@@ -75,7 +75,7 @@ varColumn <- function(data, labels = NULL)
 #' stats can also be a named list of statistical functions, or formulas. The names will be used as column names in the resulting table. If an element of the list is a function, it will be used as-is for the stats. If an element of the list is a formula, it can be used to conditionally use stats depending on the variable. The general form is `condition ~ T | F`, and can be nested, such as `is.factor ~ percent | (is.normal ~ mean | median)`, for example.
 #'
 #' The tests can be a function which takes a variable and a grouping variable, and returns an appropriate statistical test to use in that case.
-#' tests can also be a named list of statistical test functions, associating the name of a variable in the data, and a test to use specifically for that variable. You don't have to specify tests for all the variables: a default test for all other variables can be defined with the name .default, and an automatic test can be defined with the name .auto.
+#' tests can also be a named list of statistical test functions, associating the name of a variable in the data, and a test to use specifically for that variable. That test name must be expressed as a single-term formula (e.g. ~t.test). You don't have to specify tests for all the variables: a default test for all other variables can be defined with the name .default, and an automatic test can be defined with the name .auto.
 #'
 #' If data is a grouped dataframe (using group_by), subtables are created and statistic tests are performed over each sub-group.
 #'
@@ -108,7 +108,7 @@ varColumn <- function(data, labels = NULL)
 #'
 #' iris %>%
 #'   group_by(Petal.Length > 5) %>%
-#'   desctable(tests = list(.auto = tests_auto, Species = chisq.test))
+#'   desctable(tests = list(.auto = tests_auto, Species = ~chisq.test))
 #' }
 desctable <- function(data, stats = stats_auto, tests = tests_auto, labels = NULL)
 {
@@ -198,7 +198,8 @@ testColumn <- function(df, tests, grp)
   ftests <- ftests[names(ftests) %in% names(df)]
 
   df %>%
-    purrr::map2(ftests, testify, group) %>% unlist
+    purrr::map2(ftests, testify, group) %>%
+    dplyr::bind_rows()
 }
 
 #' Create a subtable in a grouped desctable
@@ -225,7 +226,7 @@ subTable <- function(df, stats, tests, grps)
     # Create the subtable tests
     testColumn(df, tests, grps[[1]]) -> pvalues
 
-    c(stats, pvalues = list(data.frame(p = pvalues, check.names = F, row.names = NULL, stringsAsFactors = F)))
+    c(stats, tests = list(pvalues))
   }
   else
   {
@@ -273,8 +274,7 @@ pander.desctable <- function(x = NULL, digits = 2, justify = "left", ...)
 #'
 #' @inheritParams DT::datatable
 #' @export
-datatable <- function(data, options = list(), class = "display", callback = DT::JS("return table;"),
-                      rownames, colnames, container, caption = NULL, filter = c("none", "bottom", "top"), escape = TRUE, style = "default", width = NULL, height = NULL, elementId = NULL, fillContainer = getOption("DT.fillContainer", NULL), autoHideNavigation = getOption("DT.autoHideNavigation", NULL), selection = c("multiple", "single", "none"), extensions = list(), plugins = NULL)
+datatable <- function(data, options = list(), class = "display", callback = DT::JS("return table;"), rownames, colnames, container, caption = NULL, filter = c("none", "bottom", "top"), escape = TRUE, style = "default", width = NULL, height = NULL, elementId = NULL, fillContainer = getOption("DT.fillContainer", NULL), autoHideNavigation = getOption("DT.autoHideNavigation", NULL), selection = c("multiple", "single", "none"), extensions = list(), plugins = NULL)
 {
   UseMethod("datatable")
 }
