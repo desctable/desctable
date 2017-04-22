@@ -23,47 +23,32 @@ testify <- function(x, f, group)
                row.names = NULL, check.names = F, stringsAsFactors = F)
 }
 
-#' Fisher test
+#' Functions to choose a statistical test
 #'
-#' @inheritParams stats::fisher.test
-#' @seealso stats::fisher.test
-#' @export
-fisher.test <- function(x, y = NULL, workspace = 200000, hybrid = FALSE, control = list(), or = 1, alternative = "two.sided", conf.int = TRUE, conf.level = 0.95, simulate.p.value = FALSE, B = 2000)
-{
-  UseMethod("fisher.test")
-}
-
-fisher.test.default <- stats::fisher.test
-
-fisher.test.formula <- function(x, ...)
-{
-  fisher.test.default(x = eval(x[[2]], envir = parent.frame()), y = eval(x[[3]], envir = parent.frame()), ...)
-}
-
-#' Chi-square test
+#' These functions take a variable and a grouping variable as arguments, and return a statistcal test to use, expressed as a single-term formula.
 #'
-#' @inheritParams stats::chisq.test
-#' @seealso stats::chisq.test
-#' @export
-chisq.test <- function(x, y = NULL, correct = TRUE, p = rep(1/length(x), length(x)), rescale.p = FALSE, simulate.p.value = FALSE, B = 2000)
-{
-  UseMethod("chisq.test")
-}
-
-chisq.test.default <- stats::chisq.test
-
-chisq.test.formula <- function(x, y = NULL, correct = TRUE, p = rep(1/length(x), length(x)), rescale.p = FALSE, simulate.p.value = FALSE, B = 2000, ...)
-{
-  chisq.test.default(x = eval(x[[2]], envir = parent.frame()), y = eval(x[[3]], envir = parent.frame()), ...)
-}
-
-#' Wrapper for summary(aov)
+#' Currently, only tests_auto is defined, and picks between t test, wilcoxon, anova, kruskal-wallis and fisher depending on the number of groups, the type of the variable, the normality and homoskedasticity of the distributions.
 #'
-#' @param formula An anova formula (variable ~ grouping variable)
-#' @seealso stats::aov
+#' @param var The variable to test
+#' @param grp The variable for the groups
+#' @return A statistical test function
 #' @export
-ANOVA <- function(formula)
+tests_auto <- function(var, grp)
 {
-  summary(stats::aov(formula))[[1]] %>%
-    stats::setNames(c("Df", "Sum Sq", "Mean Sq", "F value", "p.value"))
+  grp <- grp %>% factor
+  if (var %>% is.factor)
+    ~fisher.test
+  else
+  {
+    if (all(var %>% tapply(grp, is.normal)) & tryCatch(stats::bartlett.test(var ~ grp)$p.value > .1, warning = function(e) F, error = function(e) F))
+    {
+      if (nlevels(grp) == 2)
+        ~t.test
+      else
+        ~ANOVA
+    } else if (nlevels(grp) == 2)
+      ~wilcox.test
+    else
+      ~kruskal.test
+  }
 }

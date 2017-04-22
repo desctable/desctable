@@ -1,22 +1,3 @@
-#' Pipe operator
-#'
-#' @name %>%
-#' @rdname pipe
-#' @keywords internal
-#' @export
-#' @importFrom dplyr %>%
-#' @usage lhs \%>\% rhs
-NULL
-
-#' Group a tbl by one or more variables.
-#'
-#' @name group_by
-#' @keywords internal
-#' @export
-#' @importFrom dplyr group_by
-#' @usage group_by(.data, ..., add = FALSE)
-NULL
-
 #' Insert a vector y inside another vector x at position
 #'
 #' @param x A vector
@@ -36,24 +17,6 @@ insert <- function(x, y, position)
   result[c(F, T)] <- y
 
   unlist(result)
-}
-
-#' Test if distribution is normal
-#'
-#' Test if distribution is normal.
-#' The condition for normality is length > 30 and non-significant Shapiro-Wilks test with p > .1
-#'
-#' @param x A numerical vector
-#' @export
-#' @return A boolean
-is.normal <- function(x)
-{
-  if (! x %>% is.numeric) 
-    F
-  else if (length(x) >= 30)
-    stats::shapiro.test(x)$p.value > .1
-  else
-    F
 }
 
 #' Parse a formula
