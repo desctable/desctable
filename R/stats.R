@@ -137,7 +137,7 @@ stats_auto <- function(data)
   else if (!fact & !normal & nonnormal)
     list("N" = length,
          "Med" = stats::median,
-         "IQR" = stats::IQR)
+         "IQR" = IQR)
   else
     stats_default(data)
 }
