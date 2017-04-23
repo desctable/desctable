@@ -228,7 +228,7 @@ subTable <- function(df, stats, tests, grps)
   # Final group, make tests
   if (length(grps) == 1)
   {
-    group <- eval(grps[[1]], df)
+    group <- eval(grps[[1]], df) %>% factor
 
     # Create the subtable stats
     df %>%
