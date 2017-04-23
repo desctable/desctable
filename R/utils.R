@@ -63,6 +63,40 @@ parse_formula <- function(x, f)
   parse(text = parse_f(f)) %>% eval
 }
 
+#' Build header
+#'
+#' Take a desctable object and create a suitable header for the mentionned output.
+#' Output can be one of "pander" or "datatable".
+#'
+#' @param desctable A desctable object
+#' @param output An output format for the header
+#' @return A header object in the output format
+header <- function(desctable, output = c("pander", "datatable"))
+{
+  if (length(desctable) == 1)
+    desctable %>% as.data.frame.desctable %>% names
+  else
+  {
+    head <- headerList(desctable)
+
+    if (output == "pander")
+    {
+      head_pander <- function(head)
+      {
+        if (head[[1]] %>% is.integer)
+        {
+          head %>% names %>% lapply(function(x){c(x, rep("", head[[x]] - 1))}) %>% unlist
+        } else
+        {
+          paste(head %>% names %>% lapply(function(x){c(x, rep("", attr(head[[x]], "colspan") - 1))}) %>% unlist,
+                head %>% lapply(head_pander) %>% unlist,
+                sep = "<br/>")
+        }
+      }
+      head_pander(head)
+    }
+  }
+}
 
 #' Build a header list object
 #'

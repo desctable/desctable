@@ -42,8 +42,11 @@ pander.desctable <- function(x = NULL, digits = 2, justify = "left", ...)
     flatten_desctable %>%
     lapply(prettyNum, digits = digits, ...) %>%
     lapply(gsub, pattern = "^NA$", replacement = "") %>%
-    data.frame(check.names = F, row.names = NULL, stringsAsFactors = F) %>%
-    pander::pandoc.table(justify = justify, keep.line.breaks = T, split.tables = Inf, ...)
+    data.frame(check.names = F, row.names = x$Variables$Variables, stringsAsFactors = F) -> df
+
+  df %>%
+    setNames(header %>% paste(names(df), sep = "<br/>")) %>%
+    pander::pandoc.table(justify = justify, keep.line.breaks = T, split.tables = Inf, emphasize.rownames = F, ...)
 }
 
 #' Datatable
