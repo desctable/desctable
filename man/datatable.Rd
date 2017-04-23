@@ -6,7 +6,7 @@
 \alias{datatable.desctable}
 \title{Datatable}
 \usage{
-datatable(data, options = list(), class = "display",
+datatable(data, digits = 2, options = list(), class = "display",
   callback = DT::JS("return table;"), rownames, colnames, container,
   caption = NULL, filter = c("none", "bottom", "top"), escape = TRUE,
   style = "default", width = NULL, height = NULL, elementId = NULL,
@@ -17,10 +17,22 @@ datatable(data, options = list(), class = "display",
 
 \method{datatable}{default}(data, ...)
 
-\method{datatable}{desctable}(data = NULL, ...)
+\method{datatable}{desctable}(data = NULL, digits = 2, ...)
 }
 \arguments{
 \item{data}{A desctable}
+
+\item{digits}{the desired number of digits after the decimal
+    point (\code{format = "f"}) or \emph{significant} digits
+    (\code{format = "g"}, \code{= "e"} or \code{= "fg"}).
+
+    Default: 2 for integer, 4 for real numbers.  If less than 0,
+    the C default of 6 digits is used.  If specified as more than 50, 50
+    will be used with a warning unless \code{format = "f"} where it is
+    limited to typically 324. (Not more than 15--21 digits need be
+    accurate, depending on the OS and compiler used.  This limit is
+    just a precaution against segfaults in the underlying C runtime.)
+  }
 
 \item{options}{a list of initialization options (see
 \url{http://datatables.net/reference/option/}); the character options

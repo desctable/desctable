@@ -51,7 +51,7 @@ pander.desctable <- function(x = NULL, digits = 2, justify = "left", ...)
 #'
 #' @inheritParams DT::datatable
 #' @export
-datatable <- function(data, options = list(), class = "display", callback = DT::JS("return table;"), rownames, colnames, container, caption = NULL, filter = c("none", "bottom", "top"), escape = TRUE, style = "default", width = NULL, height = NULL, elementId = NULL, fillContainer = getOption("DT.fillContainer", NULL), autoHideNavigation = getOption("DT.autoHideNavigation", NULL), selection = c("multiple", "single", "none"), extensions = list(), plugins = NULL)
+datatable <- function(data, digits = 2, options = list(), class = "display", callback = DT::JS("return table;"), rownames, colnames, container, caption = NULL, filter = c("none", "bottom", "top"), escape = TRUE, style = "default", width = NULL, height = NULL, elementId = NULL, fillContainer = getOption("DT.fillContainer", NULL), autoHideNavigation = getOption("DT.autoHideNavigation", NULL), selection = c("multiple", "single", "none"), extensions = list(), plugins = NULL)
 {
   UseMethod("datatable")
 }
@@ -68,8 +68,9 @@ datatable.default <- function(data, ...)
 #' @param data A desctable
 #' @param ... Additional datatable parameters
 #' @rdname datatable
+#' @inheritParams base::prettyNum
 #' @export
-datatable.desctable <- function(data = NULL, ...)
+datatable.desctable <- function(data = NULL, digits = 2, ...)
 {
   data$Variables$Variables <- gsub("\\+ (.*)", "<b>\\1</b>", data$Variables$Variables)
   data$Variables$Variables <- gsub("\\* (.*)", "- <i>\\1</i>", data$Variables$Variables)
@@ -78,14 +79,17 @@ datatable.desctable <- function(data = NULL, ...)
 
   data[-1] %>%
   flatten_desctable %>%
-    lapply(prettyNum, ...) %>%
+    lapply(prettyNum, digits = digits, ...) %>%
     lapply(gsub, pattern = "^NA$", replacement = "") %>%
     data.frame(check.names = F, row.names = data$Variables$Variables, stringsAsFactors = F) %>%
     DT::datatable(container = header,
                   options = list(paging = F,
                                  info = F,
-                                 dom = "Bfrtip",
+                                 search = F,
+                                 dom = "Brtip",
+                                 fixedColumns = T,
+                                 fixedHeader = T,
                                  buttons = c("copy", "excel")),
-                  extensions = "Buttons",
+                  extensions = c("FixedHeader", "FixedColumns", "Buttons"),
                   escape = F)
 }
