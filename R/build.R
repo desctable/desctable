@@ -181,7 +181,7 @@ subNames <- function(grp, df)
          ": ",
          eval(grp, df) %>% factor %>% levels,
          " (n=",
-         summary(eval(grp, df) %>% factor),
+         summary(eval(grp, df) %>% factor %>% stats::na.omit()),
          ")")
 }
 
