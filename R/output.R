@@ -71,6 +71,9 @@ datatable.default <- function(data, ...)
 #' @export
 datatable.desctable <- function(data = NULL, ...)
 {
+  data$Variables$Variables <- gsub("\\+ (.*)", "<b>\\1</b>", data$Variables$Variables)
+  data$Variables$Variables <- gsub("\\* (.*)", "- <i>\\1</i>", data$Variables$Variables)
+
   header <- data %>% header("datatable")
 
   data[-1] %>%
@@ -78,5 +81,11 @@ datatable.desctable <- function(data = NULL, ...)
     lapply(prettyNum, ...) %>%
     lapply(gsub, pattern = "^NA$", replacement = "") %>%
     data.frame(check.names = F, row.names = data$Variables$Variables, stringsAsFactors = F) %>%
-    DT::datatable(container = header)
+    DT::datatable(container = header,
+                  options = list(paging = F,
+                                 info = F,
+                                 dom = "Bfrtip",
+                                 buttons = c("copy", "excel")),
+                  extensions = "Buttons",
+                  escape = F)
 }
