@@ -36,16 +36,14 @@ pander.desctable <- function(x = NULL, digits = 2, justify = "left", ...)
   x$Variables$Variables <- gsub("\\+ (.*)", "**\\1**", x$Variables$Variables)
   x$Variables$Variables <- gsub("\\* (.*)", "- *\\1*", x$Variables$Variables)
 
-  header <- x[-1] %>% header("pander")
+  header <- x %>% header("pander")
 
   x[-1] %>%
     flatten_desctable %>%
     lapply(prettyNum, digits = digits, ...) %>%
     lapply(gsub, pattern = "^NA$", replacement = "") %>%
-    data.frame(check.names = F, row.names = x$Variables$Variables, stringsAsFactors = F) -> df
-
-  df %>%
-    setNames(header %>% paste(names(df), sep = "<br/>")) %>%
+    data.frame(check.names = F, row.names = x$Variables$Variables, stringsAsFactors = F) %>%
+    stats::setNames(header) %>%
     pander::pandoc.table(justify = justify, keep.line.breaks = T, split.tables = Inf, emphasize.rownames = F, ...)
 }
 
@@ -73,9 +71,12 @@ datatable.default <- function(data, ...)
 #' @export
 datatable.desctable <- function(data = NULL, ...)
 {
-  flatten_desctable(data) %>%
+  header <- data %>% header("datatable")
+
+  data[-1] %>%
+  flatten_desctable %>%
     lapply(prettyNum, ...) %>%
     lapply(gsub, pattern = "^NA$", replacement = "") %>%
-    data.frame(check.names = F) %>%
-    DT::datatable()
+    data.frame(check.names = F, row.names = data$Variables$Variables, stringsAsFactors = F) %>%
+    DT::datatable(container = header)
 }

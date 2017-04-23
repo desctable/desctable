@@ -15,7 +15,8 @@ LazyData: true
 Imports:
     dplyr,
     purrr,
-    DT
+    DT,
+    htmltools
 Suggests:
     pander
 RoxygenNote: 6.0.1

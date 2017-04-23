@@ -73,8 +73,18 @@ parse_formula <- function(x, f)
 #' @return A header object in the output format
 header <- function(desctable, output = c("pander", "datatable"))
 {
+  nm <- desctable %>% as.data.frame.desctable %>% names
+  desctable <- desctable[-1]
+
   if (length(desctable) == 1)
-    desctable %>% as.data.frame.desctable %>% names
+  {
+    if (output == "datatable")
+    {
+      c("", nm) %>% lapply(htmltools::tags$th) %>% htmltools::tags$tr() %>% htmltools::tags$thead() %>% htmltools::tags$table(class = "display")
+    }
+    else
+      nm
+  }
   else
   {
     head <- headerList(desctable)
@@ -93,7 +103,27 @@ header <- function(desctable, output = c("pander", "datatable"))
                 sep = "<br/>")
         }
       }
-      head_pander(head)
+      head_pander(head) %>% paste(nm, sep = "<br/>")
+    } else if (output == "datatable")
+    {
+      head_datatable <- function(head)
+      {
+        TRs <- list()
+        while(head[[1]] %>% is.list)
+        {
+          TR <- purrr::map2(head %>% names, head %>% lapply(attr, "colspan"), ~htmltools::tags$th(.x, colspan = .y))
+
+          TRs <- c(TRs, list(TR))
+          head <- purrr::flatten(head)
+        }
+        c(TRs, list(purrr::map2(head %>% names, head, ~htmltools::tags$th(.x, colspan = .y))))
+      }
+      c(head_datatable(head), list(nm %>% lapply(htmltools::tags$th))) -> head
+      head[[1]] <- c(list(htmltools::tags$th(rowspan = length(head))), head[[1]])
+      head %>%
+        lapply(htmltools::tags$tr) %>%
+        htmltools::tags$thead() %>%
+        htmltools::tags$table(class = "display")
     }
   }
 }
