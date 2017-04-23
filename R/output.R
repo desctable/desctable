@@ -6,7 +6,7 @@
 #' @export
 print.desctable <- function(x, ...)
 {
-  print(Reduce(dplyr::bind_cols, x))
+  print(x %>% as.data.frame)
 }
 
 #' As.data.frame method for desctable
@@ -17,7 +17,11 @@ print.desctable <- function(x, ...)
 #' @export
 as.data.frame.desctable <- function(x, ...)
 {
-  Reduce(dplyr::bind_cols, x) %>% as.data.frame(...)
+  x[-1] -> df
+
+  df %>%
+    flatten_desctable %>%
+    data.frame(row.names = x$Variables$Variables, check.names = F, ...)
 }
 
 #' Pander method for desctable
@@ -30,8 +34,12 @@ as.data.frame.desctable <- function(x, ...)
 pander.desctable <- function(x = NULL, digits = 2, justify = "left", ...)
 {
   x$Variables$Variables <- gsub("\\+ (.*)", "**\\1**", x$Variables$Variables)
-  x$Variables$Variables <- gsub("\\* (.*)", "*\\1*", x$Variables$Variables)
-  Reduce(dplyr::bind_cols, x) %>%
+  x$Variables$Variables <- gsub("\\* (.*)", "- *\\1*", x$Variables$Variables)
+
+  header <- x[-1] %>% header("pander")
+
+  x[-1] %>%
+    flatten_desctable %>%
     lapply(prettyNum, digits = digits, ...) %>%
     lapply(gsub, pattern = "^NA$", replacement = "") %>%
     data.frame(check.names = F, row.names = NULL, stringsAsFactors = F) %>%
@@ -62,7 +70,7 @@ datatable.default <- function(data, ...)
 #' @export
 datatable.desctable <- function(data = NULL, ...)
 {
-  Reduce(dplyr::bind_cols, data) %>%
+  flatten_desctable(data) %>%
     lapply(prettyNum, ...) %>%
     lapply(gsub, pattern = "^NA$", replacement = "") %>%
     data.frame(check.names = F) %>%

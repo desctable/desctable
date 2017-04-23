@@ -62,3 +62,15 @@ parse_formula <- function(x, f)
   }
   parse(text = parse_f(f)) %>% eval
 }
+
+#' Flatten a desctable to a dataframe recursively
+#'
+#' @param desctable A desctable object
+#' @return A flat dataframe
+flatten_desctable <- function(desctable)
+{
+  if (desctable %>% is.data.frame)
+    desctable
+  else
+    desctable %>% lapply(flatten_desctable) %>% dplyr::bind_cols()
+}
