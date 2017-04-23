@@ -33,7 +33,7 @@ is.normal <- function(x)
 {
   if (! x %>% is.numeric) 
     F
-  else if (length(x) >= 30)
+  else if (length(x %>% stats::na.omit()) >= 30)
     stats::shapiro.test(x)$p.value > .1
   else
     F
