@@ -63,6 +63,30 @@ parse_formula <- function(x, f)
   parse(text = parse_f(f)) %>% eval
 }
 
+
+#' Build a header list object
+#'
+#' @param desctable A desctable
+#' @return A nested list of headers with colspans
+headerList <- function(desctable)
+{
+  if (desctable %>% is.data.frame)
+  {
+    length(desctable)
+  }
+  else
+  {
+    lapply(desctable, headerList) -> rec
+    # desctable %>% lapply(headerList) -> rec
+    if (is.integer(rec[[1]]))
+      attr(rec, "colspan") <- rec %>% unlist %>% sum
+    else
+      attr(rec, "colspan") <- rec %>% lapply(attr, "colspan") %>% unlist %>% sum
+
+    rec
+  }
+}
+
 #' Flatten a desctable to a dataframe recursively
 #'
 #' @param desctable A desctable object
