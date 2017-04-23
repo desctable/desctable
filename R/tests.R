@@ -36,7 +36,9 @@ testify <- function(x, f, group)
 tests_auto <- function(var, grp)
 {
   grp <- grp %>% factor
-  if (var %>% is.factor)
+  if (nlevels(grp) < 2)
+    ~no.test
+  else if (var %>% is.factor)
     ~fisher.test
   else
   {

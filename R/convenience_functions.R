@@ -72,3 +72,12 @@ ANOVA <- function(formula)
   summary(stats::aov(formula))[[1]] %>%
     stats::setNames(c("Df", "Sum Sq", "Mean Sq", "F value", "p.value"))
 }
+
+#' No test
+#'
+#' An empty test
+#' @param formula A formula
+no.test <- function(formula)
+{
+  data.frame(p.value = NA)
+}
