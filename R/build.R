@@ -53,9 +53,18 @@ varColumn <- function(data, labels = NULL)
       which -> factors_idx
 
     base_names[factors_idx] <- paste0("+ ", base_names[factors_idx])
+    factor_levels <-
+      names(data[factors_idx]) %>%
+      lapply(function(x)
+             {
+                paste0("* ",
+                       x,
+                       ": ",
+                       levels(data[[x]]))
+             })
 
     insert(x = base_names,
-           y = data[factors_idx] %>% lapply(levels) %>% purrr::at_depth(1, ~ paste0("* ", .x)),
+           y = factor_levels,
            position = factors_idx) -> base_names
   }
 
