@@ -33,9 +33,6 @@ as.data.frame.desctable <- function(x, ...)
 #' @export
 pander.desctable <- function(x = NULL, digits = 2, justify = "left", ...)
 {
-  x$Variables$Variables <- gsub("\\+ (.*)", "**\\1**", x$Variables$Variables)
-  x$Variables$Variables <- gsub("\\* (.*)", "- *\\1*", x$Variables$Variables)
-
   header <- x %>% header("pander")
 
   x[-1] %>%
@@ -72,8 +69,8 @@ datatable.default <- function(data, ...)
 #' @export
 datatable.desctable <- function(data = NULL, digits = 2, ...)
 {
-  data$Variables$Variables <- gsub("\\+ (.*)", "<b>\\1</b>", data$Variables$Variables)
-  data$Variables$Variables <- gsub("\\* (.*)", "- <i>\\1</i>", data$Variables$Variables)
+  data$Variables$Variables <- gsub("\\*\\*(.*?)\\*\\*", "<b>\\1</b>", data$Variables$Variables)
+  data$Variables$Variables <- gsub("\\*(.*?)\\*", "<i>\\1</i>", data$Variables$Variables)
 
   header <- data %>% header("datatable")
 
