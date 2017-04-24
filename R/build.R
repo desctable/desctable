@@ -54,12 +54,10 @@ varColumn <- function(data, labels = NULL)
 
     base_names[factors_idx] <- paste0("**", base_names[factors_idx], "**")
     factor_levels <-
-      names(data[factors_idx]) %>%
+      factors_idx %>%
       lapply(function(x)
              {
-                paste0("**",
-                       x,
-                       "**",
+                paste0(base_names[x],
                        ": ",
                        "*",
                        levels(data[[x]]),
