@@ -7,7 +7,7 @@
 #' @return A nlevels(x) + 1 length vector of percentages
 percent <- function(x)
 {
-  c(NA, summary(x) / length(x)) * 100
+  c(NA, summary(x, maxsum = Inf) / length(x)) * 100
 }
 
 #' Return the inter-quartile range
