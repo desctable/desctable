@@ -1,11 +1,101 @@
 ---
-title: "desctable usage"
+title: "desctable usage vignette"
 author: "Maxime Wack"
 date: "`r Sys.Date()`"
-output: rmarkdown::html_vignette
+output:
+  rmarkdown::html_vignette:
+    toc: true
+    toc_float: true
+    code_folding: hide
+
 vignette: >
   %\VignetteIndexEntry{desctable usage}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
 
+One thing people doing statistical analyses find themselves doing every so often is creating tables for descriptive summaries of data (also known as Table.1), or comparative tables.
+
+A lot of packages already address this issue, such as the aptly named *tableone* package to name one, but they either include some hard-coded behaviors, are a bit "old" in their syntax (argument order for use with *dplyr* and the pipe (`%>%`), or have outputs that are not easily manipulable with standard R tools.
+
+Enter *desctable*, a modern package for descriptive and comparative tables generation, integrated with the *tidyverse* set of tools, completely customisable yet with reasonable defaults, with an agnostic tidy output that can be further modified using standard R tools.
+
+# Descriptive tables
+
+## Simple usage
+
+*desctable* uses and exports the pipe (`%>%`) operator from packages *magrittr* and *dplyr*, though it is not mandatory to use it.
+
+The most simple thing you can do with *desctable* is to create a descriptive table from a dataset:
+
+```{r}
+iris %>%
+  desctable
+```
+
+```{r}
+mtcars %>%
+  desctable
+```
+
+As you can see with these two examples, `desctable` describes every variable, with individual levels for factors, picks statistics depending on the type and distribution of the variables in the data, and applies those statistics on the relevant variables.
+
+## Output
+
+The resulting object produced by `desctable` is in fact a list of data.frames, with a "desctable" class. Methods for reduction to a simple dataframe (`as.data.frame`, automatically used for printing), conversion to markdown (`pander`), or interactive html output with DT (`datatable`) are provided:
+
+```{r}
+iris %>%
+  desctable %>%
+  pander
+```
+
+```{r}
+mtcars %>%
+  desctable %>%
+  datatable
+```
+
+Subsequent outputs in this vignette will use datatable. The `datatable` wrapper function for *desctable* objects comes with some defaults such as freezing the row names and table header, and rounding of values.
+
+## Advanced usage
+
+`desctable` choses statistics for you using this algorithm: if there are factors, show N and %, if there are normally distributed variables (length > 30 and shapiro.test > .1), show Mean and SD, if there are non-normally distributed variables, show Median and IQR. For each variable in the table, compute the relevant statistic in that list.
+
+So, how does it work, and how can **you** adapt this behavior to your liking?
+
+`desctable` takes an optional *stats* argument. This argument can either be:
+  * an automatic function to select appropriate stats
+  * or a named list of
+    * statistical functions
+    * formulas describing conditions to use a statistical function.
+
+
+### Automatic function
+
+The automatic function must accept a dataframe as its argument (also whether to use it or not is your choice when defining that function!) and return a named list of statistics to use (this is the case by default, with the `stats_auto` function provided in the package), as defined in the subsequent paragraphs.
+
+Several "automatic stats functions" are defined in this package: `stats_auto`, `stats_default`, `stats_normal`, `stats_nonnormal`.
+
+### Statistical functions
+
+Statistical functions can be any function defined in R that you want to use, such as `list("N" = length, "Mean" = mean, "SD" = sd)`.  
+The names will be used as column headers in the resulting table, and the functions will be use safely on the variables (errors result in NA, function will be used on individual factor levels).
+
+Several convenience functions are included in this package: `percent`, which prints percentages of levels in a factor, `IQR` which re-implements `stats::IQR` but works better with NA values.
+
+Be aware that **all functions are used on vectors stripped of their NA values!** This is necessary for most statistical functions to be useful, and adds a bonus with **N** (`length`) in that you can infer the number of missing values of every variable in the table.
+
+### Conditional formula
+
+The general form of these formulas is
+
+**predicate_function ~ stat_function_if_TRUE | stat_function_if_FALSE**
+
+The "FALSE" option can be omitted and NA will be produced if the condition in the predicate is not met.  
+These statements can be nested using parentheses.  
+For example: `is.factor ~ percent | (is.normal ~ mean)` will either use `percent` if the variable is a factor, or `mean` if and only if the variable is normally distributed.
+
+You can mix "bare" statistical functions and formulas in the list defining the statistics you want to use in your table.
+
+You can inspect the `stats_auto` function in the package to see how it works.
