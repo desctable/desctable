@@ -34,7 +34,8 @@ is.normal <- function(x)
   if (! x %>% is.numeric) 
     F
   else if (length(x %>% stats::na.omit()) >= 30)
-    stats::shapiro.test(x)$p.value > .1
+    tryCatch(stats::shapiro.test(x)$p.value > .1,
+             error = function(e) F)
   else
     F
 }
