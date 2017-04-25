@@ -81,8 +81,7 @@ chisq.test.formula <- function(x, y = NULL, correct = TRUE, p = rep(1/length(x),
 #' @export
 ANOVA <- function(formula)
 {
-  summary(stats::aov(formula))[[1]] %>%
-    stats::setNames(c("Df", "Sum Sq", "Mean Sq", "F value", "p.value"))
+  oneway.test(formula, var.equal = T)
 }
 
 #' No test
