@@ -2272,7 +2272,7 @@ iris %>%
 
 <br>
 
-This allows you to modulate the behavior of `desctable` in every detail, such as using paired tests, or "malformed" tests.
+This allows you to modulate the behavior of `desctable` in every detail, such as using paired tests, or non *htest* tests.
 
 ``` r
 # This is a contrived example, which would be better solved with a dedicated function
@@ -2281,74 +2281,114 @@ library(survival)
 bladder$surv <- Surv(bladder$stop, bladder$event)
 
 bladder %>%
+  group_by(rx) %>%
   desctable(tests = list(.default = ~wilcox.test,
                          surv = ~. %>% survdiff %>% .$chisq %>% pchisq(1, lower.tail = F) %>% list(p.value = .))) %>%
   pander
 ```
 
-<table style="width:35%;">
+<table>
 <colgroup>
-<col width="12%" />
-<col width="5%" />
-<col width="8%" />
-<col width="8%" />
+<col width="6%" />
+<col width="15%" />
+<col width="7%" />
+<col width="7%" />
+<col width="15%" />
+<col width="7%" />
+<col width="7%" />
+<col width="9%" />
+<col width="21%" />
 </colgroup>
 <thead>
 <tr class="header">
 <th align="left"> </th>
-<th align="left">N</th>
-<th align="left">Med</th>
-<th align="left">IQR</th>
+<th align="left">rx: 1 (n=188)<br/>N</th>
+<th align="left"><br/>Med</th>
+<th align="left"><br/>IQR</th>
+<th align="left">rx: 2 (n=152)<br/>N</th>
+<th align="left"><br/>Med</th>
+<th align="left"><br/>IQR</th>
+<th align="left">tests<br/>p</th>
+<th align="left"><br/>test</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td align="left">id</td>
-<td align="left">340</td>
-<td align="left">43</td>
-<td align="left">42</td>
+<td align="left">188</td>
+<td align="left">24</td>
+<td align="left">24</td>
+<td align="left">152</td>
+<td align="left">66</td>
+<td align="left">19</td>
+<td align="left">1.3e-56</td>
+<td align="left">wilcox.test</td>
 </tr>
 <tr class="even">
-<td align="left">rx</td>
-<td align="left">340</td>
-<td align="left">1</td>
-<td align="left">1</td>
-</tr>
-<tr class="odd">
 <td align="left">number</td>
-<td align="left">340</td>
+<td align="left">188</td>
 <td align="left">1</td>
 <td align="left">2</td>
-</tr>
-<tr class="even">
-<td align="left">size</td>
-<td align="left">340</td>
+<td align="left">152</td>
 <td align="left">1</td>
 <td align="left">2</td>
+<td align="left">0.62</td>
+<td align="left">wilcox.test</td>
 </tr>
 <tr class="odd">
-<td align="left">stop</td>
-<td align="left">340</td>
-<td align="left">25</td>
-<td align="left">25</td>
+<td align="left">size</td>
+<td align="left">188</td>
+<td align="left">1</td>
+<td align="left">2</td>
+<td align="left">152</td>
+<td align="left">1</td>
+<td align="left">2</td>
+<td align="left">0.32</td>
+<td align="left">wilcox.test</td>
 </tr>
 <tr class="even">
+<td align="left">stop</td>
+<td align="left">188</td>
+<td align="left">23</td>
+<td align="left">20</td>
+<td align="left">152</td>
+<td align="left">25</td>
+<td align="left">28</td>
+<td align="left">0.17</td>
+<td align="left">wilcox.test</td>
+</tr>
+<tr class="odd">
 <td align="left">event</td>
-<td align="left">340</td>
+<td align="left">188</td>
 <td align="left">0</td>
 <td align="left">1</td>
-</tr>
-<tr class="odd">
-<td align="left">enum</td>
-<td align="left">340</td>
-<td align="left">2.5</td>
-<td align="left">1.5</td>
+<td align="left">152</td>
+<td align="left">0</td>
+<td align="left">1</td>
+<td align="left">0.02</td>
+<td align="left">wilcox.test</td>
 </tr>
 <tr class="even">
+<td align="left">enum</td>
+<td align="left">188</td>
+<td align="left">2.5</td>
+<td align="left">1.5</td>
+<td align="left">152</td>
+<td align="left">2.5</td>
+<td align="left">1.5</td>
+<td align="left">1</td>
+<td align="left">wilcox.test</td>
+</tr>
+<tr class="odd">
 <td align="left">surv</td>
-<td align="left">680</td>
+<td align="left">376</td>
 <td align="left"></td>
 <td align="left"></td>
+<td align="left">304</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">0.023</td>
+<td align="left">. %&gt;% survdiff %&gt;% .$chisq %&gt;% pchisq(1, lower.tail = F) %&gt;% list(p.value = .)</td>
 </tr>
 </tbody>
 </table>

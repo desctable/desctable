@@ -358,6 +358,7 @@ library(survival)
 bladder$surv <- Surv(bladder$stop, bladder$event)
 
 bladder %>%
+  group_by(rx) %>%
   desctable(tests = list(.default = ~wilcox.test,
                          surv = ~. %>% survdiff %>% .$chisq %>% pchisq(1, lower.tail = F) %>% list(p.value = .))) %>%
   pander
