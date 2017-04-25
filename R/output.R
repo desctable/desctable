@@ -20,7 +20,7 @@ as.data.frame.desctable <- function(x, ...)
   x$Variables$Variables <- gsub("\\*\\*(.*?)\\*\\*", "\\1", x$Variables$Variables)
   x$Variables$Variables <- gsub("\\*(.*?)\\*", "\\1", x$Variables$Variables)
 
-  header <- x %>% header("pander")
+  header <- x %>% header("dataframe")
 
   x[-1] -> df
 
