@@ -80,6 +80,23 @@ head_pander <- function(head)
   }
 }
 
+#' Build the header for datatable
+#'
+#' @param head A headerList object
+#' @return An htmltools$tags object containing the header
+head_datatable <- function(head)
+{
+  TRs <- list()
+  while(head[[1]] %>% is.list)
+  {
+    TR <- purrr::map2(head %>% names, head %>% lapply(attr, "colspan"), ~htmltools::tags$th(.x, colspan = .y))
+
+    TRs <- c(TRs, list(TR))
+    head <- purrr::flatten(head)
+  }
+  c(TRs, list(purrr::map2(head %>% names, head, ~htmltools::tags$th(.x, colspan = .y))))
+}
+
 #' Build header
 #'
 #' Take a desctable object and create a suitable header for the mentionned output.
@@ -116,18 +133,6 @@ header <- function(desctable, output = c("pander", "datatable"))
       head_pander(head) %>% paste(nm, sep = "<br/>")
     } else if (output == "datatable")
     {
-      head_datatable <- function(head)
-      {
-        TRs <- list()
-        while(head[[1]] %>% is.list)
-        {
-          TR <- purrr::map2(head %>% names, head %>% lapply(attr, "colspan"), ~htmltools::tags$th(.x, colspan = .y))
-
-          TRs <- c(TRs, list(TR))
-          head <- purrr::flatten(head)
-        }
-        c(TRs, list(purrr::map2(head %>% names, head, ~htmltools::tags$th(.x, colspan = .y))))
-      }
       c(head_datatable(head), list(nm %>% lapply(htmltools::tags$th))) -> head
       head[[1]] <- c(list(htmltools::tags$th(rowspan = length(head))), head[[1]])
       head %>%
