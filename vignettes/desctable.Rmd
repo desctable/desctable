@@ -1,9 +1,6 @@
 ---
 title: "desctable usage vignette"
-author: "Maxime Wack"
-date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
-
 vignette: >
   %\VignetteIndexEntry{desctable usage}
   %\VignetteEngine{knitr::rmarkdown}
