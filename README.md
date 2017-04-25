@@ -2131,18 +2131,19 @@ mtcars %>%
 
 <br>
 
-In the **tests** arguments, you can also provide function definitions and partial applications in the formulas:
+In the **tests** arguments, you can also provide function definitions, functional sequences, and partial applications in the formulas:
 
 ``` r
 iris %>%
   group_by(Species) %>%
   desctable(tests = list(.auto = tests_auto,
                          Sepal.Width = ~function(f) oneway.test(f, var.equal = F),
+                         Petal.Length = ~. %>% oneway.test(var.equal = T),
                          Sepal.Length = ~purrr::partial(oneway.test, var.equal = T))) %>%
   pander
 ```
 
-<table>
+<table style="width:100%;">
 <colgroup>
 <col width="5%" />
 <col width="11%" />
@@ -2155,7 +2156,7 @@ iris %>%
 <col width="3%" />
 <col width="4%" />
 <col width="4%" />
-<col width="8%" />
+<col width="7%" />
 <col width="4%" />
 <col width="3%" />
 <col width="4%" />
@@ -2243,8 +2244,8 @@ iris %>%
 <td align="left">0.55</td>
 <td align="left"></td>
 <td align="left"></td>
-<td align="left">4.8e-29</td>
-<td align="left">kruskal.test</td>
+<td align="left">2.9e-91</td>
+<td align="left">. %&gt;% oneway.test(var.equal = T)</td>
 </tr>
 <tr class="even">
 <td align="left">Petal.Width</td>
@@ -2265,6 +2266,89 @@ iris %>%
 <td align="left">0.5</td>
 <td align="left">3.3e-29</td>
 <td align="left">kruskal.test</td>
+</tr>
+</tbody>
+</table>
+
+<br>
+
+This allows you to modulate the behavior of `desctable` in every detail, such as using paired tests, or "malformed" tests.
+
+``` r
+# This is a contrived example, which would be better solved with a dedicated function
+library(survival)
+
+bladder$surv <- Surv(bladder$stop, bladder$event)
+
+bladder %>%
+  desctable(tests = list(.default = ~wilcox.test,
+                         surv = ~. %>% survdiff %>% .$chisq %>% pchisq(1, lower.tail = F) %>% list(p.value = .))) %>%
+  pander
+```
+
+<table style="width:35%;">
+<colgroup>
+<col width="12%" />
+<col width="5%" />
+<col width="8%" />
+<col width="8%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left"> </th>
+<th align="left">N</th>
+<th align="left">Med</th>
+<th align="left">IQR</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">id</td>
+<td align="left">340</td>
+<td align="left">43</td>
+<td align="left">42</td>
+</tr>
+<tr class="even">
+<td align="left">rx</td>
+<td align="left">340</td>
+<td align="left">1</td>
+<td align="left">1</td>
+</tr>
+<tr class="odd">
+<td align="left">number</td>
+<td align="left">340</td>
+<td align="left">1</td>
+<td align="left">2</td>
+</tr>
+<tr class="even">
+<td align="left">size</td>
+<td align="left">340</td>
+<td align="left">1</td>
+<td align="left">2</td>
+</tr>
+<tr class="odd">
+<td align="left">stop</td>
+<td align="left">340</td>
+<td align="left">25</td>
+<td align="left">25</td>
+</tr>
+<tr class="even">
+<td align="left">event</td>
+<td align="left">340</td>
+<td align="left">0</td>
+<td align="left">1</td>
+</tr>
+<tr class="odd">
+<td align="left">enum</td>
+<td align="left">340</td>
+<td align="left">2.5</td>
+<td align="left">1.5</td>
+</tr>
+<tr class="even">
+<td align="left">surv</td>
+<td align="left">680</td>
+<td align="left"></td>
+<td align="left"></td>
 </tr>
 </tbody>
 </table>
