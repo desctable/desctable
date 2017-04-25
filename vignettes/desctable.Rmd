@@ -203,7 +203,7 @@ iris_by_Species
 
 The results is a table containing a descriptive subtable for each level of the grouping factor (the statistical functions rules are applied to each subtable independently), with the statistical tests performed and their p value.
 
-When displayed as a flat dataframe, the group headers don't appear. You can see them by inspecting the resulting object, which is a list of dataframes, each named after the grouping factor and its levels (with sample size for each).
+When displayed as a flat dataframe, the group headers appear in each variable. You can also see them by inspecting the resulting object, which is a list of dataframes, each named after the grouping factor and its levels (with sample size for each).
 
 ```{r}
 str(iris_by_Species)
