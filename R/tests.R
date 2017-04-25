@@ -9,7 +9,7 @@
 #' @return The results for the function applied on the vector, compatible with the format of the result table
 testify <- function(x, f, group)
 {
-  fun <- f[[2]] %>% as.character
+  fun <- f %>% deparse %>% Reduce(f = paste0) %>% substring(2)
   f <- eval(f[[2]])
   p <- tryCatch(f(x ~ group)$p.value[1],
                 error = function(e) {message(e);NaN})
