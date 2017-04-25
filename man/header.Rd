@@ -4,7 +4,7 @@
 \alias{header}
 \title{Build header}
 \usage{
-header(desctable, output = c("pander", "datatable"))
+header(desctable, output = c("pander", "datatable", "dataframe"))
 }
 \arguments{
 \item{desctable}{A desctable object}
@@ -16,5 +16,5 @@ A header object in the output format
 }
 \description{
 Take a desctable object and create a suitable header for the mentionned output.
-Output can be one of "pander" or "datatable".
+Output can be one of "pander", "datatable", or "dataframe".
 }
