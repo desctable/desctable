@@ -73,7 +73,12 @@ parse_formula <- function(x, f)
 #' @return A header object in the output format
 header <- function(desctable, output = c("pander", "datatable"))
 {
-  nm <- desctable %>% as.data.frame.desctable %>% names
+  nm <- desctable %>%
+    `[`(-1) %>%
+    flatten_desctable %>%
+    data.frame(row.names = desctable$Variables$Variables, check.names = F) %>%
+    names
+
   desctable <- desctable[-1]
 
   if (length(desctable) == 1)
