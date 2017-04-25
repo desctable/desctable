@@ -331,12 +331,28 @@ mtcars %>%
 ```
 <br>
 
-In the **tests** arguments, you can also provide function definitions and partial applications in the formulas:
+In the **tests** arguments, you can also provide function definitions, functional sequences, and partial applications in the formulas:
 ```{r}
 iris %>%
   group_by(Species) %>%
   desctable(tests = list(.auto = tests_auto,
                          Sepal.Width = ~function(f) oneway.test(f, var.equal = F),
+                         Petal.Length = ~. %>% oneway.test(var.equal = T),
                          Sepal.Length = ~purrr::partial(oneway.test, var.equal = T))) %>%
-  datatable
+  pander
+```
+<br>
+
+This allows you to modulate the behavior of `desctable` in every detail, such as using paired tests, or non *htest* tests.
+```{r}
+# This is a contrived example, which would be better solved with a dedicated function
+library(survival)
+
+bladder$surv <- Surv(bladder$stop, bladder$event)
+
+bladder %>%
+  group_by(rx) %>%
+  desctable(tests = list(.default = ~wilcox.test,
+                         surv = ~. %>% survdiff %>% .$chisq %>% pchisq(1, lower.tail = F) %>% list(p.value = .))) %>%
+  pander
 ```
