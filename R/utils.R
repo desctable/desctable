@@ -117,12 +117,12 @@ head_dataframe <- function(head)
 #' Build header
 #'
 #' Take a desctable object and create a suitable header for the mentionned output.
-#' Output can be one of "pander" or "datatable".
+#' Output can be one of "pander", "datatable", or "dataframe".
 #'
 #' @param desctable A desctable object
 #' @param output An output format for the header
 #' @return A header object in the output format
-header <- function(desctable, output = c("pander", "datatable"))
+header <- function(desctable, output = c("pander", "datatable", "dataframe"))
 {
   nm <- desctable %>%
     `[`(-1) %>%
