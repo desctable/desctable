@@ -12,7 +12,12 @@ library(pander)
 library(DT)
 library(desctable)
 
-opts_chunk$set(message = F, warning = F)
+options(DT.options = list(scrollX = T,
+                          info = F,
+                          search = F,
+                          dom = "Brtip",
+                          fixedColumns = T))
+knitr::opts_chunk$set(message = F, warning = F)
 ```
 
 One thing people doing statistical analyses find themselves doing every so often is creating tables for descriptive summaries of data (a.k.a. Table.1), or comparative tables.
