@@ -2,11 +2,7 @@
 title: "desctable usage vignette"
 author: "Maxime Wack"
 date: "`r Sys.Date()`"
-output:
-  rmarkdown::html_vignette:
-    toc: true
-    toc_float: true
-    code_folding: hide
+output: rmarkdown::html_vignette
 
 vignette: >
   %\VignetteIndexEntry{desctable usage}
