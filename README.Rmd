@@ -28,7 +28,7 @@ Enter *desctable*, a package built with these objectives in mind:
 # Installation
 
 ```
-devtools::install_github("maximewack/desctable")
+devtools::install_github("maximewack/desctable", build_vignettes = T)
 ```
 
 # Loading
@@ -39,6 +39,11 @@ library(DT)
 
 library(desctable)
 library(pander) # pander can be loaded at any time
+```
+
+It is recommended to read this manual through its vignette:
+```{r}
+vignette("desctable")
 ```
 
 ----
