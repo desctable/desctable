@@ -97,6 +97,23 @@ head_datatable <- function(head)
   c(TRs, list(purrr::map2(head %>% names, head, ~htmltools::tags$th(.x, colspan = .y))))
 }
 
+#' Build the header for dataframe
+#'
+#' @param head A headerList object
+#' @return A names vector
+head_dataframe <- function(head)
+{
+  if (head[[1]] %>% is.integer)
+  {
+    head %>% names %>% lapply(function(x){rep(x, head[[x]])}) %>% unlist
+  } else
+  {
+    paste(head %>% names %>% lapply(function(x){rep(x, attr(head[[x]], "colspan"))}) %>% unlist,
+          head %>% lapply(head_pander) %>% unlist,
+          sep = " / ")
+  }
+}
+
 #' Build header
 #'
 #' Take a desctable object and create a suitable header for the mentionned output.
@@ -118,9 +135,7 @@ header <- function(desctable, output = c("pander", "datatable"))
   if (length(desctable) == 1)
   {
     if (output == "datatable")
-    {
       c("", nm) %>% lapply(htmltools::tags$th) %>% htmltools::tags$tr() %>% htmltools::tags$thead() %>% htmltools::tags$table(class = "display")
-    }
     else
       nm
   }
@@ -139,6 +154,9 @@ header <- function(desctable, output = c("pander", "datatable"))
         lapply(htmltools::tags$tr) %>%
         htmltools::tags$thead() %>%
         htmltools::tags$table(class = "display")
+    } else if (output == "dataframe")
+    {
+      head_dataframe(head) %>% paste(nm, sep = " / ")
     }
   }
 }
