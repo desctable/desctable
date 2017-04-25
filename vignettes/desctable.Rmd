@@ -10,9 +10,20 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-One thing people doing statistical analyses find themselves doing every so often is creating tables for descriptive summaries of data (also known as Table.1), or comparative tables.
+```{r, echo = F, message = F, warning = F}
+library(desctable)
+library(pander)
+library(DT)
+library(knitr)
 
-A lot of packages already address this issue, such as the aptly named *tableone* package to name one, but they either include some hard-coded behaviors, are a bit "old" in their syntax (argument order for use with *dplyr* and the pipe (`%>%`), or have outputs that are not easily manipulable with standard R tools.
+opts_chunk$set(message = F, warning = F)
+```
+
+One thing people doing statistical analyses find themselves doing every so often is creating tables for descriptive summaries of data (a.k.a. Table.1), or comparative tables.
+
+A lot of packages already address this issue, such as the aptly named *tableone* package to name one, but they either include some hard-coded behaviors, are a bit out-fashioned in their syntax (because of the incompatibility with the argument order for use with *dplyr* and the pipe (`%>%`)), or have outputs that are not easily manipulable with standard R tools.
+
+Enter *desctable*, a modern package for descriptive and comparative tables generation, integrated with the *tidyverse* set of tools, completely customizable yet with reasonable defaults, with an agnostic tidy output that can be further modified using standard R tools.
 
 Enter *desctable*, a modern package for descriptive and comparative tables generation, integrated with the *tidyverse* set of tools, completely customisable yet with reasonable defaults, with an agnostic tidy output that can be further modified using standard R tools.
 
