@@ -17,11 +17,17 @@ print.desctable <- function(x, ...)
 #' @export
 as.data.frame.desctable <- function(x, ...)
 {
+  x$Variables$Variables <- gsub("\\*\\*(.*?)\\*\\*", "\\1", x$Variables$Variables)
+  x$Variables$Variables <- gsub("\\*(.*?)\\*", "\\1", x$Variables$Variables)
+
+  header <- x %>% header("pander")
+
   x[-1] -> df
 
   df %>%
     flatten_desctable %>%
-    data.frame(row.names = x$Variables$Variables, check.names = F, ...)
+    data.frame(row.names = x$Variables$Variables, check.names = F, ...) %>%
+    stats::setNames(header)
 }
 
 #' Pander method for desctable
