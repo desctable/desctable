@@ -23,7 +23,15 @@ One thing people doing statistical analyses find themselves doing every so often
 
 A lot of packages already address this issue, such as the aptly named *tableone* package to name one, but they either include some hard-coded behaviors, are a bit out-fashioned in their syntax (because of the incompatibility with the argument order for use with *dplyr* and the pipe (`%>%`)), or have outputs that are not easily manipulable with standard R tools.
 
-Enter *desctable*, a modern package for descriptive and comparative tables generation, integrated with the *tidyverse* set of tools, completely customizable yet with reasonable defaults, with an agnostic tidy output that can be further modified using standard R tools.
+Enter *desctable*, a package built with these objectives in mind:
+
+  * generate descriptive and comparative statistics tables
+  * keep the syntax as simple as possible
+  * integrated with "modern" R usage, and the *tidyverse* set of tools
+  * good reasonable defaults
+  * yet entirely customizable, using standard R tools and functions
+  * produce the simplest output possible, with helpers for different outputs
+  * based on a functional paradigm
 
 ----
 
@@ -31,16 +39,14 @@ Enter *desctable*, a modern package for descriptive and comparative tables gener
 
 ## Simple usage
 
-*desctable* uses and exports the pipe (`%>%`) operator from packages *magrittr* and *dplyr*, though it is not mandatory to use it.
+*desctable* uses and exports the pipe (`%>%`) operator (from packages *magrittr* and *dplyr* fame), though it is not mandatory to use it.
 
 The most simple thing you can do with *desctable* is to create a descriptive table from a dataset:
 
 ```{r}
 iris %>%
   desctable
-```
 
-```{r}
 mtcars %>%
   desctable
 ```
@@ -55,9 +61,7 @@ The resulting object produced by `desctable` is in fact a list of data.frames, w
 iris %>%
   desctable %>%
   pander
-```
 
-```{r}
 mtcars %>%
   desctable %>%
   datatable
