@@ -39,7 +39,7 @@ Enter *desctable*, a package built with these objectives in mind:
 Installation
 ============
 
-    devtools::install_github("maximewack/desctable")
+    devtools::install_github("maximewack/desctable", build_vignettes = T)
 
 Loading
 =======
@@ -50,6 +50,12 @@ library(DT)
 
 library(desctable)
 library(pander) # pander can be loaded at any time
+```
+
+It is recommended to read this manual through its vignette:
+
+``` r
+vignette("desctable")
 ```
 
 ------------------------------------------------------------------------
@@ -345,7 +351,7 @@ mtcars %>%
 </colgroup>
 <thead>
 <tr class="header">
-<th> </th>
+<th align="left"> </th>
 <th align="left">N</th>
 <th align="left">Mean</th>
 <th align="left">SD</th>
@@ -353,67 +359,67 @@ mtcars %>%
 </thead>
 <tbody>
 <tr class="odd">
-<td>mpg</td>
+<td align="left">mpg</td>
 <td align="left">32</td>
 <td align="left">20</td>
 <td align="left">6</td>
 </tr>
 <tr class="even">
-<td>cyl</td>
+<td align="left">cyl</td>
 <td align="left">32</td>
 <td align="left">6.2</td>
 <td align="left">1.8</td>
 </tr>
 <tr class="odd">
-<td>disp</td>
+<td align="left">disp</td>
 <td align="left">32</td>
 <td align="left">231</td>
 <td align="left">124</td>
 </tr>
 <tr class="even">
-<td>hp</td>
+<td align="left">hp</td>
 <td align="left">32</td>
 <td align="left">147</td>
 <td align="left">69</td>
 </tr>
 <tr class="odd">
-<td>drat</td>
+<td align="left">drat</td>
 <td align="left">32</td>
 <td align="left">3.6</td>
 <td align="left">0.53</td>
 </tr>
 <tr class="even">
-<td>wt</td>
+<td align="left">wt</td>
 <td align="left">32</td>
 <td align="left">3.2</td>
 <td align="left">0.98</td>
 </tr>
 <tr class="odd">
-<td>qsec</td>
+<td align="left">qsec</td>
 <td align="left">32</td>
 <td align="left">18</td>
 <td align="left">1.8</td>
 </tr>
 <tr class="even">
-<td>vs</td>
+<td align="left">vs</td>
 <td align="left">32</td>
 <td align="left">0.44</td>
 <td align="left">0.5</td>
 </tr>
 <tr class="odd">
-<td>am</td>
+<td align="left">am</td>
 <td align="left">32</td>
 <td align="left">0.41</td>
 <td align="left">0.5</td>
 </tr>
 <tr class="even">
-<td>gear</td>
+<td align="left">gear</td>
 <td align="left">32</td>
 <td align="left">3.7</td>
 <td align="left">0.74</td>
 </tr>
 <tr class="odd">
-<td>carb</td>
+<td align="left">carb</td>
 <td align="left">32</td>
 <td align="left">2.8</td>
 <td align="left">1.6</td>
@@ -843,7 +849,7 @@ mtcars %>%
 </colgroup>
 <thead>
 <tr class="header">
-<th> </th>
+<th align="left"> </th>
 <th align="left">cyl: 4 (n=11)<br/>N</th>
 <th align="left"><br/>Med</th>
 <th align="left"><br/>IQR</th>
@@ -859,7 +865,7 @@ mtcars %>%
 </thead>
 <tbody>
 <tr class="odd">
-<td>mpg</td>
+<td align="left">mpg</td>
 <td align="left">11</td>
 <td align="left">26</td>
 <td align="left">7.6</td>
@@ -873,7 +879,7 @@ mtcars %>%
 <td align="left">kruskal.test</td>
 </tr>
 <tr class="even">
-<td>disp</td>
+<td align="left">disp</td>
 <td align="left">11</td>
 <td align="left">108</td>
 <td align="left">42</td>
@@ -887,7 +893,7 @@ mtcars %>%
 <td align="left">kruskal.test</td>
 </tr>
 <tr class="odd">
-<td>hp</td>
+<td align="left">hp</td>
 <td align="left">11</td>
 <td align="left">91</td>
 <td align="left">30</td>
@@ -901,7 +907,7 @@ mtcars %>%
 <td align="left">kruskal.test</td>
 </tr>
 <tr class="even">
-<td>drat</td>
+<td align="left">drat</td>
 <td align="left">11</td>
 <td align="left">4.1</td>
 <td align="left">0.35</td>
@@ -915,7 +921,7 @@ mtcars %>%
 <td align="left">kruskal.test</td>
 </tr>
 <tr class="odd">
-<td>wt</td>
+<td align="left">wt</td>
 <td align="left">11</td>
 <td align="left">2.2</td>
 <td align="left">0.74</td>
@@ -929,7 +935,7 @@ mtcars %>%
 <td align="left">kruskal.test</td>
 </tr>
 <tr class="even">
-<td>qsec</td>
+<td align="left">qsec</td>
 <td align="left">11</td>
 <td align="left">19</td>
 <td align="left">1.4</td>
@@ -943,7 +949,7 @@ mtcars %>%
 <td align="left">kruskal.test</td>
 </tr>
 <tr class="odd">
-<td>vs</td>
+<td align="left">vs</td>
 <td align="left">11</td>
 <td align="left">1</td>
 <td align="left">0</td>
@@ -957,7 +963,7 @@ mtcars %>%
 <td align="left">kruskal.test</td>
 </tr>
 <tr class="even">
-<td>am</td>
+<td align="left">am</td>
 <td align="left">11</td>
 <td align="left">1</td>
 <td align="left">0.5</td>
@@ -971,7 +977,7 @@ mtcars %>%
 <td align="left">kruskal.test</td>
 </tr>
 <tr class="odd">
-<td>gear</td>
+<td align="left">gear</td>
 <td align="left">11</td>
 <td align="left">4</td>
 <td align="left">0</td>
@@ -985,7 +991,7 @@ mtcars %>%
 <td align="left">kruskal.test</td>
 </tr>
 <tr class="even">
-<td>carb</td>
+<td align="left">carb</td>
 <td align="left">11</td>
 <td align="left">2</td>
 <td align="left">1</td>
@@ -1214,7 +1220,7 @@ mtcars %>%
 </colgroup>
 <thead>
 <tr class="header">
-<th> </th>
+<th align="left"> </th>
 <th align="left">vs: 0 (n=18)<br/>am: Automatic (n=12)<br/>cyl: 8 (n=12)<br/>N</th>
 <th align="left"><br/><br/><br/>Med</th>
 <th align="left"><br/><br/><br/>IQR</th>
@@ -1248,7 +1254,7 @@ mtcars %>%
 </thead>
 <tbody>
 <tr class="odd">
-<td>mpg</td>
+<td align="left">mpg</td>
 <td align="left">12</td>
 <td align="left">15</td>
 <td align="left">2.6</td>
@@ -1280,7 +1286,7 @@ mtcars %>%
 <td align="left">no.test</td>
 </tr>
 <tr class="even">
-<td>disp</td>
+<td align="left">disp</td>
 <td align="left">12</td>
 <td align="left">355</td>
 <td align="left">113</td>
@@ -1312,7 +1318,7 @@ mtcars %>%
 <td align="left">no.test</td>
 </tr>
 <tr class="odd">
-<td>hp</td>
+<td align="left">hp</td>
 <td align="left">12</td>
 <td align="left">180</td>
 <td align="left">44</td>
@@ -1344,7 +1350,7 @@ mtcars %>%
 <td align="left">no.test</td>
 </tr>
 <tr class="even">
-<td>drat</td>
+<td align="left">drat</td>
 <td align="left">12</td>
 <td align="left">3.1</td>
 <td align="left">0.11</td>
@@ -1376,7 +1382,7 @@ mtcars %>%
 <td align="left">no.test</td>
 </tr>
 <tr class="odd">
-<td>wt</td>
+<td align="left">wt</td>
 <td align="left">12</td>
 <td align="left">3.8</td>
 <td align="left">0.81</td>
@@ -1408,7 +1414,7 @@ mtcars %>%
 <td align="left">no.test</td>
 </tr>
 <tr class="even">
-<td>qsec</td>
+<td align="left">qsec</td>
 <td align="left">12</td>
 <td align="left">17</td>
 <td align="left">0.67</td>
@@ -1440,7 +1446,7 @@ mtcars %>%
 <td align="left">no.test</td>
 </tr>
 <tr class="odd">
-<td>gear</td>
+<td align="left">gear</td>
 <td align="left">12</td>
 <td align="left">3</td>
 <td align="left">0</td>
@@ -1472,7 +1478,7 @@ mtcars %>%
 <td align="left">no.test</td>
 </tr>
 <tr class="even">
-<td>carb</td>
+<td align="left">carb</td>
 <td align="left">12</td>
 <td align="left">3</td>
 <td align="left">2</td>
@@ -1877,7 +1883,7 @@ mtcars %>%
 </colgroup>
 <thead>
 <tr class="header">
-<th> </th>
+<th align="left"> </th>
 <th align="left">am: Automatic (n=19)<br/>N</th>
 <th align="left"><br/>Med</th>
 <th align="left"><br/>IQR</th>
@@ -1890,7 +1896,7 @@ mtcars %>%
 </thead>
 <tbody>
 <tr class="odd">
-<td>mpg</td>
+<td align="left">mpg</td>
 <td align="left">19</td>
 <td align="left">17</td>
 <td align="left">4.2</td>
@@ -1901,7 +1907,7 @@ mtcars %>%
 <td align="left">t.test</td>
 </tr>
 <tr class="even">
-<td>cyl</td>
+<td align="left">cyl</td>
 <td align="left">19</td>
 <td align="left">8</td>
 <td align="left">2</td>
@@ -1912,7 +1918,7 @@ mtcars %>%
 <td align="left">wilcox.test</td>
 </tr>
 <tr class="odd">
-<td>disp</td>
+<td align="left">disp</td>
 <td align="left">19</td>
 <td align="left">276</td>
 <td align="left">164</td>
@@ -1923,7 +1929,7 @@ mtcars %>%
 <td align="left">wilcox.test</td>
 </tr>
 <tr class="even">
-<td>hp</td>
+<td align="left">hp</td>
 <td align="left">19</td>
 <td align="left">175</td>
 <td align="left">76</td>
@@ -1934,7 +1940,7 @@ mtcars %>%
 <td align="left">wilcox.test</td>
 </tr>
 <tr class="odd">
-<td>drat</td>
+<td align="left">drat</td>
 <td align="left">19</td>
 <td align="left">3.1</td>
 <td align="left">0.63</td>
@@ -1945,7 +1951,7 @@ mtcars %>%
 <td align="left">wilcox.test</td>
 </tr>
 <tr class="even">
-<td>wt</td>
+<td align="left">wt</td>
 <td align="left">19</td>
 <td align="left">3.5</td>
 <td align="left">0.41</td>
@@ -1956,7 +1962,7 @@ mtcars %>%
 <td align="left">wilcox.test</td>
 </tr>
 <tr class="odd">
-<td>qsec</td>
+<td align="left">qsec</td>
 <td align="left">19</td>
 <td align="left">18</td>
 <td align="left">2</td>
@@ -1967,7 +1973,7 @@ mtcars %>%
 <td align="left">wilcox.test</td>
 </tr>
 <tr class="even">
-<td>vs</td>
+<td align="left">vs</td>
 <td align="left">19</td>
 <td align="left">0</td>
 <td align="left">1</td>
@@ -1978,7 +1984,7 @@ mtcars %>%
 <td align="left">wilcox.test</td>
 </tr>
 <tr class="odd">
-<td>gear</td>
+<td align="left">gear</td>
 <td align="left">19</td>
 <td align="left">3</td>
 <td align="left">0</td>
@@ -1989,7 +1995,7 @@ mtcars %>%
 <td align="left">wilcox.test</td>
 </tr>
 <tr class="even">
-<td>carb</td>
+<td align="left">carb</td>
 <td align="left">19</td>
 <td align="left">3</td>
 <td align="left">2</td>
@@ -2035,7 +2041,7 @@ mtcars %>%
 </colgroup>
 <thead>
 <tr class="header">
-<th> </th>
+<th align="left"> </th>
 <th align="left">N</th>
 <th align="left">Sum of squares</th>
 <th align="left">Q1</th>
@@ -2044,77 +2050,77 @@ mtcars %>%
 </thead>
 <tbody>
 <tr class="odd">
-<td>mpg</td>
+<td align="left">mpg</td>
 <td align="left">32</td>
 <td align="left">14042</td>
 <td align="left">15</td>
 <td align="left">23</td>
 </tr>
 <tr class="even">
-<td>cyl</td>
+<td align="left">cyl</td>
 <td align="left">32</td>
 <td align="left">1324</td>
 <td align="left">4</td>
 <td align="left">8</td>
 </tr>
 <tr class="odd">
-<td>disp</td>
+<td align="left">disp</td>
 <td align="left">32</td>
 <td align="left">2179627</td>
 <td align="left">121</td>
 <td align="left">326</td>
 </tr>
 <tr class="even">
-<td>hp</td>
+<td align="left">hp</td>
 <td align="left">32</td>
 <td align="left">834278</td>
 <td align="left">96</td>
 <td align="left">180</td>
 </tr>
 <tr class="odd">
-<td>drat</td>
+<td align="left">drat</td>
 <td align="left">32</td>
 <td align="left">423</td>
 <td align="left">3.1</td>
 <td align="left">3.9</td>
 </tr>
 <tr class="even">
-<td>wt</td>
+<td align="left">wt</td>
 <td align="left">32</td>
 <td align="left">361</td>
 <td align="left">2.6</td>
 <td align="left">3.6</td>
 </tr>
 <tr class="odd">
-<td>qsec</td>
+<td align="left">qsec</td>
 <td align="left">32</td>
 <td align="left">10293</td>
 <td align="left">17</td>
 <td align="left">19</td>
 </tr>
 <tr class="even">
-<td>vs</td>
+<td align="left">vs</td>
 <td align="left">32</td>
 <td align="left">14</td>
 <td align="left">0</td>
 <td align="left">1</td>
 </tr>
 <tr class="odd">
-<td>am</td>
+<td align="left">am</td>
 <td align="left">32</td>
 <td align="left">13</td>
 <td align="left">0</td>
 <td align="left">1</td>
 </tr>
 <tr class="even">
-<td>gear</td>
+<td align="left">gear</td>
 <td align="left">32</td>
 <td align="left">452</td>
 <td align="left">3</td>
 <td align="left">4</td>
 </tr>
 <tr class="odd">
-<td>carb</td>
+<td align="left">carb</td>
 <td align="left">32</td>
 <td align="left">334</td>
 <td align="left">2</td>
