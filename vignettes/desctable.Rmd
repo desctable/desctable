@@ -325,7 +325,7 @@ In the **stats** argument, you can not only provide function names, but even arb
 mtcars %>%
   desctable(stats = list("N"              = length,
                          "Sum of squares" = function(x) sum(x^2),
-                         "Q1"             = . %>% quantile(probs           = .25),
+                         "Q1"             = . %>% quantile(prob = .25),
                          "Q3"             = purrr::partial(quantile, probs = .75))) %>%
   datatable
 ```
