@@ -11,10 +11,9 @@ vignette: >
 ---
 
 ```{r, echo = F, message = F, warning = F}
-library(desctable)
 library(pander)
 library(DT)
-library(knitr)
+library(desctable)
 
 opts_chunk$set(message = F, warning = F)
 ```

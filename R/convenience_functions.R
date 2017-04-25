@@ -81,7 +81,7 @@ chisq.test.formula <- function(x, y = NULL, correct = TRUE, p = rep(1/length(x),
 #' @export
 ANOVA <- function(formula)
 {
-  oneway.test(formula, var.equal = T)
+  stats::oneway.test(formula, var.equal = T)
 }
 
 #' No test
