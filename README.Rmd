@@ -35,12 +35,17 @@ devtools::install_github("maximewack/desctable", build_vignettes = T)
 
 ```{r}
 library(desctable)
-library(pander) # pander can be loaded at any time
 ```
 
 It is recommended to read this manual through its vignette:
 ```{r}
 vignette("desctable")
+```
+
+Pander can be loaded at any time
+
+```{r, eval=FALSE}
+library(pander)
 ```
 
 ----
