@@ -34,9 +34,6 @@ devtools::install_github("maximewack/desctable", build_vignettes = T)
 # Loading
 
 ```{r}
-# If you were to use DT, load it first
-library(DT)
-
 library(desctable)
 library(pander) # pander can be loaded at any time
 ```
