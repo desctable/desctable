@@ -73,6 +73,11 @@ datatable.default <- function(data, ...)
 #' @rdname datatable
 #' @inheritParams base::prettyNum
 #' @export
+#' @examples
+#' iris %>%
+#'   desctable %>%
+#'   datatable()
+
 datatable.desctable <- function(data = NULL, digits = 2, ...)
 {
   data$Variables$Variables <- gsub("\\*\\*(.*?)\\*\\*", "<b>\\1</b>", data$Variables$Variables)
