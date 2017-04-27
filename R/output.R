@@ -33,21 +33,32 @@ as.data.frame.desctable <- function(x, ...)
 #' Pander method for desctable
 #'
 #' @param x A desctable
-#' @param ... Additional pander parameters
 #' @inheritParams pander::pandoc.table
-#' @inheritParams base::prettyNum
 #' @export
-pander.desctable <- function(x = NULL, digits = 2, justify = "left", ...)
+pander.desctable <- function(x = NULL,
+                             round = 2,
+                             justify = "left",
+                             missing = "",
+                             keep.line.breaks = T,
+                             split.tables = Inf,
+                             emphasize.rownames = F,
+                             ...)
 {
+  x$Variables$Variables <- gsub("\\*\\*(.*?)\\*\\*: \\*(.*?)\\*", "    \\2", x$Variables$Variables)
+
   header <- x %>% header("pander")
 
   x[-1] %>%
     flatten_desctable %>%
-    lapply(prettyNum, digits = digits, ...) %>%
-    lapply(gsub, pattern = "^NA$", replacement = "") %>%
     data.frame(check.names = F, row.names = x$Variables$Variables, stringsAsFactors = F) %>%
     stats::setNames(header) %>%
-    pander::pandoc.table(justify = justify, keep.line.breaks = T, split.tables = Inf, emphasize.rownames = F, ...)
+    pander::pandoc.table(justify = justify,
+                         round = round,
+                         missing = missing,
+                         keep.line.breaks = keep.line.breaks,
+                         split.tables = split.tables,
+                         emphasize.rownames = emphasize.rownames,
+                         ...)
 }
 
 #' Datatable
