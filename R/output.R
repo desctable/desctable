@@ -65,7 +65,26 @@ pander.desctable <- function(x = NULL,
 #'
 #' @inheritParams DT::datatable
 #' @export
-datatable <- function(data, digits = 2, options = list(), class = "display", callback = DT::JS("return table;"), rownames, colnames, container, caption = NULL, filter = c("none", "bottom", "top"), escape = TRUE, style = "default", width = NULL, height = NULL, elementId = NULL, fillContainer = getOption("DT.fillContainer", NULL), autoHideNavigation = getOption("DT.autoHideNavigation", NULL), selection = c("multiple", "single", "none"), extensions = list(), plugins = NULL)
+datatable <- function(data,
+                      digits = 2,
+                      options = list(),
+                      class = "display",
+                      callback = DT::JS("return table;"),
+                      rownames,
+                      colnames,
+                      container,
+                      caption = NULL,
+                      filter = c("none", "bottom", "top"),
+                      escape = TRUE,
+                      style = "default",
+                      width = NULL,
+                      height = NULL,
+                      elementId = NULL,
+                      fillContainer = getOption("DT.fillContainer", NULL),
+                      autoHideNavigation = getOption("DT.autoHideNavigation", NULL),
+                      selection = c("multiple", "single", "none"),
+                      extensions = list(),
+                      plugins = NULL)
 {
   UseMethod("datatable")
 }
@@ -86,8 +105,8 @@ datatable.default <- function(data, ...)
 #' @export
 datatable.desctable <- function(data = NULL, digits = 2, ...)
 {
+  data$Variables$Variables <- gsub("\\*\\*(.*?)\\*\\*: \\*(.*?)\\*", "    \\2", data$Variables$Variables)
   data$Variables$Variables <- gsub("\\*\\*(.*?)\\*\\*", "<b>\\1</b>", data$Variables$Variables)
-  data$Variables$Variables <- gsub("\\*(.*?)\\*", "<i>\\1</i>", data$Variables$Variables)
 
   header <- data %>% header("datatable")
 
