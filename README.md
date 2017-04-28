@@ -22,19 +22,20 @@ Desctable
 Introduction
 ============
 
-One thing people doing statistical analyses find themselves doing every so often is creating tables for descriptive summaries of data (a.k.a. Table.1), or comparative tables.
+One thing every person doing data analysis find themselves doing every so often is creating tables for descriptive summaries of data (a.k.a. Table.1), or comparative tables.
 
-A lot of packages already address this issue, such as the aptly named *tableone* package to name one, but they either include some hard-coded behaviors, are a bit out-fashioned in their syntax (because of the incompatibility with the argument order for use with *dplyr* and the pipe (`%>%`)), or have outputs that are not easily manipulable with standard R tools.
+A lot of packages already address this issue, for one the aptly named **tableone** package, but they either include some hard-coded behaviors, are a bit out-fashioned in their syntax (because of the incompatibility with the argument order for use with **dplyr** and the pipe (`%>%`)), or have outputs that are not easily manipulable with standard R tools.
 
-Enter *desctable*, a package built with these objectives in mind:
+Enter **desctable**, a package built with these objectives in mind:
 
 -   generate descriptive and comparative statistics tables
 -   keep the syntax as simple as possible
--   integrated with "modern" R usage, and the *tidyverse* set of tools
--   good reasonable defaults
--   yet entirely customizable, using standard R tools and functions
--   produce the simplest output possible, with helpers for different outputs
--   based on a functional paradigm
+-   has good reasonable defaults
+-   yet is entirely customizable, using standard R tools and functions
+-   integrated with "modern" R usage, and the **tidyverse** set of tools
+-   produce the simplest (as a data structure) output possible
+-   provide helpers for different outputs
+-   apply functional paradigms
 
 Installation
 ============
@@ -66,9 +67,11 @@ Descriptive tables
 Simple usage
 ------------
 
-*desctable* uses and exports the pipe (`%>%`) operator (from packages *magrittr* and *dplyr* fame), though it is not mandatory to use it.
+**desctable** uses and exports the pipe (`%>%`) operator (from packages **magrittr** and **dplyr** fame), though it is not mandatory to use it.
 
-The most simple thing you can do with *desctable* is to create a descriptive table from a dataset:
+The single interface to the package is its eponymous `desctable` function.
+
+When used on a data.frame, it returns a descriptive table:
 
 ``` r
 iris %>%
@@ -86,8 +89,7 @@ iris %>%
     ## Species: virginica   50 33.333333        NA   NA  NA
 
 ``` r
-mtcars %>%
-  desctable
+desctable(mtcars)
 ```
 
     ##       N      Mean        sd     Med       IQR
@@ -103,12 +105,13 @@ mtcars %>%
     ## gear 32        NA        NA   4.000   1.00000
     ## carb 32        NA        NA   2.000   2.00000
 
-As you can see with these two examples, `desctable` describes every variable, with individual levels for factors, picks statistical functions depending on the type and distribution of the variables in the data, and applies those statistical functions on the relevant variables.
+As you can see with these two examples, `desctable` describes every variable, with individual levels for factors. It picks statistical functions depending on the type and distribution of the variables in the data, and applies those statistical functions only on the relevant variables.
 
 Output
 ------
 
-The resulting object produced by `desctable` is in fact a list of data.frames, with a "desctable" class. Methods for reduction to a simple dataframe (`as.data.frame`, automatically used for printing), conversion to markdown (`pander`), or interactive html output with DT (`datatable`) (not shown here) are provided:
+The resulting object produced by `desctable` is in fact a list of data.frames, with a "desctable" class.
+Methods for reduction to a simple dataframe (`as.data.frame`, automatically used for printing), conversion to markdown (`pander`), and interactive html output with **DT** (`datatable`) are provided (DT not shown here on github):
 
 ``` r
 iris %>%
@@ -116,9 +119,9 @@ iris %>%
   pander
 ```
 
-<table style="width:81%;">
+<table style="width:65%;">
 <colgroup>
-<col width="38%" />
+<col width="23%" />
 <col width="5%" />
 <col width="12%" />
 <col width="6%" />
@@ -147,7 +150,7 @@ iris %>%
 <tr class="even">
 <td align="left">Sepal.Width</td>
 <td align="left">150</td>
-<td align="left">3.1</td>
+<td align="left">3.06</td>
 <td align="left">0.44</td>
 <td align="left"></td>
 <td align="left"></td>
@@ -157,7 +160,7 @@ iris %>%
 <td align="left">150</td>
 <td align="left"></td>
 <td align="left"></td>
-<td align="left">4.3</td>
+<td align="left">4.35</td>
 <td align="left">3.5</td>
 </tr>
 <tr class="even">
@@ -177,25 +180,25 @@ iris %>%
 <td align="left"></td>
 </tr>
 <tr class="even">
-<td align="left"><strong>Species</strong>: <em>setosa</em></td>
+<td align="left">    setosa</td>
 <td align="left">50</td>
-<td align="left">33</td>
+<td align="left">33.33</td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
 </tr>
 <tr class="odd">
-<td align="left"><strong>Species</strong>: <em>versicolor</em></td>
+<td align="left">    versicolor</td>
 <td align="left">50</td>
-<td align="left">33</td>
+<td align="left">33.33</td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
 </tr>
 <tr class="even">
-<td align="left"><strong>Species</strong>: <em>virginica</em></td>
+<td align="left">    virginica</td>
 <td align="left">50</td>
-<td align="left">33</td>
+<td align="left">33.33</td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
@@ -203,10 +206,10 @@ iris %>%
 </tbody>
 </table>
 
-<br> You need to load these two packages first (and prior to *desctable* for *DT*)if you want to use them.
+<br> You need to load these two packages first (and prior to **desctable** for **DT**) if you want to use them.
 Calls to `pander` and `datatable` with "regular" dataframes will not be affected by the defaults used in the package.
 
-Subsequent outputs in this vignette section will use pander. The `datatable` wrapper function for *desctable* objects comes with some default options and formatting such as freezing the row names and table header, export buttons, and rounding of values. Both `pander` and `datatable` wrapper take a **digits** argument to set the number of decimals to show.
+Subsequent outputs in this vignette section will use **DT**. The `datatable` wrapper function for desctable objects comes with some default options and formatting such as freezing the row names and table header, export buttons, and rounding of values. Both `pander` and `datatable` wrapper take a *round* argument to set the number of decimals to show.
 
 Advanced usage
 --------------
@@ -215,14 +218,14 @@ Advanced usage
 
 -   always show N
 -   if there are factors, show %
--   if there are normally distributed variables (`length > 30 && shapiro.test > .1`, provided with the `is.normal` function), show Mean and SD
+-   if there are normally distributed variables, show Mean and SD
 -   if there are non-normally distributed variables, show Median and IQR
 
-For each variable in the table, compute the relevant statistical functions in that list (non-applicable functions will safely return *NA*).
+For each variable in the table, compute the relevant statistical functions in that list (non-applicable functions will safely return `NA`).
 
-So, how does it work, and how can **you** adapt this behavior to your liking?
+How does it work, and how can you adapt this behavior to your needs?
 
-`desctable` takes an optional **stats** argument. This argument can either be:
+`desctable` takes an optional *stats* argument. This argument can either be:
 
 -   an automatic function to select appropriate statistical functions
 -   or a named list of
@@ -232,20 +235,20 @@ So, how does it work, and how can **you** adapt this behavior to your liking?
 ### Automatic function
 
 This is the case by default, with the `stats_auto` function provided in the package.
-You can provide your own automatic function. It needs to accept a dataframe as its argument (also whether to use this dataframe or not is your choice when defining that function!) and return a named list of statistical functions to use, as defined in the subsequent paragraphs.
+You can provide your own automatic function. It needs to accept a dataframe as its argument (also whether to use this dataframe or not is your choice when defining that function) and return a named list of statistical functions to use, as defined in the subsequent paragraphs.
 
-Several "automatic statistical functions functions" are defined in this package: `stats_auto`, `stats_default`, `stats_normal`, `stats_nonnormal`.
+Several "automatic statistical functions" are defined in this package: `stats_auto`, `stats_default`, `stats_normal`, `stats_nonnormal`.
 
 ``` r
-# Strictly equivalent to iris %>% desctable %>% datatable
+# Strictly equivalent to iris %>% desctable %>% pander
 iris %>%
   desctable(stats = stats_auto) %>%
   pander
 ```
 
-<table style="width:81%;">
+<table style="width:65%;">
 <colgroup>
-<col width="38%" />
+<col width="23%" />
 <col width="5%" />
 <col width="12%" />
 <col width="6%" />
@@ -274,7 +277,7 @@ iris %>%
 <tr class="even">
 <td align="left">Sepal.Width</td>
 <td align="left">150</td>
-<td align="left">3.1</td>
+<td align="left">3.06</td>
 <td align="left">0.44</td>
 <td align="left"></td>
 <td align="left"></td>
@@ -284,7 +287,7 @@ iris %>%
 <td align="left">150</td>
 <td align="left"></td>
 <td align="left"></td>
-<td align="left">4.3</td>
+<td align="left">4.35</td>
 <td align="left">3.5</td>
 </tr>
 <tr class="even">
@@ -304,25 +307,25 @@ iris %>%
 <td align="left"></td>
 </tr>
 <tr class="even">
-<td align="left"><strong>Species</strong>: <em>setosa</em></td>
+<td align="left">    setosa</td>
 <td align="left">50</td>
-<td align="left">33</td>
+<td align="left">33.33</td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
 </tr>
 <tr class="odd">
-<td align="left"><strong>Species</strong>: <em>versicolor</em></td>
+<td align="left">    versicolor</td>
 <td align="left">50</td>
-<td align="left">33</td>
+<td align="left">33.33</td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
 </tr>
 <tr class="even">
-<td align="left"><strong>Species</strong>: <em>virginica</em></td>
+<td align="left">    virginica</td>
 <td align="left">50</td>
-<td align="left">33</td>
+<td align="left">33.33</td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
@@ -333,7 +336,8 @@ iris %>%
 ### Statistical functions
 
 Statistical functions can be any function defined in R that you want to use, such as `length` or `mean`.
-The only conditions is that they return a single numerical value for their input. (they also can, as is needed for the `percent` function to be possible, return a vector of length `1 + nlevels(fact)`).
+The only condition is that they return a single numerical value for their input (although they also can, as is needed for the `percent` function to be possible, return a vector of length `1 + nlevels(x)` when applied to factors).
+
 They need to be used inside a named list, such as
 
 ``` r
@@ -342,12 +346,12 @@ mtcars %>%
   pander
 ```
 
-<table style="width:31%;">
+<table style="width:35%;">
 <colgroup>
 <col width="9%" />
 <col width="5%" />
 <col width="9%" />
-<col width="5%" />
+<col width="9%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -361,26 +365,26 @@ mtcars %>%
 <tr class="odd">
 <td>mpg</td>
 <td align="left">32</td>
-<td align="left">20</td>
-<td align="left">6</td>
+<td align="left">20.09</td>
+<td align="left">6.03</td>
 </tr>
 <tr class="even">
 <td>cyl</td>
 <td align="left">32</td>
-<td align="left">6.2</td>
-<td align="left">1.8</td>
+<td align="left">6.19</td>
+<td align="left">1.79</td>
 </tr>
 <tr class="odd">
 <td>disp</td>
 <td align="left">32</td>
-<td align="left">231</td>
-<td align="left">124</td>
+<td align="left">230.7</td>
+<td align="left">123.9</td>
 </tr>
 <tr class="even">
 <td>hp</td>
 <td align="left">32</td>
-<td align="left">147</td>
-<td align="left">69</td>
+<td align="left">146.7</td>
+<td align="left">68.56</td>
 </tr>
 <tr class="odd">
 <td>drat</td>
@@ -391,14 +395,14 @@ mtcars %>%
 <tr class="even">
 <td>wt</td>
 <td align="left">32</td>
-<td align="left">3.2</td>
+<td align="left">3.22</td>
 <td align="left">0.98</td>
 </tr>
 <tr class="odd">
 <td>qsec</td>
 <td align="left">32</td>
-<td align="left">18</td>
-<td align="left">1.8</td>
+<td align="left">17.85</td>
+<td align="left">1.79</td>
 </tr>
 <tr class="even">
 <td>vs</td>
@@ -415,33 +419,39 @@ mtcars %>%
 <tr class="even">
 <td>gear</td>
 <td align="left">32</td>
-<td align="left">3.7</td>
+<td align="left">3.69</td>
 <td align="left">0.74</td>
 </tr>
 <tr class="odd">
 <td>carb</td>
 <td align="left">32</td>
-<td align="left">2.8</td>
-<td align="left">1.6</td>
+<td align="left">2.81</td>
+<td align="left">1.62</td>
 </tr>
 </tbody>
 </table>
 
 <br>
 
-The names will be used as column headers in the resulting table, and the functions will be applied safely on the variables (errors return *NA*, and for factors the function will be used on individual levels).
+The names will be used as column headers in the resulting table, and the functions will be applied safely on the variables (errors return `NA`, and for factors the function will be used on individual levels).
 
-Several convenience functions are included in this package. The statistical function ones are: `percent`, which prints percentages of levels in a factor, and `IQR` which re-implements `stats::IQR` but works better with *NA* values.
+Several convenience functions are included in this package. The statistical function ones are: `percent`, which prints percentages of levels in a factor, and `IQR` which re-implements `stats::IQR` but works better with `NA` values.
 
-Be aware that **all functions are used on variables stripped of their *NA* values!** This is necessary for most statistical functions to be useful, and makes **N** (`length`) show only the number of observations in the dataset for each variable.
+Be aware that **all functions are used on variables stripped of their `NA` values!**
+This is necessary for most statistical functions to be useful, and makes **N** (`length`) show only the number of observations in the dataset for each variable.
 
 ### Conditional formula
 
 The general form of these formulas is
 
-**predicate\_function ~ stat\_function\_if\_TRUE | stat\_function\_if\_FALSE**
+``` r
+predicate_function ~ stat_function_if_TRUE | stat_function_if_FALSE
+```
 
-The *FALSE* option can be omitted and *NA* will be produced if the condition in the predicate is not met.
+A predicate function is any function returning either `TRUE` or `FALSE` when applied on a vector. Such functions are `is.factor`, `is.numeric`, `is.logical`. **desctable** provides the `is.normal` function to test for normality (it is equivalent to `length(na.omit(x)) > 30 & shapiro.test(x)$p.value > .1`).
+
+The *FALSE* option can be omitted and `NA` will be produced if the condition in the predicate is not met.
+
 These statements can be nested using parentheses.
 For example:
 
@@ -459,9 +469,9 @@ iris %>%
   pander
 ```
 
-<table style="width:69%;">
+<table style="width:54%;">
 <colgroup>
-<col width="38%" />
+<col width="23%" />
 <col width="5%" />
 <col width="12%" />
 <col width="12%" />
@@ -484,14 +494,14 @@ iris %>%
 <tr class="even">
 <td align="left">Sepal.Width</td>
 <td align="left">150</td>
-<td align="left">3.1</td>
+<td align="left">3.06</td>
 <td align="left"></td>
 </tr>
 <tr class="odd">
 <td align="left">Petal.Length</td>
 <td align="left">150</td>
 <td align="left"></td>
-<td align="left">4.3</td>
+<td align="left">4.35</td>
 </tr>
 <tr class="even">
 <td align="left">Petal.Width</td>
@@ -506,21 +516,21 @@ iris %>%
 <td align="left"></td>
 </tr>
 <tr class="even">
-<td align="left"><strong>Species</strong>: <em>setosa</em></td>
+<td align="left">    setosa</td>
 <td align="left">50</td>
-<td align="left">33</td>
+<td align="left">33.33</td>
 <td align="left"></td>
 </tr>
 <tr class="odd">
-<td align="left"><strong>Species</strong>: <em>versicolor</em></td>
+<td align="left">    versicolor</td>
 <td align="left">50</td>
-<td align="left">33</td>
+<td align="left">33.33</td>
 <td align="left"></td>
 </tr>
 <tr class="even">
-<td align="left"><strong>Species</strong>: <em>virginica</em></td>
+<td align="left">    virginica</td>
 <td align="left">50</td>
-<td align="left">33</td>
+<td align="left">33.33</td>
 <td align="left"></td>
 </tr>
 </tbody>
@@ -528,30 +538,53 @@ iris %>%
 
 <br>
 
-Here is the body of the `stats_auto` function in the package:
+For reference, here is the body of the `stats_auto` function in the package:
 
+    ## function(data)
     ## {
-    ##     shapiro <- data %>% Filter(f = is.numeric) %>% lapply(is.normal) %>% 
-    ##         unlist
-    ##     normal <- any(shapiro)
-    ##     nonnormal <- any(!shapiro)
-    ##     fact <- any(data %>% lapply(is.factor) %>% unlist)
-    ##     if (fact & normal & !nonnormal) 
-    ##         stats_normal(data)
-    ##     else if (fact & !normal & nonnormal) 
-    ##         stats_nonnormal(data)
-    ##     else if (fact & !normal & !nonnormal) 
-    ##         list(N = length, `%` = percent)
-    ##     else if (!fact & normal & nonnormal) 
-    ##         list(N = length, Mean = is.normal ~ mean, sd = is.normal ~ 
-    ##             sd, Med = is.normal ~ NA | median, IQR = is.normal ~ 
-    ##             NA | IQR)
-    ##     else if (!fact & normal & !nonnormal) 
-    ##         list(N = length, Mean = mean, sd = stats::sd)
-    ##     else if (!fact & !normal & nonnormal) 
-    ##         list(N = length, Med = stats::median, IQR = IQR)
-    ##     else stats_default(data)
+    ##   data %>%
+    ##     Filter(f = is.numeric) %>%
+    ##     lapply(is.normal) %>%
+    ##     unlist -> shapiro
+    ## 
+    ##   if (length(shapiro) == 0)
+    ##   {
+    ##     normal <- F
+    ##     nonnormal <- F
+    ##   }
+    ##   else
+    ##   {
+    ##     any(shapiro) -> normal
+    ##     any(!shapiro) -> nonnormal
+    ##   }
+    ## 
+    ##   any(data %>% lapply(is.factor) %>% unlist) -> fact
+    ## 
+    ##   if (fact & normal & !nonnormal)
+    ##     stats_normal(data)
+    ##   else if (fact & !normal & nonnormal)
+    ##     stats_nonnormal(data)
+    ##   else if (fact & !normal & !nonnormal)
+    ##     list("N" = length,
+    ##          "%" = percent)
+    ##   else if (!fact & normal & nonnormal)
+    ##     list("N" = length,
+    ##          "Mean" = is.normal ~ mean,
+    ##          "sd" = is.normal ~ sd,
+    ##          "Med" = is.normal ~ NA | median,
+    ##          "IQR" = is.normal ~ NA | IQR)
+    ##   else if (!fact & normal & !nonnormal)
+    ##     list("N" = length,
+    ##          "Mean" = mean,
+    ##          "sd" = stats::sd)
+    ##   else if (!fact & !normal & nonnormal)
+    ##     list("N" = length,
+    ##          "Med" = stats::median,
+    ##          "IQR" = IQR)
+    ##   else
+    ##     stats_default(data)
     ## }
+    ## <environment: namespace:desctable>
 
 ### Labels
 
@@ -580,9 +613,9 @@ mtcars %>%
   pander
 ```
 
-<table style="width:86%;">
+<table style="width:78%;">
 <colgroup>
-<col width="44%" />
+<col width="36%" />
 <col width="5%" />
 <col width="12%" />
 <col width="6%" />
@@ -603,8 +636,8 @@ mtcars %>%
 <tr class="odd">
 <td align="left">Miles/(US) gallon</td>
 <td align="left">32</td>
-<td align="left">20</td>
-<td align="left">6</td>
+<td align="left">20.09</td>
+<td align="left">6.03</td>
 <td align="left"></td>
 <td align="left"></td>
 </tr>
@@ -621,8 +654,8 @@ mtcars %>%
 <td align="left">32</td>
 <td align="left"></td>
 <td align="left"></td>
-<td align="left">196</td>
-<td align="left">205</td>
+<td align="left">196.3</td>
+<td align="left">205.2</td>
 </tr>
 <tr class="even">
 <td align="left">Gross horsepower</td>
@@ -630,7 +663,7 @@ mtcars %>%
 <td align="left"></td>
 <td align="left"></td>
 <td align="left">123</td>
-<td align="left">84</td>
+<td align="left">83.5</td>
 </tr>
 <tr class="odd">
 <td align="left">Rear axle ratio</td>
@@ -645,14 +678,14 @@ mtcars %>%
 <td align="left">32</td>
 <td align="left"></td>
 <td align="left"></td>
-<td align="left">3.3</td>
-<td align="left">1</td>
+<td align="left">3.33</td>
+<td align="left">1.03</td>
 </tr>
 <tr class="odd">
 <td align="left">¼ mile time</td>
 <td align="left">32</td>
-<td align="left">18</td>
-<td align="left">1.8</td>
+<td align="left">17.85</td>
+<td align="left">1.79</td>
 <td align="left"></td>
 <td align="left"></td>
 </tr>
@@ -673,17 +706,17 @@ mtcars %>%
 <td align="left"></td>
 </tr>
 <tr class="even">
-<td align="left"><strong>Transmission</strong>: <em>Automatic</em></td>
+<td align="left">    Automatic</td>
 <td align="left">19</td>
-<td align="left">59</td>
+<td align="left">59.38</td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
 </tr>
 <tr class="odd">
-<td align="left"><strong>Transmission</strong>: <em>Manual</em></td>
+<td align="left">    Manual</td>
 <td align="left">13</td>
-<td align="left">41</td>
+<td align="left">40.62</td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
@@ -717,7 +750,9 @@ Comparative tables
 Simple usage
 ------------
 
-Creating a comparative table between groups defined by a factor using `desctable` is almost as easy, and uses the well known `group_by` function from *dplyr*:
+Creating a comparative table (between groups defined by a factor) using `desctable` is as easy as creating a descriptive table.
+
+It uses the well known `group_by` function from **dplyr**:
 
 ``` r
 iris %>%
@@ -788,9 +823,10 @@ iris_by_Species
     ## Petal.Length                              NA 4.803974e-29 kruskal.test
     ## Petal.Width                              0.5 3.261796e-29 kruskal.test
 
-The results is a table containing a descriptive subtable for each level of the grouping factor (the statistical functions rules are applied to each subtable independently), with the statistical tests performed and their p value.
+The result is a table containing a descriptive subtable for each level of the grouping factor (the statistical functions rules are applied to each subtable independently), with the statistical tests performed and their p value.
+When displayed as a flat dataframe, the grouping header appear in each variable.
 
-When displayed as a flat dataframe, the group headers appear in each variable. You can also see them by inspecting the resulting object, which is a list of dataframes, each named after the grouping factor and its levels (with sample size for each).
+You can also see them by inspecting the resulting object, which is a deep list of dataframes, each dataframe named after the grouping factor and its levels (with sample size for each).
 
 ``` r
 str(iris_by_Species)
@@ -822,7 +858,7 @@ str(iris_by_Species)
     ##   ..$ test: chr [1:4] "kruskal.test" "ANOVA" "kruskal.test" "kruskal.test"
     ##  - attr(*, "class")= chr "desctable"
 
-In fact, you can specify groups based on any variable, not only factors:
+You can specify groups based on any variable, not only factors:
 
 ``` r
 # With pander output
@@ -870,54 +906,54 @@ mtcars %>%
 <td align="left">26</td>
 <td align="left">7.6</td>
 <td align="left">7</td>
-<td align="left">20</td>
-<td align="left">2.4</td>
+<td align="left">19.7</td>
+<td align="left">2.35</td>
 <td align="left">14</td>
-<td align="left">15</td>
-<td align="left">1.8</td>
-<td align="left">2.6e-06</td>
+<td align="left">15.2</td>
+<td align="left">1.85</td>
+<td align="left">0</td>
 <td align="left">kruskal.test</td>
 </tr>
 <tr class="even">
 <td>disp</td>
 <td align="left">11</td>
 <td align="left">108</td>
-<td align="left">42</td>
+<td align="left">41.8</td>
 <td align="left">7</td>
-<td align="left">168</td>
-<td align="left">36</td>
+<td align="left">167.6</td>
+<td align="left">36.3</td>
 <td align="left">14</td>
-<td align="left">350</td>
-<td align="left">88</td>
-<td align="left">1.6e-06</td>
+<td align="left">350.5</td>
+<td align="left">88.25</td>
+<td align="left">0</td>
 <td align="left">kruskal.test</td>
 </tr>
 <tr class="odd">
 <td>hp</td>
 <td align="left">11</td>
 <td align="left">91</td>
-<td align="left">30</td>
+<td align="left">30.5</td>
 <td align="left">7</td>
 <td align="left">110</td>
 <td align="left">13</td>
 <td align="left">14</td>
-<td align="left">192</td>
+<td align="left">192.5</td>
 <td align="left">65</td>
-<td align="left">3.3e-06</td>
+<td align="left">0</td>
 <td align="left">kruskal.test</td>
 </tr>
 <tr class="even">
 <td>drat</td>
 <td align="left">11</td>
-<td align="left">4.1</td>
-<td align="left">0.35</td>
+<td align="left">4.08</td>
+<td align="left">0.36</td>
 <td align="left">7</td>
 <td align="left">3.9</td>
 <td align="left">0.56</td>
 <td align="left">14</td>
-<td align="left">3.1</td>
+<td align="left">3.12</td>
 <td align="left">0.15</td>
-<td align="left">0.00075</td>
+<td align="left">0</td>
 <td align="left">kruskal.test</td>
 </tr>
 <tr class="odd">
@@ -926,26 +962,26 @@ mtcars %>%
 <td align="left">2.2</td>
 <td align="left">0.74</td>
 <td align="left">7</td>
-<td align="left">3.2</td>
+<td align="left">3.21</td>
 <td align="left">0.62</td>
 <td align="left">14</td>
-<td align="left">3.8</td>
+<td align="left">3.75</td>
 <td align="left">0.48</td>
-<td align="left">1.1e-05</td>
+<td align="left">0</td>
 <td align="left">kruskal.test</td>
 </tr>
 <tr class="even">
 <td>qsec</td>
 <td align="left">11</td>
-<td align="left">19</td>
-<td align="left">1.4</td>
+<td align="left">18.9</td>
+<td align="left">1.39</td>
 <td align="left">7</td>
-<td align="left">18</td>
-<td align="left">2.4</td>
+<td align="left">18.3</td>
+<td align="left">2.43</td>
 <td align="left">14</td>
-<td align="left">17</td>
-<td align="left">1.5</td>
-<td align="left">0.0062</td>
+<td align="left">17.18</td>
+<td align="left">1.46</td>
+<td align="left">0.01</td>
 <td align="left">kruskal.test</td>
 </tr>
 <tr class="odd">
@@ -959,7 +995,7 @@ mtcars %>%
 <td align="left">14</td>
 <td align="left">0</td>
 <td align="left">0</td>
-<td align="left">3.2e-05</td>
+<td align="left">0</td>
 <td align="left">kruskal.test</td>
 </tr>
 <tr class="even">
@@ -973,7 +1009,7 @@ mtcars %>%
 <td align="left">14</td>
 <td align="left">0</td>
 <td align="left">0</td>
-<td align="left">0.014</td>
+<td align="left">0.01</td>
 <td align="left">kruskal.test</td>
 </tr>
 <tr class="odd">
@@ -987,7 +1023,7 @@ mtcars %>%
 <td align="left">14</td>
 <td align="left">3</td>
 <td align="left">0</td>
-<td align="left">0.0062</td>
+<td align="left">0.01</td>
 <td align="left">kruskal.test</td>
 </tr>
 <tr class="even">
@@ -1000,8 +1036,8 @@ mtcars %>%
 <td align="left">1.5</td>
 <td align="left">14</td>
 <td align="left">3.5</td>
-<td align="left">1.8</td>
-<td align="left">0.0017</td>
+<td align="left">1.75</td>
+<td align="left">0</td>
 <td align="left">kruskal.test</td>
 </tr>
 </tbody>
@@ -1016,15 +1052,15 @@ iris %>%
   pander
 ```
 
-<table style="width:100%;">
+<table>
 <colgroup>
+<col width="9%" />
 <col width="14%" />
-<col width="13%" />
 <col width="7%" />
 <col width="5%" />
 <col width="5%" />
 <col width="5%" />
-<col width="12%" />
+<col width="13%" />
 <col width="7%" />
 <col width="5%" />
 <col width="5%" />
@@ -1062,13 +1098,13 @@ iris %>%
 <td align="left"></td>
 <td align="left">6.7</td>
 <td align="left">0.85</td>
-<td align="left">1.6e-15</td>
+<td align="left">0</td>
 <td align="left">wilcox.test</td>
 </tr>
 <tr class="even">
 <td align="left">Sepal.Width</td>
 <td align="left">108</td>
-<td align="left">3.1</td>
+<td align="left">3.07</td>
 <td align="left">0.48</td>
 <td align="left"></td>
 <td align="left"></td>
@@ -1092,7 +1128,7 @@ iris %>%
 <td align="left"></td>
 <td align="left">5.6</td>
 <td align="left">0.67</td>
-<td align="left">2.1e-21</td>
+<td align="left">0</td>
 <td align="left">wilcox.test</td>
 </tr>
 <tr class="even">
@@ -1103,11 +1139,11 @@ iris %>%
 <td align="left">1</td>
 <td align="left">1.2</td>
 <td align="left">42</td>
-<td align="left">2.1</td>
+<td align="left">2.06</td>
 <td align="left">0.28</td>
 <td align="left"></td>
 <td align="left"></td>
-<td align="left">1.6e-19</td>
+<td align="left">0</td>
 <td align="left">wilcox.test</td>
 </tr>
 <tr class="odd">
@@ -1122,13 +1158,13 @@ iris %>%
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
-<td align="left">2.5e-26</td>
+<td align="left">0</td>
 <td align="left">fisher.test</td>
 </tr>
 <tr class="even">
-<td align="left"><strong>Species</strong>: <em>setosa</em></td>
+<td align="left">    setosa</td>
 <td align="left">50</td>
-<td align="left">46</td>
+<td align="left">46.3</td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
@@ -1138,44 +1174,44 @@ iris %>%
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
-<td align="left">NA</td>
+<td align="left"></td>
 </tr>
 <tr class="odd">
-<td align="left"><strong>Species</strong>: <em>versicolor</em></td>
+<td align="left">    versicolor</td>
 <td align="left">49</td>
-<td align="left">45</td>
+<td align="left">45.37</td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left">1</td>
-<td align="left">2.4</td>
+<td align="left">2.38</td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
-<td align="left">NA</td>
+<td align="left"></td>
 </tr>
 <tr class="even">
-<td align="left"><strong>Species</strong>: <em>virginica</em></td>
+<td align="left">    virginica</td>
 <td align="left">9</td>
-<td align="left">8.3</td>
+<td align="left">8.33</td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left">41</td>
-<td align="left">98</td>
+<td align="left">97.62</td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
-<td align="left">NA</td>
+<td align="left"></td>
 </tr>
 </tbody>
 </table>
 
 <br>
 
-And even nested groups:
+And even on multiple nested groups:
 
 ``` r
 mtcars %>%
@@ -1256,8 +1292,8 @@ mtcars %>%
 <tr class="odd">
 <td>mpg</td>
 <td align="left">12</td>
-<td align="left">15</td>
-<td align="left">2.6</td>
+<td align="left">15.2</td>
+<td align="left">2.57</td>
 <td align="left"></td>
 <td align="left">no.test</td>
 <td align="left">1</td>
@@ -1267,21 +1303,21 @@ mtcars %>%
 <td align="left">21</td>
 <td align="left">0.65</td>
 <td align="left">2</td>
-<td align="left">15</td>
+<td align="left">15.4</td>
 <td align="left">0.4</td>
 <td align="left">0.11</td>
 <td align="left">kruskal.test</td>
 <td align="left">3</td>
-<td align="left">23</td>
-<td align="left">1.5</td>
+<td align="left">22.8</td>
+<td align="left">1.45</td>
 <td align="left">4</td>
-<td align="left">19</td>
-<td align="left">1.7</td>
-<td align="left">0.057</td>
+<td align="left">18.65</td>
+<td align="left">1.72</td>
+<td align="left">0.06</td>
 <td align="left">wilcox.test</td>
 <td align="left">7</td>
-<td align="left">30</td>
-<td align="left">6.3</td>
+<td align="left">30.4</td>
+<td align="left">6.35</td>
 <td align="left"></td>
 <td align="left">no.test</td>
 </tr>
@@ -1293,7 +1329,7 @@ mtcars %>%
 <td align="left"></td>
 <td align="left">no.test</td>
 <td align="left">1</td>
-<td align="left">120</td>
+<td align="left">120.3</td>
 <td align="left">0</td>
 <td align="left">3</td>
 <td align="left">160</td>
@@ -1304,16 +1340,16 @@ mtcars %>%
 <td align="left">0.11</td>
 <td align="left">kruskal.test</td>
 <td align="left">3</td>
-<td align="left">141</td>
-<td align="left">13</td>
+<td align="left">140.8</td>
+<td align="left">13.3</td>
 <td align="left">4</td>
-<td align="left">196</td>
-<td align="left">66</td>
+<td align="left">196.3</td>
+<td align="left">65.65</td>
 <td align="left">0.05</td>
 <td align="left">wilcox.test</td>
 <td align="left">7</td>
 <td align="left">79</td>
-<td align="left">24</td>
+<td align="left">24.35</td>
 <td align="left"></td>
 <td align="left">no.test</td>
 </tr>
@@ -1321,7 +1357,7 @@ mtcars %>%
 <td>hp</td>
 <td align="left">12</td>
 <td align="left">180</td>
-<td align="left">44</td>
+<td align="left">43.75</td>
 <td align="left"></td>
 <td align="left">no.test</td>
 <td align="left">1</td>
@@ -1329,41 +1365,41 @@ mtcars %>%
 <td align="left">0</td>
 <td align="left">3</td>
 <td align="left">110</td>
-<td align="left">32</td>
+<td align="left">32.5</td>
 <td align="left">2</td>
-<td align="left">300</td>
-<td align="left">36</td>
+<td align="left">299.5</td>
+<td align="left">35.5</td>
 <td align="left">0.11</td>
 <td align="left">kruskal.test</td>
 <td align="left">3</td>
 <td align="left">95</td>
-<td align="left">18</td>
+<td align="left">17.5</td>
 <td align="left">4</td>
-<td align="left">116</td>
-<td align="left">14</td>
+<td align="left">116.5</td>
+<td align="left">14.25</td>
 <td align="left">0.05</td>
 <td align="left">wilcox.test</td>
 <td align="left">7</td>
 <td align="left">66</td>
-<td align="left">36</td>
+<td align="left">35.5</td>
 <td align="left"></td>
 <td align="left">no.test</td>
 </tr>
 <tr class="even">
 <td>drat</td>
 <td align="left">12</td>
-<td align="left">3.1</td>
+<td align="left">3.08</td>
 <td align="left">0.11</td>
 <td align="left"></td>
 <td align="left">no.test</td>
 <td align="left">1</td>
-<td align="left">4.4</td>
+<td align="left">4.43</td>
 <td align="left">0</td>
 <td align="left">3</td>
 <td align="left">3.9</td>
 <td align="left">0.14</td>
 <td align="left">2</td>
-<td align="left">3.9</td>
+<td align="left">3.88</td>
 <td align="left">0.34</td>
 <td align="left">0.33</td>
 <td align="left">kruskal.test</td>
@@ -1376,7 +1412,7 @@ mtcars %>%
 <td align="left">0.85</td>
 <td align="left">wilcox.test</td>
 <td align="left">7</td>
-<td align="left">4.1</td>
+<td align="left">4.08</td>
 <td align="left">0.2</td>
 <td align="left"></td>
 <td align="left">no.test</td>
@@ -1384,31 +1420,31 @@ mtcars %>%
 <tr class="odd">
 <td>wt</td>
 <td align="left">12</td>
-<td align="left">3.8</td>
+<td align="left">3.81</td>
 <td align="left">0.81</td>
 <td align="left"></td>
 <td align="left">no.test</td>
 <td align="left">1</td>
-<td align="left">2.1</td>
+<td align="left">2.14</td>
 <td align="left">0</td>
 <td align="left">3</td>
-<td align="left">2.8</td>
+<td align="left">2.77</td>
 <td align="left">0.13</td>
 <td align="left">2</td>
-<td align="left">3.4</td>
+<td align="left">3.37</td>
 <td align="left">0.2</td>
 <td align="left">0.12</td>
 <td align="left">kruskal.test</td>
 <td align="left">3</td>
-<td align="left">3.1</td>
+<td align="left">3.15</td>
 <td align="left">0.36</td>
 <td align="left">4</td>
-<td align="left">3.4</td>
-<td align="left">0.061</td>
+<td align="left">3.44</td>
+<td align="left">0.06</td>
 <td align="left">0.05</td>
 <td align="left">wilcox.test</td>
 <td align="left">7</td>
-<td align="left">1.9</td>
+<td align="left">1.94</td>
 <td align="left">0.53</td>
 <td align="left"></td>
 <td align="left">no.test</td>
@@ -1416,31 +1452,31 @@ mtcars %>%
 <tr class="even">
 <td>qsec</td>
 <td align="left">12</td>
-<td align="left">17</td>
+<td align="left">17.35</td>
 <td align="left">0.67</td>
 <td align="left"></td>
 <td align="left">no.test</td>
 <td align="left">1</td>
-<td align="left">17</td>
+<td align="left">16.7</td>
 <td align="left">0</td>
 <td align="left">3</td>
-<td align="left">16</td>
+<td align="left">16.46</td>
 <td align="left">0.76</td>
 <td align="left">2</td>
-<td align="left">15</td>
+<td align="left">14.55</td>
 <td align="left">0.05</td>
 <td align="left">0.17</td>
 <td align="left">kruskal.test</td>
 <td align="left">3</td>
-<td align="left">20</td>
-<td align="left">1.4</td>
+<td align="left">20.01</td>
+<td align="left">1.45</td>
 <td align="left">4</td>
-<td align="left">19</td>
+<td align="left">19.17</td>
 <td align="left">0.89</td>
 <td align="left">0.23</td>
 <td align="left">wilcox.test</td>
 <td align="left">7</td>
-<td align="left">19</td>
+<td align="left">18.61</td>
 <td align="left">0.62</td>
 <td align="left"></td>
 <td align="left">no.test</td>
@@ -1514,7 +1550,7 @@ mtcars %>%
 
 <br>
 
-In the case of nested groups (aka sub-group analysis), statistical tests are performed only between the groups of the deepest grouping level.
+In the case of nested groups (a.k.a. sub-group analysis), statistical tests are performed only between the groups of the deepest grouping level.
 
 Statistical tests are automatically picked depending on the data and the grouping factor.
 
@@ -1526,15 +1562,15 @@ Advanced usage
 -   if the variable is a factor, use `fisher.test`
 -   if the grouping factor has only one level, use the provided `no.test` (which does nothing)
 -   if the grouping factor has two levels
-    -   and the variable presents homoskedasticity (`bartlett.test > .1`) and normality of distribution in both groups, use `t.test`
+    -   and the variable presents homoskedasticity (p value for `bartlett.test` &gt; .1) and normality of distribution in both groups, use `t.test`
     -   else use `wilcox.test`
 -   if the grouping factor has more than two levels
-    -   and the variable presents homoskedasticity (`bartlett.test > .1`) and normality of distribution in all groups, use `ANOVA` (a wrapper around `summary(aov(formula))`)
+    -   and the variable presents homoskedasticity (p value for `bartlett.test` &gt; .1) and normality of distribution in all groups, use `ANOVA` (a wrapper around `oneway.test` with parameter `var.equal = T`)
     -   else use `kruskal.test`
 
 But what if you have reasons, or need to pick a specific test for a specific variable, or change all the tests altogether?
 
-`desctable` takes an optional **tests** argument. This argument can either be
+`desctable` takes an optional *tests* argument. This argument can either be
 
 -   an automatic function to select appropriate statistical test functions
 -   or a named list of statistical test functions
@@ -1600,41 +1636,41 @@ iris %>%
 <tr class="odd">
 <td align="left">Sepal.Length</td>
 <td align="left">50</td>
-<td align="left">5</td>
+<td align="left">5.01</td>
 <td align="left">0.35</td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left">50</td>
-<td align="left">5.9</td>
+<td align="left">5.94</td>
 <td align="left">0.52</td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left">50</td>
-<td align="left">6.6</td>
+<td align="left">6.59</td>
 <td align="left">0.64</td>
 <td align="left"></td>
 <td align="left"></td>
-<td align="left">8.9e-22</td>
+<td align="left">0</td>
 <td align="left">kruskal.test</td>
 </tr>
 <tr class="even">
 <td align="left">Sepal.Width</td>
 <td align="left">50</td>
-<td align="left">3.4</td>
+<td align="left">3.43</td>
 <td align="left">0.38</td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left">50</td>
-<td align="left">2.8</td>
+<td align="left">2.77</td>
 <td align="left">0.31</td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left">50</td>
-<td align="left">3</td>
+<td align="left">2.97</td>
 <td align="left">0.32</td>
 <td align="left"></td>
 <td align="left"></td>
-<td align="left">4.5e-17</td>
+<td align="left">0</td>
 <td align="left">ANOVA</td>
 </tr>
 <tr class="odd">
@@ -1645,16 +1681,16 @@ iris %>%
 <td align="left">1.5</td>
 <td align="left">0.18</td>
 <td align="left">50</td>
-<td align="left">4.3</td>
+<td align="left">4.26</td>
 <td align="left">0.47</td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left">50</td>
-<td align="left">5.6</td>
+<td align="left">5.55</td>
 <td align="left">0.55</td>
 <td align="left"></td>
 <td align="left"></td>
-<td align="left">4.8e-29</td>
+<td align="left">0</td>
 <td align="left">kruskal.test</td>
 </tr>
 <tr class="even">
@@ -1674,7 +1710,7 @@ iris %>%
 <td align="left"></td>
 <td align="left">2</td>
 <td align="left">0.5</td>
-<td align="left">3.3e-29</td>
+<td align="left">0</td>
 <td align="left">kruskal.test</td>
 </tr>
 </tbody>
@@ -1701,15 +1737,15 @@ iris %>%
   pander
 ```
 
-<table style="width:100%;">
+<table>
 <colgroup>
+<col width="9%" />
 <col width="14%" />
-<col width="13%" />
 <col width="7%" />
 <col width="5%" />
 <col width="5%" />
 <col width="5%" />
-<col width="12%" />
+<col width="13%" />
 <col width="7%" />
 <col width="5%" />
 <col width="5%" />
@@ -1747,13 +1783,13 @@ iris %>%
 <td align="left"></td>
 <td align="left">6.7</td>
 <td align="left">0.85</td>
-<td align="left">1.6e-15</td>
+<td align="left">0</td>
 <td align="left">wilcox.test</td>
 </tr>
 <tr class="even">
 <td align="left">Sepal.Width</td>
 <td align="left">108</td>
-<td align="left">3.1</td>
+<td align="left">3.07</td>
 <td align="left">0.48</td>
 <td align="left"></td>
 <td align="left"></td>
@@ -1777,7 +1813,7 @@ iris %>%
 <td align="left"></td>
 <td align="left">5.6</td>
 <td align="left">0.67</td>
-<td align="left">2.1e-21</td>
+<td align="left">0</td>
 <td align="left">wilcox.test</td>
 </tr>
 <tr class="even">
@@ -1788,11 +1824,11 @@ iris %>%
 <td align="left">1</td>
 <td align="left">1.2</td>
 <td align="left">42</td>
-<td align="left">2.1</td>
+<td align="left">2.06</td>
 <td align="left">0.28</td>
 <td align="left"></td>
 <td align="left"></td>
-<td align="left">1.6e-19</td>
+<td align="left">0</td>
 <td align="left">wilcox.test</td>
 </tr>
 <tr class="odd">
@@ -1807,13 +1843,13 @@ iris %>%
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
-<td align="left">2.7e-24</td>
+<td align="left">0</td>
 <td align="left">chisq.test</td>
 </tr>
 <tr class="even">
-<td align="left"><strong>Species</strong>: <em>setosa</em></td>
+<td align="left">    setosa</td>
 <td align="left">50</td>
-<td align="left">46</td>
+<td align="left">46.3</td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
@@ -1823,37 +1859,37 @@ iris %>%
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
-<td align="left">NA</td>
+<td align="left"></td>
 </tr>
 <tr class="odd">
-<td align="left"><strong>Species</strong>: <em>versicolor</em></td>
+<td align="left">    versicolor</td>
 <td align="left">49</td>
-<td align="left">45</td>
+<td align="left">45.37</td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left">1</td>
-<td align="left">2.4</td>
+<td align="left">2.38</td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
-<td align="left">NA</td>
+<td align="left"></td>
 </tr>
 <tr class="even">
-<td align="left"><strong>Species</strong>: <em>virginica</em></td>
+<td align="left">    virginica</td>
 <td align="left">9</td>
-<td align="left">8.3</td>
+<td align="left">8.33</td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left">41</td>
-<td align="left">98</td>
+<td align="left">97.62</td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
-<td align="left">NA</td>
+<td align="left"></td>
 </tr>
 </tbody>
 </table>
@@ -1898,12 +1934,12 @@ mtcars %>%
 <tr class="odd">
 <td>mpg</td>
 <td align="left">19</td>
-<td align="left">17</td>
-<td align="left">4.2</td>
+<td align="left">17.3</td>
+<td align="left">4.25</td>
 <td align="left">13</td>
-<td align="left">23</td>
+<td align="left">22.8</td>
 <td align="left">9.4</td>
-<td align="left">0.0014</td>
+<td align="left">0</td>
 <td align="left">t.test</td>
 </tr>
 <tr class="even">
@@ -1914,18 +1950,18 @@ mtcars %>%
 <td align="left">13</td>
 <td align="left">4</td>
 <td align="left">2</td>
-<td align="left">0.0039</td>
+<td align="left">0</td>
 <td align="left">wilcox.test</td>
 </tr>
 <tr class="odd">
 <td>disp</td>
 <td align="left">19</td>
-<td align="left">276</td>
-<td align="left">164</td>
+<td align="left">275.8</td>
+<td align="left">163.7</td>
 <td align="left">13</td>
-<td align="left">120</td>
+<td align="left">120.3</td>
 <td align="left">81</td>
-<td align="left">0.00055</td>
+<td align="left">0</td>
 <td align="left">wilcox.test</td>
 </tr>
 <tr class="even">
@@ -1936,39 +1972,39 @@ mtcars %>%
 <td align="left">13</td>
 <td align="left">109</td>
 <td align="left">47</td>
-<td align="left">0.046</td>
+<td align="left">0.05</td>
 <td align="left">wilcox.test</td>
 </tr>
 <tr class="odd">
 <td>drat</td>
 <td align="left">19</td>
-<td align="left">3.1</td>
+<td align="left">3.15</td>
 <td align="left">0.63</td>
 <td align="left">13</td>
-<td align="left">4.1</td>
+<td align="left">4.08</td>
 <td align="left">0.37</td>
-<td align="left">0.00014</td>
+<td align="left">0</td>
 <td align="left">wilcox.test</td>
 </tr>
 <tr class="even">
 <td>wt</td>
 <td align="left">19</td>
-<td align="left">3.5</td>
+<td align="left">3.52</td>
 <td align="left">0.41</td>
 <td align="left">13</td>
-<td align="left">2.3</td>
+<td align="left">2.32</td>
 <td align="left">0.84</td>
-<td align="left">4.3e-05</td>
+<td align="left">0</td>
 <td align="left">wilcox.test</td>
 </tr>
 <tr class="odd">
 <td>qsec</td>
 <td align="left">19</td>
-<td align="left">18</td>
+<td align="left">17.82</td>
 <td align="left">2</td>
 <td align="left">13</td>
-<td align="left">17</td>
-<td align="left">2.1</td>
+<td align="left">17.02</td>
+<td align="left">2.15</td>
 <td align="left">0.27</td>
 <td align="left">wilcox.test</td>
 </tr>
@@ -1991,7 +2027,7 @@ mtcars %>%
 <td align="left">13</td>
 <td align="left">4</td>
 <td align="left">1</td>
-<td align="left">7.6e-06</td>
+<td align="left">0</td>
 <td align="left">wilcox.test</td>
 </tr>
 <tr class="even">
@@ -2013,14 +2049,14 @@ mtcars %>%
 You might wonder why the formula expression. That is needed to capture the test name, to be able to provide it in the resulting table.
 
 As with statistical functions, any statistical test function defined is R can be used.
-The conditions is that the function accepts a formula (`variable ~ grouping_variable`) as a first positional argument (as is the case with most tests, like `t.test`), and returns an object with a `$p.value` element.
+The conditions are that the function accepts a formula (`variable ~ grouping_variable`) as a first positional argument (as is the case with most tests, like `t.test`), and returns an object with a `p.value` element.
 
-Several convenience function are provided: formula versions of `chisq.test` and `fisher.test` are provided using generic S3 methods (thus the behavior of standard calls to `chisq.test` and `fisher.test` are not modified), and `ANOVA`, a partial application of `oneway.test(var.equal = T)`.
+Several convenience function are provided: formula versions for `chisq.test` and `fisher.test` are provided using generic S3 methods (thus the behavior of standard calls to `chisq.test` and `fisher.test` are not modified), and `ANOVA`, a partial application of `oneway.test` with paramater `var.equal = T`.
 
 Tips and tricks
 ===============
 
-In the **stats** argument, you can not only provide function names, but even arbitrary function definitions, functional sequences, or partial applications:
+In the *stats* argument, you can not only provide function names, but even arbitrary function definitions, functional sequences (provided with the pie `(%>%)`, or partial applications (with the **purrr** package):
 
 ``` r
 mtcars %>%
@@ -2031,13 +2067,13 @@ mtcars %>%
   pander
 ```
 
-<table style="width:53%;">
+<table style="width:56%;">
 <colgroup>
 <col width="9%" />
 <col width="5%" />
 <col width="23%" />
-<col width="6%" />
-<col width="6%" />
+<col width="8%" />
+<col width="8%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -2053,8 +2089,8 @@ mtcars %>%
 <td>mpg</td>
 <td align="left">32</td>
 <td align="left">14042</td>
-<td align="left">15</td>
-<td align="left">23</td>
+<td align="left">15.43</td>
+<td align="left">22.8</td>
 </tr>
 <tr class="even">
 <td>cyl</td>
@@ -2067,36 +2103,36 @@ mtcars %>%
 <td>disp</td>
 <td align="left">32</td>
 <td align="left">2179627</td>
-<td align="left">121</td>
+<td align="left">120.8</td>
 <td align="left">326</td>
 </tr>
 <tr class="even">
 <td>hp</td>
 <td align="left">32</td>
 <td align="left">834278</td>
-<td align="left">96</td>
+<td align="left">96.5</td>
 <td align="left">180</td>
 </tr>
 <tr class="odd">
 <td>drat</td>
 <td align="left">32</td>
-<td align="left">423</td>
-<td align="left">3.1</td>
-<td align="left">3.9</td>
+<td align="left">422.8</td>
+<td align="left">3.08</td>
+<td align="left">3.92</td>
 </tr>
 <tr class="even">
 <td>wt</td>
 <td align="left">32</td>
-<td align="left">361</td>
-<td align="left">2.6</td>
-<td align="left">3.6</td>
+<td align="left">360.9</td>
+<td align="left">2.58</td>
+<td align="left">3.61</td>
 </tr>
 <tr class="odd">
 <td>qsec</td>
 <td align="left">32</td>
 <td align="left">10293</td>
-<td align="left">17</td>
-<td align="left">19</td>
+<td align="left">16.89</td>
+<td align="left">18.9</td>
 </tr>
 <tr class="even">
 <td>vs</td>
@@ -2131,7 +2167,7 @@ mtcars %>%
 
 <br>
 
-In the **tests** arguments, you can also provide function definitions, functional sequences, and partial applications in the formulas:
+In the *tests* arguments, you can also provide function definitions, functional sequences, and partial applications in the formulas:
 
 ``` r
 iris %>%
@@ -2190,41 +2226,41 @@ iris %>%
 <tr class="odd">
 <td align="left">Sepal.Length</td>
 <td align="left">50</td>
-<td align="left">5</td>
+<td align="left">5.01</td>
 <td align="left">0.35</td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left">50</td>
-<td align="left">5.9</td>
+<td align="left">5.94</td>
 <td align="left">0.52</td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left">50</td>
-<td align="left">6.6</td>
+<td align="left">6.59</td>
 <td align="left">0.64</td>
 <td align="left"></td>
 <td align="left"></td>
-<td align="left">1.7e-31</td>
+<td align="left">0</td>
 <td align="left">purrr::partial(oneway.test, var.equal = T)</td>
 </tr>
 <tr class="even">
 <td align="left">Sepal.Width</td>
 <td align="left">50</td>
-<td align="left">3.4</td>
+<td align="left">3.43</td>
 <td align="left">0.38</td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left">50</td>
-<td align="left">2.8</td>
+<td align="left">2.77</td>
 <td align="left">0.31</td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left">50</td>
-<td align="left">3</td>
+<td align="left">2.97</td>
 <td align="left">0.32</td>
 <td align="left"></td>
 <td align="left"></td>
-<td align="left">1.4e-14</td>
+<td align="left">0</td>
 <td align="left">function(f) oneway.test(f, var.equal = F)</td>
 </tr>
 <tr class="odd">
@@ -2235,16 +2271,16 @@ iris %>%
 <td align="left">1.5</td>
 <td align="left">0.18</td>
 <td align="left">50</td>
-<td align="left">4.3</td>
+<td align="left">4.26</td>
 <td align="left">0.47</td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left">50</td>
-<td align="left">5.6</td>
+<td align="left">5.55</td>
 <td align="left">0.55</td>
 <td align="left"></td>
 <td align="left"></td>
-<td align="left">2.9e-91</td>
+<td align="left">0</td>
 <td align="left">. %&gt;% oneway.test(var.equal = T)</td>
 </tr>
 <tr class="even">
@@ -2264,7 +2300,7 @@ iris %>%
 <td align="left"></td>
 <td align="left">2</td>
 <td align="left">0.5</td>
-<td align="left">3.3e-29</td>
+<td align="left">0</td>
 <td align="left">kruskal.test</td>
 </tr>
 </tbody>
@@ -2319,9 +2355,9 @@ bladder %>%
 <td align="left">24</td>
 <td align="left">24</td>
 <td align="left">152</td>
-<td align="left">66</td>
+<td align="left">66.5</td>
 <td align="left">19</td>
-<td align="left">1.3e-56</td>
+<td align="left">0</td>
 <td align="left">wilcox.test</td>
 </tr>
 <tr class="even">
@@ -2350,10 +2386,10 @@ bladder %>%
 <td align="left">stop</td>
 <td align="left">188</td>
 <td align="left">23</td>
-<td align="left">20</td>
+<td align="left">20.25</td>
 <td align="left">152</td>
 <td align="left">25</td>
-<td align="left">28</td>
+<td align="left">28.5</td>
 <td align="left">0.17</td>
 <td align="left">wilcox.test</td>
 </tr>
@@ -2387,7 +2423,7 @@ bladder %>%
 <td align="left">304</td>
 <td align="left"></td>
 <td align="left"></td>
-<td align="left">0.023</td>
+<td align="left">0.02</td>
 <td align="left">. %&gt;% survdiff %&gt;% .$chisq %&gt;% pchisq(1, lower.tail = F) %&gt;% list(p.value = .)</td>
 </tr>
 </tbody>
