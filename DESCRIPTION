@@ -20,6 +20,7 @@ Imports:
 Suggests:
     pander,
     knitr,
-    rmarkdown
+    rmarkdown,
+    survival
 RoxygenNote: 6.0.1
 VignetteBuilder: knitr
