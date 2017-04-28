@@ -4,16 +4,25 @@
 \alias{pander.desctable}
 \title{Pander method for desctable}
 \usage{
-pander.desctable(x = NULL, digits = 2, justify = "left", ...)
+pander.desctable(x = NULL, round = 2, justify = "left", missing = "",
+  keep.line.breaks = T, split.tables = Inf, emphasize.rownames = F, ...)
 }
 \arguments{
 \item{x}{A desctable}
 
-\item{digits}{passed to \code{format}. Can be a vector specifying values for each column (has to be the same length as number of columns).}
+\item{round}{passed to \code{round}. Can be a vector specifying values for each column (has to be the same length as number of columns). Values for non-numeric columns will be disregarded.}
 
 \item{justify}{defines alignment in cells passed to \code{format}. Can be \code{left}, \code{right} or \code{centre}, which latter can be also spelled as \code{center}. Defaults to \code{centre}. Can be abbreviated to a string consisting of the letters \code{l}, \code{c} and \code{r} (e.g. 'lcr' instead of c('left', 'centre', 'right').}
 
-\item{...}{Additional pander parameters}
+\item{missing}{string to replace missing values}
+
+\item{keep.line.breaks}{(default: \code{FALSE}) if to keep or remove line breaks from cells in a table}
+
+\item{split.tables}{where to split wide tables to separate tables. The default value (\code{80}) suggests the conventional number of characters used in a line, feel free to change (e.g. to \code{Inf} to disable this feature) if you are not using a VT100 terminal any more :)}
+
+\item{emphasize.rownames}{boolean (default: \code{TRUE}) if row names should be highlighted}
+
+\item{...}{unsupported extra arguments directly placed into \code{/dev/null}}
 }
 \description{
 Pander method for desctable
