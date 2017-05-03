@@ -82,7 +82,7 @@ iris %>%
 You need to load these two packages first (and prior to **desctable** for **DT**) if you want to use them.  
 Calls to `pander` and `datatable` with "regular" dataframes will not be affected by the defaults used in the package.
 
-Subsequent outputs in this vignette section will use **DT**. The `datatable` wrapper function for desctable objects comes with some default options and formatting such as freezing the row names and table header, export buttons, and rounding of values. Both `pander` and `datatable` wrapper take a *round* argument to set the number of decimals to show.
+The `datatable` wrapper function for desctable objects comes with some default options and formatting such as freezing the row names and table header, export buttons, and rounding of values. Both `pander` and `datatable` wrapper take a *digits* argument to set the number of decimals to show. (`pander` uses the *digits*, *justify* and *missing* arguments of `pandoc.table`, whereas `datatable` calls `prettyNum` with the `digits` parameter, and removes `NA` values. You can set `digits = NULL` if you want the full table and format it yourself)
 
 ## Advanced usage
 
