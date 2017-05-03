@@ -19,20 +19,21 @@ options(DT.options = list(#scrollX = T,
                           fixedColumns = T))
 knitr::opts_chunk$set(message = F, warning = F)
 ```
+Desctable is a comprehensive descriptive and comparative tables generator for R.
 
-One thing every person doing data analysis find themselves doing every so often is creating tables for descriptive summaries of data (a.k.a. Table.1), or comparative tables.
+Every person doing data analysis has to create tables for descriptive summaries of data (a.k.a. Table.1), or comparative tables.
 
-A lot of packages already address this issue, for one the aptly named **tableone** package, but they either include some hard-coded behaviors, are a bit out-fashioned in their syntax (because of the incompatibility with the argument order for use with **dplyr** and the pipe (`%>%`)), or have outputs that are not easily manipulable with standard R tools.
+Many packages, such as the aptly named **tableone**, adress this issue. However, they often include hard-coded behaviors, have outputs not easily manipulable with standard R tools, or their syntax are out-of-style (e.g. the argument order makes them difficult to use with the pipe (`%>%`)).
 
-Enter **desctable**, a package built with these objectives in mind:
+Enter **desctable**, a package built with the following objectives in mind:
 
-  * generate descriptive and comparative statistics tables
+  * generate descriptive and comparative statistics tables with nesting
   * keep the syntax as simple as possible
   * have good reasonable defaults
-  * yet be entirely customizable, using standard R tools and functions
-  * integrate with "modern" R usage, and the **tidyverse** set of tools
+  * be entirely customizable, using standard R tools and functions
   * produce the simplest (as a data structure) output possible
   * provide helpers for different outputs
+  * integrate with "modern" R usage, and the **tidyverse** set of tools
   * apply functional paradigms
 
 ----
@@ -58,7 +59,7 @@ As you can see with these two examples, `desctable` describes every variable, wi
 
 ## Output
 
-The resulting object produced by `desctable` is in fact a list of data.frames, with a "desctable" class.  
+The object produced by `desctable` is in fact a list of data.frames, with a "desctable" class.  
 Methods for reduction to a simple dataframe (`as.data.frame`, automatically used for printing), conversion to markdown (`pander`), and interactive html output with **DT** (`datatable`) are provided:
 
 ```{r}
@@ -71,14 +72,15 @@ mtcars %>%
   datatable
 ```
 <br>
-You need to load these two packages first (and prior to **desctable** for **DT**) if you want to use them.  
-Calls to `pander` and `datatable` with "regular" dataframes will not be affected by the defaults used in the package.
+You need to load these two packages first (and prior to **desctable** for **DT**) if you want to use them.
+
+Calls to `pander` and `datatable` with "regular" dataframes will not be affected by the defaults used in the package, and you can modify these defaults for **desctable** objects.
 
 Subsequent outputs in this vignette section will use **DT**. The `datatable` wrapper function for desctable objects comes with some default options and formatting such as freezing the row names and table header, export buttons, and rounding of values. Both `pander` and `datatable` wrapper take a *digits* argument to set the number of decimals to show. (`pander` uses the *digits*, *justify* and *missing* arguments of `pandoc.table`, whereas `datatable` calls `prettyNum` with the `digits` parameter, and removes `NA` values. You can set `digits = NULL` if you want the full table and format it yourself)
 
 ## Advanced usage
 
-`desctable` choses statistical functions for you using this algorithm:
+`desctable` chooses statistical functions for you using this algorithm:
 
   * always show N
   * if there are factors, show %
@@ -99,10 +101,14 @@ How does it work, and how can you adapt this behavior to your needs?
 
 ### Automatic function
 
-This is the case by default, with the `stats_auto` function provided in the package.  
-You can provide your own automatic function. It needs to accept a dataframe as its argument (also whether to use this dataframe or not is your choice when defining that function) and return a named list of statistical functions to use, as defined in the subsequent paragraphs.
+This is the default, using the `stats_auto` function provided in the package.
 
-Several "automatic statistical functions" are defined in this package: `stats_auto`, `stats_default`, `stats_normal`, `stats_nonnormal`.
+Several other "automatic statistical functions" are defined in this package: `stats_auto`, `stats_default`, `stats_normal`, `stats_nonnormal`.
+
+You can also provide your own automatic function, which needs to 
+
+* accept a dataframe as its argument (whether to use this dataframe or not in the function is your choice), and
+* return a named list of statistical functions to use, as defined in the subsequent paragraphs.
 
 ```{r}
 # Strictly equivalent to iris %>% desctable %>% datatable
@@ -113,10 +119,11 @@ iris %>%
 
 ### Statistical functions
 
-Statistical functions can be any function defined in R that you want to use, such as `length` or `mean`.  
-The only condition is that they return a single numerical value for their input (although they also can, as is needed for the `percent` function to be possible, return a vector of length `1 + nlevels(x)` when applied to factors).
+Statistical functions can be any function defined in R that you want to use, such as `length` or `mean`.
 
-They need to be used inside a named list, such as
+The only condition is that they return a single numerical value. One exception is when they return a vector of length `1 + nlevels(x)` when applied to factors, as is needed for the `percent` function.
+
+As mentionned above, they need to be used inside a named list, such as
 
 ```{r}
 mtcars %>%
@@ -127,12 +134,12 @@ mtcars %>%
 
 The names will be used as column headers in the resulting table, and the functions will be applied safely on the variables (errors return `NA`, and for factors the function will be used on individual levels).
 
-Several convenience functions are included in this package. The statistical function ones are: `percent`, which prints percentages of levels in a factor, and `IQR` which re-implements `stats::IQR` but works better with `NA` values.
+Several convenience functions are included in this package. For statistical function we have: `percent`, which prints percentages of levels in a factor, and `IQR` which re-implements `stats::IQR` but works better with `NA` values.
 
-Be aware that **all functions are used on variables stripped of their `NA` values!**  
+Be aware that **all functions will be used on variables stripped of their `NA` values!**  
 This is necessary for most statistical functions to be useful, and makes **N** (`length`) show only the number of observations in the dataset for each variable.
 
-### Conditional formula
+### Conditional formulas
 
 The general form of these formulas is
 
@@ -140,7 +147,8 @@ The general form of these formulas is
 predicate_function ~ stat_function_if_TRUE | stat_function_if_FALSE
 ```
 
-A predicate function is any function returning either `TRUE` or `FALSE` when applied on a vector. Such functions are `is.factor`, `is.numeric`, `is.logical`. **desctable** provides the `is.normal` function to test for normality (it is equivalent to `length(na.omit(x)) > 30 & shapiro.test(x)$p.value > .1`).
+A predicate function is any function returning either `TRUE` or `FALSE` when applied on a vector, such as `is.factor`, `is.numeric`, and `is.logical`.  
+**desctable** provides the `is.normal` function to test for normality (it is equivalent to `length(na.omit(x)) > 30 & shapiro.test(x)$p.value > .1`).
 
 The *FALSE* option can be omitted and `NA` will be produced if the condition in the predicate is not met.
 
@@ -172,7 +180,7 @@ print(stats_auto)
 It is often the case that variable names are not "pretty" enough to be used as-is in a table.  
 Although you could still edit the variable labels in the table afterwards using subsetting or string replacement functions, it is possible to mention a **labels** argument.
 
-This **labels** argument is a named character vector associating variable names and labels.  
+The **labels** argument is a named character vector associating variable names and labels.  
 You don't need to provide labels for all the variables, and extra labels will be silently discarded. This allows you to define a "global" labels vector and use it for every table even after variable selections.
 
 ```{r}
@@ -213,10 +221,11 @@ iris %>%
 iris_by_Species
 ```
 
-The result is a table containing a descriptive subtable for each level of the grouping factor (the statistical functions rules are applied to each subtable independently), with the statistical tests performed and their p value.  
-When displayed as a flat dataframe, the grouping header appear in each variable.
+The result is a table containing a descriptive subtable for each level of the grouping factor (the statistical functions rules are applied to each subtable independently), with the statistical tests performed, and their p values.  
 
-You can also see them by inspecting the resulting object, which is a deep list of dataframes, each dataframe named after the grouping factor and its levels (with sample size for each).
+When displayed as a flat dataframe, the grouping header appears in each variable.
+
+You can also see the grouping headers by inspecting the resulting object, which is a deep list of dataframes, each dataframe named after the grouping factor and its levels (with sample size for each).
 
 ```{r}
 str(iris_by_Species)
@@ -255,7 +264,7 @@ mtcars %>%
 
 In the case of nested groups (a.k.a. sub-group analysis), statistical tests are performed only between the groups of the deepest grouping level.
 
-Statistical tests are automatically picked depending on the data and the grouping factor.
+Statistical tests are automatically selected depending on the data and the grouping factor.
 
 ## Advanced usage
 
@@ -270,7 +279,7 @@ Statistical tests are automatically picked depending on the data and the groupin
     * and the variable presents homoskedasticity (p value for `bartlett.test` > .1) and normality of distribution in all groups, use `ANOVA` (a wrapper around `oneway.test` with parameter `var.equal = T`)
     * else use `kruskal.test`
 
-But what if you have reasons, or need to pick a specific test for a specific variable, or change all the tests altogether?
+But what if you want to pick a specific test for a specific variable, or change all the tests altogether?
 
 `desctable` takes an optional *tests* argument. This argument can either be
 
@@ -279,8 +288,13 @@ But what if you have reasons, or need to pick a specific test for a specific var
 
 ### Automatic function
 
-This is the case by default, with the `tests_auto` function provided in the package.  
-You can provide your own automatic function. It needs to accept a variable and a grouping factor as its arguments and return a single-term formula containing a statistical test function.  
+This is the default, using the `tests_auto` function provided in the package.
+
+You can also provide your own automatic function, which needs to
+
+* accept a variable and a grouping factor as its arguments, and
+* return a single-term formula containing a statistical test function.
+
 This function will be used on every variable and every grouping factor to determine the appropriate test.
 
 ```{r}
@@ -294,11 +308,12 @@ iris %>%
 
 ### List of statistical test functions
 
-You can provide a named list of statistical functions, but here the mechanism is a bit different from the **stats** argument.
+You can provide a named list of statistical functions, but here the mechanism is a bit different from the *stats* argument.
 
-The list must contain exactly one of `.auto` or `.default`.  
-`.auto` needs to be an automatic function, such as `tests_auto`. It will be used by default on all variables to select a test.  
-`.default` needs to be a single-term formula containing a statistical test function that will be used on all variables.
+The list must contain either `.auto` or `.default`.
+
+* `.auto` needs to be an automatic function, such as `tests_auto`. It will be used by default on all variables to select a test
+* `.default` needs to be a single-term formula containing a statistical test function that will be used on all variables
 
 You can also provide overrides to use specific tests for specific variables.  
 This is done using list items named as the variable and containing a single-term formula function.
@@ -322,16 +337,20 @@ mtcars %>%
 ```
 <br>
 
-You might wonder why the formula expression. That is needed to capture the test name, to be able to provide it in the resulting table.
+You might wonder why the formula expression. That is needed to capture the test name, and to provide it in the resulting table.
 
-As with statistical functions, any statistical test function defined is R can be used.  
-The conditions are that the function accepts a formula (`variable ~ grouping_variable`) as a first positional argument (as is the case with most tests, like `t.test`), and returns an object with a `p.value` element.
+As with statistical functions, any statistical test function defined in R can be used.
 
-Several convenience function are provided: formula versions for `chisq.test` and `fisher.test` are provided using generic S3 methods (thus the behavior of standard calls to `chisq.test` and `fisher.test` are not modified), and `ANOVA`, a partial application of `oneway.test` with paramater `var.equal = T`.
+The conditions are that the function
+
+* accepts a formula (`variable ~ grouping_variable`) as a first positional argument (as is the case with most tests, like `t.test`), and
+* returns an object with a `p.value` element.
+
+Several convenience function are provided: formula versions for `chisq.test` and `fisher.test` using generic S3 methods (thus the behavior of standard calls to `chisq.test` and `fisher.test` are not modified), and `ANOVA`, a partial application of `oneway.test` with parameter *var.equal* = T.
 
 # Tips and tricks
 
-In the *stats* argument, you can not only provide function names, but even arbitrary function definitions, functional sequences (provided with the pie `(%>%)`, or partial applications (with the **purrr** package):
+In the *stats* argument, you can not only feed function names, but even arbitrary function definitions, functional sequences (a feature provided with the pipe (`%>%`)), or partial applications (with the **purrr** package):
 
 ```{r}
 mtcars %>%
