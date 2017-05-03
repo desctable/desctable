@@ -6,33 +6,32 @@
 \alias{datatable.desctable}
 \title{Datatable}
 \usage{
-datatable(data, digits = 2, options = list(), class = "display",
-  callback = DT::JS("return table;"), rownames, colnames, container,
-  caption = NULL, filter = c("none", "bottom", "top"), escape = TRUE,
-  style = "default", width = NULL, height = NULL, elementId = NULL,
+datatable(data, ...)
+
+\method{datatable}{default}(data, options = list(), class = "display",
+  callback = DT::JS("return table;"), caption = NULL, filter = c("none",
+  "bottom", "top"), escape = TRUE, style = "default", width = NULL,
+  height = NULL, elementId = NULL,
   fillContainer = getOption("DT.fillContainer", NULL),
   autoHideNavigation = getOption("DT.autoHideNavigation", NULL),
   selection = c("multiple", "single", "none"), extensions = list(),
-  plugins = NULL)
+  plugins = NULL, ...)
 
-\method{datatable}{default}(data, ...)
-
-\method{datatable}{desctable}(data = NULL, digits = 2, ...)
+\method{datatable}{desctable}(data, options = list(paging = F, info = F,
+  search = F, dom = "Brtip", fixedColumns = T, fixedHeader = T, buttons =
+  c("copy", "excel")), class = "display",
+  callback = DT::JS("return table;"), caption = NULL, filter = c("none",
+  "bottom", "top"), escape = FALSE, style = "default", width = NULL,
+  height = NULL, elementId = NULL,
+  fillContainer = getOption("DT.fillContainer", NULL),
+  autoHideNavigation = getOption("DT.autoHideNavigation", NULL),
+  selection = c("multiple", "single", "none"), extensions = c("FixedHeader",
+  "FixedColumns", "Buttons"), plugins = NULL, digits = 2, ...)
 }
 \arguments{
 \item{data}{A desctable}
 
-\item{digits}{the desired number of digits after the decimal
-    point (\code{format = "f"}) or \emph{significant} digits
-    (\code{format = "g"}, \code{= "e"} or \code{= "fg"}).
-
-    Default: 2 for integer, 4 for real numbers.  If less than 0,
-    the C default of 6 digits is used.  If specified as more than 50, 50
-    will be used with a warning unless \code{format = "f"} where it is
-    limited to typically 324. (Not more than 15--21 digits need be
-    accurate, depending on the OS and compiler used.  This limit is
-    just a precaution against segfaults in the underlying C runtime.)
-  }
+\item{...}{Additional datatable parameters}
 
 \item{options}{a list of initialization options (see
 \url{http://datatables.net/reference/option/}); the character options
@@ -46,23 +45,6 @@ global options will be merged into this \code{options} argument if set}
 
 \item{callback}{the body of a JavaScript callback function with the argument
 \code{table} to be applied to the DataTables instance (i.e. \code{table})}
-
-\item{rownames}{\code{TRUE} (show row names) or \code{FALSE} (hide row names)
-or a character vector of row names; by default, the row names are displayed
-in the first column of the table if exist (not \code{NULL})}
-
-\item{colnames}{if missing, the column names of the data; otherwise it can be
-an unnamed character vector of names you want to show in the table header
-instead of the default data column names; alternatively, you can provide a
-\emph{named} numeric or character vector of the form \code{'newName1' = i1,
-'newName2' = i2} or \code{c('newName1' = 'oldName1', 'newName2' =
-'oldName2', ...)}, where \code{newName} is the new name you want to show in
-the table, and \code{i} or \code{oldName} is the index of the current
-column name}
-
-\item{container}{a sketch of the HTML table to be filled with data cells; by
-default, it is generated from \code{htmltools::tags$table()} with a table
-header consisting of the column names of the data}
 
 \item{caption}{the table caption; a character vector or a tag object
 generated from \code{htmltools::tags$caption()}}
@@ -117,7 +99,17 @@ extensions (\url{http://datatables.net/extensions/index})}
 \item{plugins}{a character vector of the names of DataTables plug-ins
 (\url{http://rstudio.github.io/DT/plugins.html})}
 
-\item{...}{Additional datatable parameters}
+\item{digits}{the desired number of digits after the decimal
+    point (\code{format = "f"}) or \emph{significant} digits
+    (\code{format = "g"}, \code{= "e"} or \code{= "fg"}).
+
+    Default: 2 for integer, 4 for real numbers.  If less than 0,
+    the C default of 6 digits is used.  If specified as more than 50, 50
+    will be used with a warning unless \code{format = "f"} where it is
+    limited to typically 324. (Not more than 15--21 digits need be
+    accurate, depending on the OS and compiler used.  This limit is
+    just a precaution against segfaults in the underlying C runtime.)
+  }
 }
 \description{
 Datatable
