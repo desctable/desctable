@@ -135,18 +135,18 @@ varColumn <- function(data, labels = NULL)
 #'   group_by(Petal.Length > 5) %>%
 #'   desctable(tests = list(.auto = tests_auto, Species = ~chisq.test))
 #' }
-desctable <- function(data, stats = stats_auto, tests = tests_auto, labels = NULL)
+desctable <- function(data, ...)
 {
   # Replace every logical vector with a factor and nice labels
   if (any(data %>% lapply(is.logical) %>% unlist))
     data %>% purrr::dmap_if(is.logical, factor, levels = c(F, T), labels = c("No", "Yes")) -> data
 
-  NextMethod("desctable", data, stats = stats, tests = tests, labels = labels)
+  UseMethod("desctable", data)
 }
 
 #' @rdname desctable
 #' @export
-desctable.default <- function(data, stats, tests, labels)
+desctable.default <- function(data, stats = stats_auto, labels = NULL)
 {
   # Build the complete table
   list(Variables = varColumn(data, labels),
@@ -156,7 +156,7 @@ desctable.default <- function(data, stats, tests, labels)
 
 #' @rdname desctable
 #' @export
-desctable.grouped_df <- function(data, stats, tests, labels)
+desctable.grouped_df <- function(data, stats = stats_auto, tests = tests_auto, labels = NULL)
 {
   # Get groups then ungroup dataframe
   grps <- data %>% dplyr::groups()
