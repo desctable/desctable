@@ -150,7 +150,7 @@ iris %>%
 <tr class="even">
 <td align="left">Sepal.Width</td>
 <td align="left">150</td>
-<td align="left">3.06</td>
+<td align="left">3.1</td>
 <td align="left">0.44</td>
 <td align="left"></td>
 <td align="left"></td>
@@ -160,7 +160,7 @@ iris %>%
 <td align="left">150</td>
 <td align="left"></td>
 <td align="left"></td>
-<td align="left">4.35</td>
+<td align="left">4.3</td>
 <td align="left">3.5</td>
 </tr>
 <tr class="even">
@@ -182,7 +182,7 @@ iris %>%
 <tr class="even">
 <td align="left">    setosa</td>
 <td align="left">50</td>
-<td align="left">33.33</td>
+<td align="left">33</td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
@@ -190,7 +190,7 @@ iris %>%
 <tr class="odd">
 <td align="left">    versicolor</td>
 <td align="left">50</td>
-<td align="left">33.33</td>
+<td align="left">33</td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
@@ -198,7 +198,7 @@ iris %>%
 <tr class="even">
 <td align="left">    virginica</td>
 <td align="left">50</td>
-<td align="left">33.33</td>
+<td align="left">33</td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
@@ -209,7 +209,7 @@ iris %>%
 <br> You need to load these two packages first (and prior to **desctable** for **DT**) if you want to use them.
 Calls to `pander` and `datatable` with "regular" dataframes will not be affected by the defaults used in the package.
 
-Subsequent outputs in this vignette section will use **DT**. The `datatable` wrapper function for desctable objects comes with some default options and formatting such as freezing the row names and table header, export buttons, and rounding of values. Both `pander` and `datatable` wrapper take a *round* argument to set the number of decimals to show.
+The `datatable` wrapper function for desctable objects comes with some default options and formatting such as freezing the row names and table header, export buttons, and rounding of values. Both `pander` and `datatable` wrapper take a *digits* argument to set the number of decimals to show. (`pander` uses the *digits*, *justify* and *missing* arguments of `pandoc.table`, whereas `datatable` calls `prettyNum` with the `digits` parameter, and removes `NA` values. You can set `digits = NULL` if you want the full table and format it yourself)
 
 Advanced usage
 --------------
@@ -277,7 +277,7 @@ iris %>%
 <tr class="even">
 <td align="left">Sepal.Width</td>
 <td align="left">150</td>
-<td align="left">3.06</td>
+<td align="left">3.1</td>
 <td align="left">0.44</td>
 <td align="left"></td>
 <td align="left"></td>
@@ -287,7 +287,7 @@ iris %>%
 <td align="left">150</td>
 <td align="left"></td>
 <td align="left"></td>
-<td align="left">4.35</td>
+<td align="left">4.3</td>
 <td align="left">3.5</td>
 </tr>
 <tr class="even">
@@ -309,7 +309,7 @@ iris %>%
 <tr class="even">
 <td align="left">    setosa</td>
 <td align="left">50</td>
-<td align="left">33.33</td>
+<td align="left">33</td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
@@ -317,7 +317,7 @@ iris %>%
 <tr class="odd">
 <td align="left">    versicolor</td>
 <td align="left">50</td>
-<td align="left">33.33</td>
+<td align="left">33</td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
@@ -325,7 +325,7 @@ iris %>%
 <tr class="even">
 <td align="left">    virginica</td>
 <td align="left">50</td>
-<td align="left">33.33</td>
+<td align="left">33</td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
@@ -346,12 +346,12 @@ mtcars %>%
   pander
 ```
 
-<table style="width:35%;">
+<table style="width:31%;">
 <colgroup>
 <col width="9%" />
 <col width="5%" />
 <col width="9%" />
-<col width="9%" />
+<col width="5%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -365,26 +365,26 @@ mtcars %>%
 <tr class="odd">
 <td>mpg</td>
 <td align="left">32</td>
-<td align="left">20.09</td>
-<td align="left">6.03</td>
+<td align="left">20</td>
+<td align="left">6</td>
 </tr>
 <tr class="even">
 <td>cyl</td>
 <td align="left">32</td>
-<td align="left">6.19</td>
-<td align="left">1.79</td>
+<td align="left">6.2</td>
+<td align="left">1.8</td>
 </tr>
 <tr class="odd">
 <td>disp</td>
 <td align="left">32</td>
-<td align="left">230.7</td>
-<td align="left">123.9</td>
+<td align="left">231</td>
+<td align="left">124</td>
 </tr>
 <tr class="even">
 <td>hp</td>
 <td align="left">32</td>
-<td align="left">146.7</td>
-<td align="left">68.56</td>
+<td align="left">147</td>
+<td align="left">69</td>
 </tr>
 <tr class="odd">
 <td>drat</td>
@@ -395,14 +395,14 @@ mtcars %>%
 <tr class="even">
 <td>wt</td>
 <td align="left">32</td>
-<td align="left">3.22</td>
+<td align="left">3.2</td>
 <td align="left">0.98</td>
 </tr>
 <tr class="odd">
 <td>qsec</td>
 <td align="left">32</td>
-<td align="left">17.85</td>
-<td align="left">1.79</td>
+<td align="left">18</td>
+<td align="left">1.8</td>
 </tr>
 <tr class="even">
 <td>vs</td>
@@ -419,14 +419,14 @@ mtcars %>%
 <tr class="even">
 <td>gear</td>
 <td align="left">32</td>
-<td align="left">3.69</td>
+<td align="left">3.7</td>
 <td align="left">0.74</td>
 </tr>
 <tr class="odd">
 <td>carb</td>
 <td align="left">32</td>
-<td align="left">2.81</td>
-<td align="left">1.62</td>
+<td align="left">2.8</td>
+<td align="left">1.6</td>
 </tr>
 </tbody>
 </table>
@@ -494,14 +494,14 @@ iris %>%
 <tr class="even">
 <td align="left">Sepal.Width</td>
 <td align="left">150</td>
-<td align="left">3.06</td>
+<td align="left">3.1</td>
 <td align="left"></td>
 </tr>
 <tr class="odd">
 <td align="left">Petal.Length</td>
 <td align="left">150</td>
 <td align="left"></td>
-<td align="left">4.35</td>
+<td align="left">4.3</td>
 </tr>
 <tr class="even">
 <td align="left">Petal.Width</td>
@@ -518,19 +518,19 @@ iris %>%
 <tr class="even">
 <td align="left">    setosa</td>
 <td align="left">50</td>
-<td align="left">33.33</td>
+<td align="left">33</td>
 <td align="left"></td>
 </tr>
 <tr class="odd">
 <td align="left">    versicolor</td>
 <td align="left">50</td>
-<td align="left">33.33</td>
+<td align="left">33</td>
 <td align="left"></td>
 </tr>
 <tr class="even">
 <td align="left">    virginica</td>
 <td align="left">50</td>
-<td align="left">33.33</td>
+<td align="left">33</td>
 <td align="left"></td>
 </tr>
 </tbody>
@@ -540,49 +540,34 @@ iris %>%
 
 For reference, here is the body of the `stats_auto` function in the package:
 
-    ## function(data)
+    ## function (data) 
     ## {
-    ##   data %>%
-    ##     Filter(f = is.numeric) %>%
-    ##     lapply(is.normal) %>%
-    ##     unlist -> shapiro
-    ## 
-    ##   if (length(shapiro) == 0)
-    ##   {
-    ##     normal <- F
-    ##     nonnormal <- F
-    ##   }
-    ##   else
-    ##   {
-    ##     any(shapiro) -> normal
-    ##     any(!shapiro) -> nonnormal
-    ##   }
-    ## 
-    ##   any(data %>% lapply(is.factor) %>% unlist) -> fact
-    ## 
-    ##   if (fact & normal & !nonnormal)
-    ##     stats_normal(data)
-    ##   else if (fact & !normal & nonnormal)
-    ##     stats_nonnormal(data)
-    ##   else if (fact & !normal & !nonnormal)
-    ##     list("N" = length,
-    ##          "%" = percent)
-    ##   else if (!fact & normal & nonnormal)
-    ##     list("N" = length,
-    ##          "Mean" = is.normal ~ mean,
-    ##          "sd" = is.normal ~ sd,
-    ##          "Med" = is.normal ~ NA | median,
-    ##          "IQR" = is.normal ~ NA | IQR)
-    ##   else if (!fact & normal & !nonnormal)
-    ##     list("N" = length,
-    ##          "Mean" = mean,
-    ##          "sd" = stats::sd)
-    ##   else if (!fact & !normal & nonnormal)
-    ##     list("N" = length,
-    ##          "Med" = stats::median,
-    ##          "IQR" = IQR)
-    ##   else
-    ##     stats_default(data)
+    ##     shapiro <- data %>% Filter(f = is.numeric) %>% lapply(is.normal) %>% 
+    ##         unlist
+    ##     if (length(shapiro) == 0) {
+    ##         normal <- F
+    ##         nonnormal <- F
+    ##     }
+    ##     else {
+    ##         normal <- any(shapiro)
+    ##         nonnormal <- any(!shapiro)
+    ##     }
+    ##     fact <- any(data %>% lapply(is.factor) %>% unlist)
+    ##     if (fact & normal & !nonnormal) 
+    ##         stats_normal(data)
+    ##     else if (fact & !normal & nonnormal) 
+    ##         stats_nonnormal(data)
+    ##     else if (fact & !normal & !nonnormal) 
+    ##         list(N = length, `%` = percent)
+    ##     else if (!fact & normal & nonnormal) 
+    ##         list(N = length, Mean = is.normal ~ mean, sd = is.normal ~ 
+    ##             sd, Med = is.normal ~ NA | median, IQR = is.normal ~ 
+    ##             NA | IQR)
+    ##     else if (!fact & normal & !nonnormal) 
+    ##         list(N = length, Mean = mean, sd = stats::sd)
+    ##     else if (!fact & !normal & nonnormal) 
+    ##         list(N = length, Med = stats::median, IQR = IQR)
+    ##     else stats_default(data)
     ## }
     ## <environment: namespace:desctable>
 
@@ -636,8 +621,8 @@ mtcars %>%
 <tr class="odd">
 <td align="left">Miles/(US) gallon</td>
 <td align="left">32</td>
-<td align="left">20.09</td>
-<td align="left">6.03</td>
+<td align="left">20</td>
+<td align="left">6</td>
 <td align="left"></td>
 <td align="left"></td>
 </tr>
@@ -654,8 +639,8 @@ mtcars %>%
 <td align="left">32</td>
 <td align="left"></td>
 <td align="left"></td>
-<td align="left">196.3</td>
-<td align="left">205.2</td>
+<td align="left">196</td>
+<td align="left">205</td>
 </tr>
 <tr class="even">
 <td align="left">Gross horsepower</td>
@@ -663,7 +648,7 @@ mtcars %>%
 <td align="left"></td>
 <td align="left"></td>
 <td align="left">123</td>
-<td align="left">83.5</td>
+<td align="left">84</td>
 </tr>
 <tr class="odd">
 <td align="left">Rear axle ratio</td>
@@ -678,14 +663,14 @@ mtcars %>%
 <td align="left">32</td>
 <td align="left"></td>
 <td align="left"></td>
-<td align="left">3.33</td>
-<td align="left">1.03</td>
+<td align="left">3.3</td>
+<td align="left">1</td>
 </tr>
 <tr class="odd">
 <td align="left">¼ mile time</td>
 <td align="left">32</td>
-<td align="left">17.85</td>
-<td align="left">1.79</td>
+<td align="left">18</td>
+<td align="left">1.8</td>
 <td align="left"></td>
 <td align="left"></td>
 </tr>
@@ -708,7 +693,7 @@ mtcars %>%
 <tr class="even">
 <td align="left">    Automatic</td>
 <td align="left">19</td>
-<td align="left">59.38</td>
+<td align="left">59</td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
@@ -716,7 +701,7 @@ mtcars %>%
 <tr class="odd">
 <td align="left">    Manual</td>
 <td align="left">13</td>
-<td align="left">40.62</td>
+<td align="left">41</td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
@@ -906,54 +891,54 @@ mtcars %>%
 <td align="left">26</td>
 <td align="left">7.6</td>
 <td align="left">7</td>
-<td align="left">19.7</td>
-<td align="left">2.35</td>
+<td align="left">20</td>
+<td align="left">2.4</td>
 <td align="left">14</td>
-<td align="left">15.2</td>
-<td align="left">1.85</td>
-<td align="left">0</td>
+<td align="left">15</td>
+<td align="left">1.8</td>
+<td align="left">2.6e-06</td>
 <td align="left">kruskal.test</td>
 </tr>
 <tr class="even">
 <td>disp</td>
 <td align="left">11</td>
 <td align="left">108</td>
-<td align="left">41.8</td>
+<td align="left">42</td>
 <td align="left">7</td>
-<td align="left">167.6</td>
-<td align="left">36.3</td>
+<td align="left">168</td>
+<td align="left">36</td>
 <td align="left">14</td>
-<td align="left">350.5</td>
-<td align="left">88.25</td>
-<td align="left">0</td>
+<td align="left">350</td>
+<td align="left">88</td>
+<td align="left">1.6e-06</td>
 <td align="left">kruskal.test</td>
 </tr>
 <tr class="odd">
 <td>hp</td>
 <td align="left">11</td>
 <td align="left">91</td>
-<td align="left">30.5</td>
+<td align="left">30</td>
 <td align="left">7</td>
 <td align="left">110</td>
 <td align="left">13</td>
 <td align="left">14</td>
-<td align="left">192.5</td>
+<td align="left">192</td>
 <td align="left">65</td>
-<td align="left">0</td>
+<td align="left">3.3e-06</td>
 <td align="left">kruskal.test</td>
 </tr>
 <tr class="even">
 <td>drat</td>
 <td align="left">11</td>
-<td align="left">4.08</td>
-<td align="left">0.36</td>
+<td align="left">4.1</td>
+<td align="left">0.35</td>
 <td align="left">7</td>
 <td align="left">3.9</td>
 <td align="left">0.56</td>
 <td align="left">14</td>
-<td align="left">3.12</td>
+<td align="left">3.1</td>
 <td align="left">0.15</td>
-<td align="left">0</td>
+<td align="left">0.00075</td>
 <td align="left">kruskal.test</td>
 </tr>
 <tr class="odd">
@@ -962,26 +947,26 @@ mtcars %>%
 <td align="left">2.2</td>
 <td align="left">0.74</td>
 <td align="left">7</td>
-<td align="left">3.21</td>
+<td align="left">3.2</td>
 <td align="left">0.62</td>
 <td align="left">14</td>
-<td align="left">3.75</td>
+<td align="left">3.8</td>
 <td align="left">0.48</td>
-<td align="left">0</td>
+<td align="left">1.1e-05</td>
 <td align="left">kruskal.test</td>
 </tr>
 <tr class="even">
 <td>qsec</td>
 <td align="left">11</td>
-<td align="left">18.9</td>
-<td align="left">1.39</td>
+<td align="left">19</td>
+<td align="left">1.4</td>
 <td align="left">7</td>
-<td align="left">18.3</td>
-<td align="left">2.43</td>
+<td align="left">18</td>
+<td align="left">2.4</td>
 <td align="left">14</td>
-<td align="left">17.18</td>
-<td align="left">1.46</td>
-<td align="left">0.01</td>
+<td align="left">17</td>
+<td align="left">1.5</td>
+<td align="left">0.0062</td>
 <td align="left">kruskal.test</td>
 </tr>
 <tr class="odd">
@@ -995,7 +980,7 @@ mtcars %>%
 <td align="left">14</td>
 <td align="left">0</td>
 <td align="left">0</td>
-<td align="left">0</td>
+<td align="left">3.2e-05</td>
 <td align="left">kruskal.test</td>
 </tr>
 <tr class="even">
@@ -1009,7 +994,7 @@ mtcars %>%
 <td align="left">14</td>
 <td align="left">0</td>
 <td align="left">0</td>
-<td align="left">0.01</td>
+<td align="left">0.014</td>
 <td align="left">kruskal.test</td>
 </tr>
 <tr class="odd">
@@ -1023,7 +1008,7 @@ mtcars %>%
 <td align="left">14</td>
 <td align="left">3</td>
 <td align="left">0</td>
-<td align="left">0.01</td>
+<td align="left">0.0062</td>
 <td align="left">kruskal.test</td>
 </tr>
 <tr class="even">
@@ -1036,8 +1021,8 @@ mtcars %>%
 <td align="left">1.5</td>
 <td align="left">14</td>
 <td align="left">3.5</td>
-<td align="left">1.75</td>
-<td align="left">0</td>
+<td align="left">1.8</td>
+<td align="left">0.0017</td>
 <td align="left">kruskal.test</td>
 </tr>
 </tbody>
@@ -1098,13 +1083,13 @@ iris %>%
 <td align="left"></td>
 <td align="left">6.7</td>
 <td align="left">0.85</td>
-<td align="left">0</td>
+<td align="left">1.6e-15</td>
 <td align="left">wilcox.test</td>
 </tr>
 <tr class="even">
 <td align="left">Sepal.Width</td>
 <td align="left">108</td>
-<td align="left">3.07</td>
+<td align="left">3.1</td>
 <td align="left">0.48</td>
 <td align="left"></td>
 <td align="left"></td>
@@ -1128,7 +1113,7 @@ iris %>%
 <td align="left"></td>
 <td align="left">5.6</td>
 <td align="left">0.67</td>
-<td align="left">0</td>
+<td align="left">2.1e-21</td>
 <td align="left">wilcox.test</td>
 </tr>
 <tr class="even">
@@ -1139,11 +1124,11 @@ iris %>%
 <td align="left">1</td>
 <td align="left">1.2</td>
 <td align="left">42</td>
-<td align="left">2.06</td>
+<td align="left">2.1</td>
 <td align="left">0.28</td>
 <td align="left"></td>
 <td align="left"></td>
-<td align="left">0</td>
+<td align="left">1.6e-19</td>
 <td align="left">wilcox.test</td>
 </tr>
 <tr class="odd">
@@ -1158,13 +1143,13 @@ iris %>%
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
-<td align="left">0</td>
+<td align="left">2.5e-26</td>
 <td align="left">fisher.test</td>
 </tr>
 <tr class="even">
 <td align="left">    setosa</td>
 <td align="left">50</td>
-<td align="left">46.3</td>
+<td align="left">46</td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
@@ -1179,12 +1164,12 @@ iris %>%
 <tr class="odd">
 <td align="left">    versicolor</td>
 <td align="left">49</td>
-<td align="left">45.37</td>
+<td align="left">45</td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left">1</td>
-<td align="left">2.38</td>
+<td align="left">2.4</td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
@@ -1194,12 +1179,12 @@ iris %>%
 <tr class="even">
 <td align="left">    virginica</td>
 <td align="left">9</td>
-<td align="left">8.33</td>
+<td align="left">8.3</td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left">41</td>
-<td align="left">97.62</td>
+<td align="left">98</td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
@@ -1292,8 +1277,8 @@ mtcars %>%
 <tr class="odd">
 <td>mpg</td>
 <td align="left">12</td>
-<td align="left">15.2</td>
-<td align="left">2.57</td>
+<td align="left">15</td>
+<td align="left">2.6</td>
 <td align="left"></td>
 <td align="left">no.test</td>
 <td align="left">1</td>
@@ -1303,21 +1288,21 @@ mtcars %>%
 <td align="left">21</td>
 <td align="left">0.65</td>
 <td align="left">2</td>
-<td align="left">15.4</td>
+<td align="left">15</td>
 <td align="left">0.4</td>
 <td align="left">0.11</td>
 <td align="left">kruskal.test</td>
 <td align="left">3</td>
-<td align="left">22.8</td>
-<td align="left">1.45</td>
+<td align="left">23</td>
+<td align="left">1.5</td>
 <td align="left">4</td>
-<td align="left">18.65</td>
-<td align="left">1.72</td>
-<td align="left">0.06</td>
+<td align="left">19</td>
+<td align="left">1.7</td>
+<td align="left">0.057</td>
 <td align="left">wilcox.test</td>
 <td align="left">7</td>
-<td align="left">30.4</td>
-<td align="left">6.35</td>
+<td align="left">30</td>
+<td align="left">6.3</td>
 <td align="left"></td>
 <td align="left">no.test</td>
 </tr>
@@ -1329,7 +1314,7 @@ mtcars %>%
 <td align="left"></td>
 <td align="left">no.test</td>
 <td align="left">1</td>
-<td align="left">120.3</td>
+<td align="left">120</td>
 <td align="left">0</td>
 <td align="left">3</td>
 <td align="left">160</td>
@@ -1340,16 +1325,16 @@ mtcars %>%
 <td align="left">0.11</td>
 <td align="left">kruskal.test</td>
 <td align="left">3</td>
-<td align="left">140.8</td>
-<td align="left">13.3</td>
+<td align="left">141</td>
+<td align="left">13</td>
 <td align="left">4</td>
-<td align="left">196.3</td>
-<td align="left">65.65</td>
+<td align="left">196</td>
+<td align="left">66</td>
 <td align="left">0.05</td>
 <td align="left">wilcox.test</td>
 <td align="left">7</td>
 <td align="left">79</td>
-<td align="left">24.35</td>
+<td align="left">24</td>
 <td align="left"></td>
 <td align="left">no.test</td>
 </tr>
@@ -1357,7 +1342,7 @@ mtcars %>%
 <td>hp</td>
 <td align="left">12</td>
 <td align="left">180</td>
-<td align="left">43.75</td>
+<td align="left">44</td>
 <td align="left"></td>
 <td align="left">no.test</td>
 <td align="left">1</td>
@@ -1365,41 +1350,41 @@ mtcars %>%
 <td align="left">0</td>
 <td align="left">3</td>
 <td align="left">110</td>
-<td align="left">32.5</td>
+<td align="left">32</td>
 <td align="left">2</td>
-<td align="left">299.5</td>
-<td align="left">35.5</td>
+<td align="left">300</td>
+<td align="left">36</td>
 <td align="left">0.11</td>
 <td align="left">kruskal.test</td>
 <td align="left">3</td>
 <td align="left">95</td>
-<td align="left">17.5</td>
+<td align="left">18</td>
 <td align="left">4</td>
-<td align="left">116.5</td>
-<td align="left">14.25</td>
+<td align="left">116</td>
+<td align="left">14</td>
 <td align="left">0.05</td>
 <td align="left">wilcox.test</td>
 <td align="left">7</td>
 <td align="left">66</td>
-<td align="left">35.5</td>
+<td align="left">36</td>
 <td align="left"></td>
 <td align="left">no.test</td>
 </tr>
 <tr class="even">
 <td>drat</td>
 <td align="left">12</td>
-<td align="left">3.08</td>
+<td align="left">3.1</td>
 <td align="left">0.11</td>
 <td align="left"></td>
 <td align="left">no.test</td>
 <td align="left">1</td>
-<td align="left">4.43</td>
+<td align="left">4.4</td>
 <td align="left">0</td>
 <td align="left">3</td>
 <td align="left">3.9</td>
 <td align="left">0.14</td>
 <td align="left">2</td>
-<td align="left">3.88</td>
+<td align="left">3.9</td>
 <td align="left">0.34</td>
 <td align="left">0.33</td>
 <td align="left">kruskal.test</td>
@@ -1412,7 +1397,7 @@ mtcars %>%
 <td align="left">0.85</td>
 <td align="left">wilcox.test</td>
 <td align="left">7</td>
-<td align="left">4.08</td>
+<td align="left">4.1</td>
 <td align="left">0.2</td>
 <td align="left"></td>
 <td align="left">no.test</td>
@@ -1420,31 +1405,31 @@ mtcars %>%
 <tr class="odd">
 <td>wt</td>
 <td align="left">12</td>
-<td align="left">3.81</td>
+<td align="left">3.8</td>
 <td align="left">0.81</td>
 <td align="left"></td>
 <td align="left">no.test</td>
 <td align="left">1</td>
-<td align="left">2.14</td>
+<td align="left">2.1</td>
 <td align="left">0</td>
 <td align="left">3</td>
-<td align="left">2.77</td>
+<td align="left">2.8</td>
 <td align="left">0.13</td>
 <td align="left">2</td>
-<td align="left">3.37</td>
+<td align="left">3.4</td>
 <td align="left">0.2</td>
 <td align="left">0.12</td>
 <td align="left">kruskal.test</td>
 <td align="left">3</td>
-<td align="left">3.15</td>
+<td align="left">3.1</td>
 <td align="left">0.36</td>
 <td align="left">4</td>
-<td align="left">3.44</td>
-<td align="left">0.06</td>
+<td align="left">3.4</td>
+<td align="left">0.061</td>
 <td align="left">0.05</td>
 <td align="left">wilcox.test</td>
 <td align="left">7</td>
-<td align="left">1.94</td>
+<td align="left">1.9</td>
 <td align="left">0.53</td>
 <td align="left"></td>
 <td align="left">no.test</td>
@@ -1452,31 +1437,31 @@ mtcars %>%
 <tr class="even">
 <td>qsec</td>
 <td align="left">12</td>
-<td align="left">17.35</td>
+<td align="left">17</td>
 <td align="left">0.67</td>
 <td align="left"></td>
 <td align="left">no.test</td>
 <td align="left">1</td>
-<td align="left">16.7</td>
+<td align="left">17</td>
 <td align="left">0</td>
 <td align="left">3</td>
-<td align="left">16.46</td>
+<td align="left">16</td>
 <td align="left">0.76</td>
 <td align="left">2</td>
-<td align="left">14.55</td>
+<td align="left">15</td>
 <td align="left">0.05</td>
 <td align="left">0.17</td>
 <td align="left">kruskal.test</td>
 <td align="left">3</td>
-<td align="left">20.01</td>
-<td align="left">1.45</td>
+<td align="left">20</td>
+<td align="left">1.4</td>
 <td align="left">4</td>
-<td align="left">19.17</td>
+<td align="left">19</td>
 <td align="left">0.89</td>
 <td align="left">0.23</td>
 <td align="left">wilcox.test</td>
 <td align="left">7</td>
-<td align="left">18.61</td>
+<td align="left">19</td>
 <td align="left">0.62</td>
 <td align="left"></td>
 <td align="left">no.test</td>
@@ -1636,41 +1621,41 @@ iris %>%
 <tr class="odd">
 <td align="left">Sepal.Length</td>
 <td align="left">50</td>
-<td align="left">5.01</td>
+<td align="left">5</td>
 <td align="left">0.35</td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left">50</td>
-<td align="left">5.94</td>
+<td align="left">5.9</td>
 <td align="left">0.52</td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left">50</td>
-<td align="left">6.59</td>
+<td align="left">6.6</td>
 <td align="left">0.64</td>
 <td align="left"></td>
 <td align="left"></td>
-<td align="left">0</td>
+<td align="left">8.9e-22</td>
 <td align="left">kruskal.test</td>
 </tr>
 <tr class="even">
 <td align="left">Sepal.Width</td>
 <td align="left">50</td>
-<td align="left">3.43</td>
+<td align="left">3.4</td>
 <td align="left">0.38</td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left">50</td>
-<td align="left">2.77</td>
+<td align="left">2.8</td>
 <td align="left">0.31</td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left">50</td>
-<td align="left">2.97</td>
+<td align="left">3</td>
 <td align="left">0.32</td>
 <td align="left"></td>
 <td align="left"></td>
-<td align="left">0</td>
+<td align="left">4.5e-17</td>
 <td align="left">ANOVA</td>
 </tr>
 <tr class="odd">
@@ -1681,16 +1666,16 @@ iris %>%
 <td align="left">1.5</td>
 <td align="left">0.18</td>
 <td align="left">50</td>
-<td align="left">4.26</td>
+<td align="left">4.3</td>
 <td align="left">0.47</td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left">50</td>
-<td align="left">5.55</td>
+<td align="left">5.6</td>
 <td align="left">0.55</td>
 <td align="left"></td>
 <td align="left"></td>
-<td align="left">0</td>
+<td align="left">4.8e-29</td>
 <td align="left">kruskal.test</td>
 </tr>
 <tr class="even">
@@ -1710,7 +1695,7 @@ iris %>%
 <td align="left"></td>
 <td align="left">2</td>
 <td align="left">0.5</td>
-<td align="left">0</td>
+<td align="left">3.3e-29</td>
 <td align="left">kruskal.test</td>
 </tr>
 </tbody>
@@ -1783,13 +1768,13 @@ iris %>%
 <td align="left"></td>
 <td align="left">6.7</td>
 <td align="left">0.85</td>
-<td align="left">0</td>
+<td align="left">1.6e-15</td>
 <td align="left">wilcox.test</td>
 </tr>
 <tr class="even">
 <td align="left">Sepal.Width</td>
 <td align="left">108</td>
-<td align="left">3.07</td>
+<td align="left">3.1</td>
 <td align="left">0.48</td>
 <td align="left"></td>
 <td align="left"></td>
@@ -1813,7 +1798,7 @@ iris %>%
 <td align="left"></td>
 <td align="left">5.6</td>
 <td align="left">0.67</td>
-<td align="left">0</td>
+<td align="left">2.1e-21</td>
 <td align="left">wilcox.test</td>
 </tr>
 <tr class="even">
@@ -1824,11 +1809,11 @@ iris %>%
 <td align="left">1</td>
 <td align="left">1.2</td>
 <td align="left">42</td>
-<td align="left">2.06</td>
+<td align="left">2.1</td>
 <td align="left">0.28</td>
 <td align="left"></td>
 <td align="left"></td>
-<td align="left">0</td>
+<td align="left">1.6e-19</td>
 <td align="left">wilcox.test</td>
 </tr>
 <tr class="odd">
@@ -1843,13 +1828,13 @@ iris %>%
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
-<td align="left">0</td>
+<td align="left">2.7e-24</td>
 <td align="left">chisq.test</td>
 </tr>
 <tr class="even">
 <td align="left">    setosa</td>
 <td align="left">50</td>
-<td align="left">46.3</td>
+<td align="left">46</td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
@@ -1864,12 +1849,12 @@ iris %>%
 <tr class="odd">
 <td align="left">    versicolor</td>
 <td align="left">49</td>
-<td align="left">45.37</td>
+<td align="left">45</td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left">1</td>
-<td align="left">2.38</td>
+<td align="left">2.4</td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
@@ -1879,12 +1864,12 @@ iris %>%
 <tr class="even">
 <td align="left">    virginica</td>
 <td align="left">9</td>
-<td align="left">8.33</td>
+<td align="left">8.3</td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left">41</td>
-<td align="left">97.62</td>
+<td align="left">98</td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
@@ -1934,12 +1919,12 @@ mtcars %>%
 <tr class="odd">
 <td>mpg</td>
 <td align="left">19</td>
-<td align="left">17.3</td>
-<td align="left">4.25</td>
+<td align="left">17</td>
+<td align="left">4.2</td>
 <td align="left">13</td>
-<td align="left">22.8</td>
+<td align="left">23</td>
 <td align="left">9.4</td>
-<td align="left">0</td>
+<td align="left">0.0014</td>
 <td align="left">t.test</td>
 </tr>
 <tr class="even">
@@ -1950,18 +1935,18 @@ mtcars %>%
 <td align="left">13</td>
 <td align="left">4</td>
 <td align="left">2</td>
-<td align="left">0</td>
+<td align="left">0.0039</td>
 <td align="left">wilcox.test</td>
 </tr>
 <tr class="odd">
 <td>disp</td>
 <td align="left">19</td>
-<td align="left">275.8</td>
-<td align="left">163.7</td>
+<td align="left">276</td>
+<td align="left">164</td>
 <td align="left">13</td>
-<td align="left">120.3</td>
+<td align="left">120</td>
 <td align="left">81</td>
-<td align="left">0</td>
+<td align="left">0.00055</td>
 <td align="left">wilcox.test</td>
 </tr>
 <tr class="even">
@@ -1972,39 +1957,39 @@ mtcars %>%
 <td align="left">13</td>
 <td align="left">109</td>
 <td align="left">47</td>
-<td align="left">0.05</td>
+<td align="left">0.046</td>
 <td align="left">wilcox.test</td>
 </tr>
 <tr class="odd">
 <td>drat</td>
 <td align="left">19</td>
-<td align="left">3.15</td>
+<td align="left">3.1</td>
 <td align="left">0.63</td>
 <td align="left">13</td>
-<td align="left">4.08</td>
+<td align="left">4.1</td>
 <td align="left">0.37</td>
-<td align="left">0</td>
+<td align="left">0.00014</td>
 <td align="left">wilcox.test</td>
 </tr>
 <tr class="even">
 <td>wt</td>
 <td align="left">19</td>
-<td align="left">3.52</td>
+<td align="left">3.5</td>
 <td align="left">0.41</td>
 <td align="left">13</td>
-<td align="left">2.32</td>
+<td align="left">2.3</td>
 <td align="left">0.84</td>
-<td align="left">0</td>
+<td align="left">4.3e-05</td>
 <td align="left">wilcox.test</td>
 </tr>
 <tr class="odd">
 <td>qsec</td>
 <td align="left">19</td>
-<td align="left">17.82</td>
+<td align="left">18</td>
 <td align="left">2</td>
 <td align="left">13</td>
-<td align="left">17.02</td>
-<td align="left">2.15</td>
+<td align="left">17</td>
+<td align="left">2.1</td>
 <td align="left">0.27</td>
 <td align="left">wilcox.test</td>
 </tr>
@@ -2027,7 +2012,7 @@ mtcars %>%
 <td align="left">13</td>
 <td align="left">4</td>
 <td align="left">1</td>
-<td align="left">0</td>
+<td align="left">7.6e-06</td>
 <td align="left">wilcox.test</td>
 </tr>
 <tr class="even">
@@ -2067,13 +2052,13 @@ mtcars %>%
   pander
 ```
 
-<table style="width:56%;">
+<table style="width:53%;">
 <colgroup>
 <col width="9%" />
 <col width="5%" />
 <col width="23%" />
-<col width="8%" />
-<col width="8%" />
+<col width="6%" />
+<col width="6%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -2089,8 +2074,8 @@ mtcars %>%
 <td>mpg</td>
 <td align="left">32</td>
 <td align="left">14042</td>
-<td align="left">15.43</td>
-<td align="left">22.8</td>
+<td align="left">15</td>
+<td align="left">23</td>
 </tr>
 <tr class="even">
 <td>cyl</td>
@@ -2103,36 +2088,36 @@ mtcars %>%
 <td>disp</td>
 <td align="left">32</td>
 <td align="left">2179627</td>
-<td align="left">120.8</td>
+<td align="left">121</td>
 <td align="left">326</td>
 </tr>
 <tr class="even">
 <td>hp</td>
 <td align="left">32</td>
 <td align="left">834278</td>
-<td align="left">96.5</td>
+<td align="left">96</td>
 <td align="left">180</td>
 </tr>
 <tr class="odd">
 <td>drat</td>
 <td align="left">32</td>
-<td align="left">422.8</td>
-<td align="left">3.08</td>
-<td align="left">3.92</td>
+<td align="left">423</td>
+<td align="left">3.1</td>
+<td align="left">3.9</td>
 </tr>
 <tr class="even">
 <td>wt</td>
 <td align="left">32</td>
-<td align="left">360.9</td>
-<td align="left">2.58</td>
-<td align="left">3.61</td>
+<td align="left">361</td>
+<td align="left">2.6</td>
+<td align="left">3.6</td>
 </tr>
 <tr class="odd">
 <td>qsec</td>
 <td align="left">32</td>
 <td align="left">10293</td>
-<td align="left">16.89</td>
-<td align="left">18.9</td>
+<td align="left">17</td>
+<td align="left">19</td>
 </tr>
 <tr class="even">
 <td>vs</td>
@@ -2226,41 +2211,41 @@ iris %>%
 <tr class="odd">
 <td align="left">Sepal.Length</td>
 <td align="left">50</td>
-<td align="left">5.01</td>
+<td align="left">5</td>
 <td align="left">0.35</td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left">50</td>
-<td align="left">5.94</td>
+<td align="left">5.9</td>
 <td align="left">0.52</td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left">50</td>
-<td align="left">6.59</td>
+<td align="left">6.6</td>
 <td align="left">0.64</td>
 <td align="left"></td>
 <td align="left"></td>
-<td align="left">0</td>
+<td align="left">1.7e-31</td>
 <td align="left">purrr::partial(oneway.test, var.equal = T)</td>
 </tr>
 <tr class="even">
 <td align="left">Sepal.Width</td>
 <td align="left">50</td>
-<td align="left">3.43</td>
+<td align="left">3.4</td>
 <td align="left">0.38</td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left">50</td>
-<td align="left">2.77</td>
+<td align="left">2.8</td>
 <td align="left">0.31</td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left">50</td>
-<td align="left">2.97</td>
+<td align="left">3</td>
 <td align="left">0.32</td>
 <td align="left"></td>
 <td align="left"></td>
-<td align="left">0</td>
+<td align="left">1.4e-14</td>
 <td align="left">function(f) oneway.test(f, var.equal = F)</td>
 </tr>
 <tr class="odd">
@@ -2271,16 +2256,16 @@ iris %>%
 <td align="left">1.5</td>
 <td align="left">0.18</td>
 <td align="left">50</td>
-<td align="left">4.26</td>
+<td align="left">4.3</td>
 <td align="left">0.47</td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left">50</td>
-<td align="left">5.55</td>
+<td align="left">5.6</td>
 <td align="left">0.55</td>
 <td align="left"></td>
 <td align="left"></td>
-<td align="left">0</td>
+<td align="left">2.9e-91</td>
 <td align="left">. %&gt;% oneway.test(var.equal = T)</td>
 </tr>
 <tr class="even">
@@ -2300,7 +2285,7 @@ iris %>%
 <td align="left"></td>
 <td align="left">2</td>
 <td align="left">0.5</td>
-<td align="left">0</td>
+<td align="left">3.3e-29</td>
 <td align="left">kruskal.test</td>
 </tr>
 </tbody>
@@ -2355,9 +2340,9 @@ bladder %>%
 <td align="left">24</td>
 <td align="left">24</td>
 <td align="left">152</td>
-<td align="left">66.5</td>
+<td align="left">66</td>
 <td align="left">19</td>
-<td align="left">0</td>
+<td align="left">1.3e-56</td>
 <td align="left">wilcox.test</td>
 </tr>
 <tr class="even">
@@ -2386,10 +2371,10 @@ bladder %>%
 <td align="left">stop</td>
 <td align="left">188</td>
 <td align="left">23</td>
-<td align="left">20.25</td>
+<td align="left">20</td>
 <td align="left">152</td>
 <td align="left">25</td>
-<td align="left">28.5</td>
+<td align="left">28</td>
 <td align="left">0.17</td>
 <td align="left">wilcox.test</td>
 </tr>
@@ -2423,7 +2408,7 @@ bladder %>%
 <td align="left">304</td>
 <td align="left"></td>
 <td align="left"></td>
-<td align="left">0.02</td>
+<td align="left">0.023</td>
 <td align="left">. %&gt;% survdiff %&gt;% .$chisq %&gt;% pchisq(1, lower.tail = F) %&gt;% list(p.value = .)</td>
 </tr>
 </tbody>
