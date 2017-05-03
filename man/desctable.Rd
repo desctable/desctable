@@ -6,11 +6,12 @@
 \alias{desctable.grouped_df}
 \title{Generate a statistics table}
 \usage{
-desctable(data, stats = stats_auto, tests = tests_auto, labels = NULL)
+desctable(data, stats, tests, labels)
 
-desctable.default(data, stats, tests, labels)
+\method{desctable}{default}(data, stats = stats_auto, tests, labels = NULL)
 
-desctable.grouped_df(data, stats, tests, labels)
+\method{desctable}{grouped_df}(data, stats = stats_auto, tests = tests_auto,
+  labels = NULL)
 }
 \arguments{
 \item{data}{The dataframe to analyze}

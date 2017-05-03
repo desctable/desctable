@@ -135,7 +135,7 @@ varColumn <- function(data, labels = NULL)
 #'   group_by(Petal.Length > 5) %>%
 #'   desctable(tests = list(.auto = tests_auto, Species = ~chisq.test))
 #' }
-desctable <- function(data, ...)
+desctable <- function(data, stats, tests, labels)
 {
   # Replace every logical vector with a factor and nice labels
   if (any(data %>% lapply(is.logical) %>% unlist))
@@ -146,7 +146,7 @@ desctable <- function(data, ...)
 
 #' @rdname desctable
 #' @export
-desctable.default <- function(data, stats = stats_auto, labels = NULL)
+desctable.default <- function(data, stats = stats_auto, tests, labels = NULL)
 {
   # Build the complete table
   list(Variables = varColumn(data, labels),
