@@ -9,7 +9,7 @@ Description: This package provides functions to easily create descriptive and
     datatable or pander to integrate into reports.
 Depends:
     R (>= 3.2.3)
-License: file LICENSE
+License: GPL-3 + file LICENSE
 Encoding: UTF-8
 LazyData: true
 URL: https://github.com/maximewack/desctable
