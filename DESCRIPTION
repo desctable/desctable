@@ -12,6 +12,7 @@ Depends:
 License: file LICENSE
 Encoding: UTF-8
 LazyData: true
+URL: https://github.com/maximewack/desctable
 BugReports: https://github.com/maximewack/desctable/issues
 Imports:
     dplyr,
