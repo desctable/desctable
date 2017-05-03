@@ -16,11 +16,12 @@ Imports:
     dplyr,
     purrr,
     DT,
-    htmltools
+    htmltools,
+    pander
 Suggests:
-    pander,
     knitr,
     rmarkdown,
-    survival
+    survival,
+    webshot
 RoxygenNote: 6.0.1
-VignetteBuilder: knitr
+VignetteBuilder: rmarkdown
