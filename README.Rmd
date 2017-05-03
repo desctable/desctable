@@ -19,9 +19,9 @@ Enter **desctable**, a package built with these objectives in mind:
 
   * generate descriptive and comparative statistics tables
   * keep the syntax as simple as possible
-  * has good reasonable defaults
-  * yet is entirely customizable, using standard R tools and functions
-  * integrated with "modern" R usage, and the **tidyverse** set of tools
+  * have good reasonable defaults
+  * yet be entirely customizable, using standard R tools and functions
+  * integrate with "modern" R usage, and the **tidyverse** set of tools
   * produce the simplest (as a data structure) output possible
   * provide helpers for different outputs
   * apply functional paradigms
@@ -171,7 +171,7 @@ iris %>%
 <br>
 
 For reference, here is the body of the `stats_auto` function in the package:
-```{r, echo = F, tidy = T}
+```{r, echo = F}
 print(stats_auto)
 ```
 
