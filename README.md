@@ -10,7 +10,7 @@ Desctable
     -   [Advanced usage](#advanced-usage)
         -   [Automatic function](#automatic-function)
         -   [Statistical functions](#statistical-functions)
-        -   [Conditional formula](#conditional-formula)
+        -   [Conditional formulas](#conditional-formulas)
         -   [Labels](#labels)
 -   [Comparative tables](#comparative-tables)
     -   [Simple usage](#simple-usage-1)
@@ -22,19 +22,21 @@ Desctable
 Introduction
 ============
 
-One thing every person doing data analysis find themselves doing every so often is creating tables for descriptive summaries of data (a.k.a. Table.1), or comparative tables.
+Desctable is a comprehensive descriptive and comparative tables generator for R.
 
-A lot of packages already address this issue, for one the aptly named **tableone** package, but they either include some hard-coded behaviors, are a bit out-fashioned in their syntax (because of the incompatibility with the argument order for use with **dplyr** and the pipe (`%>%`)), or have outputs that are not easily manipulable with standard R tools.
+Every person doing data analysis has to create tables for descriptive summaries of data (a.k.a. Table.1), or comparative tables.
 
-Enter **desctable**, a package built with these objectives in mind:
+Many packages, such as the aptly named **tableone**, adress this issue. However, they often include hard-coded behaviors, have outputs not easily manipulable with standard R tools, or their syntax are out-of-style (e.g. the argument order makes them difficult to use with the pipe (`%>%`)).
 
--   generate descriptive and comparative statistics tables
+Enter **desctable**, a package built with the following objectives in mind:
+
+-   generate descriptive and comparative statistics tables with nesting
 -   keep the syntax as simple as possible
 -   have good reasonable defaults
--   yet be entirely customizable, using standard R tools and functions
--   integrate with "modern" R usage, and the **tidyverse** set of tools
+-   be entirely customizable, using standard R tools and functions
 -   produce the simplest (as a data structure) output possible
 -   provide helpers for different outputs
+-   integrate with "modern" R usage, and the **tidyverse** set of tools
 -   apply functional paradigms
 
 Installation
@@ -110,8 +112,8 @@ As you can see with these two examples, `desctable` describes every variable, wi
 Output
 ------
 
-The resulting object produced by `desctable` is in fact a list of data.frames, with a "desctable" class.
-Methods for reduction to a simple dataframe (`as.data.frame`, automatically used for printing), conversion to markdown (`pander`), and interactive html output with **DT** (`datatable`) are provided (DT not shown here on github):
+The object produced by `desctable` is in fact a list of data.frames, with a "desctable" class.
+Methods for reduction to a simple dataframe (`as.data.frame`, automatically used for printing), conversion to markdown (`pander`), and interactive html output with **DT** (`datatable`) are provided:
 
 ``` r
 iris %>%
@@ -119,9 +121,9 @@ iris %>%
   pander
 ```
 
-<table style="width:81%;">
+<table style="width:65%;">
 <colgroup>
-<col width="38%" />
+<col width="23%" />
 <col width="5%" />
 <col width="12%" />
 <col width="6%" />
@@ -180,7 +182,7 @@ iris %>%
 <td align="left"></td>
 </tr>
 <tr class="even">
-<td align="left"><strong>Species</strong>: <em>setosa</em></td>
+<td align="left">    setosa</td>
 <td align="left">50</td>
 <td align="left">33</td>
 <td align="left"></td>
@@ -188,7 +190,7 @@ iris %>%
 <td align="left"></td>
 </tr>
 <tr class="odd">
-<td align="left"><strong>Species</strong>: <em>versicolor</em></td>
+<td align="left">    versicolor</td>
 <td align="left">50</td>
 <td align="left">33</td>
 <td align="left"></td>
@@ -196,7 +198,7 @@ iris %>%
 <td align="left"></td>
 </tr>
 <tr class="even">
-<td align="left"><strong>Species</strong>: <em>virginica</em></td>
+<td align="left">    virginica</td>
 <td align="left">50</td>
 <td align="left">33</td>
 <td align="left"></td>
@@ -207,14 +209,15 @@ iris %>%
 </table>
 
 <br> You need to load these two packages first (and prior to **desctable** for **DT**) if you want to use them.
-Calls to `pander` and `datatable` with "regular" dataframes will not be affected by the defaults used in the package.
+
+Calls to `pander` and `datatable` with "regular" dataframes will not be affected by the defaults used in the package, and you can modify these defaults for **desctable** objects.
 
 The `datatable` wrapper function for desctable objects comes with some default options and formatting such as freezing the row names and table header, export buttons, and rounding of values. Both `pander` and `datatable` wrapper take a *digits* argument to set the number of decimals to show. (`pander` uses the *digits*, *justify* and *missing* arguments of `pandoc.table`, whereas `datatable` calls `prettyNum` with the `digits` parameter, and removes `NA` values. You can set `digits = NULL` if you want the full table and format it yourself)
 
 Advanced usage
 --------------
 
-`desctable` choses statistical functions for you using this algorithm:
+`desctable` chooses statistical functions for you using this algorithm:
 
 -   always show N
 -   if there are factors, show %
@@ -234,10 +237,14 @@ How does it work, and how can you adapt this behavior to your needs?
 
 ### Automatic function
 
-This is the case by default, with the `stats_auto` function provided in the package.
-You can provide your own automatic function. It needs to accept a dataframe as its argument (also whether to use this dataframe or not is your choice when defining that function) and return a named list of statistical functions to use, as defined in the subsequent paragraphs.
+This is the default, using the `stats_auto` function provided in the package.
 
-Several "automatic statistical functions" are defined in this package: `stats_auto`, `stats_default`, `stats_normal`, `stats_nonnormal`.
+Several other "automatic statistical functions" are defined in this package: `stats_auto`, `stats_default`, `stats_normal`, `stats_nonnormal`.
+
+You can also provide your own automatic function, which needs to
+
+-   accept a dataframe as its argument (whether to use this dataframe or not in the function is your choice), and
+-   return a named list of statistical functions to use, as defined in the subsequent paragraphs.
 
 ``` r
 # Strictly equivalent to iris %>% desctable %>% pander
@@ -246,9 +253,9 @@ iris %>%
   pander
 ```
 
-<table style="width:81%;">
+<table style="width:65%;">
 <colgroup>
-<col width="38%" />
+<col width="23%" />
 <col width="5%" />
 <col width="12%" />
 <col width="6%" />
@@ -307,7 +314,7 @@ iris %>%
 <td align="left"></td>
 </tr>
 <tr class="even">
-<td align="left"><strong>Species</strong>: <em>setosa</em></td>
+<td align="left">    setosa</td>
 <td align="left">50</td>
 <td align="left">33</td>
 <td align="left"></td>
@@ -315,7 +322,7 @@ iris %>%
 <td align="left"></td>
 </tr>
 <tr class="odd">
-<td align="left"><strong>Species</strong>: <em>versicolor</em></td>
+<td align="left">    versicolor</td>
 <td align="left">50</td>
 <td align="left">33</td>
 <td align="left"></td>
@@ -323,7 +330,7 @@ iris %>%
 <td align="left"></td>
 </tr>
 <tr class="even">
-<td align="left"><strong>Species</strong>: <em>virginica</em></td>
+<td align="left">    virginica</td>
 <td align="left">50</td>
 <td align="left">33</td>
 <td align="left"></td>
@@ -336,9 +343,10 @@ iris %>%
 ### Statistical functions
 
 Statistical functions can be any function defined in R that you want to use, such as `length` or `mean`.
-The only condition is that they return a single numerical value for their input (although they also can, as is needed for the `percent` function to be possible, return a vector of length `1 + nlevels(x)` when applied to factors).
 
-They need to be used inside a named list, such as
+The only condition is that they return a single numerical value. One exception is when they return a vector of length `1 + nlevels(x)` when applied to factors, as is needed for the `percent` function.
+
+As mentionned above, they need to be used inside a named list, such as
 
 ``` r
 mtcars %>%
@@ -355,7 +363,7 @@ mtcars %>%
 </colgroup>
 <thead>
 <tr class="header">
-<th align="left"> </th>
+<th> </th>
 <th align="left">N</th>
 <th align="left">Mean</th>
 <th align="left">SD</th>
@@ -363,67 +371,67 @@ mtcars %>%
 </thead>
 <tbody>
 <tr class="odd">
-<td align="left">mpg</td>
+<td>mpg</td>
 <td align="left">32</td>
 <td align="left">20</td>
 <td align="left">6</td>
 </tr>
 <tr class="even">
-<td align="left">cyl</td>
+<td>cyl</td>
 <td align="left">32</td>
 <td align="left">6.2</td>
 <td align="left">1.8</td>
 </tr>
 <tr class="odd">
-<td align="left">disp</td>
+<td>disp</td>
 <td align="left">32</td>
 <td align="left">231</td>
 <td align="left">124</td>
 </tr>
 <tr class="even">
-<td align="left">hp</td>
+<td>hp</td>
 <td align="left">32</td>
 <td align="left">147</td>
 <td align="left">69</td>
 </tr>
 <tr class="odd">
-<td align="left">drat</td>
+<td>drat</td>
 <td align="left">32</td>
 <td align="left">3.6</td>
 <td align="left">0.53</td>
 </tr>
 <tr class="even">
-<td align="left">wt</td>
+<td>wt</td>
 <td align="left">32</td>
 <td align="left">3.2</td>
 <td align="left">0.98</td>
 </tr>
 <tr class="odd">
-<td align="left">qsec</td>
+<td>qsec</td>
 <td align="left">32</td>
 <td align="left">18</td>
 <td align="left">1.8</td>
 </tr>
 <tr class="even">
-<td align="left">vs</td>
+<td>vs</td>
 <td align="left">32</td>
 <td align="left">0.44</td>
 <td align="left">0.5</td>
 </tr>
 <tr class="odd">
-<td align="left">am</td>
+<td>am</td>
 <td align="left">32</td>
 <td align="left">0.41</td>
 <td align="left">0.5</td>
 </tr>
 <tr class="even">
-<td align="left">gear</td>
+<td>gear</td>
 <td align="left">32</td>
 <td align="left">3.7</td>
 <td align="left">0.74</td>
 </tr>
 <tr class="odd">
-<td align="left">carb</td>
+<td>carb</td>
 <td align="left">32</td>
 <td align="left">2.8</td>
 <td align="left">1.6</td>
@@ -435,12 +443,12 @@ mtcars %>%
 
 The names will be used as column headers in the resulting table, and the functions will be applied safely on the variables (errors return `NA`, and for factors the function will be used on individual levels).
 
-Several convenience functions are included in this package. The statistical function ones are: `percent`, which prints percentages of levels in a factor, and `IQR` which re-implements `stats::IQR` but works better with `NA` values.
+Several convenience functions are included in this package. For statistical function we have: `percent`, which prints percentages of levels in a factor, and `IQR` which re-implements `stats::IQR` but works better with `NA` values.
 
-Be aware that **all functions are used on variables stripped of their `NA` values!**
+Be aware that **all functions will be used on variables stripped of their `NA` values!**
 This is necessary for most statistical functions to be useful, and makes **N** (`length`) show only the number of observations in the dataset for each variable.
 
-### Conditional formula
+### Conditional formulas
 
 The general form of these formulas is
 
@@ -448,7 +456,8 @@ The general form of these formulas is
 predicate_function ~ stat_function_if_TRUE | stat_function_if_FALSE
 ```
 
-A predicate function is any function returning either `TRUE` or `FALSE` when applied on a vector. Such functions are `is.factor`, `is.numeric`, `is.logical`. **desctable** provides the `is.normal` function to test for normality (it is equivalent to `length(na.omit(x)) > 30 & shapiro.test(x)$p.value > .1`).
+A predicate function is any function returning either `TRUE` or `FALSE` when applied on a vector, such as `is.factor`, `is.numeric`, and `is.logical`.
+**desctable** provides the `is.normal` function to test for normality (it is equivalent to `length(na.omit(x)) > 30 & shapiro.test(x)$p.value > .1`).
 
 The *FALSE* option can be omitted and `NA` will be produced if the condition in the predicate is not met.
 
@@ -469,9 +478,9 @@ iris %>%
   pander
 ```
 
-<table style="width:69%;">
+<table style="width:54%;">
 <colgroup>
-<col width="38%" />
+<col width="23%" />
 <col width="5%" />
 <col width="12%" />
 <col width="12%" />
@@ -516,19 +525,19 @@ iris %>%
 <td align="left"></td>
 </tr>
 <tr class="even">
-<td align="left"><strong>Species</strong>: <em>setosa</em></td>
+<td align="left">    setosa</td>
 <td align="left">50</td>
 <td align="left">33</td>
 <td align="left"></td>
 </tr>
 <tr class="odd">
-<td align="left"><strong>Species</strong>: <em>versicolor</em></td>
+<td align="left">    versicolor</td>
 <td align="left">50</td>
 <td align="left">33</td>
 <td align="left"></td>
 </tr>
 <tr class="even">
-<td align="left"><strong>Species</strong>: <em>virginica</em></td>
+<td align="left">    virginica</td>
 <td align="left">50</td>
 <td align="left">33</td>
 <td align="left"></td>
@@ -544,8 +553,14 @@ For reference, here is the body of the `stats_auto` function in the package:
     ## {
     ##     shapiro <- data %>% Filter(f = is.numeric) %>% lapply(is.normal) %>% 
     ##         unlist
-    ##     normal <- any(shapiro)
-    ##     nonnormal <- any(!shapiro)
+    ##     if (length(shapiro) == 0) {
+    ##         normal <- F
+    ##         nonnormal <- F
+    ##     }
+    ##     else {
+    ##         normal <- any(shapiro)
+    ##         nonnormal <- any(!shapiro)
+    ##     }
     ##     fact <- any(data %>% lapply(is.factor) %>% unlist)
     ##     if (fact & normal & !nonnormal) 
     ##         stats_normal(data)
@@ -570,7 +585,7 @@ For reference, here is the body of the `stats_auto` function in the package:
 It is often the case that variable names are not "pretty" enough to be used as-is in a table.
 Although you could still edit the variable labels in the table afterwards using subsetting or string replacement functions, it is possible to mention a **labels** argument.
 
-This **labels** argument is a named character vector associating variable names and labels.
+The **labels** argument is a named character vector associating variable names and labels.
 You don't need to provide labels for all the variables, and extra labels will be silently discarded. This allows you to define a "global" labels vector and use it for every table even after variable selections.
 
 ``` r
@@ -592,9 +607,9 @@ mtcars %>%
   pander
 ```
 
-<table style="width:86%;">
+<table style="width:78%;">
 <colgroup>
-<col width="44%" />
+<col width="36%" />
 <col width="5%" />
 <col width="12%" />
 <col width="6%" />
@@ -685,7 +700,7 @@ mtcars %>%
 <td align="left"></td>
 </tr>
 <tr class="even">
-<td align="left"><strong>Transmission</strong>: <em>Automatic</em></td>
+<td align="left">    Automatic</td>
 <td align="left">19</td>
 <td align="left">59</td>
 <td align="left"></td>
@@ -693,7 +708,7 @@ mtcars %>%
 <td align="left"></td>
 </tr>
 <tr class="odd">
-<td align="left"><strong>Transmission</strong>: <em>Manual</em></td>
+<td align="left">    Manual</td>
 <td align="left">13</td>
 <td align="left">41</td>
 <td align="left"></td>
@@ -802,10 +817,11 @@ iris_by_Species
     ## Petal.Length                              NA 4.803974e-29 kruskal.test
     ## Petal.Width                              0.5 3.261796e-29 kruskal.test
 
-The result is a table containing a descriptive subtable for each level of the grouping factor (the statistical functions rules are applied to each subtable independently), with the statistical tests performed and their p value.
-When displayed as a flat dataframe, the grouping header appear in each variable.
+The result is a table containing a descriptive subtable for each level of the grouping factor (the statistical functions rules are applied to each subtable independently), with the statistical tests performed, and their p values.
 
-You can also see them by inspecting the resulting object, which is a deep list of dataframes, each dataframe named after the grouping factor and its levels (with sample size for each).
+When displayed as a flat dataframe, the grouping header appears in each variable.
+
+You can also see the grouping headers by inspecting the resulting object, which is a deep list of dataframes, each dataframe named after the grouping factor and its levels (with sample size for each).
 
 ``` r
 str(iris_by_Species)
@@ -864,7 +880,7 @@ mtcars %>%
 </colgroup>
 <thead>
 <tr class="header">
-<th align="left"> </th>
+<th> </th>
 <th align="left">cyl: 4 (n=11)<br/>N</th>
 <th align="left"><br/>Med</th>
 <th align="left"><br/>IQR</th>
@@ -880,7 +896,7 @@ mtcars %>%
 </thead>
 <tbody>
 <tr class="odd">
-<td align="left">mpg</td>
+<td>mpg</td>
 <td align="left">11</td>
 <td align="left">26</td>
 <td align="left">7.6</td>
@@ -894,7 +910,7 @@ mtcars %>%
 <td align="left">kruskal.test</td>
 </tr>
 <tr class="even">
-<td align="left">disp</td>
+<td>disp</td>
 <td align="left">11</td>
 <td align="left">108</td>
 <td align="left">42</td>
@@ -908,7 +924,7 @@ mtcars %>%
 <td align="left">kruskal.test</td>
 </tr>
 <tr class="odd">
-<td align="left">hp</td>
+<td>hp</td>
 <td align="left">11</td>
 <td align="left">91</td>
 <td align="left">30</td>
@@ -922,7 +938,7 @@ mtcars %>%
 <td align="left">kruskal.test</td>
 </tr>
 <tr class="even">
-<td align="left">drat</td>
+<td>drat</td>
 <td align="left">11</td>
 <td align="left">4.1</td>
 <td align="left">0.35</td>
@@ -936,7 +952,7 @@ mtcars %>%
 <td align="left">kruskal.test</td>
 </tr>
 <tr class="odd">
-<td align="left">wt</td>
+<td>wt</td>
 <td align="left">11</td>
 <td align="left">2.2</td>
 <td align="left">0.74</td>
@@ -950,7 +966,7 @@ mtcars %>%
 <td align="left">kruskal.test</td>
 </tr>
 <tr class="even">
-<td align="left">qsec</td>
+<td>qsec</td>
 <td align="left">11</td>
 <td align="left">19</td>
 <td align="left">1.4</td>
@@ -964,7 +980,7 @@ mtcars %>%
 <td align="left">kruskal.test</td>
 </tr>
 <tr class="odd">
-<td align="left">vs</td>
+<td>vs</td>
 <td align="left">11</td>
 <td align="left">1</td>
 <td align="left">0</td>
@@ -978,7 +994,7 @@ mtcars %>%
 <td align="left">kruskal.test</td>
 </tr>
 <tr class="even">
-<td align="left">am</td>
+<td>am</td>
 <td align="left">11</td>
 <td align="left">1</td>
 <td align="left">0.5</td>
@@ -992,7 +1008,7 @@ mtcars %>%
 <td align="left">kruskal.test</td>
 </tr>
 <tr class="odd">
-<td align="left">gear</td>
+<td>gear</td>
 <td align="left">11</td>
 <td align="left">4</td>
 <td align="left">0</td>
@@ -1006,7 +1022,7 @@ mtcars %>%
 <td align="left">kruskal.test</td>
 </tr>
 <tr class="even">
-<td align="left">carb</td>
+<td>carb</td>
 <td align="left">11</td>
 <td align="left">2</td>
 <td align="left">1</td>
@@ -1031,15 +1047,15 @@ iris %>%
   pander
 ```
 
-<table style="width:100%;">
+<table>
 <colgroup>
+<col width="9%" />
 <col width="14%" />
-<col width="13%" />
 <col width="7%" />
 <col width="5%" />
 <col width="5%" />
 <col width="5%" />
-<col width="12%" />
+<col width="13%" />
 <col width="7%" />
 <col width="5%" />
 <col width="5%" />
@@ -1141,7 +1157,7 @@ iris %>%
 <td align="left">fisher.test</td>
 </tr>
 <tr class="even">
-<td align="left"><strong>Species</strong>: <em>setosa</em></td>
+<td align="left">    setosa</td>
 <td align="left">50</td>
 <td align="left">46</td>
 <td align="left"></td>
@@ -1153,10 +1169,10 @@ iris %>%
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
-<td align="left">NA</td>
+<td align="left"></td>
 </tr>
 <tr class="odd">
-<td align="left"><strong>Species</strong>: <em>versicolor</em></td>
+<td align="left">    versicolor</td>
 <td align="left">49</td>
 <td align="left">45</td>
 <td align="left"></td>
@@ -1168,10 +1184,10 @@ iris %>%
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
-<td align="left">NA</td>
+<td align="left"></td>
 </tr>
 <tr class="even">
-<td align="left"><strong>Species</strong>: <em>virginica</em></td>
+<td align="left">    virginica</td>
 <td align="left">9</td>
 <td align="left">8.3</td>
 <td align="left"></td>
@@ -1183,7 +1199,7 @@ iris %>%
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
-<td align="left">NA</td>
+<td align="left"></td>
 </tr>
 </tbody>
 </table>
@@ -1235,7 +1251,7 @@ mtcars %>%
 </colgroup>
 <thead>
 <tr class="header">
-<th align="left"> </th>
+<th> </th>
 <th align="left">vs: 0 (n=18)<br/>am: Automatic (n=12)<br/>cyl: 8 (n=12)<br/>N</th>
 <th align="left"><br/><br/><br/>Med</th>
 <th align="left"><br/><br/><br/>IQR</th>
@@ -1269,7 +1285,7 @@ mtcars %>%
 </thead>
 <tbody>
 <tr class="odd">
-<td align="left">mpg</td>
+<td>mpg</td>
 <td align="left">12</td>
 <td align="left">15</td>
 <td align="left">2.6</td>
@@ -1301,7 +1317,7 @@ mtcars %>%
 <td align="left">no.test</td>
 </tr>
 <tr class="even">
-<td align="left">disp</td>
+<td>disp</td>
 <td align="left">12</td>
 <td align="left">355</td>
 <td align="left">113</td>
@@ -1333,7 +1349,7 @@ mtcars %>%
 <td align="left">no.test</td>
 </tr>
 <tr class="odd">
-<td align="left">hp</td>
+<td>hp</td>
 <td align="left">12</td>
 <td align="left">180</td>
 <td align="left">44</td>
@@ -1365,7 +1381,7 @@ mtcars %>%
 <td align="left">no.test</td>
 </tr>
 <tr class="even">
-<td align="left">drat</td>
+<td>drat</td>
 <td align="left">12</td>
 <td align="left">3.1</td>
 <td align="left">0.11</td>
@@ -1397,7 +1413,7 @@ mtcars %>%
 <td align="left">no.test</td>
 </tr>
 <tr class="odd">
-<td align="left">wt</td>
+<td>wt</td>
 <td align="left">12</td>
 <td align="left">3.8</td>
 <td align="left">0.81</td>
@@ -1429,7 +1445,7 @@ mtcars %>%
 <td align="left">no.test</td>
 </tr>
 <tr class="even">
-<td align="left">qsec</td>
+<td>qsec</td>
 <td align="left">12</td>
 <td align="left">17</td>
 <td align="left">0.67</td>
@@ -1461,7 +1477,7 @@ mtcars %>%
 <td align="left">no.test</td>
 </tr>
 <tr class="odd">
-<td align="left">gear</td>
+<td>gear</td>
 <td align="left">12</td>
 <td align="left">3</td>
 <td align="left">0</td>
@@ -1493,7 +1509,7 @@ mtcars %>%
 <td align="left">no.test</td>
 </tr>
 <tr class="even">
-<td align="left">carb</td>
+<td>carb</td>
 <td align="left">12</td>
 <td align="left">3</td>
 <td align="left">2</td>
@@ -1531,7 +1547,7 @@ mtcars %>%
 
 In the case of nested groups (a.k.a. sub-group analysis), statistical tests are performed only between the groups of the deepest grouping level.
 
-Statistical tests are automatically picked depending on the data and the grouping factor.
+Statistical tests are automatically selected depending on the data and the grouping factor.
 
 Advanced usage
 --------------
@@ -1547,7 +1563,7 @@ Advanced usage
     -   and the variable presents homoskedasticity (p value for `bartlett.test` &gt; .1) and normality of distribution in all groups, use `ANOVA` (a wrapper around `oneway.test` with parameter `var.equal = T`)
     -   else use `kruskal.test`
 
-But what if you have reasons, or need to pick a specific test for a specific variable, or change all the tests altogether?
+But what if you want to pick a specific test for a specific variable, or change all the tests altogether?
 
 `desctable` takes an optional *tests* argument. This argument can either be
 
@@ -1556,8 +1572,13 @@ But what if you have reasons, or need to pick a specific test for a specific var
 
 ### Automatic function
 
-This is the case by default, with the `tests_auto` function provided in the package.
-You can provide your own automatic function. It needs to accept a variable and a grouping factor as its arguments and return a single-term formula containing a statistical test function.
+This is the default, using the `tests_auto` function provided in the package.
+
+You can also provide your own automatic function, which needs to
+
+-   accept a variable and a grouping factor as its arguments, and
+-   return a single-term formula containing a statistical test function.
+
 This function will be used on every variable and every grouping factor to determine the appropriate test.
 
 ``` r
@@ -1699,11 +1720,12 @@ iris %>%
 
 ### List of statistical test functions
 
-You can provide a named list of statistical functions, but here the mechanism is a bit different from the **stats** argument.
+You can provide a named list of statistical functions, but here the mechanism is a bit different from the *stats* argument.
 
-The list must contain exactly one of `.auto` or `.default`.
-`.auto` needs to be an automatic function, such as `tests_auto`. It will be used by default on all variables to select a test.
-`.default` needs to be a single-term formula containing a statistical test function that will be used on all variables.
+The list must contain either `.auto` or `.default`.
+
+-   `.auto` needs to be an automatic function, such as `tests_auto`. It will be used by default on all variables to select a test
+-   `.default` needs to be a single-term formula containing a statistical test function that will be used on all variables
 
 You can also provide overrides to use specific tests for specific variables.
 This is done using list items named as the variable and containing a single-term formula function.
@@ -1716,15 +1738,15 @@ iris %>%
   pander
 ```
 
-<table style="width:100%;">
+<table>
 <colgroup>
+<col width="9%" />
 <col width="14%" />
-<col width="13%" />
 <col width="7%" />
 <col width="5%" />
 <col width="5%" />
 <col width="5%" />
-<col width="12%" />
+<col width="13%" />
 <col width="7%" />
 <col width="5%" />
 <col width="5%" />
@@ -1826,7 +1848,7 @@ iris %>%
 <td align="left">chisq.test</td>
 </tr>
 <tr class="even">
-<td align="left"><strong>Species</strong>: <em>setosa</em></td>
+<td align="left">    setosa</td>
 <td align="left">50</td>
 <td align="left">46</td>
 <td align="left"></td>
@@ -1838,10 +1860,10 @@ iris %>%
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
-<td align="left">NA</td>
+<td align="left"></td>
 </tr>
 <tr class="odd">
-<td align="left"><strong>Species</strong>: <em>versicolor</em></td>
+<td align="left">    versicolor</td>
 <td align="left">49</td>
 <td align="left">45</td>
 <td align="left"></td>
@@ -1853,10 +1875,10 @@ iris %>%
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
-<td align="left">NA</td>
+<td align="left"></td>
 </tr>
 <tr class="even">
-<td align="left"><strong>Species</strong>: <em>virginica</em></td>
+<td align="left">    virginica</td>
 <td align="left">9</td>
 <td align="left">8.3</td>
 <td align="left"></td>
@@ -1868,7 +1890,7 @@ iris %>%
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
-<td align="left">NA</td>
+<td align="left"></td>
 </tr>
 </tbody>
 </table>
@@ -1898,7 +1920,7 @@ mtcars %>%
 </colgroup>
 <thead>
 <tr class="header">
-<th align="left"> </th>
+<th> </th>
 <th align="left">am: Automatic (n=19)<br/>N</th>
 <th align="left"><br/>Med</th>
 <th align="left"><br/>IQR</th>
@@ -1911,7 +1933,7 @@ mtcars %>%
 </thead>
 <tbody>
 <tr class="odd">
-<td align="left">mpg</td>
+<td>mpg</td>
 <td align="left">19</td>
 <td align="left">17</td>
 <td align="left">4.2</td>
@@ -1922,7 +1944,7 @@ mtcars %>%
 <td align="left">t.test</td>
 </tr>
 <tr class="even">
-<td align="left">cyl</td>
+<td>cyl</td>
 <td align="left">19</td>
 <td align="left">8</td>
 <td align="left">2</td>
@@ -1933,7 +1955,7 @@ mtcars %>%
 <td align="left">wilcox.test</td>
 </tr>
 <tr class="odd">
-<td align="left">disp</td>
+<td>disp</td>
 <td align="left">19</td>
 <td align="left">276</td>
 <td align="left">164</td>
@@ -1944,7 +1966,7 @@ mtcars %>%
 <td align="left">wilcox.test</td>
 </tr>
 <tr class="even">
-<td align="left">hp</td>
+<td>hp</td>
 <td align="left">19</td>
 <td align="left">175</td>
 <td align="left">76</td>
@@ -1955,7 +1977,7 @@ mtcars %>%
 <td align="left">wilcox.test</td>
 </tr>
 <tr class="odd">
-<td align="left">drat</td>
+<td>drat</td>
 <td align="left">19</td>
 <td align="left">3.1</td>
 <td align="left">0.63</td>
@@ -1966,7 +1988,7 @@ mtcars %>%
 <td align="left">wilcox.test</td>
 </tr>
 <tr class="even">
-<td align="left">wt</td>
+<td>wt</td>
 <td align="left">19</td>
 <td align="left">3.5</td>
 <td align="left">0.41</td>
@@ -1977,7 +1999,7 @@ mtcars %>%
 <td align="left">wilcox.test</td>
 </tr>
 <tr class="odd">
-<td align="left">qsec</td>
+<td>qsec</td>
 <td align="left">19</td>
 <td align="left">18</td>
 <td align="left">2</td>
@@ -1988,7 +2010,7 @@ mtcars %>%
 <td align="left">wilcox.test</td>
 </tr>
 <tr class="even">
-<td align="left">vs</td>
+<td>vs</td>
 <td align="left">19</td>
 <td align="left">0</td>
 <td align="left">1</td>
@@ -1999,7 +2021,7 @@ mtcars %>%
 <td align="left">wilcox.test</td>
 </tr>
 <tr class="odd">
-<td align="left">gear</td>
+<td>gear</td>
 <td align="left">19</td>
 <td align="left">3</td>
 <td align="left">0</td>
@@ -2010,7 +2032,7 @@ mtcars %>%
 <td align="left">wilcox.test</td>
 </tr>
 <tr class="even">
-<td align="left">carb</td>
+<td>carb</td>
 <td align="left">19</td>
 <td align="left">3</td>
 <td align="left">2</td>
@@ -2025,17 +2047,21 @@ mtcars %>%
 
 <br>
 
-You might wonder why the formula expression. That is needed to capture the test name, to be able to provide it in the resulting table.
+You might wonder why the formula expression. That is needed to capture the test name, and to provide it in the resulting table.
 
-As with statistical functions, any statistical test function defined is R can be used.
-The conditions are that the function accepts a formula (`variable ~ grouping_variable`) as a first positional argument (as is the case with most tests, like `t.test`), and returns an object with a `p.value` element.
+As with statistical functions, any statistical test function defined in R can be used.
 
-Several convenience function are provided: formula versions for `chisq.test` and `fisher.test` are provided using generic S3 methods (thus the behavior of standard calls to `chisq.test` and `fisher.test` are not modified), and `ANOVA`, a partial application of `oneway.test` with paramater `var.equal = T`.
+The conditions are that the function
+
+-   accepts a formula (`variable ~ grouping_variable`) as a first positional argument (as is the case with most tests, like `t.test`), and
+-   returns an object with a `p.value` element.
+
+Several convenience function are provided: formula versions for `chisq.test` and `fisher.test` using generic S3 methods (thus the behavior of standard calls to `chisq.test` and `fisher.test` are not modified), and `ANOVA`, a partial application of `oneway.test` with parameter *var.equal* = T.
 
 Tips and tricks
 ===============
 
-In the *stats* argument, you can not only provide function names, but even arbitrary function definitions, functional sequences (provided with the pie `(%>%)`, or partial applications (with the **purrr** package):
+In the *stats* argument, you can not only feed function names, but even arbitrary function definitions, functional sequences (a feature provided with the pipe (`%>%`)), or partial applications (with the **purrr** package):
 
 ``` r
 mtcars %>%
@@ -2056,7 +2082,7 @@ mtcars %>%
 </colgroup>
 <thead>
 <tr class="header">
-<th align="left"> </th>
+<th> </th>
 <th align="left">N</th>
 <th align="left">Sum of squares</th>
 <th align="left">Q1</th>
@@ -2065,77 +2091,77 @@ mtcars %>%
 </thead>
 <tbody>
 <tr class="odd">
-<td align="left">mpg</td>
+<td>mpg</td>
 <td align="left">32</td>
 <td align="left">14042</td>
 <td align="left">15</td>
 <td align="left">23</td>
 </tr>
 <tr class="even">
-<td align="left">cyl</td>
+<td>cyl</td>
 <td align="left">32</td>
 <td align="left">1324</td>
 <td align="left">4</td>
 <td align="left">8</td>
 </tr>
 <tr class="odd">
-<td align="left">disp</td>
+<td>disp</td>
 <td align="left">32</td>
 <td align="left">2179627</td>
 <td align="left">121</td>
 <td align="left">326</td>
 </tr>
 <tr class="even">
-<td align="left">hp</td>
+<td>hp</td>
 <td align="left">32</td>
 <td align="left">834278</td>
 <td align="left">96</td>
 <td align="left">180</td>
 </tr>
 <tr class="odd">
-<td align="left">drat</td>
+<td>drat</td>
 <td align="left">32</td>
 <td align="left">423</td>
 <td align="left">3.1</td>
 <td align="left">3.9</td>
 </tr>
 <tr class="even">
-<td align="left">wt</td>
+<td>wt</td>
 <td align="left">32</td>
 <td align="left">361</td>
 <td align="left">2.6</td>
 <td align="left">3.6</td>
 </tr>
 <tr class="odd">
-<td align="left">qsec</td>
+<td>qsec</td>
 <td align="left">32</td>
 <td align="left">10293</td>
 <td align="left">17</td>
 <td align="left">19</td>
 </tr>
 <tr class="even">
-<td align="left">vs</td>
+<td>vs</td>
 <td align="left">32</td>
 <td align="left">14</td>
 <td align="left">0</td>
 <td align="left">1</td>
 </tr>
 <tr class="odd">
-<td align="left">am</td>
+<td>am</td>
 <td align="left">32</td>
 <td align="left">13</td>
 <td align="left">0</td>
 <td align="left">1</td>
 </tr>
 <tr class="even">
-<td align="left">gear</td>
+<td>gear</td>
 <td align="left">32</td>
 <td align="left">452</td>
 <td align="left">3</td>
 <td align="left">4</td>
 </tr>
 <tr class="odd">
-<td align="left">carb</td>
+<td>carb</td>
 <td align="left">32</td>
 <td align="left">334</td>
 <td align="left">2</td>
