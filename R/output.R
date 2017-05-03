@@ -126,7 +126,7 @@ datatable.desctable <- function(data,
                                 plugins = NULL, 
                                 digits = 2, ...)
 {
-  data$Variables$Variables <- gsub("\\*\\*(.*?)\\*\\*: \\*(.*?)\\*", "\u00A\u00A\u00A\u00A0\\2", data$Variables$Variables)
+  data$Variables$Variables <- gsub("\\*\\*(.*?)\\*\\*: \\*(.*?)\\*", "\u00A0\u00A0\u00A0\u00A0\\2", data$Variables$Variables)
   data$Variables$Variables <- gsub("\\*\\*(.*?)\\*\\*", "<b>\\1</b>", data$Variables$Variables)
 
   header <- data %>% header("datatable")
