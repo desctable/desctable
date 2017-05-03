@@ -22,7 +22,7 @@ statTable <- function(data, stats)
     stats = stats(data)
 
   stats %>%
-    sapply(statColumn, data) %>%
+    lapply(statColumn, data) %>%
     data.frame(check.names = F, row.names = NULL, stringsAsFactors = F)
 }
 
