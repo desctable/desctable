@@ -132,9 +132,12 @@ datatable.desctable <- function(data,
   header <- data %>% header("datatable")
 
   data[-1] %>%
-  flatten_desctable %>%
-    lapply(prettyNum, digits = digits, ...) %>%
-    lapply(gsub, pattern = "^NA$", replacement = "") %>%
+  flatten_desctable -> flat
+
+  if (!is.null(digits))
+    flat <- flat %>% lapply(prettyNum, digits = digits) %>% lapply(gsub, pattern = "^NA$", replacement = "")
+
+  flat %>%
     data.frame(check.names = F, row.names = data$Variables$Variables, stringsAsFactors = F) %>%
     DT::datatable(container = header,
                   options = options,
