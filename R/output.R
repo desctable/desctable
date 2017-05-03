@@ -36,7 +36,7 @@ as.data.frame.desctable <- function(x, ...)
 #' @inheritParams pander::pandoc.table
 #' @export
 pander.desctable <- function(x = NULL,
-                             round = 2,
+                             digits = 2,
                              justify = "left",
                              missing = "",
                              keep.line.breaks = T,
@@ -44,6 +44,9 @@ pander.desctable <- function(x = NULL,
                              emphasize.rownames = F,
                              ...)
 {
+  if (is.null(digits))
+    digits <- pander::panderOptions("digits")
+
   x$Variables$Variables <- gsub("\\*\\*(.*?)\\*\\*: \\*(.*?)\\*", "\u00A0\u00A0\u00A0\u00A0\\2", x$Variables$Variables)
 
   header <- x %>% header("pander")
@@ -53,7 +56,7 @@ pander.desctable <- function(x = NULL,
     data.frame(check.names = F, row.names = x$Variables$Variables, stringsAsFactors = F) %>%
     stats::setNames(header) %>%
     pander::pandoc.table(justify = justify,
-                         round = round,
+                         digits = digits,
                          missing = missing,
                          keep.line.breaks = keep.line.breaks,
                          split.tables = split.tables,
