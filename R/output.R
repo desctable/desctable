@@ -68,35 +68,31 @@ pander.desctable <- function(x = NULL,
 #'
 #' @inheritParams DT::datatable
 #' @export
-datatable <- function(data,
-                      digits = 2,
-                      options = list(),
-                      class = "display",
-                      callback = DT::JS("return table;"),
-                      rownames,
-                      colnames,
-                      container,
-                      caption = NULL,
-                      filter = c("none", "bottom", "top"),
-                      escape = TRUE,
-                      style = "default",
-                      width = NULL,
-                      height = NULL,
-                      elementId = NULL,
-                      fillContainer = getOption("DT.fillContainer", NULL),
-                      autoHideNavigation = getOption("DT.autoHideNavigation", NULL),
-                      selection = c("multiple", "single", "none"),
-                      extensions = list(),
-                      plugins = NULL)
+datatable <- function(data, ...)
 {
-  UseMethod("datatable")
+  UseMethod("datatable", data)
 }
 
 #' @rdname datatable
 #' @export
-datatable.default <- function(data, ...)
+datatable.default <- function(data,
+                              options = list(),
+                              class = "display",
+                              callback = DT::JS("return table;"),
+                              caption = NULL,
+                              filter = c("none", "bottom", "top"),
+                              escape = TRUE,
+                              style = "default",
+                              width = NULL,
+                              height = NULL,
+                              elementId = NULL,
+                              fillContainer = getOption("DT.fillContainer", NULL),
+                              autoHideNavigation = getOption("DT.autoHideNavigation", NULL),
+                              selection = c("multiple", "single", "none"),
+                              extensions = list(), 
+                              plugins = NULL, ...)
 {
-  DT::datatable(data, ...)
+  DT::datatable(data, options = options, class = class, callback = callback, caption = caption, filter = filter, escape = escape, style = style, width = width, height = height, elementId = elementId, fillContainer = fillContainer, autoHideNavigation = autoHideNavigation, selection = selection, extensions = extensions, plugins = plugins, ...)
 }
 
 #' datatable method for desctable
@@ -106,7 +102,29 @@ datatable.default <- function(data, ...)
 #' @rdname datatable
 #' @inheritParams base::prettyNum
 #' @export
-datatable.desctable <- function(data = NULL, digits = 2, ...)
+datatable.desctable <- function(data,
+                                options = list(paging = F,
+                                               info = F,
+                                               search = F,
+                                               dom = "Brtip",
+                                               fixedColumns = T,
+                                               fixedHeader = T,
+                                               buttons = c("copy", "excel")),
+                                class = "display",
+                                callback = DT::JS("return table;"),
+                                caption = NULL,
+                                filter = c("none", "bottom", "top"),
+                                escape = FALSE,
+                                style = "default",
+                                width = NULL,
+                                height = NULL,
+                                elementId = NULL,
+                                fillContainer = getOption("DT.fillContainer", NULL),
+                                autoHideNavigation = getOption("DT.autoHideNavigation", NULL),
+                                selection = c("multiple", "single", "none"),
+                                extensions = c("FixedHeader", "FixedColumns", "Buttons"),
+                                plugins = NULL, 
+                                digits = 2, ...)
 {
   data$Variables$Variables <- gsub("\\*\\*(.*?)\\*\\*: \\*(.*?)\\*", "\u00A\u00A\u00A\u00A0\\2", data$Variables$Variables)
   data$Variables$Variables <- gsub("\\*\\*(.*?)\\*\\*", "<b>\\1</b>", data$Variables$Variables)
@@ -119,13 +137,19 @@ datatable.desctable <- function(data = NULL, digits = 2, ...)
     lapply(gsub, pattern = "^NA$", replacement = "") %>%
     data.frame(check.names = F, row.names = data$Variables$Variables, stringsAsFactors = F) %>%
     DT::datatable(container = header,
-                  options = list(paging = F,
-                                 info = F,
-                                 search = F,
-                                 dom = "Brtip",
-                                 fixedColumns = T,
-                                 fixedHeader = T,
-                                 buttons = c("copy", "excel")),
-                  extensions = c("FixedHeader", "FixedColumns", "Buttons"),
-                  escape = F)
+                  options = options,
+                  extensions = extensions,
+                  escape = escape, 
+                  class = class,
+                  callback = callback,
+                  caption = caption,
+                  filter = filter,
+                  style = style,
+                  width = width,
+                  height = height,
+                  elementId = elementId,
+                  fillContainer = fillContainer,
+                  autoHideNavigation = autoHideNavigation,
+                  selection = selection,
+                  plugins = plugins, ...)
 }
