@@ -22,11 +22,9 @@ as.data.frame.desctable <- function(x, ...)
 
   header <- x %>% header("dataframe")
 
-  x[-1] -> df
-
-  df %>%
+  x %>%
     flatten_desctable %>%
-    data.frame(row.names = x$Variables$Variables, check.names = F, ...) %>%
+    data.frame(check.names = F, ...) %>%
     stats::setNames(header)
 }
 
@@ -51,9 +49,9 @@ pander.desctable <- function(x = NULL,
 
   header <- x %>% header("pander")
 
-  x[-1] %>%
+  x %>%
     flatten_desctable %>%
-    data.frame(check.names = F, row.names = x$Variables$Variables, stringsAsFactors = F) %>%
+    data.frame(check.names = F, stringsAsFactors = F) %>%
     stats::setNames(header) %>%
     pander::pandoc.table(justify = justify,
                          digits = digits,
@@ -124,6 +122,7 @@ datatable.desctable <- function(data,
                                 selection = c("multiple", "single", "none"),
                                 extensions = c("FixedHeader", "FixedColumns", "Buttons"),
                                 plugins = NULL, 
+                                rownames = F,
                                 digits = 2, ...)
 {
   data$Variables$Variables <- gsub("\\*\\*(.*?)\\*\\*: \\*(.*?)\\*", "\u00A0\u00A0\u00A0\u00A0\\2", data$Variables$Variables)
@@ -131,14 +130,14 @@ datatable.desctable <- function(data,
 
   header <- data %>% header("datatable")
 
-  data[-1] %>%
+  data %>%
   flatten_desctable -> flat
 
   if (!is.null(digits))
     flat <- flat %>% lapply(prettyNum, digits = digits) %>% lapply(gsub, pattern = "^NA$", replacement = "")
 
   flat %>%
-    data.frame(check.names = F, row.names = data$Variables$Variables, stringsAsFactors = F) %>%
+    data.frame(check.names = F, stringsAsFactors = F) %>%
     DT::datatable(container = header,
                   options = options,
                   extensions = extensions,
@@ -154,5 +153,6 @@ datatable.desctable <- function(data,
                   fillContainer = fillContainer,
                   autoHideNavigation = autoHideNavigation,
                   selection = selection,
-                  plugins = plugins, ...)
+                  plugins = plugins,
+                  rownames = rownames, ...)
 }

@@ -127,7 +127,7 @@ header <- function(desctable, output = c("pander", "datatable", "dataframe"))
   nm <- desctable %>%
     `[`(-1) %>%
     flatten_desctable %>%
-    data.frame(row.names = desctable$Variables$Variables, check.names = F) %>%
+    data.frame(check.names = F) %>%
     names
 
   desctable <- desctable[-1]
@@ -137,7 +137,7 @@ header <- function(desctable, output = c("pander", "datatable", "dataframe"))
     if (output == "datatable")
       c("", nm) %>% lapply(htmltools::tags$th) %>% htmltools::tags$tr() %>% htmltools::tags$thead() %>% htmltools::tags$table(class = "display")
     else
-      nm
+      c("", nm)
   }
   else
   {
@@ -145,7 +145,7 @@ header <- function(desctable, output = c("pander", "datatable", "dataframe"))
 
     if (output == "pander")
     {
-      head_pander(head) %>% paste(nm, sep = "<br/>")
+      c("", head_pander(head) %>% paste(nm, sep = "<br/>"))
     } else if (output == "datatable")
     {
       c(head_datatable(head), list(nm %>% lapply(htmltools::tags$th))) -> head
@@ -156,7 +156,7 @@ header <- function(desctable, output = c("pander", "datatable", "dataframe"))
         htmltools::tags$table(class = "display")
     } else if (output == "dataframe")
     {
-      head_dataframe(head) %>% paste(nm, sep = " / ")
+      c("", head_dataframe(head) %>% paste(nm, sep = " / "))
     }
   }
 }
@@ -174,7 +174,6 @@ headerList <- function(desctable)
   else
   {
     lapply(desctable, headerList) -> rec
-    # desctable %>% lapply(headerList) -> rec
     if (is.integer(rec[[1]]))
       attr(rec, "colspan") <- rec %>% unlist %>% sum
     else
