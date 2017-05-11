@@ -45,7 +45,6 @@ If data is a grouped dataframe (using group_by), subtables are created and stati
 The output is a desctable object, which is a list of named dataframes that can be further manipulated. Methods for printing, using in pander and DT::datatable are present. Printing reduces the object to a dataframe.
 }
 \examples{
-\dontrun{
 iris \%>\%
   desctable
 
@@ -76,7 +75,6 @@ mtcars \%>\%
 iris \%>\%
   group_by(Petal.Length > 5) \%>\%
   desctable(tests = list(.auto = tests_auto, Species = ~chisq.test))
-}
 }
 \seealso{
 \code{\link{stats_auto}}

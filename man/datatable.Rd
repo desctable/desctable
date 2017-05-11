@@ -26,7 +26,8 @@ datatable(data, ...)
   fillContainer = getOption("DT.fillContainer", NULL),
   autoHideNavigation = getOption("DT.autoHideNavigation", NULL),
   selection = c("multiple", "single", "none"), extensions = c("FixedHeader",
-  "FixedColumns", "Buttons"), plugins = NULL, digits = 2, ...)
+  "FixedColumns", "Buttons"), plugins = NULL, rownames = F, digits = 2,
+  ...)
 }
 \arguments{
 \item{data}{A desctable}
@@ -98,6 +99,10 @@ extensions (\url{http://datatables.net/extensions/index})}
 
 \item{plugins}{a character vector of the names of DataTables plug-ins
 (\url{http://rstudio.github.io/DT/plugins.html})}
+
+\item{rownames}{\code{TRUE} (show row names) or \code{FALSE} (hide row names)
+or a character vector of row names; by default, the row names are displayed
+in the first column of the table if exist (not \code{NULL})}
 
 \item{digits}{the desired number of digits after the decimal
     point (\code{format = "f"}) or \emph{significant} digits
