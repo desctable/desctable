@@ -281,10 +281,12 @@ Statistical tests are automatically selected depending on the data and the group
   * if the variable is a factor, use `fisher.test`
   * if the grouping factor has only one level, use the provided `no.test` (which does nothing)
   * if the grouping factor has two levels
-    * and the variable presents homoskedasticity (p value for `bartlett.test` > .1) and normality of distribution in both groups, use `t.test`
+    * and the variable presents homoskedasticity (p value for `var.test` > .1) and normality of distribution in both groups, use `t.test(var.equal = T)`
+    * and the variable does not present homoskedasticity (p value for `var.test` < .1) but normality of distribution in both groups, use `t.test(var.equal = F)`
     * else use `wilcox.test`
   * if the grouping factor has more than two levels
-    * and the variable presents homoskedasticity (p value for `bartlett.test` > .1) and normality of distribution in all groups, use `ANOVA` (a wrapper around `oneway.test` with parameter `var.equal = T`)
+    * and the variable presents homoskedasticity (p value for `bartlett.test` > .1) and normality of distribution in all groups, use `oneway.test(var.equal = T)`
+    * and the variable does not present homoskedasticity (p value for `bartlett.test` < .1) but normality of distribution in all groups, use `oneway.test(var.equal = F)`
     * else use `kruskal.test`
 
 But what if you want to pick a specific test for a specific variable, or change all the tests altogether?

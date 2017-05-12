@@ -80,32 +80,32 @@ iris %>%
   desctable
 ```
 
-    ##                       N    Mean/%        sd  Med IQR
-    ## Sepal.Length        150        NA        NA 5.80 1.3
-    ## Sepal.Width         150  3.057333 0.4358663   NA  NA
-    ## Petal.Length        150        NA        NA 4.35 3.5
-    ## Petal.Width         150        NA        NA 1.30 1.5
-    ## Species             150        NA        NA   NA  NA
-    ## Species: setosa      50 33.333333        NA   NA  NA
-    ## Species: versicolor  50 33.333333        NA   NA  NA
-    ## Species: virginica   50 33.333333        NA   NA  NA
+    ##                         N    Mean/%        sd  Med IQR
+    ## 1        Sepal.Length 150        NA        NA 5.80 1.3
+    ## 2         Sepal.Width 150  3.057333 0.4358663   NA  NA
+    ## 3        Petal.Length 150        NA        NA 4.35 3.5
+    ## 4         Petal.Width 150        NA        NA 1.30 1.5
+    ## 5             Species 150        NA        NA   NA  NA
+    ## 6     Species: setosa  50 33.333333        NA   NA  NA
+    ## 7 Species: versicolor  50 33.333333        NA   NA  NA
+    ## 8  Species: virginica  50 33.333333        NA   NA  NA
 
 ``` r
 desctable(mtcars)
 ```
 
-    ##       N      Mean        sd     Med       IQR
-    ## mpg  32 20.090625 6.0269481      NA        NA
-    ## cyl  32        NA        NA   6.000   4.00000
-    ## disp 32        NA        NA 196.300 205.17500
-    ## hp   32        NA        NA 123.000  83.50000
-    ## drat 32  3.596563 0.5346787      NA        NA
-    ## wt   32        NA        NA   3.325   1.02875
-    ## qsec 32 17.848750 1.7869432      NA        NA
-    ## vs   32        NA        NA   0.000   1.00000
-    ## am   32        NA        NA   0.000   1.00000
-    ## gear 32        NA        NA   4.000   1.00000
-    ## carb 32        NA        NA   2.000   2.00000
+    ##          N      Mean        sd     Med       IQR
+    ## 1   mpg 32 20.090625 6.0269481      NA        NA
+    ## 2   cyl 32        NA        NA   6.000   4.00000
+    ## 3  disp 32        NA        NA 196.300 205.17500
+    ## 4    hp 32        NA        NA 123.000  83.50000
+    ## 5  drat 32  3.596563 0.5346787      NA        NA
+    ## 6    wt 32        NA        NA   3.325   1.02875
+    ## 7  qsec 32 17.848750 1.7869432      NA        NA
+    ## 8    vs 32        NA        NA   0.000   1.00000
+    ## 9    am 32        NA        NA   0.000   1.00000
+    ## 10 gear 32        NA        NA   4.000   1.00000
+    ## 11 carb 32        NA        NA   2.000   2.00000
 
 As you can see with these two examples, `desctable` describes every variable, with individual levels for factors. It picks statistical functions depending on the type and distribution of the variables in the data, and applies those statistical functions only on the relevant variables.
 
@@ -121,9 +121,9 @@ iris %>%
   pander
 ```
 
-<table style="width:65%;">
+<table style="width:63%;">
 <colgroup>
-<col width="23%" />
+<col width="20%" />
 <col width="5%" />
 <col width="12%" />
 <col width="6%" />
@@ -253,9 +253,9 @@ iris %>%
   pander
 ```
 
-<table style="width:65%;">
+<table style="width:63%;">
 <colgroup>
-<col width="23%" />
+<col width="20%" />
 <col width="5%" />
 <col width="12%" />
 <col width="6%" />
@@ -354,16 +354,16 @@ mtcars %>%
   pander
 ```
 
-<table style="width:31%;">
+<table style="width:33%;">
 <colgroup>
-<col width="9%" />
+<col width="12%" />
 <col width="5%" />
 <col width="9%" />
 <col width="5%" />
 </colgroup>
 <thead>
 <tr class="header">
-<th> </th>
+<th align="left"> </th>
 <th align="left">N</th>
 <th align="left">Mean</th>
 <th align="left">SD</th>
@@ -371,67 +371,67 @@ mtcars %>%
 </thead>
 <tbody>
 <tr class="odd">
-<td>mpg</td>
+<td align="left">mpg</td>
 <td align="left">32</td>
 <td align="left">20</td>
 <td align="left">6</td>
 </tr>
 <tr class="even">
-<td>cyl</td>
+<td align="left">cyl</td>
 <td align="left">32</td>
 <td align="left">6.2</td>
 <td align="left">1.8</td>
 </tr>
 <tr class="odd">
-<td>disp</td>
+<td align="left">disp</td>
 <td align="left">32</td>
 <td align="left">231</td>
 <td align="left">124</td>
 </tr>
 <tr class="even">
-<td>hp</td>
+<td align="left">hp</td>
 <td align="left">32</td>
 <td align="left">147</td>
 <td align="left">69</td>
 </tr>
 <tr class="odd">
-<td>drat</td>
+<td align="left">drat</td>
 <td align="left">32</td>
 <td align="left">3.6</td>
 <td align="left">0.53</td>
 </tr>
 <tr class="even">
-<td>wt</td>
+<td align="left">wt</td>
 <td align="left">32</td>
 <td align="left">3.2</td>
 <td align="left">0.98</td>
 </tr>
 <tr class="odd">
-<td>qsec</td>
+<td align="left">qsec</td>
 <td align="left">32</td>
 <td align="left">18</td>
 <td align="left">1.8</td>
 </tr>
 <tr class="even">
-<td>vs</td>
+<td align="left">vs</td>
 <td align="left">32</td>
 <td align="left">0.44</td>
 <td align="left">0.5</td>
 </tr>
 <tr class="odd">
-<td>am</td>
+<td align="left">am</td>
 <td align="left">32</td>
 <td align="left">0.41</td>
 <td align="left">0.5</td>
 </tr>
 <tr class="even">
-<td>gear</td>
+<td align="left">gear</td>
 <td align="left">32</td>
 <td align="left">3.7</td>
 <td align="left">0.74</td>
 </tr>
 <tr class="odd">
-<td>carb</td>
+<td align="left">carb</td>
 <td align="left">32</td>
 <td align="left">2.8</td>
 <td align="left">1.6</td>
@@ -478,9 +478,9 @@ iris %>%
   pander
 ```
 
-<table style="width:54%;">
+<table style="width:51%;">
 <colgroup>
-<col width="23%" />
+<col width="20%" />
 <col width="5%" />
 <col width="12%" />
 <col width="12%" />
@@ -549,34 +549,49 @@ iris %>%
 
 For reference, here is the body of the `stats_auto` function in the package:
 
-    ## function (data) 
+    ## function(data)
     ## {
-    ##     shapiro <- data %>% Filter(f = is.numeric) %>% lapply(is.normal) %>% 
-    ##         unlist
-    ##     if (length(shapiro) == 0) {
-    ##         normal <- F
-    ##         nonnormal <- F
-    ##     }
-    ##     else {
-    ##         normal <- any(shapiro)
-    ##         nonnormal <- any(!shapiro)
-    ##     }
-    ##     fact <- any(data %>% lapply(is.factor) %>% unlist)
-    ##     if (fact & normal & !nonnormal) 
-    ##         stats_normal(data)
-    ##     else if (fact & !normal & nonnormal) 
-    ##         stats_nonnormal(data)
-    ##     else if (fact & !normal & !nonnormal) 
-    ##         list(N = length, `%` = percent)
-    ##     else if (!fact & normal & nonnormal) 
-    ##         list(N = length, Mean = is.normal ~ mean, sd = is.normal ~ 
-    ##             sd, Med = is.normal ~ NA | median, IQR = is.normal ~ 
-    ##             NA | IQR)
-    ##     else if (!fact & normal & !nonnormal) 
-    ##         list(N = length, Mean = mean, sd = stats::sd)
-    ##     else if (!fact & !normal & nonnormal) 
-    ##         list(N = length, Med = stats::median, IQR = IQR)
-    ##     else stats_default(data)
+    ##   data %>%
+    ##     Filter(f = is.numeric) %>%
+    ##     lapply(is.normal) %>%
+    ##     unlist -> shapiro
+    ## 
+    ##   if (length(shapiro) == 0)
+    ##   {
+    ##     normal <- F
+    ##     nonnormal <- F
+    ##   }
+    ##   else
+    ##   {
+    ##     any(shapiro) -> normal
+    ##     any(!shapiro) -> nonnormal
+    ##   }
+    ## 
+    ##   any(data %>% lapply(is.factor) %>% unlist) -> fact
+    ## 
+    ##   if (fact & normal & !nonnormal)
+    ##     stats_normal(data)
+    ##   else if (fact & !normal & nonnormal)
+    ##     stats_nonnormal(data)
+    ##   else if (fact & !normal & !nonnormal)
+    ##     list("N" = length,
+    ##          "%" = percent)
+    ##   else if (!fact & normal & nonnormal)
+    ##     list("N" = length,
+    ##          "Mean" = is.normal ~ mean,
+    ##          "sd" = is.normal ~ sd,
+    ##          "Med" = is.normal ~ NA | median,
+    ##          "IQR" = is.normal ~ NA | IQR)
+    ##   else if (!fact & normal & !nonnormal)
+    ##     list("N" = length,
+    ##          "Mean" = mean,
+    ##          "sd" = stats::sd)
+    ##   else if (!fact & !normal & nonnormal)
+    ##     list("N" = length,
+    ##          "Med" = stats::median,
+    ##          "IQR" = IQR)
+    ##   else
+    ##     stats_default(data)
     ## }
     ## <environment: namespace:desctable>
 
@@ -607,9 +622,9 @@ mtcars %>%
   pander
 ```
 
-<table style="width:78%;">
+<table style="width:75%;">
 <colgroup>
-<col width="36%" />
+<col width="33%" />
 <col width="5%" />
 <col width="12%" />
 <col width="6%" />
@@ -756,66 +771,51 @@ iris %>%
 iris_by_Species
 ```
 
-    ##              Species: setosa (n=50) / N Species: setosa (n=50) / Mean
-    ## Sepal.Length                         50                         5.006
-    ## Sepal.Width                          50                         3.428
-    ## Petal.Length                         50                            NA
-    ## Petal.Width                          50                            NA
-    ##              Species: setosa (n=50) / sd Species: setosa (n=50) / Med
-    ## Sepal.Length                   0.3524897                           NA
-    ## Sepal.Width                    0.3790644                           NA
-    ## Petal.Length                          NA                          1.5
-    ## Petal.Width                           NA                          0.2
-    ##              Species: setosa (n=50) / IQR Species: versicolor (n=50) / N
-    ## Sepal.Length                           NA                             50
-    ## Sepal.Width                            NA                             50
-    ## Petal.Length                        0.175                             50
-    ## Petal.Width                         0.100                             50
-    ##              Species: versicolor (n=50) / Mean
-    ## Sepal.Length                             5.936
-    ## Sepal.Width                              2.770
-    ## Petal.Length                             4.260
-    ## Petal.Width                                 NA
-    ##              Species: versicolor (n=50) / sd
-    ## Sepal.Length                       0.5161711
-    ## Sepal.Width                        0.3137983
-    ## Petal.Length                       0.4699110
-    ## Petal.Width                               NA
-    ##              Species: versicolor (n=50) / Med
-    ## Sepal.Length                               NA
-    ## Sepal.Width                                NA
-    ## Petal.Length                               NA
-    ## Petal.Width                               1.3
-    ##              Species: versicolor (n=50) / IQR
-    ## Sepal.Length                               NA
-    ## Sepal.Width                                NA
-    ## Petal.Length                               NA
-    ## Petal.Width                               0.3
-    ##              Species: virginica (n=50) / N
-    ## Sepal.Length                            50
-    ## Sepal.Width                             50
-    ## Petal.Length                            50
-    ## Petal.Width                             50
-    ##              Species: virginica (n=50) / Mean
-    ## Sepal.Length                            6.588
-    ## Sepal.Width                             2.974
-    ## Petal.Length                            5.552
-    ## Petal.Width                                NA
-    ##              Species: virginica (n=50) / sd
-    ## Sepal.Length                      0.6358796
-    ## Sepal.Width                       0.3224966
-    ## Petal.Length                      0.5518947
-    ## Petal.Width                              NA
-    ##              Species: virginica (n=50) / Med
-    ## Sepal.Length                              NA
-    ## Sepal.Width                               NA
-    ## Petal.Length                              NA
-    ## Petal.Width                                2
-    ##              Species: virginica (n=50) / IQR    tests / p tests / test
-    ## Sepal.Length                              NA 8.918734e-22 kruskal.test
-    ## Sepal.Width                               NA 4.492017e-17        ANOVA
-    ## Petal.Length                              NA 4.803974e-29 kruskal.test
-    ## Petal.Width                              0.5 3.261796e-29 kruskal.test
+    ##                Species: setosa (n=50) / N Species: setosa (n=50) / Mean
+    ## 1 Sepal.Length                         50                         5.006
+    ## 2  Sepal.Width                         50                         3.428
+    ## 3 Petal.Length                         50                            NA
+    ## 4  Petal.Width                         50                            NA
+    ##   Species: setosa (n=50) / sd Species: setosa (n=50) / Med
+    ## 1                   0.3524897                           NA
+    ## 2                   0.3790644                           NA
+    ## 3                          NA                          1.5
+    ## 4                          NA                          0.2
+    ##   Species: setosa (n=50) / IQR Species: versicolor (n=50) / N
+    ## 1                           NA                             50
+    ## 2                           NA                             50
+    ## 3                        0.175                             50
+    ## 4                        0.100                             50
+    ##   Species: versicolor (n=50) / Mean Species: versicolor (n=50) / sd
+    ## 1                             5.936                       0.5161711
+    ## 2                             2.770                       0.3137983
+    ## 3                             4.260                       0.4699110
+    ## 4                                NA                              NA
+    ##   Species: versicolor (n=50) / Med Species: versicolor (n=50) / IQR
+    ## 1                               NA                               NA
+    ## 2                               NA                               NA
+    ## 3                               NA                               NA
+    ## 4                              1.3                              0.3
+    ##   Species: virginica (n=50) / N Species: virginica (n=50) / Mean
+    ## 1                            50                            6.588
+    ## 2                            50                            2.974
+    ## 3                            50                            5.552
+    ## 4                            50                               NA
+    ##   Species: virginica (n=50) / sd Species: virginica (n=50) / Med
+    ## 1                      0.6358796                              NA
+    ## 2                      0.3224966                              NA
+    ## 3                      0.5518947                              NA
+    ## 4                             NA                               2
+    ##   Species: virginica (n=50) / IQR    tests / p
+    ## 1                              NA 1.505059e-28
+    ## 2                              NA 4.492017e-17
+    ## 3                              NA 4.803974e-29
+    ## 4                             0.5 3.261796e-29
+    ##                       tests / test
+    ## 1 . %>% oneway.test(var.equal = F)
+    ## 2 . %>% oneway.test(var.equal = T)
+    ## 3                     kruskal.test
+    ## 4                     kruskal.test
 
 The result is a table containing a descriptive subtable for each level of the grouping factor (the statistical functions rules are applied to each subtable independently), with the statistical tests performed, and their p values.
 
@@ -849,8 +849,8 @@ str(iris_by_Species)
     ##   ..$ Med : num [1:4] NA NA NA 2
     ##   ..$ IQR : num [1:4] NA NA NA 0.5
     ##  $ tests                     :'data.frame':  4 obs. of  2 variables:
-    ##   ..$ p   : num [1:4] 8.92e-22 4.49e-17 4.80e-29 3.26e-29
-    ##   ..$ test: chr [1:4] "kruskal.test" "ANOVA" "kruskal.test" "kruskal.test"
+    ##   ..$ p   : num [1:4] 1.51e-28 4.49e-17 4.80e-29 3.26e-29
+    ##   ..$ test: chr [1:4] ". %>% oneway.test(var.equal = F)" ". %>% oneway.test(var.equal = T)" "kruskal.test" "kruskal.test"
     ##  - attr(*, "class")= chr "desctable"
 
 You can specify groups based on any variable, not only factors:
@@ -865,7 +865,7 @@ mtcars %>%
 
 <table>
 <colgroup>
-<col width="4%" />
+<col width="5%" />
 <col width="13%" />
 <col width="6%" />
 <col width="6%" />
@@ -880,7 +880,7 @@ mtcars %>%
 </colgroup>
 <thead>
 <tr class="header">
-<th> </th>
+<th align="left"> </th>
 <th align="left">cyl: 4 (n=11)<br/>N</th>
 <th align="left"><br/>Med</th>
 <th align="left"><br/>IQR</th>
@@ -896,7 +896,7 @@ mtcars %>%
 </thead>
 <tbody>
 <tr class="odd">
-<td>mpg</td>
+<td align="left">mpg</td>
 <td align="left">11</td>
 <td align="left">26</td>
 <td align="left">7.6</td>
@@ -910,7 +910,7 @@ mtcars %>%
 <td align="left">kruskal.test</td>
 </tr>
 <tr class="even">
-<td>disp</td>
+<td align="left">disp</td>
 <td align="left">11</td>
 <td align="left">108</td>
 <td align="left">42</td>
@@ -924,7 +924,7 @@ mtcars %>%
 <td align="left">kruskal.test</td>
 </tr>
 <tr class="odd">
-<td>hp</td>
+<td align="left">hp</td>
 <td align="left">11</td>
 <td align="left">91</td>
 <td align="left">30</td>
@@ -938,7 +938,7 @@ mtcars %>%
 <td align="left">kruskal.test</td>
 </tr>
 <tr class="even">
-<td>drat</td>
+<td align="left">drat</td>
 <td align="left">11</td>
 <td align="left">4.1</td>
 <td align="left">0.35</td>
@@ -952,7 +952,7 @@ mtcars %>%
 <td align="left">kruskal.test</td>
 </tr>
 <tr class="odd">
-<td>wt</td>
+<td align="left">wt</td>
 <td align="left">11</td>
 <td align="left">2.2</td>
 <td align="left">0.74</td>
@@ -966,7 +966,7 @@ mtcars %>%
 <td align="left">kruskal.test</td>
 </tr>
 <tr class="even">
-<td>qsec</td>
+<td align="left">qsec</td>
 <td align="left">11</td>
 <td align="left">19</td>
 <td align="left">1.4</td>
@@ -980,7 +980,7 @@ mtcars %>%
 <td align="left">kruskal.test</td>
 </tr>
 <tr class="odd">
-<td>vs</td>
+<td align="left">vs</td>
 <td align="left">11</td>
 <td align="left">1</td>
 <td align="left">0</td>
@@ -994,7 +994,7 @@ mtcars %>%
 <td align="left">kruskal.test</td>
 </tr>
 <tr class="even">
-<td>am</td>
+<td align="left">am</td>
 <td align="left">11</td>
 <td align="left">1</td>
 <td align="left">0.5</td>
@@ -1008,7 +1008,7 @@ mtcars %>%
 <td align="left">kruskal.test</td>
 </tr>
 <tr class="odd">
-<td>gear</td>
+<td align="left">gear</td>
 <td align="left">11</td>
 <td align="left">4</td>
 <td align="left">0</td>
@@ -1022,7 +1022,7 @@ mtcars %>%
 <td align="left">kruskal.test</td>
 </tr>
 <tr class="even">
-<td>carb</td>
+<td align="left">carb</td>
 <td align="left">11</td>
 <td align="left">2</td>
 <td align="left">1</td>
@@ -1047,21 +1047,21 @@ iris %>%
   pander
 ```
 
-<table>
+<table style="width:100%;">
 <colgroup>
-<col width="9%" />
+<col width="8%" />
 <col width="14%" />
 <col width="7%" />
 <col width="5%" />
-<col width="5%" />
-<col width="5%" />
+<col width="6%" />
+<col width="6%" />
 <col width="13%" />
 <col width="7%" />
 <col width="5%" />
-<col width="5%" />
-<col width="5%" />
+<col width="6%" />
+<col width="6%" />
 <col width="7%" />
-<col width="5%" />
+<col width="6%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -1218,7 +1218,7 @@ mtcars %>%
 
 <table style="width:100%;">
 <colgroup>
-<col width="0%" />
+<col width="1%" />
 <col width="4%" />
 <col width="2%" />
 <col width="2%" />
@@ -1251,7 +1251,7 @@ mtcars %>%
 </colgroup>
 <thead>
 <tr class="header">
-<th> </th>
+<th align="left"> </th>
 <th align="left">vs: 0 (n=18)<br/>am: Automatic (n=12)<br/>cyl: 8 (n=12)<br/>N</th>
 <th align="left"><br/><br/><br/>Med</th>
 <th align="left"><br/><br/><br/>IQR</th>
@@ -1285,7 +1285,7 @@ mtcars %>%
 </thead>
 <tbody>
 <tr class="odd">
-<td>mpg</td>
+<td align="left">mpg</td>
 <td align="left">12</td>
 <td align="left">15</td>
 <td align="left">2.6</td>
@@ -1317,7 +1317,7 @@ mtcars %>%
 <td align="left">no.test</td>
 </tr>
 <tr class="even">
-<td>disp</td>
+<td align="left">disp</td>
 <td align="left">12</td>
 <td align="left">355</td>
 <td align="left">113</td>
@@ -1349,7 +1349,7 @@ mtcars %>%
 <td align="left">no.test</td>
 </tr>
 <tr class="odd">
-<td>hp</td>
+<td align="left">hp</td>
 <td align="left">12</td>
 <td align="left">180</td>
 <td align="left">44</td>
@@ -1381,7 +1381,7 @@ mtcars %>%
 <td align="left">no.test</td>
 </tr>
 <tr class="even">
-<td>drat</td>
+<td align="left">drat</td>
 <td align="left">12</td>
 <td align="left">3.1</td>
 <td align="left">0.11</td>
@@ -1413,7 +1413,7 @@ mtcars %>%
 <td align="left">no.test</td>
 </tr>
 <tr class="odd">
-<td>wt</td>
+<td align="left">wt</td>
 <td align="left">12</td>
 <td align="left">3.8</td>
 <td align="left">0.81</td>
@@ -1445,7 +1445,7 @@ mtcars %>%
 <td align="left">no.test</td>
 </tr>
 <tr class="even">
-<td>qsec</td>
+<td align="left">qsec</td>
 <td align="left">12</td>
 <td align="left">17</td>
 <td align="left">0.67</td>
@@ -1477,7 +1477,7 @@ mtcars %>%
 <td align="left">no.test</td>
 </tr>
 <tr class="odd">
-<td>gear</td>
+<td align="left">gear</td>
 <td align="left">12</td>
 <td align="left">3</td>
 <td align="left">0</td>
@@ -1509,7 +1509,7 @@ mtcars %>%
 <td align="left">no.test</td>
 </tr>
 <tr class="even">
-<td>carb</td>
+<td align="left">carb</td>
 <td align="left">12</td>
 <td align="left">3</td>
 <td align="left">2</td>
@@ -1557,10 +1557,12 @@ Advanced usage
 -   if the variable is a factor, use `fisher.test`
 -   if the grouping factor has only one level, use the provided `no.test` (which does nothing)
 -   if the grouping factor has two levels
-    -   and the variable presents homoskedasticity (p value for `bartlett.test` &gt; .1) and normality of distribution in both groups, use `t.test`
+    -   and the variable presents homoskedasticity (p value for `var.test` &gt; .1) and normality of distribution in both groups, use `t.test(var.equal = T)`
+    -   and the variable does not present homoskedasticity (p value for `var.test` &lt; .1) but normality of distribution in both groups, use `t.test(var.equal = F)`
     -   else use `wilcox.test`
 -   if the grouping factor has more than two levels
-    -   and the variable presents homoskedasticity (p value for `bartlett.test` &gt; .1) and normality of distribution in all groups, use `ANOVA` (a wrapper around `oneway.test` with parameter `var.equal = T`)
+    -   and the variable presents homoskedasticity (p value for `bartlett.test` &gt; .1) and normality of distribution in all groups, use `oneway.test(var.equal = T)`
+    -   and the variable does not present homoskedasticity (p value for `bartlett.test` &lt; .1) but normality of distribution in all groups, use `oneway.test(var.equal = F)`
     -   else use `kruskal.test`
 
 But what if you want to pick a specific test for a specific variable, or change all the tests altogether?
@@ -1591,24 +1593,24 @@ iris %>%
 
 <table>
 <colgroup>
-<col width="6%" />
-<col width="12%" />
 <col width="4%" />
+<col width="11%" />
 <col width="4%" />
-<col width="4%" />
-<col width="4%" />
-<col width="8%" />
-<col width="4%" />
-<col width="4%" />
+<col width="3%" />
 <col width="4%" />
 <col width="4%" />
 <col width="8%" />
 <col width="4%" />
+<col width="3%" />
 <col width="4%" />
+<col width="4%" />
+<col width="8%" />
+<col width="4%" />
+<col width="3%" />
 <col width="4%" />
 <col width="4%" />
 <col width="5%" />
-<col width="5%" />
+<col width="11%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -1650,8 +1652,8 @@ iris %>%
 <td align="left">0.64</td>
 <td align="left"></td>
 <td align="left"></td>
-<td align="left">8.9e-22</td>
-<td align="left">kruskal.test</td>
+<td align="left">1.5e-28</td>
+<td align="left">. %&gt;% oneway.test(var.equal = F)</td>
 </tr>
 <tr class="even">
 <td align="left">Sepal.Width</td>
@@ -1671,7 +1673,7 @@ iris %>%
 <td align="left"></td>
 <td align="left"></td>
 <td align="left">4.5e-17</td>
-<td align="left">ANOVA</td>
+<td align="left">. %&gt;% oneway.test(var.equal = T)</td>
 </tr>
 <tr class="odd">
 <td align="left">Petal.Length</td>
@@ -1738,21 +1740,21 @@ iris %>%
   pander
 ```
 
-<table>
+<table style="width:100%;">
 <colgroup>
-<col width="9%" />
+<col width="8%" />
 <col width="14%" />
 <col width="7%" />
 <col width="5%" />
-<col width="5%" />
-<col width="5%" />
+<col width="6%" />
+<col width="6%" />
 <col width="13%" />
 <col width="7%" />
 <col width="5%" />
-<col width="5%" />
-<col width="5%" />
+<col width="6%" />
+<col width="6%" />
 <col width="7%" />
-<col width="5%" />
+<col width="6%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -1908,8 +1910,8 @@ mtcars %>%
 
 <table>
 <colgroup>
-<col width="5%" />
-<col width="22%" />
+<col width="6%" />
+<col width="21%" />
 <col width="8%" />
 <col width="8%" />
 <col width="19%" />
@@ -1920,7 +1922,7 @@ mtcars %>%
 </colgroup>
 <thead>
 <tr class="header">
-<th> </th>
+<th align="left"> </th>
 <th align="left">am: Automatic (n=19)<br/>N</th>
 <th align="left"><br/>Med</th>
 <th align="left"><br/>IQR</th>
@@ -1933,7 +1935,7 @@ mtcars %>%
 </thead>
 <tbody>
 <tr class="odd">
-<td>mpg</td>
+<td align="left">mpg</td>
 <td align="left">19</td>
 <td align="left">17</td>
 <td align="left">4.2</td>
@@ -1944,7 +1946,7 @@ mtcars %>%
 <td align="left">t.test</td>
 </tr>
 <tr class="even">
-<td>cyl</td>
+<td align="left">cyl</td>
 <td align="left">19</td>
 <td align="left">8</td>
 <td align="left">2</td>
@@ -1955,7 +1957,7 @@ mtcars %>%
 <td align="left">wilcox.test</td>
 </tr>
 <tr class="odd">
-<td>disp</td>
+<td align="left">disp</td>
 <td align="left">19</td>
 <td align="left">276</td>
 <td align="left">164</td>
@@ -1966,7 +1968,7 @@ mtcars %>%
 <td align="left">wilcox.test</td>
 </tr>
 <tr class="even">
-<td>hp</td>
+<td align="left">hp</td>
 <td align="left">19</td>
 <td align="left">175</td>
 <td align="left">76</td>
@@ -1977,7 +1979,7 @@ mtcars %>%
 <td align="left">wilcox.test</td>
 </tr>
 <tr class="odd">
-<td>drat</td>
+<td align="left">drat</td>
 <td align="left">19</td>
 <td align="left">3.1</td>
 <td align="left">0.63</td>
@@ -1988,7 +1990,7 @@ mtcars %>%
 <td align="left">wilcox.test</td>
 </tr>
 <tr class="even">
-<td>wt</td>
+<td align="left">wt</td>
 <td align="left">19</td>
 <td align="left">3.5</td>
 <td align="left">0.41</td>
@@ -1999,7 +2001,7 @@ mtcars %>%
 <td align="left">wilcox.test</td>
 </tr>
 <tr class="odd">
-<td>qsec</td>
+<td align="left">qsec</td>
 <td align="left">19</td>
 <td align="left">18</td>
 <td align="left">2</td>
@@ -2010,7 +2012,7 @@ mtcars %>%
 <td align="left">wilcox.test</td>
 </tr>
 <tr class="even">
-<td>vs</td>
+<td align="left">vs</td>
 <td align="left">19</td>
 <td align="left">0</td>
 <td align="left">1</td>
@@ -2021,7 +2023,7 @@ mtcars %>%
 <td align="left">wilcox.test</td>
 </tr>
 <tr class="odd">
-<td>gear</td>
+<td align="left">gear</td>
 <td align="left">19</td>
 <td align="left">3</td>
 <td align="left">0</td>
@@ -2032,7 +2034,7 @@ mtcars %>%
 <td align="left">wilcox.test</td>
 </tr>
 <tr class="even">
-<td>carb</td>
+<td align="left">carb</td>
 <td align="left">19</td>
 <td align="left">3</td>
 <td align="left">2</td>
@@ -2072,9 +2074,9 @@ mtcars %>%
   pander
 ```
 
-<table style="width:53%;">
+<table style="width:56%;">
 <colgroup>
-<col width="9%" />
+<col width="12%" />
 <col width="5%" />
 <col width="23%" />
 <col width="6%" />
@@ -2082,7 +2084,7 @@ mtcars %>%
 </colgroup>
 <thead>
 <tr class="header">
-<th> </th>
+<th align="left"> </th>
 <th align="left">N</th>
 <th align="left">Sum of squares</th>
 <th align="left">Q1</th>
@@ -2091,77 +2093,77 @@ mtcars %>%
 </thead>
 <tbody>
 <tr class="odd">
-<td>mpg</td>
+<td align="left">mpg</td>
 <td align="left">32</td>
 <td align="left">14042</td>
 <td align="left">15</td>
 <td align="left">23</td>
 </tr>
 <tr class="even">
-<td>cyl</td>
+<td align="left">cyl</td>
 <td align="left">32</td>
 <td align="left">1324</td>
 <td align="left">4</td>
 <td align="left">8</td>
 </tr>
 <tr class="odd">
-<td>disp</td>
+<td align="left">disp</td>
 <td align="left">32</td>
 <td align="left">2179627</td>
 <td align="left">121</td>
 <td align="left">326</td>
 </tr>
 <tr class="even">
-<td>hp</td>
+<td align="left">hp</td>
 <td align="left">32</td>
 <td align="left">834278</td>
 <td align="left">96</td>
 <td align="left">180</td>
 </tr>
 <tr class="odd">
-<td>drat</td>
+<td align="left">drat</td>
 <td align="left">32</td>
 <td align="left">423</td>
 <td align="left">3.1</td>
 <td align="left">3.9</td>
 </tr>
 <tr class="even">
-<td>wt</td>
+<td align="left">wt</td>
 <td align="left">32</td>
 <td align="left">361</td>
 <td align="left">2.6</td>
 <td align="left">3.6</td>
 </tr>
 <tr class="odd">
-<td>qsec</td>
+<td align="left">qsec</td>
 <td align="left">32</td>
 <td align="left">10293</td>
 <td align="left">17</td>
 <td align="left">19</td>
 </tr>
 <tr class="even">
-<td>vs</td>
+<td align="left">vs</td>
 <td align="left">32</td>
 <td align="left">14</td>
 <td align="left">0</td>
 <td align="left">1</td>
 </tr>
 <tr class="odd">
-<td>am</td>
+<td align="left">am</td>
 <td align="left">32</td>
 <td align="left">13</td>
 <td align="left">0</td>
 <td align="left">1</td>
 </tr>
 <tr class="even">
-<td>gear</td>
+<td align="left">gear</td>
 <td align="left">32</td>
 <td align="left">452</td>
 <td align="left">3</td>
 <td align="left">4</td>
 </tr>
 <tr class="odd">
-<td>carb</td>
+<td align="left">carb</td>
 <td align="left">32</td>
 <td align="left">334</td>
 <td align="left">2</td>
@@ -2184,9 +2186,9 @@ iris %>%
   pander
 ```
 
-<table style="width:100%;">
+<table>
 <colgroup>
-<col width="5%" />
+<col width="4%" />
 <col width="11%" />
 <col width="4%" />
 <col width="3%" />
@@ -2197,13 +2199,13 @@ iris %>%
 <col width="3%" />
 <col width="4%" />
 <col width="4%" />
-<col width="7%" />
+<col width="8%" />
 <col width="4%" />
 <col width="3%" />
 <col width="4%" />
 <col width="4%" />
 <col width="5%" />
-<col width="10%" />
+<col width="11%" />
 </colgroup>
 <thead>
 <tr class="header">

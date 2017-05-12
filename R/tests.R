@@ -42,15 +42,22 @@ tests_auto <- function(var, grp)
     ~fisher.test
   else
   {
-    if (all(var %>% tapply(grp, is.normal)) & tryCatch(stats::bartlett.test(var ~ grp)$p.value > .1, warning = function(e) F, error = function(e) F))
-    {
-      if (nlevels(grp) == 2)
-        ~t.test
+    all_normal <- all(var %>% tapply(grp, is.normal))
+    if (nlevels(grp) == 2)
+      if (all_normal)
+        if (tryCatch(stats::var.test(var ~ grp)$p.value > .1, warning = function(e) F, error = function(e) F))
+          ~. %>% t.test(var.equal = T)
+        else
+          ~. %>% t.test(var.equal = F)
       else
-        ~ANOVA
-    } else if (nlevels(grp) == 2)
-      ~wilcox.test
+        ~wilcox.test
     else
-      ~kruskal.test
+      if (all_normal)
+        if (tryCatch(stats::bartlett.test(var ~ grp)$p.value > .1, warning = function(e) F, error = function(e) F))
+          ~. %>% oneway.test(var.equal = T)
+        else
+          ~. %>% oneway.test(var.equal = F)
+        else
+          ~kruskal.test
   }
 }
