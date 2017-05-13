@@ -135,10 +135,6 @@ varColumn <- function(data, labels = NULL)
 #'   desctable(tests = list(.auto = tests_auto, Species = ~chisq.test))
 desctable <- function(data, stats, tests, labels)
 {
-  # Replace every logical vector with a factor and nice labels
-  if (any(data %>% lapply(is.logical) %>% unlist))
-    data %>% purrr::dmap_if(is.logical, factor, levels = c(F, T), labels = c("No", "Yes")) -> data
-
   UseMethod("desctable", data)
 }
 
