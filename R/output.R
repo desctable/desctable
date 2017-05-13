@@ -45,7 +45,7 @@ pander.desctable <- function(x = NULL,
   if (is.null(digits))
     digits <- pander::panderOptions("digits")
 
-  x$Variables$Variables <- gsub("\\*\\*(.*?)\\*\\*: \\*(.*?)\\*", "\u00A0\u00A0\u00A0\u00A0\\2", x$Variables$Variables)
+  x$Variables$Variables <- gsub("\\*\\*(.*?)\\*\\*: \\*(.*?)\\*", "&nbsp;&nbsp;&nbsp;&nbsp;\\2", x$Variables$Variables)
 
   header <- x %>% header("pander")
 
@@ -125,7 +125,7 @@ datatable.desctable <- function(data,
                                 rownames = F,
                                 digits = 2, ...)
 {
-  data$Variables$Variables <- gsub("\\*\\*(.*?)\\*\\*: \\*(.*?)\\*", "\u00A0\u00A0\u00A0\u00A0\\2", data$Variables$Variables)
+  data$Variables$Variables <- gsub("\\*\\*(.*?)\\*\\*: \\*(.*?)\\*", "&nbsp;&nbsp;&nbsp;&nbsp;\\2", data$Variables$Variables)
   data$Variables$Variables <- gsub("\\*\\*(.*?)\\*\\*", "<b>\\1</b>", data$Variables$Variables)
 
   header <- data %>% header("datatable")
