@@ -42,7 +42,7 @@ Enter **desctable**, a package built with the following objectives in mind:
 Installation
 ============
 
-    devtools::install_github("maximewack/desctable", build_vignettes = T)
+    devtools::install_github("maximewack/desctable")
 
 Loading
 =======
@@ -549,49 +549,34 @@ iris %>%
 
 For reference, here is the body of the `stats_auto` function in the package:
 
-    ## function(data)
+    ## function (data) 
     ## {
-    ##   data %>%
-    ##     Filter(f = is.numeric) %>%
-    ##     lapply(is.normal) %>%
-    ##     unlist -> shapiro
-    ## 
-    ##   if (length(shapiro) == 0)
-    ##   {
-    ##     normal <- F
-    ##     nonnormal <- F
-    ##   }
-    ##   else
-    ##   {
-    ##     any(shapiro) -> normal
-    ##     any(!shapiro) -> nonnormal
-    ##   }
-    ## 
-    ##   any(data %>% lapply(is.factor) %>% unlist) -> fact
-    ## 
-    ##   if (fact & normal & !nonnormal)
-    ##     stats_normal(data)
-    ##   else if (fact & !normal & nonnormal)
-    ##     stats_nonnormal(data)
-    ##   else if (fact & !normal & !nonnormal)
-    ##     list("N" = length,
-    ##          "%" = percent)
-    ##   else if (!fact & normal & nonnormal)
-    ##     list("N" = length,
-    ##          "Mean" = is.normal ~ mean,
-    ##          "sd" = is.normal ~ sd,
-    ##          "Med" = is.normal ~ NA | median,
-    ##          "IQR" = is.normal ~ NA | IQR)
-    ##   else if (!fact & normal & !nonnormal)
-    ##     list("N" = length,
-    ##          "Mean" = mean,
-    ##          "sd" = stats::sd)
-    ##   else if (!fact & !normal & nonnormal)
-    ##     list("N" = length,
-    ##          "Med" = stats::median,
-    ##          "IQR" = IQR)
-    ##   else
-    ##     stats_default(data)
+    ##     shapiro <- data %>% Filter(f = is.numeric) %>% lapply(is.normal) %>% 
+    ##         unlist
+    ##     if (length(shapiro) == 0) {
+    ##         normal <- F
+    ##         nonnormal <- F
+    ##     }
+    ##     else {
+    ##         normal <- any(shapiro)
+    ##         nonnormal <- any(!shapiro)
+    ##     }
+    ##     fact <- any(data %>% lapply(is.factor) %>% unlist)
+    ##     if (fact & normal & !nonnormal) 
+    ##         stats_normal(data)
+    ##     else if (fact & !normal & nonnormal) 
+    ##         stats_nonnormal(data)
+    ##     else if (fact & !normal & !nonnormal) 
+    ##         list(N = length, `%` = percent)
+    ##     else if (!fact & normal & nonnormal) 
+    ##         list(N = length, Mean = is.normal ~ mean, sd = is.normal ~ 
+    ##             sd, Med = is.normal ~ NA | median, IQR = is.normal ~ 
+    ##             NA | IQR)
+    ##     else if (!fact & normal & !nonnormal) 
+    ##         list(N = length, Mean = mean, sd = stats::sd)
+    ##     else if (!fact & !normal & nonnormal) 
+    ##         list(N = length, Med = stats::median, IQR = IQR)
+    ##     else stats_default(data)
     ## }
     ## <environment: namespace:desctable>
 
