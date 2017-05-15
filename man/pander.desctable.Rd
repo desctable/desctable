@@ -25,5 +25,11 @@ pander.desctable(x = NULL, digits = 2, justify = "left", missing = "",
 \item{...}{unsupported extra arguments directly placed into \code{/dev/null}}
 }
 \description{
-Pander method for desctable
+Pander method to output a desctable
+}
+\details{
+Uses \code{pandoc.table}, with some default parameters (\code{digits = 2}, \code{justify = "left"}, \code{missing = ""}, \code{keep.line.breaks = T}, \code{split.tables = Inf}, and \code{emphasize.rownames = F}), that you can override if needed.
+}
+\seealso{
+\code{\link{pandoc.table}}
 }

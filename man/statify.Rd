@@ -22,8 +22,13 @@ The results for the function applied on the vector, compatible with the format o
 }
 \description{
 Transform a function into a valid stat function for the table
+}
+\details{
 NA values are removed from the data
+
 Applying the function on a numerical vector should return one value
+
 Applying the function on a factor should return nlevels + 1 value, or one value per factor level
-See `parse_formula` for the usage for formulaes.
+
+See \code{parse_formula} for the usage for formulaes.
 }

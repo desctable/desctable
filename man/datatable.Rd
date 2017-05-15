@@ -4,7 +4,7 @@
 \alias{datatable}
 \alias{datatable.default}
 \alias{datatable.desctable}
-\title{Datatable}
+\title{Create an HTML table widget using the DataTables library}
 \usage{
 datatable(data, ...)
 
@@ -30,9 +30,9 @@ datatable(data, ...)
   ...)
 }
 \arguments{
-\item{data}{A desctable}
+\item{data}{a data object (either a matrix or a data frame)}
 
-\item{...}{Additional datatable parameters}
+\item{...}{arguments passed to \code{format}.}
 
 \item{options}{a list of initialization options (see
 \url{http://datatables.net/reference/option/}); the character options
@@ -117,7 +117,39 @@ in the first column of the table if exist (not \code{NULL})}
   }
 }
 \description{
-Datatable
+This function creates an HTML widget to display rectangular data (a matrix or data frame) using the JavaScript library DataTables, with a method for \code{desctable} objects.
+}
+\note{
+You are recommended to escape the table content for security reasons (e.g. XSS attacks) when using this function in Shiny or any other dynamic web applications.
+}
+\examples{
+library(DT)
 
-datatable method for desctable
+# see the package vignette for examples and the link to website
+vignette('DT', package = 'DT')
+
+# some boring edge cases for testing purposes
+m = matrix(nrow = 0, ncol = 5, dimnames = list(NULL, letters[1:5]))
+datatable(m)  # zero rows
+datatable(as.data.frame(m))
+
+m = matrix(1, dimnames = list(NULL, 'a'))
+datatable(m)  # one row and one column
+datatable(as.data.frame(m))
+
+m = data.frame(a = 1, b = 2, c = 3)
+datatable(m)
+datatable(as.matrix(m))
+
+# dates
+datatable(data.frame(
+  date = seq(as.Date("2015-01-01"), by = "day", length.out = 5), x = 1:5
+))
+datatable(data.frame(x = Sys.Date()))
+datatable(data.frame(x = Sys.time()))
+
+###
+}
+\references{
+See \url{http://rstudio.github.io/DT} for the full documentation.
 }

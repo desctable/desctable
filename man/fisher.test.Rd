@@ -63,35 +63,35 @@ fisher.test(x, y, workspace, hybrid, control, or, alternative, conf.int,
     Monte Carlo test.}
 }
 \value{
-A list with class ‘"htest"’ containing the following components:
+A list with class \code{"htest"} containing the following components:
 
 p.value: the p-value of the test.
 
 conf.int: a confidence interval for the odds ratio.  Only present in
-          the 2 by 2 case and if argument ‘conf.int = TRUE’.
+          the 2 by 2 case and if argument \code{conf.int = TRUE}.
 
 estimate: an estimate of the odds ratio.  Note that the _conditional_
           Maximum Likelihood Estimate (MLE) rather than the
           unconditional MLE (the sample odds ratio) is used.  Only
           present in the 2 by 2 case.
 
-null.value: the odds ratio under the null, ‘or’.  Only present in the 2
+null.value: the odds ratio under the null, \code{or}.  Only present in the 2
           by 2 case.
 
 alternative: a character string describing the alternative hypothesis.
 
-method: the character string ‘"Fisher's Exact Test for Count Data"’.
+method: the character string \code{"Fisher's Exact Test for Count Data"}.
 
 data.name: a character string giving the names of the data.
 }
 \description{
 Performs Fisher's exact test for testing the null of independence
-of rows and columns in a contingency table with fixed marginals.
+of rows and columns in a contingency table with fixed marginals, or with a formula expression.
 }
 \details{
-If ‘x’ is a matrix, it is taken as a two-dimensional contingency
+If \code{x} is a matrix, it is taken as a two-dimensional contingency
 table, and hence its entries should be nonnegative integers.
-Otherwise, both ‘x’ and ‘y’ must be vectors of the same length.
+Otherwise, both \code{x} and \code{y} must be vectors of the same length.
 Incomplete cases are removed, the vectors are coerced into factor
 objects, and the contingency table is computed from these.
 
@@ -100,7 +100,7 @@ For 2 by 2 cases, p-values are obtained directly using the
 computations are based on a C version of the FORTRAN subroutine
 FEXACT which implements the network developed by Mehta and Patel
 (1986) and improved by Clarkson, Fan and Joe (1993).  The FORTRAN
-code can be obtained from  |http://www.netlib.org/toms/643|.
+code can be obtained from \url{http://www.netlib.org/toms/643}.
 Note this fails (with an error message) when the entries of the
 table are too large.  (It transposes the table if necessary so it
 has no more rows than columns.  One constraint is that the product
@@ -108,20 +108,20 @@ of the row marginals be less than 2^31 - 1.)
 
 For 2 by 2 tables, the null of conditional independence is
 equivalent to the hypothesis that the odds ratio equals one.
-‘Exact’ inference can be based on observing that in general, given
+\code{Exact} inference can be based on observing that in general, given
 all marginal totals fixed, the first element of the contingency
 table has a non-central hypergeometric distribution with
 non-centrality parameter given by the odds ratio (Fisher, 1935).
 The alternative for a one-sided test is based on the odds ratio,
-so ‘alternative = "greater"’ is a test of the odds ratio being
-bigger than ‘or’.
+so \code{alternative = "greater"} is a test of the odds ratio being
+bigger than \code{or}.
 
 Two-sided tests are based on the probabilities of the tables, and
-take as ‘more extreme’ all tables with probabilities less than or
+take as \code{more extreme} all tables with probabilities less than or
 equal to that of the observed table, the p-value being the sum of
 such probabilities.
 
-For larger than 2 by 2 tables and ‘hybrid = TRUE’, asymptotic
+For larger than 2 by 2 tables and \code{hybrid = TRUE}, asymptotic
 chi-squared probabilities are only used if the ‘Cochran
 conditions’ are satisfied, that is if no cell has count zero, and
 more than 80% of the cells have counts at least 5: otherwise the
@@ -202,9 +202,9 @@ generating r x c tables with given row and column totals.
 _Applied Statistics_ *30*, 91-97.
 }
 \seealso{
-‘chisq.test’
+\code{\link{chisq.test}}
 
-‘fisher.exact’ in package ‘exact2x2’ for alternative
+\code{fisher.exact} in package \pkg{kexact2x2} for alternative
 interpretations of two-sided tests and confidence intervals for 2
 by 2 tables.
 }

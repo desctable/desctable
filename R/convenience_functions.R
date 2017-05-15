@@ -43,11 +43,11 @@ is.normal <- function(x)
 #' Fisher's Exact Test for Count Data
 #'
 #' Performs Fisher's exact test for testing the null of independence
-#' of rows and columns in a contingency table with fixed marginals.
+#' of rows and columns in a contingency table with fixed marginals, or with a formula expression.
 #'
-#' If ‘x’ is a matrix, it is taken as a two-dimensional contingency
+#' If \code{x} is a matrix, it is taken as a two-dimensional contingency
 #' table, and hence its entries should be nonnegative integers.
-#' Otherwise, both ‘x’ and ‘y’ must be vectors of the same length.
+#' Otherwise, both \code{x} and \code{y} must be vectors of the same length.
 #' Incomplete cases are removed, the vectors are coerced into factor
 #' objects, and the contingency table is computed from these.
 #'
@@ -56,7 +56,7 @@ is.normal <- function(x)
 #' computations are based on a C version of the FORTRAN subroutine
 #' FEXACT which implements the network developed by Mehta and Patel
 #' (1986) and improved by Clarkson, Fan and Joe (1993).  The FORTRAN
-#' code can be obtained from  |http://www.netlib.org/toms/643|.
+#' code can be obtained from \url{http://www.netlib.org/toms/643}.
 #' Note this fails (with an error message) when the entries of the
 #' table are too large.  (It transposes the table if necessary so it
 #' has no more rows than columns.  One constraint is that the product
@@ -64,20 +64,20 @@ is.normal <- function(x)
 #'
 #' For 2 by 2 tables, the null of conditional independence is
 #' equivalent to the hypothesis that the odds ratio equals one.
-#' ‘Exact’ inference can be based on observing that in general, given
+#' \code{Exact} inference can be based on observing that in general, given
 #' all marginal totals fixed, the first element of the contingency
 #' table has a non-central hypergeometric distribution with
 #' non-centrality parameter given by the odds ratio (Fisher, 1935).
 #' The alternative for a one-sided test is based on the odds ratio,
-#' so ‘alternative = "greater"’ is a test of the odds ratio being
-#' bigger than ‘or’.
+#' so \code{alternative = "greater"} is a test of the odds ratio being
+#' bigger than \code{or}.
 #'
 #' Two-sided tests are based on the probabilities of the tables, and
-#' take as ‘more extreme’ all tables with probabilities less than or
+#' take as \code{more extreme} all tables with probabilities less than or
 #' equal to that of the observed table, the p-value being the sum of
 #' such probabilities.
 #'
-#' For larger than 2 by 2 tables and ‘hybrid = TRUE’, asymptotic
+#' For larger than 2 by 2 tables and \code{hybrid = TRUE}, asymptotic
 #' chi-squared probabilities are only used if the ‘Cochran
 #' conditions’ are satisfied, that is if no cell has count zero, and
 #' more than 80% of the cells have counts at least 5: otherwise the
@@ -89,24 +89,24 @@ is.normal <- function(x)
 #' @param x either a two-dimensional contingency table in matrix form, a factor object, or a formula of the form \code{lhs ~ rhs} where \code{lhs} and \code{rhs} are factors.
 #' @param y a factor object; ignored if \code{x} is a matrix or a formula.
 #' @inheritParams stats::fisher.test
-#' @return A list with class ‘"htest"’ containing the following components:
+#' @return A list with class \code{"htest"} containing the following components:
 #'
 #' p.value: the p-value of the test.
 #'
 #' conf.int: a confidence interval for the odds ratio.  Only present in
-#'           the 2 by 2 case and if argument ‘conf.int = TRUE’.
+#'           the 2 by 2 case and if argument \code{conf.int = TRUE}.
 #'
 #' estimate: an estimate of the odds ratio.  Note that the _conditional_
 #'           Maximum Likelihood Estimate (MLE) rather than the
 #'           unconditional MLE (the sample odds ratio) is used.  Only
 #'           present in the 2 by 2 case.
 #'
-#' null.value: the odds ratio under the null, ‘or’.  Only present in the 2
+#' null.value: the odds ratio under the null, \code{or}.  Only present in the 2
 #'           by 2 case.
 #'
 #' alternative: a character string describing the alternative hypothesis.
 #'
-#' method: the character string ‘"Fisher's Exact Test for Count Data"’.
+#' method: the character string \code{"Fisher's Exact Test for Count Data"}.
 #'
 #' data.name: a character string giving the names of the data.
 #' @references
@@ -139,9 +139,9 @@ is.normal <- function(x)
 #' generating r x c tables with given row and column totals.
 #' _Applied Statistics_ *30*, 91-97.
 #' @seealso
-#' ‘chisq.test’
+#' \code{\link{chisq.test}}
 #'
-#' ‘fisher.exact’ in package ‘exact2x2’ for alternative
+#' \code{fisher.exact} in package \pkg{kexact2x2} for alternative
 #' interpretations of two-sided tests and confidence intervals for 2
 #' by 2 tables.
 #' @examples
@@ -220,18 +220,18 @@ fisher.test.formula <- function(x,
 
 #' Pearson's Chi-squared Test for Count Data
 #'
-#' ‘chisq.test’ performs chi-squared contingency table tests and goodness-of-fit tests.
+#' \code{chisq.test} performs chi-squared contingency table tests and goodness-of-fit tests, with an added method for formulas.
 #'
-#' If ‘x’ is a matrix with one row or column, or if ‘x’ is a vector
-#' and ‘y’ is not given, then a _goodness-of-fit test_ is performed
-#' (‘x’ is treated as a one-dimensional contingency table).  The
-#' entries of ‘x’ must be non-negative integers.  In this case, the
+#' If \code{x} is a matrix with one row or column, or if \code{x} is a vector
+#' and \code{y} is not given, then a _goodness-of-fit test_ is performed
+#' (\code{x} is treated as a one-dimensional contingency table).  The
+#' entries of \code{x} must be non-negative integers.  In this case, the
 #' hypothesis tested is whether the population probabilities equal
-#' those in ‘p’, or are all equal if ‘p’ is not given.
+#' those in \code{p}, or are all equal if \code{p} is not given.
 #'
-#' If ‘x’ is a matrix with at least two rows and columns, it is taken
-#' as a two-dimensional contingency table: the entries of ‘x’ must be
-#' non-negative integers.  Otherwise, ‘x’ and ‘y’ must be vectors or
+#' If \code{x} is a matrix with at least two rows and columns, it is taken
+#' as a two-dimensional contingency table: the entries of \code{x} must be
+#' non-negative integers.  Otherwise, \code{x} and \code{y} must be vectors or
 #' factors of the same length; cases with missing values are removed,
 #' the objects are coerced to factors, and the contingency table is
 #' computed from these.  Then Pearson's chi-squared test is performed
@@ -239,11 +239,11 @@ fisher.test.formula <- function(x,
 #' counts in a 2-dimensional contingency table is the product of the
 #' row and column marginals.
 #'
-#' If ‘simulate.p.value’ is ‘FALSE’, the p-value is computed from the
+#' If \code{simulate.p.value} is \code{FALSE}, the p-value is computed from the
 #' asymptotic chi-squared distribution of the test statistic;
 #' continuity correction is only used in the 2-by-2 case (if
-#' ‘correct’ is ‘TRUE’, the default).  Otherwise the p-value is
-#' computed for a Monte Carlo test (Hope, 1968) with ‘B’ replicates.
+#' \code{correct} is \code{TRUE}, the default).  Otherwise the p-value is
+#' computed for a Monte Carlo test (Hope, 1968) with \code{B} replicates.
 #'
 #' In the contingency table case simulation is done by random
 #' sampling from the set of all contingency tables with given
@@ -254,17 +254,17 @@ fisher.test.formula <- function(x,
 #' exact test.
 #'
 #' In the goodness-of-fit case simulation is done by random sampling
-#' from the discrete distribution specified by ‘p’, each sample being
-#' of size ‘n = sum(x)’.  This simulation is done in R and may be
+#' from the discrete distribution specified by \code{p}, each sample being
+#' of size \code{n = sum(x)}.  This simulation is done in R and may be
 #' slow.
-#' @param x a numeric vector, or matrix, or formula of the form \code{lhs ~ rhs} where \code{lhs} and \code{rhs} are factors. ‘x’ and ‘y’ can also both be factors.
-#' @param y a numeric vector; ignored if ‘x’ is a matrix or a formula. If ‘x’ is a factor, ‘y’ should be a factor of the same length.
+#' @param x a numeric vector, or matrix, or formula of the form \code{lhs ~ rhs} where \code{lhs} and \code{rhs} are factors. \code{x} and \code{y} can also both be factors.
+#' @param y a numeric vector; ignored if \code{x} is a matrix or a formula. If \code{x} is a factor, \code{y} should be a factor of the same length.
 #' @inheritParams stats::chisq.test
-#' @return A list with class ‘"htest"’ containing the following components:
+#' @return A list with class \code{"htest"} containing the following components:
 #' statistic: the value the chi-squared test statistic.
 #'
 #' parameter: the degrees of freedom of the approximate chi-squared
-#'           distribution of the test statistic, ‘NA’ if the p-value is
+#'           distribution of the test statistic, \code{NA} if the p-value is
 #'           computed by Monte Carlo simulation.
 #'
 #'  p.value: the p-value for the test.
@@ -282,9 +282,9 @@ fisher.test.formula <- function(x,
 #' residuals: the Pearson residuals, ‘(observed - expected) /
 #'           sqrt(expected)’.
 #'
-#'   stdres: standardized residuals, ‘(observed - expected) / sqrt(V)’,
-#'           where ‘V’ is the residual cell variance (Agresti, 2007,
-#'           section 2.4.5 for the case where ‘x’ is a matrix, ‘n * p * (1
+#'   stdres: standardized residuals, \code{(observed - expected) / sqrt(V)},
+#'           where \code{V} is the residual cell variance (Agresti, 2007,
+#'           section 2.4.5 for the case where \code{x} is a matrix, ‘n * p * (1
 #'           - p)’ otherwise).
 #' @source The code for Monte Carlo simulation is a C translation of the Fortran algorithm of Patefield (1981).
 #' @references
@@ -297,7 +297,7 @@ fisher.test.formula <- function(x,
 #'
 #' Agresti, A. (2007) _An Introduction to Categorical Data Analysis,
 #' 2nd ed._, New York: John Wiley & Sons.  Page 38.
-#' @seealso For goodness-of-fit testing, notably of continuous distributions, ‘ks.test’.
+#' @seealso For goodness-of-fit testing, notably of continuous distributions, \code{\link{ks.test}}.
 #' @examples
 #' \dontrun{
 #' ## From Agresti(2007) p.39
@@ -368,10 +368,10 @@ chisq.test.formula <- function(x,
                      B = B)
 }
 
-#' Wrapper for summary(aov)
+#' Wrapper for oneway.test(var.equal = T)
 #'
-#' @param formula An anova formula (variable ~ grouping variable)
-#' @seealso stats::aov
+#' @param formula An anova formula (\code{variable ~ grouping variable})
+#' @seealso \code{\link{oneway.test}}
 #' @export
 ANOVA <- function(formula)
 {

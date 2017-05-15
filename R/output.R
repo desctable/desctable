@@ -30,8 +30,13 @@ as.data.frame.desctable <- function(x, ...)
 
 #' Pander method for desctable
 #'
+#' Pander method to output a desctable
+#'
+#' Uses \code{pandoc.table}, with some default parameters (\code{digits = 2}, \code{justify = "left"}, \code{missing = ""}, \code{keep.line.breaks = T}, \code{split.tables = Inf}, and \code{emphasize.rownames = F}), that you can override if needed.
+#'
 #' @param x A desctable
 #' @inheritParams pander::pandoc.table
+#' @seealso \code{\link{pandoc.table}}
 #' @export
 pander.desctable <- function(x = NULL,
                              digits = 2,
@@ -62,8 +67,41 @@ pander.desctable <- function(x = NULL,
                          ...)
 }
 
-#' Datatable
+#' Create an HTML table widget using the DataTables library
 #'
+#' This function creates an HTML widget to display rectangular data (a matrix or data frame) using the JavaScript library DataTables, with a method for \code{desctable} objects.
+#'
+#' @note
+#' You are recommended to escape the table content for security reasons (e.g. XSS attacks) when using this function in Shiny or any other dynamic web applications.
+#' @references
+#' See \url{http://rstudio.github.io/DT} for the full documentation.
+#' @examples
+#' library(DT)
+#'
+#' # see the package vignette for examples and the link to website
+#' vignette('DT', package = 'DT')
+#'
+#' # some boring edge cases for testing purposes
+#' m = matrix(nrow = 0, ncol = 5, dimnames = list(NULL, letters[1:5]))
+#' datatable(m)  # zero rows
+#' datatable(as.data.frame(m))
+#'
+#' m = matrix(1, dimnames = list(NULL, 'a'))
+#' datatable(m)  # one row and one column
+#' datatable(as.data.frame(m))
+#'
+#' m = data.frame(a = 1, b = 2, c = 3)
+#' datatable(m)
+#' datatable(as.matrix(m))
+#'
+#' # dates
+#' datatable(data.frame(
+#'   date = seq(as.Date("2015-01-01"), by = "day", length.out = 5), x = 1:5
+#' ))
+#' datatable(data.frame(x = Sys.Date()))
+#' datatable(data.frame(x = Sys.time()))
+#'
+#' ###
 #' @inheritParams DT::datatable
 #' @export
 datatable <- function(data, ...)
@@ -93,10 +131,6 @@ datatable.default <- function(data,
   DT::datatable(data, options = options, class = class, callback = callback, caption = caption, filter = filter, escape = escape, style = style, width = width, height = height, elementId = elementId, fillContainer = fillContainer, autoHideNavigation = autoHideNavigation, selection = selection, extensions = extensions, plugins = plugins, ...)
 }
 
-#' datatable method for desctable
-#'
-#' @param data A desctable
-#' @param ... Additional datatable parameters
 #' @rdname datatable
 #' @inheritParams base::prettyNum
 #' @export

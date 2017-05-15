@@ -27,7 +27,7 @@ testify <- function(x, f, group)
 #'
 #' These functions take a variable and a grouping variable as arguments, and return a statistcal test to use, expressed as a single-term formula.
 #'
-#' Currently, only tests_auto is defined, and picks between t test, wilcoxon, anova, kruskal-wallis and fisher depending on the number of groups, the type of the variable, the normality and homoskedasticity of the distributions.
+#' Currently, only \code{tests_auto} is defined, and picks between t test, wilcoxon, anova, kruskal-wallis and fisher depending on the number of groups, the type of the variable, the normality and homoskedasticity of the distributions.
 #'
 #' @param var The variable to test
 #' @param grp The variable for the groups

@@ -20,9 +20,9 @@ chisq.test(x, y, correct, p, rescale.p, simulate.p.value, B)
   B = 2000)
 }
 \arguments{
-\item{x}{a numeric vector, or matrix, or formula of the form \code{lhs ~ rhs} where \code{lhs} and \code{rhs} are factors. ‘x’ and ‘y’ can also both be factors.}
+\item{x}{a numeric vector, or matrix, or formula of the form \code{lhs ~ rhs} where \code{lhs} and \code{rhs} are factors. \code{x} and \code{y} can also both be factors.}
 
-\item{y}{a numeric vector; ignored if ‘x’ is a matrix or a formula. If ‘x’ is a factor, ‘y’ should be a factor of the same length.}
+\item{y}{a numeric vector; ignored if \code{x} is a matrix or a formula. If \code{x} is a factor, \code{y} should be a factor of the same length.}
 
 \item{correct}{a logical indicating whether to apply continuity
     correction when computing the test statistic for 2 by 2 tables: one
@@ -44,11 +44,11 @@ chisq.test(x, y, correct, p, rescale.p, simulate.p.value, B)
     Monte Carlo test.}
 }
 \value{
-A list with class ‘"htest"’ containing the following components:
+A list with class \code{"htest"} containing the following components:
 statistic: the value the chi-squared test statistic.
 
 parameter: the degrees of freedom of the approximate chi-squared
-          distribution of the test statistic, ‘NA’ if the p-value is
+          distribution of the test statistic, \code{NA} if the p-value is
           computed by Monte Carlo simulation.
 
  p.value: the p-value for the test.
@@ -66,25 +66,25 @@ expected: the expected counts under the null hypothesis.
 residuals: the Pearson residuals, ‘(observed - expected) /
           sqrt(expected)’.
 
-  stdres: standardized residuals, ‘(observed - expected) / sqrt(V)’,
-          where ‘V’ is the residual cell variance (Agresti, 2007,
-          section 2.4.5 for the case where ‘x’ is a matrix, ‘n * p * (1
+  stdres: standardized residuals, \code{(observed - expected) / sqrt(V)},
+          where \code{V} is the residual cell variance (Agresti, 2007,
+          section 2.4.5 for the case where \code{x} is a matrix, ‘n * p * (1
           - p)’ otherwise).
 }
 \description{
-‘chisq.test’ performs chi-squared contingency table tests and goodness-of-fit tests.
+\code{chisq.test} performs chi-squared contingency table tests and goodness-of-fit tests, with an added method for formulas.
 }
 \details{
-If ‘x’ is a matrix with one row or column, or if ‘x’ is a vector
-and ‘y’ is not given, then a _goodness-of-fit test_ is performed
-(‘x’ is treated as a one-dimensional contingency table).  The
-entries of ‘x’ must be non-negative integers.  In this case, the
+If \code{x} is a matrix with one row or column, or if \code{x} is a vector
+and \code{y} is not given, then a _goodness-of-fit test_ is performed
+(\code{x} is treated as a one-dimensional contingency table).  The
+entries of \code{x} must be non-negative integers.  In this case, the
 hypothesis tested is whether the population probabilities equal
-those in ‘p’, or are all equal if ‘p’ is not given.
+those in \code{p}, or are all equal if \code{p} is not given.
 
-If ‘x’ is a matrix with at least two rows and columns, it is taken
-as a two-dimensional contingency table: the entries of ‘x’ must be
-non-negative integers.  Otherwise, ‘x’ and ‘y’ must be vectors or
+If \code{x} is a matrix with at least two rows and columns, it is taken
+as a two-dimensional contingency table: the entries of \code{x} must be
+non-negative integers.  Otherwise, \code{x} and \code{y} must be vectors or
 factors of the same length; cases with missing values are removed,
 the objects are coerced to factors, and the contingency table is
 computed from these.  Then Pearson's chi-squared test is performed
@@ -92,11 +92,11 @@ of the null hypothesis that the joint distribution of the cell
 counts in a 2-dimensional contingency table is the product of the
 row and column marginals.
 
-If ‘simulate.p.value’ is ‘FALSE’, the p-value is computed from the
+If \code{simulate.p.value} is \code{FALSE}, the p-value is computed from the
 asymptotic chi-squared distribution of the test statistic;
 continuity correction is only used in the 2-by-2 case (if
-‘correct’ is ‘TRUE’, the default).  Otherwise the p-value is
-computed for a Monte Carlo test (Hope, 1968) with ‘B’ replicates.
+\code{correct} is \code{TRUE}, the default).  Otherwise the p-value is
+computed for a Monte Carlo test (Hope, 1968) with \code{B} replicates.
 
 In the contingency table case simulation is done by random
 sampling from the set of all contingency tables with given
@@ -107,8 +107,8 @@ assumed for the chi-squared test but rather that for Fisher's
 exact test.
 
 In the goodness-of-fit case simulation is done by random sampling
-from the discrete distribution specified by ‘p’, each sample being
-of size ‘n = sum(x)’.  This simulation is done in R and may be
+from the discrete distribution specified by \code{p}, each sample being
+of size \code{n = sum(x)}.  This simulation is done in R and may be
 slow.
 }
 \examples{
@@ -167,5 +167,5 @@ Agresti, A. (2007) _An Introduction to Categorical Data Analysis,
 2nd ed._, New York: John Wiley & Sons.  Page 38.
 }
 \seealso{
-For goodness-of-fit testing, notably of continuous distributions, ‘ks.test’.
+For goodness-of-fit testing, notably of continuous distributions, \code{\link{ks.test}}.
 }

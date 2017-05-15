@@ -2,16 +2,16 @@
 % Please edit documentation in R/convenience_functions.R
 \name{ANOVA}
 \alias{ANOVA}
-\title{Wrapper for summary(aov)}
+\title{Wrapper for oneway.test(var.equal = T)}
 \usage{
 ANOVA(formula)
 }
 \arguments{
-\item{formula}{An anova formula (variable ~ grouping variable)}
+\item{formula}{An anova formula (\code{variable ~ grouping variable})}
 }
 \description{
-Wrapper for summary(aov)
+Wrapper for oneway.test(var.equal = T)
 }
 \seealso{
-stats::aov
+\code{\link{oneway.test}}
 }

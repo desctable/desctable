@@ -1,10 +1,14 @@
 #' Transform any function into a valid stat function for the table
 #'
 #' Transform a function into a valid stat function for the table
+#'
 #' NA values are removed from the data
+#'
 #' Applying the function on a numerical vector should return one value
+#'
 #' Applying the function on a factor should return nlevels + 1 value, or one value per factor level
-#' See `parse_formula` for the usage for formulaes.
+#'
+#' See \code{parse_formula} for the usage for formulaes.
 #' @param f The function to try to apply, or a formula combining two functions
 #' @param x A vector
 #' @export
@@ -67,10 +71,12 @@ statify.formula <- function(x, f)
 #' These functions take a dataframe as argument and return a list of statistcs in the form accepted by desctable.
 #'
 #' Already defined are
-#' - stats_default with length, mean/%, sd, med and IQR
-#' - stats_normal with length, mean/% and sd
-#' - stats_nonnormal with length, median/% and IQR
-#' - stats_auto, which picks stats depending of the data
+#' \enumerate{
+#' \item stats_default with length, mean/\%, sd, med and IQR
+#' \item stats_normal with length, mean/\% and sd
+#' \item stats_nonnormal with length, median/\% and IQR
+#' \item stats_auto, which picks stats depending of the data
+#' }
 #'
 #' You can define your own automatic functions, as long as they take a dataframe as argument and return a list of functions or formulas defining conditions to use a stat function.
 #'
