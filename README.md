@@ -26,7 +26,7 @@ Desctable is a comprehensive descriptive and comparative tables generator for R.
 
 Every person doing data analysis has to create tables for descriptive summaries of data (a.k.a. Table.1), or comparative tables.
 
-Many packages, such as the aptly named **tableone**, adress this issue. However, they often include hard-coded behaviors, have outputs not easily manipulable with standard R tools, or their syntax are out-of-style (e.g. the argument order makes them difficult to use with the pipe (`%>%`)).
+Many packages, such as the aptly named **tableone**, address this issue. However, they often include hard-coded behaviors, have outputs not easily manipulable with standard R tools, or their syntax are out-of-style (e.g. the argument order makes them difficult to use with the pipe (`%>%`)).
 
 Enter **desctable**, a package built with the following objectives in mind:
 
@@ -352,7 +352,7 @@ Statistical functions can be any function defined in R that you want to use, suc
 
 The only condition is that they return a single numerical value. One exception is when they return a vector of length `1 + nlevels(x)` when applied to factors, as is needed for the `percent` function.
 
-As mentionned above, they need to be used inside a named list, such as
+As mentioned above, they need to be used inside a named list, such as
 
 ``` r
 mtcars %>%
