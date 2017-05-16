@@ -42,6 +42,12 @@ Enter **desctable**, a package built with the following objectives in mind:
 Installation
 ============
 
+Install from CRAN with
+
+    install.packages("desctable")
+
+or install the development version from github with
+
     devtools::install_github("maximewack/desctable")
 
 Loading
@@ -121,9 +127,9 @@ iris %>%
   pander
 ```
 
-<table style="width:63%;">
+<table style="width:90%;">
 <colgroup>
-<col width="20%" />
+<col width="48%" />
 <col width="5%" />
 <col width="12%" />
 <col width="6%" />
@@ -253,9 +259,9 @@ iris %>%
   pander
 ```
 
-<table style="width:63%;">
+<table style="width:90%;">
 <colgroup>
-<col width="20%" />
+<col width="48%" />
 <col width="5%" />
 <col width="12%" />
 <col width="6%" />
@@ -478,9 +484,9 @@ iris %>%
   pander
 ```
 
-<table style="width:51%;">
+<table style="width:79%;">
 <colgroup>
-<col width="20%" />
+<col width="48%" />
 <col width="5%" />
 <col width="12%" />
 <col width="12%" />
@@ -607,9 +613,9 @@ mtcars %>%
   pander
 ```
 
-<table style="width:75%;">
+<table style="width:89%;">
 <colgroup>
-<col width="33%" />
+<col width="47%" />
 <col width="5%" />
 <col width="12%" />
 <col width="6%" />
@@ -1034,19 +1040,19 @@ iris %>%
 
 <table style="width:100%;">
 <colgroup>
-<col width="8%" />
-<col width="14%" />
-<col width="7%" />
+<col width="17%" />
+<col width="12%" />
+<col width="6%" />
+<col width="4%" />
+<col width="5%" />
+<col width="5%" />
+<col width="12%" />
+<col width="6%" />
+<col width="4%" />
+<col width="5%" />
 <col width="5%" />
 <col width="6%" />
-<col width="6%" />
-<col width="13%" />
-<col width="7%" />
 <col width="5%" />
-<col width="6%" />
-<col width="6%" />
-<col width="7%" />
-<col width="6%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -1727,19 +1733,19 @@ iris %>%
 
 <table style="width:100%;">
 <colgroup>
-<col width="8%" />
-<col width="14%" />
-<col width="7%" />
+<col width="17%" />
+<col width="12%" />
+<col width="6%" />
+<col width="4%" />
+<col width="5%" />
+<col width="5%" />
+<col width="12%" />
+<col width="6%" />
+<col width="4%" />
+<col width="5%" />
 <col width="5%" />
 <col width="6%" />
-<col width="6%" />
-<col width="13%" />
-<col width="7%" />
 <col width="5%" />
-<col width="6%" />
-<col width="6%" />
-<col width="7%" />
-<col width="6%" />
 </colgroup>
 <thead>
 <tr class="header">

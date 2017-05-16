@@ -30,6 +30,14 @@ Enter **desctable**, a package built with the following objectives in mind:
 
 # Installation
 
+Install from CRAN with
+
+```
+install.packages("desctable")
+```
+
+or install the development version from github with
+
 ```
 devtools::install_github("maximewack/desctable")
 ```
