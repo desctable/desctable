@@ -19,7 +19,7 @@ Desctable
         -   [List of statistical test functions](#list-of-statistical-test-functions)
 -   [Tips and tricks](#tips-and-tricks)
 
-[![Travis-CI Build Status](https://travis-ci.org/MaximeWack/desctable.svg?branch=travis)](https://travis-ci.org/MaximeWack/desctable)
+[![Travis-CI Build Status](https://travis-ci.org/MaximeWack/desctable.svg?branch=dev)](https://travis-ci.org/MaximeWack/desctable)
 
 Introduction
 ============
