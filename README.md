@@ -19,7 +19,7 @@ Desctable
         -   [List of statistical test functions](#list-of-statistical-test-functions)
 -   [Tips and tricks](#tips-and-tricks)
 
-[![Travis-CI Build Status](https://travis-ci.org/MaximeWack/desctable.svg?branch=dev)](https://travis-ci.org/MaximeWack/desctable)
+[![Travis-CI Build Status](https://travis-ci.org/MaximeWack/desctable.svg?branch=badges)](https://travis-ci.org/MaximeWack/desctable) [![Coverage Status](https://img.shields.io/codecov/c/github/MaximeWack/desctable/badges.svg)](https://codecov.io/github/MaximeWack/desctable?branch=badges) [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/desctable)](https://cran.r-project.org/package=desctable)
 
 Introduction
 ============
