@@ -9,6 +9,9 @@ output:
 ```{r, echo = F, message = F, warning = F}
 knitr::opts_chunk$set(message = F, warning = F)
 ```
+
+[![Travis-CI Build Status](https://travis-ci.org/MaximeWack/desctable.svg?branch=travis)](https://travis-ci.org/MaximeWack/desctable)
+
 # Introduction
 
 Desctable is a comprehensive descriptive and comparative tables generator for R.

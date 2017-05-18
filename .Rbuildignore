@@ -2,3 +2,4 @@
 ^README\.html$
 ^cran-comments\.md$
 ^LICENSE$
+^\.travis\.yml$
