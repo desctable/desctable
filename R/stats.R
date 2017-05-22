@@ -26,8 +26,8 @@ statify.default <- function(x, f)
 
   # Try f(x), silent warnings and fail with NA
   res <- tryCatch(x %>% f,
-                  error = function(e) NA,
-                  warning = function(e) suppressWarnings(x %>% f))
+                  warning = function(e) suppressWarnings(x %>% f),
+                  error = function(e) NA)
 
   # If x is a factor and f(x) behaves as expected (nlevel + total value), return f(x), or apply f(x) on each level, or fail with n+1 NA
   # If it is a numeric, return f(x) if it behaves as expected (ONE value), or fail with NA
@@ -39,8 +39,8 @@ statify.default <- function(x, f)
       c(res, lapply(levels(x), function(lvl)
                     {
                       tryCatch(f(x[x == lvl]),
-                               error = function(e) NA,
-                               warning = function(e) suppressWarnings(f(x[x == lvl])))
+                               warning = function(e) suppressWarnings(f(x[x == lvl])),
+                               error = function(e) NA)
                     }) %>% unlist)
     else
       rep(NA, nlevels(x) + 1)
