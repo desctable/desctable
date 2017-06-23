@@ -6,6 +6,7 @@ Version 0.2.0
 - Corrected a typo in the README and vignette
 - Bugfix for when a statistical function returns a warning AND an error
 - Added NEWS file for future releases
+- Modified default and auto statistics for less automation
 
 Version 0.1.0
 
