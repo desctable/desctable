@@ -1,0 +1,12 @@
+Version 0.2.0
+
+- Added travis CI to repo
+- Added CRAN badge to repo
+- Added code coverage to repo
+- Corrected a typo in the README and vignette
+- Bugfix for when a statistical function returns a warning AND an error
+- Added NEWS file for future releases
+
+Version 0.1.0
+
+Initial release.
