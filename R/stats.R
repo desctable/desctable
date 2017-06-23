@@ -72,9 +72,9 @@ statify.formula <- function(x, f)
 #'
 #' Already defined are
 #' \enumerate{
-#' \item stats_default with length, mean/\%, sd, med and IQR
-#' \item stats_normal with length, mean/\% and sd
-#' \item stats_nonnormal with length, median/\% and IQR
+#' \item stats_default with length, \%, mean, sd, med and IQR
+#' \item stats_normal with length, \%, mean and sd
+#' \item stats_nonnormal with length, %, median and IQR
 #' \item stats_auto, which picks stats depending of the data
 #' }
 #'
@@ -86,7 +86,8 @@ statify.formula <- function(x, f)
 stats_default <- function(data)
 {
   list("N" = length,
-       "Mean/%" = is.factor ~ percent | (is.normal ~ mean),
+       "%" = percent,
+       "Mean" = is.normal ~ mean,
        "sd" = is.normal ~ sd,
        "Med" = is.normal ~ NA | median,
        "IQR" = is.factor ~ NA | (is.normal ~ NA | IQR))
@@ -97,7 +98,8 @@ stats_default <- function(data)
 stats_normal <- function(data)
 {
   list("N" = length,
-       "Mean/%" = is.factor ~ percent | mean,
+       "%" = percent,
+       "Mean" = mean,
        "sd" = stats::sd)
 }
 
@@ -106,7 +108,8 @@ stats_normal <- function(data)
 stats_nonnormal <- function(data)
 {
   list("N" = length,
-       "Median/%" = is.factor ~ percent | median,
+       "%" = percent,
+       "Median" = stats::median,
        "IQR" = is.factor ~ NA | IQR)
 }
 
