@@ -89,8 +89,8 @@ stats_default <- function(data)
        "%" = percent,
        "Mean" = is.normal ~ mean,
        "sd" = is.normal ~ sd,
-       "Med" = is.normal ~ NA | median,
-       "IQR" = is.factor ~ NA | (is.normal ~ NA | IQR))
+       "Med" = stats::median,
+       "IQR" = is.factor ~ NA | IQR)
 }
 
 #' @rdname stats_default
@@ -146,8 +146,8 @@ stats_auto <- function(data)
     list("N" = length,
          "Mean" = is.normal ~ mean,
          "sd" = is.normal ~ sd,
-         "Med" = is.normal ~ NA | median,
-         "IQR" = is.normal ~ NA | IQR)
+         "Med" = stats::median,
+         "IQR" = is.factor ~ NA | IQR)
   else if (!fact & normal & !nonnormal)
     list("N" = length,
          "Mean" = mean,
