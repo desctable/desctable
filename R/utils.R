@@ -135,9 +135,9 @@ header <- function(desctable, output = c("pander", "datatable", "dataframe"))
   if (length(desctable) == 1)
   {
     if (output == "datatable")
-      c("", nm) %>% lapply(htmltools::tags$th) %>% htmltools::tags$tr() %>% htmltools::tags$thead() %>% htmltools::tags$table(class = "display")
+      c(" ", nm) %>% lapply(htmltools::tags$th) %>% htmltools::tags$tr() %>% htmltools::tags$thead() %>% htmltools::tags$table(class = "display")
     else
-      c("", nm)
+      c(" ", nm)
   }
   else
   {
@@ -145,7 +145,7 @@ header <- function(desctable, output = c("pander", "datatable", "dataframe"))
 
     if (output == "pander")
     {
-      c("", head_pander(head) %>% paste(nm, sep = "<br/>"))
+      c(" ", head_pander(head) %>% paste(nm, sep = "<br/>"))
     } else if (output == "datatable")
     {
       c(head_datatable(head), list(nm %>% lapply(htmltools::tags$th))) -> head
@@ -156,7 +156,7 @@ header <- function(desctable, output = c("pander", "datatable", "dataframe"))
         htmltools::tags$table(class = "display")
     } else if (output == "dataframe")
     {
-      c("", head_dataframe(head) %>% paste(nm, sep = " / "))
+      c(" ", head_dataframe(head) %>% paste(nm, sep = " / "))
     }
   }
 }
