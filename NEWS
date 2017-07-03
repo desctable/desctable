@@ -7,6 +7,7 @@ Version 0.2.0
 - Bugfix for when a statistical function returns a warning AND an error
 - Added NEWS file for future releases
 - Modified default and auto statistics for less automation
+- Added dummy column name for the variable names column, and make dplyr happy
 
 Version 0.1.0
 
