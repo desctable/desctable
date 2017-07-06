@@ -35,7 +35,7 @@ statify.default <- function(x, f)
   {
     if (length(res) == nlevels(x) + 1)
       res
-    else if (length(res) == 1 & res %>% is.numeric | res %>% is.na)
+    else if (length(res) == 1)
       c(res, lapply(levels(x), function(lvl)
                     {
                       tryCatch(f(x[x == lvl]),
@@ -46,8 +46,8 @@ statify.default <- function(x, f)
       rep(NA, nlevels(x) + 1)
   } else
   {
-    if (length(res) == 1 & res %>% is.numeric | res %>% is.na)
-      res %>% as.double
+    if (length(res) == 1)
+      res
     else
       NA
   }
@@ -60,7 +60,6 @@ statify.formula <- function(x, f)
   # if expression quoted with ~, evaluate the expression
   if (length(f) == 2)
     eval(f[[2]])
-    # statify.default(x, eval(f[[2]]))
   # else parse the formula (cond ~ T | F)
   else
     statify.default(x, parse_formula(x, f))
