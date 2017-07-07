@@ -39,7 +39,10 @@ tests_auto <- function(var, grp)
   if (nlevels(grp) < 2)
     ~no.test
   else if (var %>% is.factor)
-    ~fisher.test
+    if (tryCatch(! (fisher.test(var ~ grp)$p.value %>% is.numeric), error = function(e) F))
+      ~chisq.test
+    else
+      ~fisher.test
   else
   {
     all_normal <- all(var %>% tapply(grp, is.normal))
