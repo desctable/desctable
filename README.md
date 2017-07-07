@@ -1,24 +1,6 @@
 Desctable
 ================
 
--   [Introduction](#introduction)
--   [Installation](#installation)
--   [Loading](#loading)
--   [Descriptive tables](#descriptive-tables)
-    -   [Simple usage](#simple-usage)
-    -   [Output](#output)
-    -   [Advanced usage](#advanced-usage)
-        -   [Automatic function](#automatic-function)
-        -   [Statistical functions](#statistical-functions)
-        -   [Conditional formulas](#conditional-formulas)
-        -   [Labels](#labels)
--   [Comparative tables](#comparative-tables)
-    -   [Simple usage](#simple-usage-1)
-    -   [Advanced usage](#advanced-usage-1)
-        -   [Automatic function](#automatic-function-1)
-        -   [List of statistical test functions](#list-of-statistical-test-functions)
--   [Tips and tricks](#tips-and-tricks)
-
 [![Travis-CI Build Status](https://travis-ci.org/MaximeWack/desctable.svg?branch=dev)](https://travis-ci.org/MaximeWack/desctable) [![Coverage Status](https://img.shields.io/codecov/c/github/MaximeWack/desctable/dev.svg)](https://codecov.io/github/MaximeWack/desctable?branch=dev) [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/desctable)](https://cran.r-project.org/package=desctable) [![CRAN RStudio mirror downloads](http://cranlogs.r-pkg.org/badges/desctable)](http://www.r-pkg.org/pkg/desctable)
 
 Introduction

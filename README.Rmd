@@ -1,9 +1,6 @@
 ---
 title: "Desctable"
-output:
-  github_document:
-    toc: true
-    toc_depth: 3
+output: github_document
 ---
 
 ```{r, echo = F, message = F, warning = F}
