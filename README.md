@@ -19,7 +19,7 @@ Desctable
         -   [List of statistical test functions](#list-of-statistical-test-functions)
 -   [Tips and tricks](#tips-and-tricks)
 
-[![Travis-CI Build Status](https://travis-ci.org/MaximeWack/desctable.svg?branch=dev)](https://travis-ci.org/MaximeWack/desctable) [![Coverage Status](https://img.shields.io/codecov/c/github/MaximeWack/desctable/dev.svg)](https://codecov.io/github/MaximeWack/desctable?branch=dev) [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/desctable)](https://cran.r-project.org/package=desctable)
+[![Travis-CI Build Status](https://travis-ci.org/MaximeWack/desctable.svg?branch=dev)](https://travis-ci.org/MaximeWack/desctable) [![Coverage Status](https://img.shields.io/codecov/c/github/MaximeWack/desctable/dev.svg)](https://codecov.io/github/MaximeWack/desctable?branch=dev) [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/desctable)](https://cran.r-project.org/package=desctable) [![CRAN RStudio mirror downloads](http://cranlogs.r-pkg.org/badges/desctable)](http://www.r-pkg.org/pkg/desctable)
 
 Introduction
 ============
@@ -88,28 +88,28 @@ iris %>%
   desctable
 ```
 
-    ##                         N    Mean/%        sd  Med IQR
-    ## 1        Sepal.Length 150        NA        NA 5.80 1.3
-    ## 2         Sepal.Width 150  3.057333 0.4358663   NA  NA
-    ## 3        Petal.Length 150        NA        NA 4.35 3.5
-    ## 4         Petal.Width 150        NA        NA 1.30 1.5
-    ## 5             Species 150        NA        NA   NA  NA
-    ## 6     Species: setosa  50 33.333333        NA   NA  NA
-    ## 7 Species: versicolor  50 33.333333        NA   NA  NA
-    ## 8  Species: virginica  50 33.333333        NA   NA  NA
+    ##                         N        %     Mean        sd  Med IQR
+    ## 1        Sepal.Length 150       NA       NA        NA 5.80 1.3
+    ## 2         Sepal.Width 150       NA 3.057333 0.4358663 3.00 0.5
+    ## 3        Petal.Length 150       NA       NA        NA 4.35 3.5
+    ## 4         Petal.Width 150       NA       NA        NA 1.30 1.5
+    ## 5             Species 150       NA       NA        NA   NA  NA
+    ## 6     Species: setosa  50 33.33333       NA        NA   NA  NA
+    ## 7 Species: versicolor  50 33.33333       NA        NA   NA  NA
+    ## 8  Species: virginica  50 33.33333       NA        NA   NA  NA
 
 ``` r
 desctable(mtcars)
 ```
 
-    ##          N      Mean        sd     Med       IQR
-    ## 1   mpg 32 20.090625 6.0269481      NA        NA
+    ##          N      Mean        sd     Med       IQR
+    ## 1   mpg 32 20.090625 6.0269481  19.200   7.37500
     ## 2   cyl 32        NA        NA   6.000   4.00000
     ## 3  disp 32        NA        NA 196.300 205.17500
     ## 4    hp 32        NA        NA 123.000  83.50000
-    ## 5  drat 32  3.596563 0.5346787      NA        NA
+    ## 5  drat 32  3.596563 0.5346787   3.695   0.84000
     ## 6    wt 32        NA        NA   3.325   1.02875
-    ## 7  qsec 32 17.848750 1.7869432      NA        NA
+    ## 7  qsec 32 17.848750 1.7869432  17.710   2.00750
     ## 8    vs 32        NA        NA   0.000   1.00000
     ## 9    am 32        NA        NA   0.000   1.00000
     ## 10 gear 32        NA        NA   4.000   1.00000
@@ -129,11 +129,12 @@ iris %>%
   pander
 ```
 
-<table style="width:90%;">
+<table style="width:93%;">
 <colgroup>
 <col width="48%" />
 <col width="5%" />
-<col width="12%" />
+<col width="5%" />
+<col width="9%" />
 <col width="6%" />
 <col width="8%" />
 <col width="8%" />
@@ -142,7 +143,8 @@ iris %>%
 <tr class="header">
 <th align="left"> </th>
 <th align="left">N</th>
-<th align="left">Mean/%</th>
+<th align="left">%</th>
+<th align="left">Mean</th>
 <th align="left">sd</th>
 <th align="left">Med</th>
 <th align="left">IQR</th>
@@ -154,20 +156,23 @@ iris %>%
 <td align="left">150</td>
 <td align="left"></td>
 <td align="left"></td>
+<td align="left"></td>
 <td align="left">5.8</td>
 <td align="left">1.3</td>
 </tr>
 <tr class="even">
 <td align="left">Sepal.Width</td>
 <td align="left">150</td>
+<td align="left"></td>
 <td align="left">3.1</td>
 <td align="left">0.44</td>
-<td align="left"></td>
-<td align="left"></td>
+<td align="left">3</td>
+<td align="left">0.5</td>
 </tr>
 <tr class="odd">
 <td align="left">Petal.Length</td>
 <td align="left">150</td>
+<td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left">4.3</td>
@@ -176,6 +181,7 @@ iris %>%
 <tr class="even">
 <td align="left">Petal.Width</td>
 <td align="left">150</td>
+<td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left">1.3</td>
@@ -188,11 +194,13 @@ iris %>%
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
+<td align="left"></td>
 </tr>
 <tr class="even">
 <td align="left">    setosa</td>
 <td align="left">50</td>
 <td align="left">33</td>
+<td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
@@ -204,11 +212,13 @@ iris %>%
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
+<td align="left"></td>
 </tr>
 <tr class="even">
 <td align="left">    virginica</td>
 <td align="left">50</td>
 <td align="left">33</td>
+<td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
@@ -261,11 +271,12 @@ iris %>%
   pander
 ```
 
-<table style="width:90%;">
+<table style="width:93%;">
 <colgroup>
 <col width="48%" />
 <col width="5%" />
-<col width="12%" />
+<col width="5%" />
+<col width="9%" />
 <col width="6%" />
 <col width="8%" />
 <col width="8%" />
@@ -274,7 +285,8 @@ iris %>%
 <tr class="header">
 <th align="left"> </th>
 <th align="left">N</th>
-<th align="left">Mean/%</th>
+<th align="left">%</th>
+<th align="left">Mean</th>
 <th align="left">sd</th>
 <th align="left">Med</th>
 <th align="left">IQR</th>
@@ -286,20 +298,23 @@ iris %>%
 <td align="left">150</td>
 <td align="left"></td>
 <td align="left"></td>
+<td align="left"></td>
 <td align="left">5.8</td>
 <td align="left">1.3</td>
 </tr>
 <tr class="even">
 <td align="left">Sepal.Width</td>
 <td align="left">150</td>
+<td align="left"></td>
 <td align="left">3.1</td>
 <td align="left">0.44</td>
-<td align="left"></td>
-<td align="left"></td>
+<td align="left">3</td>
+<td align="left">0.5</td>
 </tr>
 <tr class="odd">
 <td align="left">Petal.Length</td>
 <td align="left">150</td>
+<td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left">4.3</td>
@@ -308,6 +323,7 @@ iris %>%
 <tr class="even">
 <td align="left">Petal.Width</td>
 <td align="left">150</td>
+<td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left">1.3</td>
@@ -320,11 +336,13 @@ iris %>%
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
+<td align="left"></td>
 </tr>
 <tr class="even">
 <td align="left">    setosa</td>
 <td align="left">50</td>
 <td align="left">33</td>
+<td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
@@ -336,11 +354,13 @@ iris %>%
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
+<td align="left"></td>
 </tr>
 <tr class="even">
 <td align="left">    virginica</td>
 <td align="left">50</td>
 <td align="left">33</td>
+<td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
@@ -362,9 +382,9 @@ mtcars %>%
   pander
 ```
 
-<table style="width:33%;">
+<table style="width:28%;">
 <colgroup>
-<col width="12%" />
+<col width="6%" />
 <col width="5%" />
 <col width="9%" />
 <col width="5%" />
@@ -578,8 +598,7 @@ For reference, here is the body of the `stats_auto` function in the package:
     ##         list(N = length, `%` = percent)
     ##     else if (!fact & normal & nonnormal) 
     ##         list(N = length, Mean = is.normal ~ mean, sd = is.normal ~ 
-    ##             sd, Med = is.normal ~ NA | median, IQR = is.normal ~ 
-    ##             NA | IQR)
+    ##             sd, Med = stats::median, IQR = is.factor ~ NA | IQR)
     ##     else if (!fact & normal & !nonnormal) 
     ##         list(N = length, Mean = mean, sd = stats::sd)
     ##     else if (!fact & !normal & nonnormal) 
@@ -615,11 +634,12 @@ mtcars %>%
   pander
 ```
 
-<table style="width:89%;">
+<table style="width:92%;">
 <colgroup>
 <col width="47%" />
 <col width="5%" />
-<col width="12%" />
+<col width="5%" />
+<col width="9%" />
 <col width="6%" />
 <col width="8%" />
 <col width="8%" />
@@ -628,7 +648,8 @@ mtcars %>%
 <tr class="header">
 <th align="left"> </th>
 <th align="left">N</th>
-<th align="left">Mean/%</th>
+<th align="left">%</th>
+<th align="left">Mean</th>
 <th align="left">sd</th>
 <th align="left">Med</th>
 <th align="left">IQR</th>
@@ -638,14 +659,16 @@ mtcars %>%
 <tr class="odd">
 <td align="left">Miles/(US) gallon</td>
 <td align="left">32</td>
+<td align="left"></td>
 <td align="left">20</td>
 <td align="left">6</td>
-<td align="left"></td>
-<td align="left"></td>
+<td align="left">19</td>
+<td align="left">7.4</td>
 </tr>
 <tr class="even">
 <td align="left">Number of cylinders</td>
 <td align="left">32</td>
+<td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left">6</td>
@@ -656,6 +679,7 @@ mtcars %>%
 <td align="left">32</td>
 <td align="left"></td>
 <td align="left"></td>
+<td align="left"></td>
 <td align="left">196</td>
 <td align="left">205</td>
 </tr>
@@ -664,20 +688,23 @@ mtcars %>%
 <td align="left">32</td>
 <td align="left"></td>
 <td align="left"></td>
+<td align="left"></td>
 <td align="left">123</td>
 <td align="left">84</td>
 </tr>
 <tr class="odd">
 <td align="left">Rear axle ratio</td>
 <td align="left">32</td>
+<td align="left"></td>
 <td align="left">3.6</td>
 <td align="left">0.53</td>
-<td align="left"></td>
-<td align="left"></td>
+<td align="left">3.7</td>
+<td align="left">0.84</td>
 </tr>
 <tr class="even">
 <td align="left">Weight (1000 lbs)</td>
 <td align="left">32</td>
+<td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left">3.3</td>
@@ -686,14 +713,16 @@ mtcars %>%
 <tr class="odd">
 <td align="left">¼ mile time</td>
 <td align="left">32</td>
+<td align="left"></td>
 <td align="left">18</td>
 <td align="left">1.8</td>
-<td align="left"></td>
-<td align="left"></td>
+<td align="left">18</td>
+<td align="left">2</td>
 </tr>
 <tr class="even">
 <td align="left">V/S</td>
 <td align="left">32</td>
+<td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left">0</td>
@@ -706,11 +735,13 @@ mtcars %>%
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
+<td align="left"></td>
 </tr>
 <tr class="even">
 <td align="left">    Automatic</td>
 <td align="left">19</td>
 <td align="left">59</td>
+<td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
@@ -722,10 +753,12 @@ mtcars %>%
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
+<td align="left"></td>
 </tr>
 <tr class="even">
 <td align="left">Number of forward gears</td>
 <td align="left">32</td>
+<td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left">4</td>
@@ -734,6 +767,7 @@ mtcars %>%
 <tr class="odd">
 <td align="left">Number of carburetors</td>
 <td align="left">32</td>
+<td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left">2</td>
@@ -764,19 +798,19 @@ iris %>%
 iris_by_Species
 ```
 
-    ##                Species: setosa (n=50) / N Species: setosa (n=50) / Mean
+    ##                Species: setosa (n=50) / N Species: setosa (n=50) / Mean
     ## 1 Sepal.Length                         50                         5.006
     ## 2  Sepal.Width                         50                         3.428
     ## 3 Petal.Length                         50                            NA
     ## 4  Petal.Width                         50                            NA
     ##   Species: setosa (n=50) / sd Species: setosa (n=50) / Med
-    ## 1                   0.3524897                           NA
-    ## 2                   0.3790644                           NA
+    ## 1                   0.3524897                          5.0
+    ## 2                   0.3790644                          3.4
     ## 3                          NA                          1.5
     ## 4                          NA                          0.2
     ##   Species: setosa (n=50) / IQR Species: versicolor (n=50) / N
-    ## 1                           NA                             50
-    ## 2                           NA                             50
+    ## 1                        0.400                             50
+    ## 2                        0.475                             50
     ## 3                        0.175                             50
     ## 4                        0.100                             50
     ##   Species: versicolor (n=50) / Mean Species: versicolor (n=50) / sd
@@ -785,25 +819,25 @@ iris_by_Species
     ## 3                             4.260                       0.4699110
     ## 4                                NA                              NA
     ##   Species: versicolor (n=50) / Med Species: versicolor (n=50) / IQR
-    ## 1                               NA                               NA
-    ## 2                               NA                               NA
-    ## 3                               NA                               NA
-    ## 4                              1.3                              0.3
+    ## 1                             5.90                            0.700
+    ## 2                             2.80                            0.475
+    ## 3                             4.35                            0.600
+    ## 4                             1.30                            0.300
     ##   Species: virginica (n=50) / N Species: virginica (n=50) / Mean
     ## 1                            50                            6.588
     ## 2                            50                            2.974
     ## 3                            50                            5.552
     ## 4                            50                               NA
     ##   Species: virginica (n=50) / sd Species: virginica (n=50) / Med
-    ## 1                      0.6358796                              NA
-    ## 2                      0.3224966                              NA
-    ## 3                      0.5518947                              NA
-    ## 4                             NA                               2
+    ## 1                      0.6358796                            6.50
+    ## 2                      0.3224966                            3.00
+    ## 3                      0.5518947                            5.55
+    ## 4                             NA                            2.00
     ##   Species: virginica (n=50) / IQR    tests / p
-    ## 1                              NA 1.505059e-28
-    ## 2                              NA 4.492017e-17
-    ## 3                              NA 4.803974e-29
-    ## 4                             0.5 3.261796e-29
+    ## 1                           0.675 1.505059e-28
+    ## 2                           0.375 4.492017e-17
+    ## 3                           0.775 4.803974e-29
+    ## 4                           0.500 3.261796e-29
     ##                       tests / test
     ## 1 . %>% oneway.test(var.equal = F)
     ## 2 . %>% oneway.test(var.equal = T)
@@ -827,20 +861,20 @@ str(iris_by_Species)
     ##   ..$ N   : num [1:4] 50 50 50 50
     ##   ..$ Mean: num [1:4] 5.01 3.43 NA NA
     ##   ..$ sd  : num [1:4] 0.352 0.379 NA NA
-    ##   ..$ Med : num [1:4] NA NA 1.5 0.2
-    ##   ..$ IQR : num [1:4] NA NA 0.175 0.1
+    ##   ..$ Med : num [1:4] 5 3.4 1.5 0.2
+    ##   ..$ IQR : num [1:4] 0.4 0.475 0.175 0.1
     ##  $ Species: versicolor (n=50):'data.frame':  4 obs. of  5 variables:
     ##   ..$ N   : num [1:4] 50 50 50 50
     ##   ..$ Mean: num [1:4] 5.94 2.77 4.26 NA
     ##   ..$ sd  : num [1:4] 0.516 0.314 0.47 NA
-    ##   ..$ Med : num [1:4] NA NA NA 1.3
-    ##   ..$ IQR : num [1:4] NA NA NA 0.3
+    ##   ..$ Med : num [1:4] 5.9 2.8 4.35 1.3
+    ##   ..$ IQR : num [1:4] 0.7 0.475 0.6 0.3
     ##  $ Species: virginica (n=50) :'data.frame':  4 obs. of  5 variables:
     ##   ..$ N   : num [1:4] 50 50 50 50
     ##   ..$ Mean: num [1:4] 6.59 2.97 5.55 NA
     ##   ..$ sd  : num [1:4] 0.636 0.322 0.552 NA
-    ##   ..$ Med : num [1:4] NA NA NA 2
-    ##   ..$ IQR : num [1:4] NA NA NA 0.5
+    ##   ..$ Med : num [1:4] 6.5 3 5.55 2
+    ##   ..$ IQR : num [1:4] 0.675 0.375 0.775 0.5
     ##  $ tests                     :'data.frame':  4 obs. of  2 variables:
     ##   ..$ p   : num [1:4] 1.51e-28 4.49e-17 4.80e-29 3.26e-29
     ##   ..$ test: chr [1:4] ". %>% oneway.test(var.equal = F)" ". %>% oneway.test(var.equal = T)" "kruskal.test" "kruskal.test"
@@ -858,7 +892,7 @@ mtcars %>%
 
 <table>
 <colgroup>
-<col width="5%" />
+<col width="3%" />
 <col width="13%" />
 <col width="6%" />
 <col width="6%" />
@@ -1040,16 +1074,18 @@ iris %>%
   pander
 ```
 
-<table style="width:100%;">
+<table>
 <colgroup>
-<col width="17%" />
-<col width="12%" />
-<col width="6%" />
+<col width="16%" />
+<col width="11%" />
+<col width="4%" />
+<col width="5%" />
 <col width="4%" />
 <col width="5%" />
 <col width="5%" />
-<col width="12%" />
-<col width="6%" />
+<col width="11%" />
+<col width="4%" />
+<col width="5%" />
 <col width="4%" />
 <col width="5%" />
 <col width="5%" />
@@ -1060,12 +1096,14 @@ iris %>%
 <tr class="header">
 <th align="left"> </th>
 <th align="left">Petal.Length &gt; 5: FALSE (n=108)<br/>N</th>
-<th align="left"><br/>Mean/%</th>
+<th align="left"><br/>%</th>
+<th align="left"><br/>Mean</th>
 <th align="left"><br/>sd</th>
 <th align="left"><br/>Med</th>
 <th align="left"><br/>IQR</th>
 <th align="left">Petal.Length &gt; 5: TRUE (n=42)<br/>N</th>
-<th align="left"><br/>Mean/%</th>
+<th align="left"><br/>%</th>
+<th align="left"><br/>Mean</th>
 <th align="left"><br/>sd</th>
 <th align="left"><br/>Med</th>
 <th align="left"><br/>IQR</th>
@@ -1079,9 +1117,11 @@ iris %>%
 <td align="left">108</td>
 <td align="left"></td>
 <td align="left"></td>
+<td align="left"></td>
 <td align="left">5.5</td>
 <td align="left">1</td>
 <td align="left">42</td>
+<td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left">6.7</td>
@@ -1092,11 +1132,13 @@ iris %>%
 <tr class="even">
 <td align="left">Sepal.Width</td>
 <td align="left">108</td>
+<td align="left"></td>
 <td align="left">3.1</td>
 <td align="left">0.48</td>
-<td align="left"></td>
-<td align="left"></td>
+<td align="left">3</td>
+<td align="left">0.6</td>
 <td align="left">42</td>
+<td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left">3</td>
@@ -1109,9 +1151,11 @@ iris %>%
 <td align="left">108</td>
 <td align="left"></td>
 <td align="left"></td>
+<td align="left"></td>
 <td align="left">3.5</td>
 <td align="left">3</td>
 <td align="left">42</td>
+<td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left">5.6</td>
@@ -1124,13 +1168,15 @@ iris %>%
 <td align="left">108</td>
 <td align="left"></td>
 <td align="left"></td>
+<td align="left"></td>
 <td align="left">1</td>
 <td align="left">1.2</td>
 <td align="left">42</td>
+<td align="left"></td>
 <td align="left">2.1</td>
 <td align="left">0.28</td>
-<td align="left"></td>
-<td align="left"></td>
+<td align="left">2.1</td>
+<td align="left">0.47</td>
 <td align="left">1.6e-19</td>
 <td align="left">wilcox.test</td>
 </tr>
@@ -1141,7 +1187,9 @@ iris %>%
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
+<td align="left"></td>
 <td align="left">42</td>
+<td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
@@ -1156,8 +1204,10 @@ iris %>%
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
+<td align="left"></td>
 <td align="left">0</td>
 <td align="left">0</td>
+<td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
@@ -1171,8 +1221,10 @@ iris %>%
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
+<td align="left"></td>
 <td align="left">1</td>
 <td align="left">2.4</td>
+<td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
@@ -1186,8 +1238,10 @@ iris %>%
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
+<td align="left"></td>
 <td align="left">41</td>
 <td align="left">98</td>
+<td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
@@ -1211,7 +1265,7 @@ mtcars %>%
 
 <table style="width:100%;">
 <colgroup>
-<col width="1%" />
+<col width="0%" />
 <col width="4%" />
 <col width="2%" />
 <col width="2%" />
@@ -1633,18 +1687,18 @@ iris %>%
 <td align="left">50</td>
 <td align="left">5</td>
 <td align="left">0.35</td>
-<td align="left"></td>
-<td align="left"></td>
+<td align="left">5</td>
+<td align="left">0.4</td>
 <td align="left">50</td>
 <td align="left">5.9</td>
 <td align="left">0.52</td>
-<td align="left"></td>
-<td align="left"></td>
+<td align="left">5.9</td>
+<td align="left">0.7</td>
 <td align="left">50</td>
 <td align="left">6.6</td>
 <td align="left">0.64</td>
-<td align="left"></td>
-<td align="left"></td>
+<td align="left">6.5</td>
+<td align="left">0.67</td>
 <td align="left">1.5e-28</td>
 <td align="left">. %&gt;% oneway.test(var.equal = F)</td>
 </tr>
@@ -1653,18 +1707,18 @@ iris %>%
 <td align="left">50</td>
 <td align="left">3.4</td>
 <td align="left">0.38</td>
-<td align="left"></td>
-<td align="left"></td>
+<td align="left">3.4</td>
+<td align="left">0.48</td>
 <td align="left">50</td>
 <td align="left">2.8</td>
 <td align="left">0.31</td>
-<td align="left"></td>
-<td align="left"></td>
+<td align="left">2.8</td>
+<td align="left">0.48</td>
 <td align="left">50</td>
 <td align="left">3</td>
 <td align="left">0.32</td>
-<td align="left"></td>
-<td align="left"></td>
+<td align="left">3</td>
+<td align="left">0.38</td>
 <td align="left">4.5e-17</td>
 <td align="left">. %&gt;% oneway.test(var.equal = T)</td>
 </tr>
@@ -1678,13 +1732,13 @@ iris %>%
 <td align="left">50</td>
 <td align="left">4.3</td>
 <td align="left">0.47</td>
-<td align="left"></td>
-<td align="left"></td>
+<td align="left">4.3</td>
+<td align="left">0.6</td>
 <td align="left">50</td>
 <td align="left">5.6</td>
 <td align="left">0.55</td>
-<td align="left"></td>
-<td align="left"></td>
+<td align="left">5.5</td>
+<td align="left">0.78</td>
 <td align="left">4.8e-29</td>
 <td align="left">kruskal.test</td>
 </tr>
@@ -1733,16 +1787,18 @@ iris %>%
   pander
 ```
 
-<table style="width:100%;">
+<table>
 <colgroup>
-<col width="17%" />
-<col width="12%" />
-<col width="6%" />
+<col width="16%" />
+<col width="11%" />
+<col width="4%" />
+<col width="5%" />
 <col width="4%" />
 <col width="5%" />
 <col width="5%" />
-<col width="12%" />
-<col width="6%" />
+<col width="11%" />
+<col width="4%" />
+<col width="5%" />
 <col width="4%" />
 <col width="5%" />
 <col width="5%" />
@@ -1753,12 +1809,14 @@ iris %>%
 <tr class="header">
 <th align="left"> </th>
 <th align="left">Petal.Length &gt; 5: FALSE (n=108)<br/>N</th>
-<th align="left"><br/>Mean/%</th>
+<th align="left"><br/>%</th>
+<th align="left"><br/>Mean</th>
 <th align="left"><br/>sd</th>
 <th align="left"><br/>Med</th>
 <th align="left"><br/>IQR</th>
 <th align="left">Petal.Length &gt; 5: TRUE (n=42)<br/>N</th>
-<th align="left"><br/>Mean/%</th>
+<th align="left"><br/>%</th>
+<th align="left"><br/>Mean</th>
 <th align="left"><br/>sd</th>
 <th align="left"><br/>Med</th>
 <th align="left"><br/>IQR</th>
@@ -1772,9 +1830,11 @@ iris %>%
 <td align="left">108</td>
 <td align="left"></td>
 <td align="left"></td>
+<td align="left"></td>
 <td align="left">5.5</td>
 <td align="left">1</td>
 <td align="left">42</td>
+<td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left">6.7</td>
@@ -1785,11 +1845,13 @@ iris %>%
 <tr class="even">
 <td align="left">Sepal.Width</td>
 <td align="left">108</td>
+<td align="left"></td>
 <td align="left">3.1</td>
 <td align="left">0.48</td>
-<td align="left"></td>
-<td align="left"></td>
+<td align="left">3</td>
+<td align="left">0.6</td>
 <td align="left">42</td>
+<td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left">3</td>
@@ -1802,9 +1864,11 @@ iris %>%
 <td align="left">108</td>
 <td align="left"></td>
 <td align="left"></td>
+<td align="left"></td>
 <td align="left">3.5</td>
 <td align="left">3</td>
 <td align="left">42</td>
+<td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left">5.6</td>
@@ -1817,13 +1881,15 @@ iris %>%
 <td align="left">108</td>
 <td align="left"></td>
 <td align="left"></td>
+<td align="left"></td>
 <td align="left">1</td>
 <td align="left">1.2</td>
 <td align="left">42</td>
+<td align="left"></td>
 <td align="left">2.1</td>
 <td align="left">0.28</td>
-<td align="left"></td>
-<td align="left"></td>
+<td align="left">2.1</td>
+<td align="left">0.47</td>
 <td align="left">1.6e-19</td>
 <td align="left">wilcox.test</td>
 </tr>
@@ -1834,7 +1900,9 @@ iris %>%
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
+<td align="left"></td>
 <td align="left">42</td>
+<td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
@@ -1849,8 +1917,10 @@ iris %>%
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
+<td align="left"></td>
 <td align="left">0</td>
 <td align="left">0</td>
+<td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
@@ -1864,8 +1934,10 @@ iris %>%
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
+<td align="left"></td>
 <td align="left">1</td>
 <td align="left">2.4</td>
+<td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
@@ -1879,8 +1951,10 @@ iris %>%
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
+<td align="left"></td>
 <td align="left">41</td>
 <td align="left">98</td>
+<td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
 <td align="left"></td>
@@ -1903,11 +1977,11 @@ mtcars %>%
 
 <table>
 <colgroup>
-<col width="6%" />
-<col width="21%" />
+<col width="3%" />
+<col width="22%" />
 <col width="8%" />
 <col width="8%" />
-<col width="19%" />
+<col width="20%" />
 <col width="8%" />
 <col width="8%" />
 <col width="10%" />
@@ -2067,9 +2141,9 @@ mtcars %>%
   pander
 ```
 
-<table style="width:56%;">
+<table style="width:50%;">
 <colgroup>
-<col width="12%" />
+<col width="6%" />
 <col width="5%" />
 <col width="23%" />
 <col width="6%" />
@@ -2228,18 +2302,18 @@ iris %>%
 <td align="left">50</td>
 <td align="left">5</td>
 <td align="left">0.35</td>
-<td align="left"></td>
-<td align="left"></td>
+<td align="left">5</td>
+<td align="left">0.4</td>
 <td align="left">50</td>
 <td align="left">5.9</td>
 <td align="left">0.52</td>
-<td align="left"></td>
-<td align="left"></td>
+<td align="left">5.9</td>
+<td align="left">0.7</td>
 <td align="left">50</td>
 <td align="left">6.6</td>
 <td align="left">0.64</td>
-<td align="left"></td>
-<td align="left"></td>
+<td align="left">6.5</td>
+<td align="left">0.67</td>
 <td align="left">1.7e-31</td>
 <td align="left">purrr::partial(oneway.test, var.equal = T)</td>
 </tr>
@@ -2248,18 +2322,18 @@ iris %>%
 <td align="left">50</td>
 <td align="left">3.4</td>
 <td align="left">0.38</td>
-<td align="left"></td>
-<td align="left"></td>
+<td align="left">3.4</td>
+<td align="left">0.48</td>
 <td align="left">50</td>
 <td align="left">2.8</td>
 <td align="left">0.31</td>
-<td align="left"></td>
-<td align="left"></td>
+<td align="left">2.8</td>
+<td align="left">0.48</td>
 <td align="left">50</td>
 <td align="left">3</td>
 <td align="left">0.32</td>
-<td align="left"></td>
-<td align="left"></td>
+<td align="left">3</td>
+<td align="left">0.38</td>
 <td align="left">1.4e-14</td>
 <td align="left">function(f) oneway.test(f, var.equal = F)</td>
 </tr>
@@ -2273,13 +2347,13 @@ iris %>%
 <td align="left">50</td>
 <td align="left">4.3</td>
 <td align="left">0.47</td>
-<td align="left"></td>
-<td align="left"></td>
+<td align="left">4.3</td>
+<td align="left">0.6</td>
 <td align="left">50</td>
 <td align="left">5.6</td>
 <td align="left">0.55</td>
-<td align="left"></td>
-<td align="left"></td>
+<td align="left">5.5</td>
+<td align="left">0.78</td>
 <td align="left">2.9e-91</td>
 <td align="left">. %&gt;% oneway.test(var.equal = T)</td>
 </tr>
@@ -2323,16 +2397,16 @@ bladder %>%
   pander
 ```
 
-<table>
+<table style="width:100%;">
 <colgroup>
-<col width="6%" />
+<col width="5%" />
 <col width="15%" />
 <col width="7%" />
 <col width="7%" />
 <col width="15%" />
 <col width="7%" />
 <col width="7%" />
-<col width="9%" />
+<col width="10%" />
 <col width="21%" />
 </colgroup>
 <thead>

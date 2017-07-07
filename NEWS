@@ -9,6 +9,7 @@ Version 0.2.0
 - Modified default and auto statistics for less automation
 - Added dummy column name for the variable names column, and make dplyr happy
 - Enabled character and mixed columns
+- Added CRAN mirror downloads badge to repo
 
 Version 0.1.0
 
