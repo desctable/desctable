@@ -8,6 +8,7 @@
 #' @usage lhs \%>\% rhs
 NULL
 
+
 #' Group a tbl by one or more variables.
 #'
 #' @name group_by

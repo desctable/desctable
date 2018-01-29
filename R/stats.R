@@ -18,6 +18,7 @@ statify <- function(x, f)
   UseMethod("statify", f)
 }
 
+
 #' @rdname statify
 #' @export
 statify.default <- function(x, f)
@@ -53,6 +54,7 @@ statify.default <- function(x, f)
   }
 }
 
+
 #' @rdname statify
 #' @export
 statify.formula <- function(x, f)
@@ -64,6 +66,7 @@ statify.formula <- function(x, f)
   else
     statify.default(x, parse_formula(x, f))
 }
+
 
 #' Functions to create a list of statistics to use in desctable
 #'
@@ -92,6 +95,7 @@ stats_default <- function(data)
        "IQR" = is.factor ~ NA | IQR)
 }
 
+
 #' @rdname stats_default
 #' @export
 stats_normal <- function(data)
@@ -102,6 +106,7 @@ stats_normal <- function(data)
        "sd" = stats::sd)
 }
 
+
 #' @rdname stats_default
 #' @export
 stats_nonnormal <- function(data)
@@ -111,6 +116,7 @@ stats_nonnormal <- function(data)
        "Median" = stats::median,
        "IQR" = is.factor ~ NA | IQR)
 }
+
 
 #' @rdname stats_default
 #' @export

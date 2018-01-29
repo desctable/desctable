@@ -19,6 +19,7 @@ insert <- function(x, y, position)
   unlist(result)
 }
 
+
 #' Parse a formula
 #'
 #' Parse a formula defining the conditions to pick a stat/test
@@ -63,6 +64,7 @@ parse_formula <- function(x, f)
   parse(text = parse_f(f)) %>% eval
 }
 
+
 #' Build the header for pander
 #'
 #' @param head A headerList object
@@ -79,6 +81,7 @@ head_pander <- function(head)
           sep = "<br/>")
   }
 }
+
 
 #' Build the header for datatable
 #'
@@ -97,6 +100,7 @@ head_datatable <- function(head)
   c(TRs, list(purrr::map2(head %>% names, head, ~htmltools::tags$th(.x, colspan = .y))))
 }
 
+
 #' Build the header for dataframe
 #'
 #' @param head A headerList object
@@ -113,6 +117,7 @@ head_dataframe <- function(head)
           sep = " / ")
   }
 }
+
 
 #' Build header
 #'
@@ -161,6 +166,7 @@ header <- function(desctable, output = c("pander", "datatable", "dataframe"))
   }
 }
 
+
 #' Build a header list object
 #'
 #' @param desctable A desctable
@@ -182,6 +188,7 @@ headerList <- function(desctable)
     rec
   }
 }
+
 
 #' Flatten a desctable to a dataframe recursively
 #'

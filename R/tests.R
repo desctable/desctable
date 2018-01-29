@@ -23,6 +23,7 @@ testify <- function(x, f, group)
                row.names = NULL, check.names = F, stringsAsFactors = F)
 }
 
+
 #' Functions to choose a statistical test
 #'
 #' These functions take a variable and a grouping variable as arguments, and return a statistcal test to use, expressed as a single-term formula.

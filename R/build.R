@@ -10,6 +10,7 @@ statColumn <- function(stat, data)
     unlist
 }
 
+
 #' Generate the table of all statistics for all variables
 #'
 #' @param data The dataframe to apply the statistic to
@@ -25,6 +26,7 @@ statTable <- function(data, stats)
     lapply(statColumn, data) %>%
     data.frame(check.names = F, row.names = NULL, stringsAsFactors = F)
 }
+
 
 #' Generate the variable column to display as row names
 #'
@@ -71,6 +73,7 @@ varColumn <- function(data, labels = NULL)
 
   data.frame(Variables = base_names, check.names = F, row.names = NULL, stringsAsFactors = F)
 }
+
 
 #' Generate a statistics table
 #'
@@ -153,6 +156,7 @@ desctable <- function(data, stats, tests, labels)
   UseMethod("desctable", data)
 }
 
+
 #' @rdname desctable
 #' @export
 desctable.default <- function(data, stats = stats_auto, tests, labels = NULL)
@@ -162,6 +166,7 @@ desctable.default <- function(data, stats = stats_auto, tests, labels = NULL)
     stats = statTable(data, stats)) %>%
   `class<-`("desctable")
 }
+
 
 #' @rdname desctable
 #' @export
@@ -176,6 +181,7 @@ desctable.grouped_df <- function(data, stats = stats_auto, tests = tests_auto, l
     subTable(data, stats, tests, grps)) %>%
   `class<-`("desctable")
 }
+
 
 #' Create the subtables names
 #'
@@ -194,6 +200,7 @@ subNames <- function(grp, df)
          summary(eval(grp, df) %>% factor %>% stats::na.omit(), maxsum = Inf),
          ")")
 }
+
 
 #' Create the pvalues column
 #'
@@ -234,6 +241,7 @@ testColumn <- function(df, tests, grp)
     purrr::map2(ftests, testify, group) %>%
     dplyr::bind_rows()
 }
+
 
 #' Create a subtable in a grouped desctable
 #'

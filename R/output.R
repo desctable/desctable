@@ -9,6 +9,7 @@ print.desctable <- function(x, ...)
   print(x %>% as.data.frame)
 }
 
+
 #' As.data.frame method for desctable
 #'
 #' @param x A desctable
@@ -27,6 +28,7 @@ as.data.frame.desctable <- function(x, ...)
     data.frame(check.names = F, ...) %>%
     stats::setNames(header)
 }
+
 
 #' Pander method for desctable
 #'
@@ -66,6 +68,7 @@ pander.desctable <- function(x = NULL,
                          emphasize.rownames = emphasize.rownames,
                          ...)
 }
+
 
 #' Create an HTML table widget using the DataTables library
 #'
@@ -109,6 +112,7 @@ datatable <- function(data, ...)
   UseMethod("datatable", data)
 }
 
+
 #' @rdname datatable
 #' @export
 datatable.default <- function(data,
@@ -130,6 +134,7 @@ datatable.default <- function(data,
 {
   DT::datatable(data, options = options, class = class, callback = callback, caption = caption, filter = filter, escape = escape, style = style, width = width, height = height, elementId = elementId, fillContainer = fillContainer, autoHideNavigation = autoHideNavigation, selection = selection, extensions = extensions, plugins = plugins, ...)
 }
+
 
 #' @rdname datatable
 #' @inheritParams base::prettyNum
