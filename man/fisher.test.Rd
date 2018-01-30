@@ -9,10 +9,7 @@
 fisher.test(x, y, workspace, hybrid, control, or, alternative, conf.int,
   conf.level, simulate.p.value, B)
 
-\method{fisher.test}{default}(x, y = NULL, workspace = 2e+05,
-  hybrid = FALSE, control = list(), or = 1, alternative = "two.sided",
-  conf.int = TRUE, conf.level = 0.95, simulate.p.value = FALSE,
-  B = 2000)
+\method{fisher.test}{default}(x, ...)
 
 \method{fisher.test}{formula}(x, y = NULL, workspace = 2e+05, hybrid = F,
   control = list(), or = 1, alternative = "two.sided", conf.int = T,
@@ -61,6 +58,8 @@ fisher.test(x, y, workspace, hybrid, control, or, alternative, conf.int,
 
 \item{B}{an integer specifying the number of replicates used in the
     Monte Carlo test.}
+
+\item{...}{additional params to feed to original fisher.test}
 }
 \value{
 A list with class \code{"htest"} containing the following components:
