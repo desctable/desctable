@@ -206,7 +206,7 @@ testColumn <- function(df, tests, grp)
   group <- eval(grp, df)
 
   df <- df %>%
-      dplyr::select(- eval(grp))
+      dplyr::select(- !!(grp))
 
   if (is.function(tests))
   {
@@ -251,7 +251,7 @@ subTable <- function(df, stats, tests, grps)
 
     # Create the subtable stats
     df %>%
-      dplyr::select(- eval(grps[[1]])) %>%
+      dplyr::select(- !!(grps[[1]])) %>%
       by(group, statTable, stats) %>%
       # Name the subtables with info about group and group size
       stats::setNames(subNames(grps[[1]], df)) -> stats
@@ -267,7 +267,7 @@ subTable <- function(df, stats, tests, grps)
 
     # Go through the next grouping levels and build the subtables
     df %>%
-      dplyr::select(- eval(grps[[1]])) %>%
+      dplyr::select(- !!(grps[[1]])) %>%
       by(group, subTable, stats, tests, grps[-1]) %>%
       # Name the subtables with info about group and group size
       stats::setNames(subNames(grps[[1]], df))
