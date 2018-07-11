@@ -1,4 +1,4 @@
-Version 0.2.0
+Version 1.3.0
 
 - Added travis CI to repo
 - Added CRAN badge to repo
@@ -10,6 +10,14 @@ Version 0.2.0
 - Added dummy column name for the variable names column, and make dplyr happy
 - Enabled character and mixed columns
 - Added CRAN mirror downloads badge to repo
+
+Version 1.2.0
+
+- Added a fix for a change in evaluation in rlang
+
+Version 1.1.0
+
+- Added a fix for changing arguments in fisher.test in upstream
 
 Version 0.1.0
 
