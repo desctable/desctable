@@ -22,7 +22,6 @@ Imports:
 Suggests:
     knitr,
     rmarkdown,
-    survival,
-    covr
+    survival
 RoxygenNote: 6.0.1
 VignetteBuilder: knitr
