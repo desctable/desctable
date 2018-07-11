@@ -94,6 +94,7 @@ is.normal <- function(x)
 #' translation of the algorithm of Patefield (1981) is used.)
 #' @param x either a two-dimensional contingency table in matrix form, a factor object, or a formula of the form \code{lhs ~ rhs} where \code{lhs} and \code{rhs} are factors.
 #' @param y a factor object; ignored if \code{x} is a matrix or a formula.
+#' @param ... additional params to feed to original fisher.test
 #' @inheritParams stats::fisher.test
 #' @return A list with class \code{"htest"} containing the following components:
 #'
@@ -197,7 +198,7 @@ fisher.test <- function(x, y, workspace, hybrid, control, or, alternative, conf.
 
 
 #' @rdname fisher.test
-fisher.test.default <- stats::fisher.test
+fisher.test.default <- function(x, ...) stats::fisher.test(x, ...)
 
 
 #' @rdname fisher.test

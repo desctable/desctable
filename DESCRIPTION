@@ -1,6 +1,6 @@
 Package: desctable
 Title: Produce Descriptive and Comparative Tables Easily
-Version: 0.1.0
+Version: 0.1.2
 Authors@R: person("Maxime", "Wack", email = "maximewack@free.fr", role = c("aut", "cre"))
 Description: Easily create descriptive and comparative tables.
     It makes use and integrates directly with the tidyverse family of packages, and pipes.
