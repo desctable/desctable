@@ -48,7 +48,10 @@ statify.default <- function(x, f)
   } else
   {
     if (length(res) == 1)
-      res
+      if (res %>% is.numeric | res %>% is.na)
+        res
+      else
+        res %>% as.character
     else
       NA
   }
