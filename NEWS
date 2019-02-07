@@ -1,4 +1,9 @@
-Version 1.3.0
+Version 0.1.4
+
+- Documentation fix for group_by import (dplyr 0.8)
+- Correct description for Dates
+
+Version 0.1.3
 
 - Added travis CI to repo
 - Added CRAN badge to repo
@@ -10,11 +15,11 @@ Version 1.3.0
 - Enabled character and mixed columns
 - Added CRAN mirror downloads badge to repo
 
-Version 1.2.0
+Version 0.1.2
 
 - Added a fix for a change in evaluation in rlang
 
-Version 1.1.0
+Version 0.1.1
 
 - Added a fix for changing arguments in fisher.test in upstream
 
