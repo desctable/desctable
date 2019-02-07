@@ -15,6 +15,6 @@ NULL
 #' @keywords internal
 #' @export
 #' @importFrom dplyr group_by
-#' @usage group_by(.data, ..., add = FALSE)
+#' @usage group_by(.data, ..., add = FALSE, .drop = FALSE)
 NULL
 
