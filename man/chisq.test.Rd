@@ -16,8 +16,8 @@ chisq.test(x, y, correct, p, rescale.p, simulate.p.value, B)
   simulate.p.value = FALSE, B = 2000)
 
 \method{chisq.test}{formula}(x, y = NULL, correct = T,
-  p = rep(1/length(x), length(x)), rescale.p = F, simulate.p.value = F,
-  B = 2000)
+  p = rep(1/length(x), length(x)), rescale.p = F,
+  simulate.p.value = F, B = 2000)
 }
 \arguments{
 \item{x}{a numeric vector, or matrix, or formula of the form \code{lhs ~ rhs} where \code{lhs} and \code{rhs} are factors. \code{x} and \code{y} can also both be factors.}

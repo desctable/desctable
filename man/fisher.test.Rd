@@ -11,9 +11,9 @@ fisher.test(x, y, workspace, hybrid, control, or, alternative, conf.int,
 
 \method{fisher.test}{default}(x, ...)
 
-\method{fisher.test}{formula}(x, y = NULL, workspace = 2e+05, hybrid = F,
-  control = list(), or = 1, alternative = "two.sided", conf.int = T,
-  conf.level = 0.95, simulate.p.value = F, B = 2000)
+\method{fisher.test}{formula}(x, y = NULL, workspace = 200000,
+  hybrid = F, control = list(), or = 1, alternative = "two.sided",
+  conf.int = T, conf.level = 0.95, simulate.p.value = F, B = 2000)
 }
 \arguments{
 \item{x}{either a two-dimensional contingency table in matrix form, a factor object, or a formula of the form \code{lhs ~ rhs} where \code{lhs} and \code{rhs} are factors.}
