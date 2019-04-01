@@ -9,7 +9,7 @@
 #' @return The results for the function applied on the vector, compatible with the format of the result table
 testify <- function(x, f, group)
 {
-  fun <- f %>% deparse %>% Reduce(f = paste0) %>% substring(2)
+  fun <- f %>% deparse() %>% Reduce(f = paste0) %>% substring(2)
   f <- eval(f[[2]])
   p <- tryCatch(f(x ~ group)$p.value[1],
                 error = function(e) {message(e);NaN})
@@ -36,14 +36,35 @@ testify <- function(x, f, group)
 #' @export
 tests_auto <- function(var, grp)
 {
-  grp <- grp %>% factor
+  grp <- grp %>% factor()
   if (nlevels(grp) < 2)
     ~no.test
-  else if (var %>% is.factor)
-    if (tryCatch(fisher.test(var ~ grp)$p.value %>% is.numeric, error = function(e) F))
+  else if (var %>% is.factor())
+    if (tryCatch(fisher.test(var ~ grp)$p.value %>% is.numeric(), error = function(e) F))
       ~fisher.test
+  else
+    ~chisq.test
+  else
+  {
+    all_normal <- all(var %>% tapply(grp, is.normal))
+    if (nlevels(grp) == 2)
+      if (all_normal)
+        if (tryCatch(stats::var.test(var ~ grp)$p.value > .1, warning = function(e) F, error = function(e) F))
+          ~. %>% t.test(var.equal = T)
     else
-      ~chisq.test
+      ~. %>% t.test(var.equal = F)
+    else
+      ~wilcox.test
+    else
+      if (all_normal)
+        if (tryCatch(stats::bartlett.test(var ~ grp)$p.value > .1, warning = function(e) F, error = function(e) F))
+          ~. %>% oneway.test(var.equal = T)
+    else
+      ~. %>% oneway.test(var.equal = F)
+    else
+      ~kruskal.test
+  }
+}
   else
   {
     all_normal <- all(var %>% tapply(grp, is.normal))
