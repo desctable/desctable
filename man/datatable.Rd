@@ -9,9 +9,9 @@
 datatable(data, ...)
 
 \method{datatable}{default}(data, options = list(), class = "display",
-  callback = DT::JS("return table;"), caption = NULL, filter = c("none",
-  "bottom", "top"), escape = TRUE, style = "default", width = NULL,
-  height = NULL, elementId = NULL,
+  callback = DT::JS("return table;"), caption = NULL,
+  filter = c("none", "bottom", "top"), escape = TRUE,
+  style = "default", width = NULL, height = NULL, elementId = NULL,
   fillContainer = getOption("DT.fillContainer", NULL),
   autoHideNavigation = getOption("DT.autoHideNavigation", NULL),
   selection = c("multiple", "single", "none"), extensions = list(),
@@ -20,14 +20,14 @@ datatable(data, ...)
 \method{datatable}{desctable}(data, options = list(paging = F, info = F,
   search = F, dom = "Brtip", fixedColumns = T, fixedHeader = T, buttons =
   c("copy", "excel")), class = "display",
-  callback = DT::JS("return table;"), caption = NULL, filter = c("none",
-  "bottom", "top"), escape = FALSE, style = "default", width = NULL,
-  height = NULL, elementId = NULL,
+  callback = DT::JS("return table;"), caption = NULL,
+  filter = c("none", "bottom", "top"), escape = FALSE,
+  style = "default", width = NULL, height = NULL, elementId = NULL,
   fillContainer = getOption("DT.fillContainer", NULL),
   autoHideNavigation = getOption("DT.autoHideNavigation", NULL),
-  selection = c("multiple", "single", "none"), extensions = c("FixedHeader",
-  "FixedColumns", "Buttons"), plugins = NULL, rownames = F, digits = 2,
-  ...)
+  selection = c("multiple", "single", "none"),
+  extensions = c("FixedHeader", "FixedColumns", "Buttons"),
+  plugins = NULL, rownames = F, digits = 2, ...)
 }
 \arguments{
 \item{data}{a data object (either a matrix or a data frame)}
@@ -98,7 +98,8 @@ select cells}
 extensions (\url{https://datatables.net/extensions/index})}
 
 \item{plugins}{a character vector of the names of DataTables plug-ins
-(\url{https://rstudio.github.io/DT/plugins.html})}
+(\url{https://rstudio.github.io/DT/plugins.html}).  Note that only those
+plugins supported by the \code{DT} package can be used here.}
 
 \item{rownames}{\code{TRUE} (show row names) or \code{FALSE} (hide row names)
 or a character vector of row names; by default, the row names are displayed

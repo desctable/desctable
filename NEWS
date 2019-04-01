@@ -1,3 +1,7 @@
+Version 0.1.5
+
+- Correct way to re-export `group_by` and `%>%`
+
 Version 0.1.4
 
 - Documentation fix for group_by import (dplyr 0.8)
