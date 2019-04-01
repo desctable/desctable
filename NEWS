@@ -1,8 +1,8 @@
-Version 0.1.5
+Version 0.1.6
 
 - Correct way to re-export `group_by` and `%>%`
 
-Version 0.1.4
+Version 0.1.4-5
 
 - Documentation fix for group_by import (dplyr 0.8)
 - Correct description for Dates
