@@ -6,7 +6,7 @@
 #' @return The combined vector
 insert <- function(x, y, position)
 {
-  if (! y %>% is.list)
+  if (! y %>% is.list())
     y <- list(y)
 
   stopifnot(length(y) == length(position))
@@ -40,28 +40,28 @@ parse_formula <- function(x, f)
   parse_f <- function(x)
   {
     if (length(x) == 1)
-      x %>% as.character
+      x %>% as.character()
     else
     {
-      if (x[[1]] %>% as.character == "~") 
+      if (x[[1]] %>% as.character() == "~")
       {
-        paste0("if (", x[[2]] %>% parse_f, "(x)) ",
+        paste0("if (", x[[2]] %>% parse_f(), "(x)) ",
                "{",
-               x[[3]] %>% parse_f,
+               x[[3]] %>% parse_f(),
                "}")
-      } else if (x[[1]] %>% as.character == "|")
+      } else if (x[[1]] %>% as.character() == "|")
       {
-        paste0(x[[2]] %>% parse_f,
+        paste0(x[[2]] %>% parse_f(),
                "} else ",
                "{",
-               x[[3]] %>% parse_f)
-      } else if (x[[1]] %>% as.character == "(")
+               x[[3]] %>% parse_f())
+      } else if (x[[1]] %>% as.character() == "(")
       {
-        x[[2]] %>% parse_f
+        x[[2]] %>% parse_f()
       }
     }
   }
-  parse(text = parse_f(f)) %>% eval
+  parse(text = parse_f(f)) %>% eval()
 }
 
 
@@ -71,13 +71,13 @@ parse_formula <- function(x, f)
 #' @return A names vector
 head_pander <- function(head)
 {
-  if (head[[1]] %>% is.integer)
+  if (head[[1]] %>% is.integer())
   {
     head %>% names %>% lapply(function(x){c(x, rep("", head[[x]] - 1))}) %>% unlist
   } else
   {
-    paste(head %>% names %>% lapply(function(x){c(x, rep("", attr(head[[x]], "colspan") - 1))}) %>% unlist,
-          head %>% lapply(head_pander) %>% unlist,
+    paste(head %>% names() %>% lapply(function(x){c(x, rep("", attr(head[[x]], "colspan") - 1))}) %>% unlist(),
+          head %>% lapply(head_pander) %>% unlist(),
           sep = "<br/>")
   }
 }
@@ -90,9 +90,9 @@ head_pander <- function(head)
 head_datatable <- function(head)
 {
   TRs <- list()
-  while(head[[1]] %>% is.list)
+  while (head[[1]] %>% is.list())
   {
-    TR <- purrr::map2(head %>% names, head %>% lapply(attr, "colspan"), ~htmltools::tags$th(.x, colspan = .y))
+    TR <- purrr::map2(head %>% names(), head %>% lapply(attr, "colspan"), ~htmltools::tags$th(.x, colspan = .y))
 
     TRs <- c(TRs, list(TR))
     head <- purrr::flatten(head)
@@ -107,13 +107,13 @@ head_datatable <- function(head)
 #' @return A names vector
 head_dataframe <- function(head)
 {
-  if (head[[1]] %>% is.integer)
+  if (head[[1]] %>% is.integer())
   {
-    head %>% names %>% lapply(function(x){rep(x, head[[x]])}) %>% unlist
+    head %>% names() %>% lapply(function(x){rep(x, head[[x]])}) %>% unlist()
   } else
   {
-    paste(head %>% names %>% lapply(function(x){rep(x, attr(head[[x]], "colspan"))}) %>% unlist,
-          head %>% lapply(head_pander) %>% unlist,
+    paste(head %>% names() %>% lapply(function(x){rep(x, attr(head[[x]], "colspan"))}) %>% unlist(),
+          head %>% lapply(head_pander) %>% unlist(),
           sep = " / ")
   }
 }
@@ -131,7 +131,7 @@ header <- function(desctable, output = c("pander", "datatable", "dataframe"))
 {
   nm <- desctable %>%
     `[`(-1) %>%
-    flatten_desctable %>%
+    flatten_desctable() %>%
     data.frame(check.names = F) %>%
     names
 
@@ -173,7 +173,7 @@ header <- function(desctable, output = c("pander", "datatable", "dataframe"))
 #' @return A nested list of headers with colspans
 headerList <- function(desctable)
 {
-  if (desctable %>% is.data.frame)
+  if (desctable %>% is.data.frame())
   {
     length(desctable)
   }
@@ -181,7 +181,7 @@ headerList <- function(desctable)
   {
     lapply(desctable, headerList) -> rec
     if (is.integer(rec[[1]]))
-      attr(rec, "colspan") <- rec %>% unlist %>% sum
+      attr(rec, "colspan") <- rec %>% unlist() %>% sum()
     else
       attr(rec, "colspan") <- rec %>% lapply(attr, "colspan") %>% unlist %>% sum
 
@@ -196,7 +196,7 @@ headerList <- function(desctable)
 #' @return A flat dataframe
 flatten_desctable <- function(desctable)
 {
-  if (desctable %>% is.data.frame)
+  if (desctable %>% is.data.frame())
     desctable
   else
     desctable %>% lapply(flatten_desctable) %>% dplyr::bind_cols()
