@@ -128,7 +128,7 @@ stats_auto <- function(data)
   data %>%
     Filter(f = is.numeric) %>%
     lapply(is.normal) %>%
-    unlist -> shapiro
+    unlist() -> shapiro
 
   if (length(shapiro) == 0)
   {
@@ -141,7 +141,7 @@ stats_auto <- function(data)
     any(!shapiro) -> nonnormal
   }
 
-  any(data %>% lapply(is.factor) %>% unlist) -> fact
+  any(data %>% lapply(is.factor) %>% unlist()) -> fact
 
   if (fact & normal & !nonnormal)
     stats_normal(data)

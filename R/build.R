@@ -7,7 +7,7 @@ statColumn <- function(stat, data)
 {
   data %>%
     lapply(statify, stat) %>%
-    unlist
+    unlist()
 }
 
 
@@ -47,12 +47,12 @@ varColumn <- function(data, labels = NULL)
   base_names[base_names %in% names(labels)] <- labels[base_names[base_names %in% names(labels)]]
 
   # Insert levels for factors after the variable name
-  if (any(data %>% lapply(is.factor) %>% unlist))
+  if (any(data %>% lapply(is.factor) %>% unlist()))
   {
     data %>%
       lapply(is.factor) %>%
-      unlist %>%
-      which -> factors_idx
+      unlist() %>%
+      which() -> factors_idx
 
     base_names[factors_idx] <- paste0("**", base_names[factors_idx], "**")
     factor_levels <-
@@ -125,7 +125,7 @@ varColumn <- function(data, labels = NULL)
 #'   desctable
 #'
 #' # Does the same as stats_auto here
-#' iris %>% 
+#' iris %>%
 #'   desctable(stats = list("N"      = length,
 #'                          "%/Mean" = is.factor ~ percent | (is.normal ~ mean),
 #'                          "sd"     = is.normal ~ sd,
@@ -145,7 +145,7 @@ varColumn <- function(data, labels = NULL)
 #' # With nested grouping, on arbitrary variables
 #' mtcars %>%
 #'   group_by(vs, cyl) %>%
-#'   desctable
+#'   desctable()
 #'
 #' # With grouping on a condition, and choice of tests
 #' iris %>%
@@ -177,7 +177,7 @@ desctable.grouped_df <- function(data, stats = stats_auto, tests = tests_auto, l
   data <- dplyr::ungroup(data)
 
   # Build the complete table recursively, assign "desctable" class
-  c(Variables = list(varColumn(data[!names(data) %in% (grps %>% lapply(as.character) %>% unlist)], labels)),
+  c(Variables = list(varColumn(data[!names(data) %in% (grps %>% lapply(as.character) %>% unlist())], labels)),
     subTable(data, stats, tests, grps)) %>%
   `class<-`("desctable")
 }
@@ -195,9 +195,9 @@ subNames <- function(grp, df)
 {
   paste0(as.character(grp),
          ": ",
-         eval(grp, df) %>% factor %>% levels,
+         eval(grp, df) %>% factor() %>% levels(),
          " (n=",
-         summary(eval(grp, df) %>% factor %>% stats::na.omit(), maxsum = Inf),
+         summary(eval(grp, df) %>% factor() %>% stats::na.omit(), maxsum = Inf),
          ")")
 }
 
@@ -213,12 +213,12 @@ testColumn <- function(df, tests, grp)
   group <- eval(grp, df)
 
   df <- df %>%
-      dplyr::select(- !!(grp))
+      dplyr::select(-!!(grp))
 
   if (is.function(tests))
   {
     ftests <- df %>%
-      lapply(tests, group %>% factor)
+      lapply(tests, group %>% factor())
     tests <- ftests
   } else if (!is.null(tests$.auto))
   {
@@ -255,11 +255,11 @@ subTable <- function(df, stats, tests, grps)
   # Final group, make tests
   if (length(grps) == 1)
   {
-    group <- eval(grps[[1]], df) %>% factor
+    group <- eval(grps[[1]], df) %>% factor()
 
     # Create the subtable stats
     df %>%
-      dplyr::select(- !!(grps[[1]])) %>%
+      dplyr::select(-!!(grps[[1]])) %>%
       by(group, statTable, stats) %>%
       # Name the subtables with info about group and group size
       stats::setNames(subNames(grps[[1]], df)) -> stats
@@ -275,7 +275,7 @@ subTable <- function(df, stats, tests, grps)
 
     # Go through the next grouping levels and build the subtables
     df %>%
-      dplyr::select(- !!(grps[[1]])) %>%
+      dplyr::select(-!!(grps[[1]])) %>%
       by(group, subTable, stats, tests, grps[-1]) %>%
       # Name the subtables with info about group and group size
       stats::setNames(subNames(grps[[1]], df))

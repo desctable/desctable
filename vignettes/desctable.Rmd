@@ -50,7 +50,7 @@ When used on a data.frame, it returns a descriptive table:
 
 ```{r}
 iris %>%
-  desctable
+  desctable()
 
 desctable(mtcars)
 ```
@@ -64,12 +64,12 @@ Methods for reduction to a simple dataframe (`as.data.frame`, automatically used
 
 ```{r}
 iris %>%
-  desctable %>%
-  pander
+  desctable() %>%
+  pander()
 
 mtcars %>%
-  desctable %>%
-  datatable
+  desctable() %>%
+  datatable()
 ```
 <br>
 You need to load these two packages first (and prior to **desctable** for **DT**) if you want to use them.
@@ -114,7 +114,7 @@ You can also provide your own automatic function, which needs to
 # Strictly equivalent to iris %>% desctable %>% datatable
 iris %>%
   desctable(stats = stats_auto) %>%
-  datatable
+  datatable()
 ```
 
 ### Statistical functions
@@ -128,7 +128,7 @@ As mentioned above, they need to be used inside a named list, such as
 ```{r}
 mtcars %>%
   desctable(stats = list("N" = length, "Mean" = mean, "SD" = sd)) %>%
-  datatable
+  datatable()
 ```
 <br>
 
@@ -166,7 +166,7 @@ iris %>%
   desctable(stats = list("N"      = length,
                          "%/Mean" = is.factor ~ percent | (is.normal ~ mean),
                          "Median" = is.normal ~ NA | median)) %>%
-  datatable
+  datatable()
 ```
 <br>
 
@@ -199,7 +199,7 @@ mtlabels <- c(mpg  = "Miles/(US) gallon",
 mtcars %>%
   dplyr::mutate(am = factor(am, labels = c("Automatic", "Manual"))) %>%
   desctable(labels = mtlabels) %>%
-  datatable
+  datatable()
 ```
 <br>
 
@@ -216,7 +216,7 @@ It uses the well known `group_by` function from **dplyr**:
 ```{r}
 iris %>%
   group_by(Species) %>%
-  desctable -> iris_by_Species
+  desctable() -> iris_by_Species
 
 iris_by_Species
 ```
@@ -237,8 +237,8 @@ You can specify groups based on any variable, not only factors:
 # With pander output
 mtcars %>%
   group_by(cyl) %>%
-  desctable %>%
-  pander
+  desctable() %>%
+  pander()
 ```
 Also with conditions:
 
@@ -246,8 +246,8 @@ Also with conditions:
 # With datatable output
 iris %>%
   group_by(Petal.Length > 5) %>%
-  desctable %>%
-  datatable
+  desctable() %>%
+  datatable()
 ```
 <br>
 
@@ -257,8 +257,8 @@ And even on multiple nested groups:
 mtcars %>%
   dplyr::mutate(am = factor(am, labels = c("Automatic", "Manual"))) %>%
   group_by(vs, am, cyl) %>%
-  desctable %>%
-  datatable
+  desctable() %>%
+  datatable()
 ```
 <br>
 
@@ -304,7 +304,7 @@ This function will be used on every variable and every grouping factor to determ
 iris %>%
   group_by(Species) %>%
   desctable(tests = tests_auto) %>%
-  datatable
+  datatable()
 ```
 <br>
 
@@ -325,7 +325,7 @@ iris %>%
   group_by(Petal.Length > 5) %>%
   desctable(tests = list(.auto   = tests_auto,
                          Species = ~chisq.test)) %>%
-  datatable
+  datatable()
 ```
 <br>
 
@@ -335,7 +335,7 @@ mtcars %>%
   group_by(am) %>%
   desctable(tests = list(.default = ~wilcox.test,
                          mpg      = ~t.test)) %>%
-  datatable
+  datatable()
 ```
 <br>
 
@@ -360,7 +360,7 @@ mtcars %>%
                          "Sum of squares" = function(x) sum(x^2),
                          "Q1"             = . %>% quantile(prob = .25),
                          "Q3"             = purrr::partial(quantile, probs = .75))) %>%
-  datatable
+  datatable()
 ```
 <br>
 
@@ -372,7 +372,7 @@ iris %>%
                          Sepal.Width = ~function(f) oneway.test(f, var.equal = F),
                          Petal.Length = ~. %>% oneway.test(var.equal = T),
                          Sepal.Length = ~purrr::partial(oneway.test, var.equal = T))) %>%
-  datatable
+  datatable()
 ```
 <br>
 
@@ -387,5 +387,5 @@ bladder %>%
   group_by(rx) %>%
   desctable(tests = list(.default = ~wilcox.test,
                          surv = ~. %>% survdiff %>% .$chisq %>% pchisq(1, lower.tail = F) %>% list(p.value = .))) %>%
-  datatable
+  datatable()
 ```

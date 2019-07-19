@@ -69,10 +69,10 @@ The output is a desctable object, which is a list of named dataframes that can b
 
 \examples{
 iris \%>\%
-  desctable
+  desctable()
 
 # Does the same as stats_auto here
-iris \%>\% 
+iris \%>\%
   desctable(stats = list("N"      = length,
                          "\%/Mean" = is.factor ~ percent | (is.normal ~ mean),
                          "sd"     = is.normal ~ sd,
@@ -92,7 +92,7 @@ iris \%>\%
 # With nested grouping, on arbitrary variables
 mtcars \%>\%
   group_by(vs, cyl) \%>\%
-  desctable
+  desctable()
 
 # With grouping on a condition, and choice of tests
 iris \%>\%
