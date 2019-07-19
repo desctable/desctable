@@ -75,31 +75,31 @@ When used on a data.frame, it returns a descriptive table:
 
 ``` r
 iris %>%
-  desctable
+  desctable()
 ```
 
-    ##                         N    Mean/%        sd  Med IQR
-    ## 1        Sepal.Length 150        NA        NA 5.80 1.3
-    ## 2         Sepal.Width 150  3.057333 0.4358663   NA  NA
-    ## 3        Petal.Length 150        NA        NA 4.35 3.5
-    ## 4         Petal.Width 150        NA        NA 1.30 1.5
-    ## 5             Species 150        NA        NA   NA  NA
-    ## 6     Species: setosa  50 33.333333        NA   NA  NA
-    ## 7 Species: versicolor  50 33.333333        NA   NA  NA
-    ## 8  Species: virginica  50 33.333333        NA   NA  NA
+    ##                         N        %     Mean        sd  Med IQR
+    ## 1        Sepal.Length 150       NA       NA        NA 5.80 1.3
+    ## 2         Sepal.Width 150       NA 3.057333 0.4358663 3.00 0.5
+    ## 3        Petal.Length 150       NA       NA        NA 4.35 3.5
+    ## 4         Petal.Width 150       NA       NA        NA 1.30 1.5
+    ## 5             Species 150       NA       NA        NA   NA  NA
+    ## 6     Species: setosa  50 33.33333       NA        NA   NA  NA
+    ## 7 Species: versicolor  50 33.33333       NA        NA   NA  NA
+    ## 8  Species: virginica  50 33.33333       NA        NA   NA  NA
 
 ``` r
 desctable(mtcars)
 ```
 
-    ##          N      Mean        sd     Med       IQR
-    ## 1   mpg 32 20.090625 6.0269481      NA        NA
+    ##          N      Mean        sd     Med       IQR
+    ## 1   mpg 32 20.090625 6.0269481  19.200   7.37500
     ## 2   cyl 32        NA        NA   6.000   4.00000
     ## 3  disp 32        NA        NA 196.300 205.17500
     ## 4    hp 32        NA        NA 123.000  83.50000
-    ## 5  drat 32  3.596563 0.5346787      NA        NA
+    ## 5  drat 32  3.596563 0.5346787   3.695   0.84000
     ## 6    wt 32        NA        NA   3.325   1.02875
-    ## 7  qsec 32 17.848750 1.7869432      NA        NA
+    ## 7  qsec 32 17.848750 1.7869432  17.710   2.00750
     ## 8    vs 32        NA        NA   0.000   1.00000
     ## 9    am 32        NA        NA   0.000   1.00000
     ## 10 gear 32        NA        NA   4.000   1.00000
@@ -121,20 +121,20 @@ interactive html output with **DT** (`datatable`) are provided:
 
 ``` r
 iris %>%
-  desctable %>%
-  pander
+  desctable() %>%
+  pander()
 ```
 
-|              | N   | Mean/% | sd   | Med | IQR |
-| :----------- | :-- | :----- | :--- | :-- | :-- |
-| Sepal.Length | 150 |        |      | 5.8 | 1.3 |
-| Sepal.Width  | 150 | 3.1    | 0.44 |     |     |
-| Petal.Length | 150 |        |      | 4.3 | 3.5 |
-| Petal.Width  | 150 |        |      | 1.3 | 1.5 |
-| **Species**  | 150 |        |      |     |     |
-| setosa       | 50  | 33     |      |     |     |
-| versicolor   | 50  | 33     |      |     |     |
-| virginica    | 50  | 33     |      |     |     |
+| Â            | N   | %  | Mean | sd   | Med | IQR |
+| :----------- | :-- | :- | :--- | :--- | :-- | :-- |
+| Sepal.Length | 150 |    |      |      | 5.8 | 1.3 |
+| Sepal.Width  | 150 |    | 3.1  | 0.44 | 3   | 0.5 |
+| Petal.Length | 150 |    |      |      | 4.3 | 3.5 |
+| Petal.Width  | 150 |    |      |      | 1.3 | 1.5 |
+| **Species**  | 150 |    |      |      |     |     |
+| setosa       | 50  | 33 |      |      |     |     |
+| versicolor   | 50  | 33 |      |      |     |     |
+| virginica    | 50  | 33 |      |      |     |     |
 
 <br> You need to load these two packages first (and prior to
 **desctable** for **DT**) if you want to use them.
@@ -194,22 +194,22 @@ You can also provide your own automatic function, which needs to
 <!-- end list -->
 
 ``` r
-# Strictly equivalent to iris %>% desctable %>% pander
+# Strictly equivalent to iris %>% desctable() %>% pander()
 iris %>%
   desctable(stats = stats_auto) %>%
-  pander
+  pander()
 ```
 
-|              | N   | Mean/% | sd   | Med | IQR |
-| :----------- | :-- | :----- | :--- | :-- | :-- |
-| Sepal.Length | 150 |        |      | 5.8 | 1.3 |
-| Sepal.Width  | 150 | 3.1    | 0.44 |     |     |
-| Petal.Length | 150 |        |      | 4.3 | 3.5 |
-| Petal.Width  | 150 |        |      | 1.3 | 1.5 |
-| **Species**  | 150 |        |      |     |     |
-| setosa       | 50  | 33     |      |     |     |
-| versicolor   | 50  | 33     |      |     |     |
-| virginica    | 50  | 33     |      |     |     |
+| Â            | N   | %  | Mean | sd   | Med | IQR |
+| :----------- | :-- | :- | :--- | :--- | :-- | :-- |
+| Sepal.Length | 150 |    |      |      | 5.8 | 1.3 |
+| Sepal.Width  | 150 |    | 3.1  | 0.44 | 3   | 0.5 |
+| Petal.Length | 150 |    |      |      | 4.3 | 3.5 |
+| Petal.Width  | 150 |    |      |      | 1.3 | 1.5 |
+| **Species**  | 150 |    |      |      |     |     |
+| setosa       | 50  | 33 |      |      |     |     |
+| versicolor   | 50  | 33 |      |      |     |     |
+| virginica    | 50  | 33 |      |      |     |     |
 
 ### Statistical functions
 
@@ -225,10 +225,10 @@ As mentioned above, they need to be used inside a named list, such as
 ``` r
 mtcars %>%
   desctable(stats = list("N" = length, "Mean" = mean, "SD" = sd)) %>%
-  pander
+  pander()
 ```
 
-|      | N  | Mean | SD   |
+| Â    | N  | Mean | SD   |
 | :--- | :- | :--- | :--- |
 | mpg  | 32 | 20   | 6    |
 | cyl  | 32 | 6.2  | 1.8  |
@@ -293,10 +293,10 @@ iris %>%
   desctable(stats = list("N"      = length,
                          "%/Mean" = is.factor ~ percent | (is.normal ~ mean),
                          "Median" = is.normal ~ NA | median)) %>%
-  pander
+  pander()
 ```
 
-|              | N   | %/Mean | Median |
+| Â            | N   | %/Mean | Median |
 | :----------- | :-- | :----- | :----- |
 | Sepal.Length | 150 |        | 5.8    |
 | Sepal.Width  | 150 | 3.1    |        |
@@ -333,15 +333,14 @@ package:
     ##         list(N = length, `%` = percent)
     ##     else if (!fact & normal & nonnormal) 
     ##         list(N = length, Mean = is.normal ~ mean, sd = is.normal ~ 
-    ##             sd, Med = is.normal ~ NA | median, IQR = is.normal ~ 
-    ##             NA | IQR)
+    ##             sd, Med = stats::median, IQR = is.factor ~ NA | IQR)
     ##     else if (!fact & normal & !nonnormal) 
     ##         list(N = length, Mean = mean, sd = stats::sd)
     ##     else if (!fact & !normal & nonnormal) 
     ##         list(N = length, Med = stats::median, IQR = IQR)
     ##     else stats_default(data)
     ## }
-    ## <bytecode: 0x55d9b10cfdf0>
+    ## <bytecode: 0x0000000018ea3820>
     ## <environment: namespace:desctable>
 
 ### Labels
@@ -374,24 +373,24 @@ mtlabels <- c(mpg  = "Miles/(US) gallon",
 mtcars %>%
   dplyr::mutate(am = factor(am, labels = c("Automatic", "Manual"))) %>%
   desctable(labels = mtlabels) %>%
-  pander
+  pander()
 ```
 
-|                         | N  | Mean/% | sd   | Med | IQR |
-| :---------------------- | :- | :----- | :--- | :-- | :-- |
-| Miles/(US) gallon       | 32 | 20     | 6    |     |     |
-| Number of cylinders     | 32 |        |      | 6   | 4   |
-| Displacement (cu.in.)   | 32 |        |      | 196 | 205 |
-| Gross horsepower        | 32 |        |      | 123 | 84  |
-| Rear axle ratio         | 32 | 3.6    | 0.53 |     |     |
-| Weight (1000 lbs)       | 32 |        |      | 3.3 | 1   |
-| ¼ mile time             | 32 | 18     | 1.8  |     |     |
-| V/S                     | 32 |        |      | 0   | 1   |
-| **Transmission**        | 32 |        |      |     |     |
-| Automatic               | 19 | 59     |      |     |     |
-| Manual                  | 13 | 41     |      |     |     |
-| Number of forward gears | 32 |        |      | 4   | 1   |
-| Number of carburetors   | 32 |        |      | 2   | 2   |
+| Â                       | N  | %  | Mean | sd   | Med | IQR  |
+| :---------------------- | :- | :- | :--- | :--- | :-- | :--- |
+| Miles/(US) gallon       | 32 |    | 20   | 6    | 19  | 7.4  |
+| Number of cylinders     | 32 |    |      |      | 6   | 4    |
+| Displacement (cu.in.)   | 32 |    |      |      | 196 | 205  |
+| Gross horsepower        | 32 |    |      |      | 123 | 84   |
+| Rear axle ratio         | 32 |    | 3.6  | 0.53 | 3.7 | 0.84 |
+| Weight (1000 lbs)       | 32 |    |      |      | 3.3 | 1    |
+| Â¼ mile time            | 32 |    | 18   | 1.8  | 18  | 2    |
+| V/S                     | 32 |    |      |      | 0   | 1    |
+| **Transmission**        | 32 |    |      |      |     |      |
+| Automatic               | 19 | 59 |      |      |     |      |
+| Manual                  | 13 | 41 |      |      |     |      |
+| Number of forward gears | 32 |    |      |      | 4   | 1    |
+| Number of carburetors   | 32 |    |      |      | 2   | 2    |
 
 <br>
 
@@ -409,24 +408,24 @@ It uses the well known `group_by` function from **dplyr**:
 ``` r
 iris %>%
   group_by(Species) %>%
-  desctable -> iris_by_Species
+  desctable() -> iris_by_Species
 
 iris_by_Species
 ```
 
-    ##                Species: setosa (n=50) / N Species: setosa (n=50) / Mean
+    ##                Species: setosa (n=50) / N Species: setosa (n=50) / Mean
     ## 1 Sepal.Length                         50                         5.006
     ## 2  Sepal.Width                         50                         3.428
     ## 3 Petal.Length                         50                            NA
     ## 4  Petal.Width                         50                            NA
     ##   Species: setosa (n=50) / sd Species: setosa (n=50) / Med
-    ## 1                   0.3524897                           NA
-    ## 2                   0.3790644                           NA
+    ## 1                   0.3524897                          5.0
+    ## 2                   0.3790644                          3.4
     ## 3                          NA                          1.5
     ## 4                          NA                          0.2
     ##   Species: setosa (n=50) / IQR Species: versicolor (n=50) / N1
-    ## 1                           NA                              50
-    ## 2                           NA                              50
+    ## 1                        0.400                              50
+    ## 2                        0.475                              50
     ## 3                        0.175                              50
     ## 4                        0.100                              50
     ##   Species: versicolor (n=50) / Mean1 Species: versicolor (n=50) / sd1
@@ -435,25 +434,25 @@ iris_by_Species
     ## 3                              4.260                        0.4699110
     ## 4                                 NA                               NA
     ##   Species: versicolor (n=50) / Med1 Species: versicolor (n=50) / IQR1
-    ## 1                                NA                                NA
-    ## 2                                NA                                NA
-    ## 3                                NA                                NA
-    ## 4                               1.3                               0.3
+    ## 1                              5.90                             0.700
+    ## 2                              2.80                             0.475
+    ## 3                              4.35                             0.600
+    ## 4                              1.30                             0.300
     ##   Species: virginica (n=50) / N2 Species: virginica (n=50) / Mean2
     ## 1                             50                             6.588
     ## 2                             50                             2.974
     ## 3                             50                             5.552
     ## 4                             50                                NA
     ##   Species: virginica (n=50) / sd2 Species: virginica (n=50) / Med2
-    ## 1                       0.6358796                               NA
-    ## 2                       0.3224966                               NA
-    ## 3                       0.5518947                               NA
-    ## 4                              NA                                2
+    ## 1                       0.6358796                             6.50
+    ## 2                       0.3224966                             3.00
+    ## 3                       0.5518947                             5.55
+    ## 4                              NA                             2.00
     ##   Species: virginica (n=50) / IQR2    tests / p
-    ## 1                               NA 1.505059e-28
-    ## 2                               NA 4.492017e-17
-    ## 3                               NA 4.803974e-29
-    ## 4                              0.5 3.261796e-29
+    ## 1                            0.675 1.505059e-28
+    ## 2                            0.375 4.492017e-17
+    ## 3                            0.775 4.803974e-29
+    ## 4                            0.500 3.261796e-29
     ##                       tests / test
     ## 1 . %>% oneway.test(var.equal = F)
     ## 2 . %>% oneway.test(var.equal = T)
@@ -480,23 +479,23 @@ str(iris_by_Species)
     ##  $ Variables                 :'data.frame':  4 obs. of  1 variable:
     ##   ..$ Variables: chr [1:4] "Sepal.Length" "Sepal.Width" "Petal.Length" "Petal.Width"
     ##  $ Species: setosa (n=50)    :'data.frame':  4 obs. of  5 variables:
-    ##   ..$ N   : num [1:4] 50 50 50 50
+    ##   ..$ N   : int [1:4] 50 50 50 50
     ##   ..$ Mean: num [1:4] 5.01 3.43 NA NA
     ##   ..$ sd  : num [1:4] 0.352 0.379 NA NA
-    ##   ..$ Med : num [1:4] NA NA 1.5 0.2
-    ##   ..$ IQR : num [1:4] NA NA 0.175 0.1
+    ##   ..$ Med : num [1:4] 5 3.4 1.5 0.2
+    ##   ..$ IQR : num [1:4] 0.4 0.475 0.175 0.1
     ##  $ Species: versicolor (n=50):'data.frame':  4 obs. of  5 variables:
-    ##   ..$ N   : num [1:4] 50 50 50 50
+    ##   ..$ N   : int [1:4] 50 50 50 50
     ##   ..$ Mean: num [1:4] 5.94 2.77 4.26 NA
     ##   ..$ sd  : num [1:4] 0.516 0.314 0.47 NA
-    ##   ..$ Med : num [1:4] NA NA NA 1.3
-    ##   ..$ IQR : num [1:4] NA NA NA 0.3
+    ##   ..$ Med : num [1:4] 5.9 2.8 4.35 1.3
+    ##   ..$ IQR : num [1:4] 0.7 0.475 0.6 0.3
     ##  $ Species: virginica (n=50) :'data.frame':  4 obs. of  5 variables:
-    ##   ..$ N   : num [1:4] 50 50 50 50
+    ##   ..$ N   : int [1:4] 50 50 50 50
     ##   ..$ Mean: num [1:4] 6.59 2.97 5.55 NA
     ##   ..$ sd  : num [1:4] 0.636 0.322 0.552 NA
-    ##   ..$ Med : num [1:4] NA NA NA 2
-    ##   ..$ IQR : num [1:4] NA NA NA 0.5
+    ##   ..$ Med : num [1:4] 6.5 3 5.55 2
+    ##   ..$ IQR : num [1:4] 0.675 0.375 0.775 0.5
     ##  $ tests                     :'data.frame':  4 obs. of  2 variables:
     ##   ..$ p   : num [1:4] 1.51e-28 4.49e-17 4.80e-29 3.26e-29
     ##   ..$ test: chr [1:4] ". %>% oneway.test(var.equal = F)" ". %>% oneway.test(var.equal = T)" "kruskal.test" "kruskal.test"
@@ -508,11 +507,11 @@ You can specify groups based on any variable, not only factors:
 # With pander output
 mtcars %>%
   group_by(cyl) %>%
-  desctable %>%
-  pander
+  desctable() %>%
+  pander()
 ```
 
-|      | cyl: 4 (n=11)<br/>N | <br/>Med | <br/>IQR | cyl: 6 (n=7)<br/>N1 | <br/>Med1 | <br/>IQR1 | cyl: 8 (n=14)<br/>N2 | <br/>Med2 | <br/>IQR2 | tests<br/>p | <br/>test    |
+| Â    | cyl: 4 (n=11)<br/>N | <br/>Med | <br/>IQR | cyl: 6 (n=7)<br/>N1 | <br/>Med1 | <br/>IQR1 | cyl: 8 (n=14)<br/>N2 | <br/>Med2 | <br/>IQR2 | tests<br/>p | <br/>test    |
 | :--- | :------------------ | :------- | :------- | :------------------ | :-------- | :-------- | :------------------- | :-------- | :-------- | :---------- | :----------- |
 | mpg  | 11                  | 26       | 7.6      | 7                   | 20        | 2.4       | 14                   | 15        | 1.8       | 2.6e-06     | kruskal.test |
 | disp | 11                  | 108      | 42       | 7                   | 168       | 36        | 14                   | 350       | 88        | 1.6e-06     | kruskal.test |
@@ -530,20 +529,20 @@ Also with conditions:
 ``` r
 iris %>%
   group_by(Petal.Length > 5) %>%
-  desctable %>%
-  pander
+  desctable() %>%
+  pander()
 ```
 
-|              | Petal.Length \> 5: FALSE (n=108)<br/>N | <br/>Mean/% | <br/>sd | <br/>Med | <br/>IQR | Petal.Length \> 5: TRUE (n=42)<br/>N1 | <br/>Mean/%1 | <br/>sd1 | <br/>Med1 | <br/>IQR1 | tests<br/>p | <br/>test   |
-| :----------- | :------------------------------------- | :---------- | :------ | :------- | :------- | :------------------------------------ | :----------- | :------- | :-------- | :-------- | :---------- | :---------- |
-| Sepal.Length | 108                                    |             |         | 5.5      | 1        | 42                                    |              |          | 6.7       | 0.85      | 1.6e-15     | wilcox.test |
-| Sepal.Width  | 108                                    | 3.1         | 0.48    |          |          | 42                                    |              |          | 3         | 0.4       | 0.69        | wilcox.test |
-| Petal.Length | 108                                    |             |         | 3.5      | 3        | 42                                    |              |          | 5.6       | 0.67      | 2.1e-21     | wilcox.test |
-| Petal.Width  | 108                                    |             |         | 1        | 1.2      | 42                                    | 2.1          | 0.28     |           |           | 1.6e-19     | wilcox.test |
-| **Species**  | 108                                    |             |         |          |          | 42                                    |              |          |           |           | 2.5e-26     | fisher.test |
-| setosa       | 50                                     | 46          |         |          |          | 0                                     | 0            |          |           |           |             |             |
-| versicolor   | 49                                     | 45          |         |          |          | 1                                     | 2.4          |          |           |           |             |             |
-| virginica    | 9                                      | 8.3         |         |          |          | 41                                    | 98           |          |           |           |             |             |
+| Â            | Petal.Length \> 5: FALSE (n=108)<br/>N | <br/>% | <br/>Mean | <br/>sd | <br/>Med | <br/>IQR | Petal.Length \> 5: TRUE (n=42)<br/>N1 | <br/>%1 | <br/>Mean1 | <br/>sd1 | <br/>Med1 | <br/>IQR1 | tests<br/>p | <br/>test   |
+| :----------- | :------------------------------------- | :----- | :-------- | :------ | :------- | :------- | :------------------------------------ | :------ | :--------- | :------- | :-------- | :-------- | :---------- | :---------- |
+| Sepal.Length | 108                                    |        |           |         | 5.5      | 1        | 42                                    |         |            |          | 6.7       | 0.85      | 1.6e-15     | wilcox.test |
+| Sepal.Width  | 108                                    |        | 3.1       | 0.48    | 3        | 0.6      | 42                                    |         |            |          | 3         | 0.4       | 0.69        | wilcox.test |
+| Petal.Length | 108                                    |        |           |         | 3.5      | 3        | 42                                    |         |            |          | 5.6       | 0.67      | 2.1e-21     | wilcox.test |
+| Petal.Width  | 108                                    |        |           |         | 1        | 1.2      | 42                                    |         | 2.1        | 0.28     | 2.1       | 0.47      | 1.6e-19     | wilcox.test |
+| **Species**  | 108                                    |        |           |         |          |          | 42                                    |         |            |          |           |           | 2.5e-26     | fisher.test |
+| setosa       | 50                                     | 46     |           |         |          |          | 0                                     | 0       |            |          |           |           |             |             |
+| versicolor   | 49                                     | 45     |           |         |          |          | 1                                     | 2.4     |            |          |           |           |             |             |
+| virginica    | 9                                      | 8.3    |           |         |          |          | 41                                    | 98      |            |          |           |           |             |             |
 
 <br>
 
@@ -553,11 +552,11 @@ And even on multiple nested groups:
 mtcars %>%
   dplyr::mutate(am = factor(am, labels = c("Automatic", "Manual"))) %>%
   group_by(vs, am, cyl) %>%
-  desctable %>%
-  pander
+  desctable() %>%
+  pander()
 ```
 
-|      | vs: 0 (n=18)<br/>am: Automatic (n=12)<br/>cyl: 8 (n=12)<br/>N | <br/><br/><br/>Med | <br/><br/><br/>IQR | <br/><br/>tests<br/>p | <br/><br/><br/>test | <br/>am: Manual (n=6)<br/>cyl: 4 (n=1)<br/>N3 | <br/><br/><br/>Med3 | <br/><br/><br/>IQR3 | <br/><br/>cyl: 6 (n=3)<br/>N1 | <br/><br/><br/>Med1 | <br/><br/><br/>IQR1 | <br/><br/>cyl: 8 (n=2)<br/>N2 | <br/><br/><br/>Med2 | <br/><br/><br/>IQR2 | <br/><br/>tests<br/>p1 | <br/><br/><br/>test1 | vs: 1 (n=14)<br/>am: Automatic (n=7)<br/>cyl: 4 (n=3)<br/>N4 | <br/><br/><br/>Med4 | <br/><br/><br/>IQR4 | <br/><br/>cyl: 6 (n=4)<br/>N11 | <br/><br/><br/>Med11 | <br/><br/><br/>IQR11 | <br/><br/>tests<br/>p2 | <br/><br/><br/>test2 | <br/>am: Manual (n=7)<br/>cyl: 4 (n=7)<br/>N21 | <br/><br/><br/>Med21 | <br/><br/><br/>IQR21 | <br/><br/>tests<br/>p11 | <br/><br/><br/>test11 |
+| Â    | vs: 0 (n=18)<br/>am: Automatic (n=12)<br/>cyl: 8 (n=12)<br/>N | <br/><br/><br/>Med | <br/><br/><br/>IQR | <br/><br/>tests<br/>p | <br/><br/><br/>test | <br/>am: Manual (n=6)<br/>cyl: 4 (n=1)<br/>N3 | <br/><br/><br/>Med3 | <br/><br/><br/>IQR3 | <br/><br/>cyl: 6 (n=3)<br/>N1 | <br/><br/><br/>Med1 | <br/><br/><br/>IQR1 | <br/><br/>cyl: 8 (n=2)<br/>N2 | <br/><br/><br/>Med2 | <br/><br/><br/>IQR2 | <br/><br/>tests<br/>p1 | <br/><br/><br/>test1 | vs: 1 (n=14)<br/>am: Automatic (n=7)<br/>cyl: 4 (n=3)<br/>N4 | <br/><br/><br/>Med4 | <br/><br/><br/>IQR4 | <br/><br/>cyl: 6 (n=4)<br/>N11 | <br/><br/><br/>Med11 | <br/><br/><br/>IQR11 | <br/><br/>tests<br/>p2 | <br/><br/><br/>test2 | <br/>am: Manual (n=7)<br/>cyl: 4 (n=7)<br/>N21 | <br/><br/><br/>Med21 | <br/><br/><br/>IQR21 | <br/><br/>tests<br/>p11 | <br/><br/><br/>test11 |
 | :--- | :------------------------------------------------------------ | :----------------- | :----------------- | :-------------------- | :------------------ | :-------------------------------------------- | :------------------ | :------------------ | :---------------------------- | :------------------ | :------------------ | :---------------------------- | :------------------ | :------------------ | :--------------------- | :------------------- | :----------------------------------------------------------- | :------------------ | :------------------ | :----------------------------- | :------------------- | :------------------- | :--------------------- | :------------------- | :--------------------------------------------- | :------------------- | :------------------- | :---------------------- | :-------------------- |
 | mpg  | 12                                                            | 15                 | 2.6                |                       | no.test             | 1                                             | 26                  | 0                   | 3                             | 21                  | 0.65                | 2                             | 15                  | 0.4                 | 0.11                   | kruskal.test         | 3                                                            | 23                  | 1.5                 | 4                              | 19                   | 1.7                  | 0.057                  | wilcox.test          | 7                                              | 30                   | 6.3                  |                         | no.test               |
 | disp | 12                                                            | 355                | 113                |                       | no.test             | 1                                             | 120                 | 0                   | 3                             | 160                 | 7.5                 | 2                             | 326                 | 25                  | 0.11                   | kruskal.test         | 3                                                            | 141                 | 13                  | 4                              | 196                  | 66                   | 0.05                   | wilcox.test          | 7                                              | 79                   | 24                   |                         | no.test               |
@@ -622,22 +621,21 @@ You can also provide your own automatic function, which needs to
   - return a single-term formula containing a statistical test function.
 
 This function will be used on every variable and every grouping factor
-to determine the appropriate
-test.
+to determine the appropriate test.
 
 ``` r
 # Strictly equivalent to iris %>% group_by(Species) %>% desctable %>% pander
 iris %>%
   group_by(Species) %>%
   desctable(tests = tests_auto) %>%
-  pander
+  pander()
 ```
 
-|              | Species: setosa (n=50)<br/>N | <br/>Mean | <br/>sd | <br/>Med | <br/>IQR | Species: versicolor (n=50)<br/>N1 | <br/>Mean1 | <br/>sd1 | <br/>Med1 | <br/>IQR1 | Species: virginica (n=50)<br/>N2 | <br/>Mean2 | <br/>sd2 | <br/>Med2 | <br/>IQR2 | tests<br/>p | <br/>test                         |
+| Â            | Species: setosa (n=50)<br/>N | <br/>Mean | <br/>sd | <br/>Med | <br/>IQR | Species: versicolor (n=50)<br/>N1 | <br/>Mean1 | <br/>sd1 | <br/>Med1 | <br/>IQR1 | Species: virginica (n=50)<br/>N2 | <br/>Mean2 | <br/>sd2 | <br/>Med2 | <br/>IQR2 | tests<br/>p | <br/>test                         |
 | :----------- | :--------------------------- | :-------- | :------ | :------- | :------- | :-------------------------------- | :--------- | :------- | :-------- | :-------- | :------------------------------- | :--------- | :------- | :-------- | :-------- | :---------- | :-------------------------------- |
-| Sepal.Length | 50                           | 5         | 0.35    |          |          | 50                                | 5.9        | 0.52     |           |           | 50                               | 6.6        | 0.64     |           |           | 1.5e-28     | . %\>% oneway.test(var.equal = F) |
-| Sepal.Width  | 50                           | 3.4       | 0.38    |          |          | 50                                | 2.8        | 0.31     |           |           | 50                               | 3          | 0.32     |           |           | 4.5e-17     | . %\>% oneway.test(var.equal = T) |
-| Petal.Length | 50                           |           |         | 1.5      | 0.18     | 50                                | 4.3        | 0.47     |           |           | 50                               | 5.6        | 0.55     |           |           | 4.8e-29     | kruskal.test                      |
+| Sepal.Length | 50                           | 5         | 0.35    | 5        | 0.4      | 50                                | 5.9        | 0.52     | 5.9       | 0.7       | 50                               | 6.6        | 0.64     | 6.5       | 0.67      | 1.5e-28     | . %\>% oneway.test(var.equal = F) |
+| Sepal.Width  | 50                           | 3.4       | 0.38    | 3.4      | 0.48     | 50                                | 2.8        | 0.31     | 2.8       | 0.48      | 50                               | 3          | 0.32     | 3         | 0.38      | 4.5e-17     | . %\>% oneway.test(var.equal = T) |
+| Petal.Length | 50                           |           |         | 1.5      | 0.18     | 50                                | 4.3        | 0.47     | 4.3       | 0.6       | 50                               | 5.6        | 0.55     | 5.5       | 0.78      | 4.8e-29     | kruskal.test                      |
 | Petal.Width  | 50                           |           |         | 0.2      | 0.1      | 50                                |            |          | 1.3       | 0.3       | 50                               |            |          | 2         | 0.5       | 3.3e-29     | kruskal.test                      |
 
 <br>
@@ -664,19 +662,19 @@ iris %>%
   group_by(Petal.Length > 5) %>%
   desctable(tests = list(.auto   = tests_auto,
                          Species = ~chisq.test)) %>%
-  pander
+  pander()
 ```
 
-|              | Petal.Length \> 5: FALSE (n=108)<br/>N | <br/>Mean/% | <br/>sd | <br/>Med | <br/>IQR | Petal.Length \> 5: TRUE (n=42)<br/>N1 | <br/>Mean/%1 | <br/>sd1 | <br/>Med1 | <br/>IQR1 | tests<br/>p | <br/>test   |
-| :----------- | :------------------------------------- | :---------- | :------ | :------- | :------- | :------------------------------------ | :----------- | :------- | :-------- | :-------- | :---------- | :---------- |
-| Sepal.Length | 108                                    |             |         | 5.5      | 1        | 42                                    |              |          | 6.7       | 0.85      | 1.6e-15     | wilcox.test |
-| Sepal.Width  | 108                                    | 3.1         | 0.48    |          |          | 42                                    |              |          | 3         | 0.4       | 0.69        | wilcox.test |
-| Petal.Length | 108                                    |             |         | 3.5      | 3        | 42                                    |              |          | 5.6       | 0.67      | 2.1e-21     | wilcox.test |
-| Petal.Width  | 108                                    |             |         | 1        | 1.2      | 42                                    | 2.1          | 0.28     |           |           | 1.6e-19     | wilcox.test |
-| **Species**  | 108                                    |             |         |          |          | 42                                    |              |          |           |           | 2.7e-24     | chisq.test  |
-| setosa       | 50                                     | 46          |         |          |          | 0                                     | 0            |          |           |           |             |             |
-| versicolor   | 49                                     | 45          |         |          |          | 1                                     | 2.4          |          |           |           |             |             |
-| virginica    | 9                                      | 8.3         |         |          |          | 41                                    | 98           |          |           |           |             |             |
+| Â            | Petal.Length \> 5: FALSE (n=108)<br/>N | <br/>% | <br/>Mean | <br/>sd | <br/>Med | <br/>IQR | Petal.Length \> 5: TRUE (n=42)<br/>N1 | <br/>%1 | <br/>Mean1 | <br/>sd1 | <br/>Med1 | <br/>IQR1 | tests<br/>p | <br/>test   |
+| :----------- | :------------------------------------- | :----- | :-------- | :------ | :------- | :------- | :------------------------------------ | :------ | :--------- | :------- | :-------- | :-------- | :---------- | :---------- |
+| Sepal.Length | 108                                    |        |           |         | 5.5      | 1        | 42                                    |         |            |          | 6.7       | 0.85      | 1.6e-15     | wilcox.test |
+| Sepal.Width  | 108                                    |        | 3.1       | 0.48    | 3        | 0.6      | 42                                    |         |            |          | 3         | 0.4       | 0.69        | wilcox.test |
+| Petal.Length | 108                                    |        |           |         | 3.5      | 3        | 42                                    |         |            |          | 5.6       | 0.67      | 2.1e-21     | wilcox.test |
+| Petal.Width  | 108                                    |        |           |         | 1        | 1.2      | 42                                    |         | 2.1        | 0.28     | 2.1       | 0.47      | 1.6e-19     | wilcox.test |
+| **Species**  | 108                                    |        |           |         |          |          | 42                                    |         |            |          |           |           | 2.7e-24     | chisq.test  |
+| setosa       | 50                                     | 46     |           |         |          |          | 0                                     | 0       |            |          |           |           |             |             |
+| versicolor   | 49                                     | 45     |           |         |          |          | 1                                     | 2.4     |            |          |           |           |             |             |
+| virginica    | 9                                      | 8.3    |           |         |          |          | 41                                    | 98      |            |          |           |           |             |             |
 
 <br>
 
@@ -686,10 +684,10 @@ mtcars %>%
   group_by(am) %>%
   desctable(tests = list(.default = ~wilcox.test,
                          mpg      = ~t.test)) %>%
-  pander
+  pander()
 ```
 
-|      | am: Automatic (n=19)<br/>N | <br/>Med | <br/>IQR | am: Manual (n=13)<br/>N1 | <br/>Med1 | <br/>IQR1 | tests<br/>p | <br/>test   |
+| Â    | am: Automatic (n=19)<br/>N | <br/>Med | <br/>IQR | am: Manual (n=13)<br/>N1 | <br/>Med1 | <br/>IQR1 | tests<br/>p | <br/>test   |
 | :--- | :------------------------- | :------- | :------- | :----------------------- | :-------- | :-------- | :---------- | :---------- |
 | mpg  | 19                         | 17       | 4.2      | 13                       | 23        | 9.4       | 0.0014      | t.test      |
 | cyl  | 19                         | 8        | 2        | 13                       | 4         | 2         | 0.0039      | wilcox.test |
@@ -736,10 +734,10 @@ mtcars %>%
                          "Sum of squares" = function(x) sum(x^2),
                          "Q1"             = . %>% quantile(prob = .25),
                          "Q3"             = purrr::partial(quantile, probs = .75))) %>%
-  pander
+  pander()
 ```
 
-|      | N  | Sum of squares | Q1  | Q3  |
+| Â    | N  | Sum of squares | Q1  | Q3  |
 | :--- | :- | :------------- | :-- | :-- |
 | mpg  | 32 | 14042          | 15  | 23  |
 | cyl  | 32 | 1324           | 4   | 8   |
@@ -765,21 +763,20 @@ iris %>%
                          Sepal.Width = ~function(f) oneway.test(f, var.equal = F),
                          Petal.Length = ~. %>% oneway.test(var.equal = T),
                          Sepal.Length = ~purrr::partial(oneway.test, var.equal = T))) %>%
-  pander
+  pander()
 ```
 
-|              | Species: setosa (n=50)<br/>N | <br/>Mean | <br/>sd | <br/>Med | <br/>IQR | Species: versicolor (n=50)<br/>N1 | <br/>Mean1 | <br/>sd1 | <br/>Med1 | <br/>IQR1 | Species: virginica (n=50)<br/>N2 | <br/>Mean2 | <br/>sd2 | <br/>Med2 | <br/>IQR2 | tests<br/>p | <br/>test                                  |
+| Â            | Species: setosa (n=50)<br/>N | <br/>Mean | <br/>sd | <br/>Med | <br/>IQR | Species: versicolor (n=50)<br/>N1 | <br/>Mean1 | <br/>sd1 | <br/>Med1 | <br/>IQR1 | Species: virginica (n=50)<br/>N2 | <br/>Mean2 | <br/>sd2 | <br/>Med2 | <br/>IQR2 | tests<br/>p | <br/>test                                  |
 | :----------- | :--------------------------- | :-------- | :------ | :------- | :------- | :-------------------------------- | :--------- | :------- | :-------- | :-------- | :------------------------------- | :--------- | :------- | :-------- | :-------- | :---------- | :----------------------------------------- |
-| Sepal.Length | 50                           | 5         | 0.35    |          |          | 50                                | 5.9        | 0.52     |           |           | 50                               | 6.6        | 0.64     |           |           | 1.7e-31     | purrr::partial(oneway.test, var.equal = T) |
-| Sepal.Width  | 50                           | 3.4       | 0.38    |          |          | 50                                | 2.8        | 0.31     |           |           | 50                               | 3          | 0.32     |           |           | 1.4e-14     | function(f) oneway.test(f, var.equal = F)  |
-| Petal.Length | 50                           |           |         | 1.5      | 0.18     | 50                                | 4.3        | 0.47     |           |           | 50                               | 5.6        | 0.55     |           |           | 2.9e-91     | . %\>% oneway.test(var.equal = T)          |
+| Sepal.Length | 50                           | 5         | 0.35    | 5        | 0.4      | 50                                | 5.9        | 0.52     | 5.9       | 0.7       | 50                               | 6.6        | 0.64     | 6.5       | 0.67      | 1.7e-31     | purrr::partial(oneway.test, var.equal = T) |
+| Sepal.Width  | 50                           | 3.4       | 0.38    | 3.4      | 0.48     | 50                                | 2.8        | 0.31     | 2.8       | 0.48      | 50                               | 3          | 0.32     | 3         | 0.38      | 1.4e-14     | function(f) oneway.test(f, var.equal = F)  |
+| Petal.Length | 50                           |           |         | 1.5      | 0.18     | 50                                | 4.3        | 0.47     | 4.3       | 0.6       | 50                               | 5.6        | 0.55     | 5.5       | 0.78      | 2.9e-91     | . %\>% oneway.test(var.equal = T)          |
 | Petal.Width  | 50                           |           |         | 0.2      | 0.1      | 50                                |            |          | 1.3       | 0.3       | 50                               |            |          | 2         | 0.5       | 3.3e-29     | kruskal.test                               |
 
 <br>
 
 This allows you to modulate the behavior of `desctable` in every detail,
-such as using paired tests, or non *htest*
-tests.
+such as using paired tests, or non *htest* tests.
 
 ``` r
 # This is a contrived example, which would be better solved with a dedicated function
@@ -791,10 +788,10 @@ bladder %>%
   group_by(rx) %>%
   desctable(tests = list(.default = ~wilcox.test,
                          surv = ~. %>% survdiff %>% .$chisq %>% pchisq(1, lower.tail = F) %>% list(p.value = .))) %>%
-  pander
+  pander()
 ```
 
-|        | rx: 1 (n=188)<br/>N | <br/>Med | <br/>IQR | rx: 2 (n=152)<br/>N1 | <br/>Med1 | <br/>IQR1 | tests<br/>p | <br/>test                                                                          |
+| Â      | rx: 1 (n=188)<br/>N | <br/>Med | <br/>IQR | rx: 2 (n=152)<br/>N1 | <br/>Med1 | <br/>IQR1 | tests<br/>p | <br/>test                                                                          |
 | :----- | :------------------ | :------- | :------- | :------------------- | :-------- | :-------- | :---------- | :--------------------------------------------------------------------------------- |
 | id     | 188                 | 24       | 24       | 152                  | 66        | 19        | 1.3e-56     | wilcox.test                                                                        |
 | number | 188                 | 1        | 2        | 152                  | 1         | 2         | 0.62        | wilcox.test                                                                        |
@@ -802,4 +799,4 @@ bladder %>%
 | stop   | 188                 | 23       | 20       | 152                  | 25        | 28        | 0.17        | wilcox.test                                                                        |
 | event  | 188                 | 0        | 1        | 152                  | 0         | 1         | 0.02        | wilcox.test                                                                        |
 | enum   | 188                 | 2.5      | 1.5      | 152                  | 2.5       | 1.5       | 1           | wilcox.test                                                                        |
-| surv   | 376                 |          |          | 304                  |           |           | 0.023       | . %\>% survdiff %\>% .$chisq %\>% pchisq(1, lower.tail = F) %\>% list(p.value = .) |
+| surv   | 188                 |          |          | 152                  |           |           | 0.023       | . %\>% survdiff %\>% .$chisq %\>% pchisq(1, lower.tail = F) %\>% list(p.value = .) |
