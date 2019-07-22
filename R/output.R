@@ -6,7 +6,7 @@
 #' @export
 print.desctable <- function(x, ...)
 {
-  print(x %>% as.data.frame)
+  print(x %>% as.data.frame())
 }
 
 
@@ -24,7 +24,7 @@ as.data.frame.desctable <- function(x, ...)
   header <- x %>% header("dataframe")
 
   x %>%
-    flatten_desctable %>%
+    flatten_desctable() %>%
     data.frame(check.names = F, ...) %>%
     stats::setNames(header)
 }
@@ -129,7 +129,7 @@ datatable.default <- function(data,
                               fillContainer = getOption("DT.fillContainer", NULL),
                               autoHideNavigation = getOption("DT.autoHideNavigation", NULL),
                               selection = c("multiple", "single", "none"),
-                              extensions = list(), 
+                              extensions = list(),
                               plugins = NULL, ...)
 {
   DT::datatable(data, options = options, class = class, callback = callback, caption = caption, filter = filter, escape = escape, style = style, width = width, height = height, elementId = elementId, fillContainer = fillContainer, autoHideNavigation = autoHideNavigation, selection = selection, extensions = extensions, plugins = plugins, ...)
@@ -160,7 +160,7 @@ datatable.desctable <- function(data,
                                 autoHideNavigation = getOption("DT.autoHideNavigation", NULL),
                                 selection = c("multiple", "single", "none"),
                                 extensions = c("FixedHeader", "FixedColumns", "Buttons"),
-                                plugins = NULL, 
+                                plugins = NULL,
                                 rownames = F,
                                 digits = 2, ...)
 {
@@ -170,7 +170,7 @@ datatable.desctable <- function(data,
   header <- data %>% header("datatable")
 
   data %>%
-  flatten_desctable -> flat
+  flatten_desctable() -> flat
 
   if (!is.null(digits))
     flat <- flat %>% lapply(prettyNum, digits = digits) %>% lapply(gsub, pattern = "^NA$", replacement = "")
@@ -180,7 +180,7 @@ datatable.desctable <- function(data,
     DT::datatable(container = header,
                   options = options,
                   extensions = extensions,
-                  escape = escape, 
+                  escape = escape,
                   class = class,
                   callback = callback,
                   caption = caption,

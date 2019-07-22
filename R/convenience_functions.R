@@ -7,7 +7,7 @@
 #' @return A nlevels(x) + 1 length vector of percentages
 percent <- function(x)
 {
-  if (x %>% is.factor)
+  if (x %>% is.factor())
     c(NA, summary(x, maxsum = Inf) / length(x)) * 100
   else
     NA
@@ -36,7 +36,7 @@ IQR <- function(x)
 #' @return A boolean
 is.normal <- function(x)
 {
-  if (! x %>% is.numeric) 
+  if (! x %>% is.numeric())
     F
   else if (length(x %>% stats::na.omit()) >= 30)
     tryCatch(stats::shapiro.test(x)$p.value > .1,
