@@ -5,7 +5,7 @@
 #'
 #' The result is either a numeric vector, or a character vector if
 #' the content of the column is not made entirely of numbers.
-#' 
+#'
 #' @param stat The statistic to use
 #' @param data The dataframe to apply the statistic to
 #' @return A vector for one statistic column
@@ -247,7 +247,7 @@ testColumn <- function(df, tests, grp) {
   # Compute the tests (made safe with testify) on the variable, using the grouping variable
   df %>%
     purrr::map2(ftests, testify, group) %>%
-    Reduce(f = cbind)
+    Reduce(f = rbind)
 }
 
 
