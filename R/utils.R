@@ -199,5 +199,7 @@ flatten_desctable <- function(desctable)
   if (desctable %>% is.data.frame())
     desctable
   else
-    desctable %>% lapply(flatten_desctable) %>% dplyr::bind_cols()
+    desctable %>%
+      lapply(flatten_desctable) %>%
+      Reduce(f = cbind)
 }

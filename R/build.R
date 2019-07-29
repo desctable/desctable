@@ -212,8 +212,7 @@ testColumn <- function(df, tests, grp)
 {
   group <- eval(grp, df)
 
-  df <- df %>%
-      dplyr::select(-!!(grp))
+  df <- df[!names(df) %in% as.character(grp)]
 
   if (is.function(tests))
   {
@@ -239,7 +238,7 @@ testColumn <- function(df, tests, grp)
 
   df %>%
     purrr::map2(ftests, testify, group) %>%
-    dplyr::bind_rows()
+    Reduce(f = cbind)
 }
 
 
@@ -258,8 +257,8 @@ subTable <- function(df, stats, tests, grps)
     group <- eval(grps[[1]], df) %>% factor()
 
     # Create the subtable stats
-    df %>%
-      dplyr::select(-!!(grps[[1]])) %>%
+    df_without_group <- df[!names(df) %in% as.character(grps[[1]])]
+    df_without_group %>%
       by(group, statTable, stats) %>%
       # Name the subtables with info about group and group size
       stats::setNames(subNames(grps[[1]], df)) -> stats
@@ -274,8 +273,8 @@ subTable <- function(df, stats, tests, grps)
     group <- eval(grps[[1]], df)
 
     # Go through the next grouping levels and build the subtables
-    df %>%
-      dplyr::select(-!!(grps[[1]])) %>%
+    df_without_group <- df[!names(df) %in% as.character(grps[[1]])]
+    df_without_group %>%
       by(group, subTable, stats, tests, grps[-1]) %>%
       # Name the subtables with info about group and group size
       stats::setNames(subNames(grps[[1]], df))
