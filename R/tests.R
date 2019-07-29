@@ -51,14 +51,14 @@ tests_auto <- function(var, grp) {
 
     if (nlevels(grp) == 2) {
       if (all_normal) {
-        if (tryCatch(stats::var.test(var ~ grp)$p.value > .1, warning = function(e) F, error = function(e) F))      ~t.test(., var.equal = T)
-        else                                                                                                        ~t.test(., var.equal = F)
+        if (tryCatch(stats::var.test(var ~ grp)$p.value > .1, warning = function(e) F, error = function(e) F))      ~. %>% t.test(var.equal = T)
+        else                                                                                                        ~. %>% t.test(var.equal = F)
       }
       else                                                                                                          ~wilcox.test
     } else {
       if (all_normal) {
-        if (tryCatch(stats::bartlett.test(var ~ grp)$p.value > .1, warning = function(e) F, error = function(e) F)) ~oneway.test(., var.equal = T)
-        else                                                                                                        ~oneway.test(., var.equal = F)
+        if (tryCatch(stats::bartlett.test(var ~ grp)$p.value > .1, warning = function(e) F, error = function(e) F)) ~. %>% oneway.test(var.equal = T)
+        else                                                                                                        ~. %>% oneway.test(var.equal = F)
       }
       else                                                                                                          ~kruskal.test
     }
