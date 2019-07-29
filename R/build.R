@@ -163,8 +163,8 @@ desctable.default <- function(data, stats = stats_auto, tests, labels = NULL)
 {
   # Build the complete table
   list(Variables = varColumn(data, labels),
-    stats = statTable(data, stats)) %>%
-  `class<-`("desctable")
+       stats = statTable(data, stats)) %>%
+  set_desctable_class()
 }
 
 
@@ -179,7 +179,7 @@ desctable.grouped_df <- function(data, stats = stats_auto, tests = tests_auto, l
   # Build the complete table recursively, assign "desctable" class
   c(Variables = list(varColumn(data[!names(data) %in% (grps %>% lapply(as.character) %>% unlist())], labels)),
     subTable(data, stats, tests, grps)) %>%
-  `class<-`("desctable")
+    set_desctable_class()
 }
 
 

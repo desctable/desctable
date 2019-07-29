@@ -20,6 +20,18 @@ insert <- function(x, y, position)
 }
 
 
+#' Set the "desctable" class to the passed object
+#'
+#' @param x Object to set the "desctable" class to
+#' @return The object with the class "desctable"
+set_desctable_class <- function(x)
+{
+  class(x) <- "desctable"
+
+  x
+}
+
+
 #' Parse a formula
 #'
 #' Parse a formula defining the conditions to pick a stat/test
