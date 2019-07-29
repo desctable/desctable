@@ -6,7 +6,7 @@
 #' @export
 print.desctable <- function(x, ...)
 {
-  print(x %>% as.data.frame())
+  print(as.data.frame(x))
 }
 
 
@@ -21,7 +21,7 @@ as.data.frame.desctable <- function(x, ...)
   x$Variables$Variables <- gsub("\\*\\*(.*?)\\*\\*", "\\1", x$Variables$Variables)
   x$Variables$Variables <- gsub("\\*(.*?)\\*", "\\1", x$Variables$Variables)
 
-  header <- x %>% header("dataframe")
+  header <- header(x, "dataframe")
 
   x %>%
     flatten_desctable() %>%
@@ -54,7 +54,7 @@ pander.desctable <- function(x = NULL,
 
   x$Variables$Variables <- gsub("\\*\\*(.*?)\\*\\*: \\*(.*?)\\*", "&nbsp;&nbsp;&nbsp;&nbsp;\\2", x$Variables$Variables)
 
-  header <- x %>% header("pander")
+  header <- header(x, "pander")
 
   x %>%
     flatten_desctable %>%
@@ -167,7 +167,7 @@ datatable.desctable <- function(data,
   data$Variables$Variables <- gsub("\\*\\*(.*?)\\*\\*: \\*(.*?)\\*", "&nbsp;&nbsp;&nbsp;&nbsp;\\2", data$Variables$Variables)
   data$Variables$Variables <- gsub("\\*\\*(.*?)\\*\\*", "<b>\\1</b>", data$Variables$Variables)
 
-  header <- data %>% header("datatable")
+  header <- header(data, "datatable")
 
   flat <- flatten_desctable(data)
 

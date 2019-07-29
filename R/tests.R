@@ -38,31 +38,31 @@ tests_auto <- function(var, grp)
 {
   grp <- factor(grp)
 
-  if (nlevels(grp) < 2)
-    ~no.test
-  else if (var %>% is.factor())
-    if (tryCatch(fisher.test(var ~ grp)$p.value %>% is.numeric(), error = function(e) F))
-      ~fisher.test
-    else
-      ~chisq.test
+  if (nlevels(grp) < 2) ~no.test
+  else if (is.factor(var))
+  {
+    if (tryCatch(fisher.test(var ~ grp)$p.value %>% is.numeric(), error = function(e) F)) ~fisher.test
+    else ~chisq.test
+  }
   else
   {
-    all_normal <- all(var %>% tapply(grp, is.normal))
+    all_normal <- all(tapply(var, grp, is.normal))
+
     if (nlevels(grp) == 2)
       if (all_normal)
-        if (tryCatch(stats::var.test(var ~ grp)$p.value > .1, warning = function(e) F, error = function(e) F))
-          ~. %>% t.test(var.equal = T)
-        else
-          ~. %>% t.test(var.equal = F)
-      else
-        ~wilcox.test
+      {
+        if (tryCatch(stats::var.test(var ~ grp)$p.value > .1, warning = function(e) F, error = function(e) F)) ~t.test(., var.equal = T)
+        else ~t.test(., var.equal = F)
+      }
+      else ~wilcox.test
+    }
     else
       if (all_normal)
-        if (tryCatch(stats::bartlett.test(var ~ grp)$p.value > .1, warning = function(e) F, error = function(e) F))
-          ~. %>% oneway.test(var.equal = T)
-        else
-          ~. %>% oneway.test(var.equal = F)
-        else
-          ~kruskal.test
+      {
+        if (tryCatch(stats::bartlett.test(var ~ grp)$p.value > .1, warning = function(e) F, error = function(e) F)) ~oneway.test(., var.equal = T)
+        else ~oneway.test(., var.equal = F)
+      }
+      else ~kruskal.test
+    }
   }
 }

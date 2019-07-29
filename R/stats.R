@@ -23,16 +23,16 @@ statify <- function(x, f)
 #' @export
 statify.default <- function(x, f)
 {
-  x <- x %>% stats::na.omit()
+  x <- stats::na.omit(x)
 
   # Try f(x), silent warnings and fail with NA
-  res <- tryCatch(x %>% f,
-                  warning = function(e) suppressWarnings(x %>% f),
+  res <- tryCatch(f(x),
+                  warning = function(e) suppressWarnings(f(x)),
                   error = function(e) NA)
 
   # If x is a factor and f(x) behaves as expected (nlevel + total value), return f(x), or apply f(x) on each level, or fail with n+1 NA
   # If it is a numeric, return f(x) if it behaves as expected (ONE value), or fail with NA
-  if (x %>% is.factor)
+  if (is.factor(x))
   {
     if (length(res) == nlevels(x) + 1)
       res
@@ -48,12 +48,11 @@ statify.default <- function(x, f)
   } else
   {
     if (length(res) == 1)
-      if (res %>% is.numeric | res %>% is.na)
-        res
-      else
-        res %>% as.character
-    else
-      NA
+    {
+      if (is.numeric(res) | is.na(res)) res
+      else as.character(res)
+    }
+    else NA
   }
 }
 

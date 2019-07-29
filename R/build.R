@@ -166,7 +166,7 @@ desctable.default <- function(data, stats = stats_auto, tests, labels = NULL)
 desctable.grouped_df <- function(data, stats = stats_auto, tests = tests_auto, labels = NULL)
 {
   # Get groups then ungroup dataframe
-  grps <- data %>% dplyr::groups()
+  grps <- dplyr::groups(data)
   data <- dplyr::ungroup(data)
 
   # Build the complete table recursively, assign "desctable" class
@@ -209,22 +209,11 @@ testColumn <- function(df, tests, grp)
 
   if (is.function(tests))
   {
-    ftests <- df %>%
-      lapply(tests, group %>% factor())
+    ftests <- lapply(df, tests, factor(group))
     tests <- ftests
-  } else if (!is.null(tests$.auto))
-  {
-    ftests <- df %>%
-      lapply(tests$.auto, group %>% factor)
-  } else if (!is.null(tests$.default))
-  {
-    ftests <- df %>%
-      lapply(function(x){tests$.default})
-  } else
-  {
-    ftests <- df %>%
-      lapply(function(x){stats::kruskal.test})
-  }
+  } else if (!is.null(tests$.auto)) ftests <- lapply(df, tests$.auto, factor(group))
+  else if (!is.null(tests$.default)) ftests <- lapply(df, function(x){tests$.default})
+  else ftests <- lapply(df, function(x){stats::kruskal.test})
 
   names(tests) %>% setdiff(".auto") %>% intersect(names(df)) -> forced_tests
   ftests[names(ftests) %in% forced_tests][forced_tests] <- tests[forced_tests]
@@ -247,7 +236,7 @@ subTable <- function(df, stats, tests, grps)
   # Final group, make tests
   if (length(grps) == 1)
   {
-    group <- eval(grps[[1]], df) %>% factor()
+    group <- factor(eval(grps[[1]], df))
 
     # Create the subtable stats
     df[!names(df) %in% as.character(grps[[1]])] %>%

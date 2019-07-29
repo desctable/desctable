@@ -36,13 +36,9 @@ IQR <- function(x)
 #' @return A boolean
 is.normal <- function(x)
 {
-  if (! x %>% is.numeric())
-    F
-  else if (length(x %>% stats::na.omit()) >= 30)
-    tryCatch(stats::shapiro.test(x)$p.value > .1,
-             error = function(e) F)
-  else
-    F
+  if (!is.numeric(x)) F
+  else if (length(stats::na.omit(x)) >= 30) tryCatch(stats::shapiro.test(x)$p.value > .1, error = function(e) F)
+  else F
 }
 
 

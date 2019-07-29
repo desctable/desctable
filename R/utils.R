@@ -6,8 +6,7 @@
 #' @return The combined vector
 insert <- function(x, y, position)
 {
-  if (! y %>% is.list())
-    y <- list(y)
+  if (!is.list(y)) y <- list(y)
 
   stopifnot(length(y) == length(position))
 
@@ -51,29 +50,28 @@ parse_formula <- function(x, f)
 {
   parse_f <- function(x)
   {
-    if (length(x) == 1)
-      x %>% as.character()
+    if (length(x) == 1) as.character(x)
     else
     {
-      if (x[[1]] %>% as.character() == "~")
+      if (as.character(x[[1]]) == "~")
       {
-        paste0("if (", x[[2]] %>% parse_f(), "(x)) ",
+        paste0("if (", parse_f(x[[2]]), "(x)) ",
                "{",
-               x[[3]] %>% parse_f(),
+               parse_f(x[[3]]),
                "}")
-      } else if (x[[1]] %>% as.character() == "|")
+      } else if (as.character(x[[1]]) == "|")
       {
-        paste0(x[[2]] %>% parse_f(),
+        paste0(parse_f(x[[2]]),
                "} else ",
                "{",
-               x[[3]] %>% parse_f())
-      } else if (x[[1]] %>% as.character() == "(")
+               parse_f(x[[3]]))
+      } else if (as.character(x[[1]]) == "(")
       {
-        x[[2]] %>% parse_f()
+        parse_f(x[[2]])
       }
     }
   }
-  parse(text = parse_f(f)) %>% eval()
+  eval(parse(text = parse_f(f)))
 }
 
 
@@ -83,7 +81,7 @@ parse_formula <- function(x, f)
 #' @return A names vector
 head_pander <- function(head)
 {
-  if (head[[1]] %>% is.integer())
+  if (is.integer(head[[1]]))
   {
     head %>% names %>% lapply(function(x){c(x, rep("", head[[x]] - 1))}) %>% unlist
   } else
@@ -102,14 +100,16 @@ head_pander <- function(head)
 head_datatable <- function(head)
 {
   TRs <- list()
-  while (head[[1]] %>% is.list())
+
+  while (is.list(head[[1]]))
   {
-    TR <- purrr::map2(head %>% names(), head %>% lapply(attr, "colspan"), ~htmltools::tags$th(.x, colspan = .y))
+    TR <- purrr::map2(names(head), lapply(head, attr, "colspan"), ~htmltools::tags$th(.x, colspan = .y))
 
     TRs <- c(TRs, list(TR))
     head <- purrr::flatten(head)
   }
-  c(TRs, list(purrr::map2(head %>% names, head, ~htmltools::tags$th(.x, colspan = .y))))
+
+  c(TRs, list(purrr::map2(names(head), head, ~htmltools::tags$th(.x, colspan = .y))))
 }
 
 
@@ -119,7 +119,7 @@ head_datatable <- function(head)
 #' @return A names vector
 head_dataframe <- function(head)
 {
-  if (head[[1]] %>% is.integer())
+  if (is.integer(head[[1]]))
   {
     head %>% names() %>% lapply(function(x){rep(x, head[[x]])}) %>% unlist()
   } else
@@ -185,10 +185,7 @@ header <- function(desctable, output = c("pander", "datatable", "dataframe"))
 #' @return A nested list of headers with colspans
 headerList <- function(desctable)
 {
-  if (desctable %>% is.data.frame())
-  {
-    length(desctable)
-  }
+  if (is.data.frame(desctable)) length(desctable)
   else
   {
     lapply(desctable, headerList) -> rec
@@ -208,8 +205,7 @@ headerList <- function(desctable)
 #' @return A flat dataframe
 flatten_desctable <- function(desctable)
 {
-  if (desctable %>% is.data.frame())
-    desctable
+  if (is.data.frame(desctable)) desctable
   else
     desctable %>%
       lapply(flatten_desctable) %>%
