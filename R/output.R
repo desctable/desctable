@@ -195,32 +195,3 @@ datatable.desctable <- function(data,
                   plugins = plugins,
                   rownames = rownames, ...)
 }
-
-# TODO: recopier la doc de gt
-gt <- function(data, ...)
-{
-  UseMethod("gt", data)
-}
-
-#' @rdname gt
-#' @export
-gt.default <- gt::gt
-
-#' @rdname gt
-#' @export
-gt.desctable <- function(data,
-                         rowname_col = "rowname",
-                         groupname_col = "groupname",
-                         rownames_to_stub = FALSE,
-                         id = random_id(),
-                         stub_group.sep = getOption("gt.stub_group.sep", " - "))
-{
-  data$Variables$Variables <- gsub("\\*\\*(.*?)\\*\\*: \\*(.*?)\\*", "&nbsp;&nbsp;&nbsp;&nbsp;\\2", data$Variables$Variables)
-
-  # header <- data %>% header("datatable")
-
-  data %>%
-  flatten_desctable %>%
-  gt %>%
-  fmt_markdown("Variables")
-}
