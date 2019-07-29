@@ -215,7 +215,11 @@ testColumn <- function(df, tests, grp)
   else if (!is.null(tests$.default)) ftests <- lapply(df, function(x){tests$.default})
   else ftests <- lapply(df, function(x){stats::kruskal.test})
 
-  names(tests) %>% setdiff(".auto") %>% intersect(names(df)) -> forced_tests
+  tests %>%
+    names() %>%
+    setdiff(".auto") %>%
+    intersect(names(df)) -> forced_tests
+
   ftests[names(ftests) %in% forced_tests][forced_tests] <- tests[forced_tests]
 
   df %>%

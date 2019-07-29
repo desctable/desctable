@@ -83,11 +83,19 @@ head_pander <- function(head)
 {
   if (is.integer(head[[1]]))
   {
-    head %>% names %>% lapply(function(x){c(x, rep("", head[[x]] - 1))}) %>% unlist
+    head %>%
+      names %>%
+      lapply(function(x){c(x, rep("", head[[x]] - 1))}) %>%
+      unlist()
   } else
   {
-    paste(head %>% names() %>% lapply(function(x){c(x, rep("", attr(head[[x]], "colspan") - 1))}) %>% unlist(),
-          head %>% lapply(head_pander) %>% unlist(),
+    paste(head %>%
+            names() %>%
+            lapply(function(x){c(x, rep("", attr(head[[x]], "colspan") - 1))}) %>%
+            unlist(),
+          head %>%
+            lapply(head_pander) %>%
+            unlist(),
           sep = "<br/>")
   }
 }
@@ -121,11 +129,19 @@ head_dataframe <- function(head)
 {
   if (is.integer(head[[1]]))
   {
-    head %>% names() %>% lapply(function(x){rep(x, head[[x]])}) %>% unlist()
+    head %>%
+      names() %>%
+      lapply(function(x){rep(x, head[[x]])}) %>%
+      unlist()
   } else
   {
-    paste(head %>% names() %>% lapply(function(x){rep(x, attr(head[[x]], "colspan"))}) %>% unlist(),
-          head %>% lapply(head_pander) %>% unlist(),
+    paste(head %>%
+            names() %>%
+            lapply(function(x){rep(x, attr(head[[x]], "colspan"))}) %>%
+            unlist(),
+          head %>%
+            lapply(head_pander) %>%
+            unlist(),
           sep = " / ")
   }
 }
@@ -141,20 +157,24 @@ head_dataframe <- function(head)
 #' @return A header object in the output format
 header <- function(desctable, output = c("pander", "datatable", "dataframe"))
 {
-  nm <- desctable %>%
-    `[`(-1) %>%
+  desctable[-1] %>%
     flatten_desctable() %>%
     data.frame(check.names = F) %>%
-    names
+    names() -> nm
 
   desctable <- desctable[-1]
 
   if (length(desctable) == 1)
   {
     if (output == "datatable")
-      c("\u00A0", nm) %>% lapply(htmltools::tags$th) %>% htmltools::tags$tr() %>% htmltools::tags$thead() %>% htmltools::tags$table(class = "display")
-    else
-      c("\u00A0", nm)
+    {
+      c("\u00A0", nm) %>%
+        lapply(htmltools::tags$th) %>%
+        htmltools::tags$tr() %>%
+        htmltools::tags$thead() %>%
+        htmltools::tags$table(class = "display")
+    }
+    else c("\u00A0", nm)
   }
   else
   {
@@ -162,7 +182,8 @@ header <- function(desctable, output = c("pander", "datatable", "dataframe"))
 
     if (output == "pander")
     {
-      c("\u00A0", head_pander(head) %>% paste(nm, sep = "<br/>"))
+      c("\u00A0", head_pander(head) %>%
+        paste(nm, sep = "<br/>"))
     } else if (output == "datatable")
     {
       head <- c(head_datatable(head), list(nm %>% lapply(htmltools::tags$th)))

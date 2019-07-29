@@ -172,7 +172,11 @@ datatable.desctable <- function(data,
   flat <- flatten_desctable(data)
 
   if (!is.null(digits))
-    flat <- flat %>% lapply(prettyNum, digits = digits) %>% lapply(gsub, pattern = "^NA$", replacement = "")
+  {
+    flat %>%
+      lapply(prettyNum, digits = digits) %>%
+      lapply(gsub, pattern = "^NA$", replacement = "") -> flat
+  }
 
   flat %>%
     data.frame(check.names = F, stringsAsFactors = F) %>%
