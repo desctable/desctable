@@ -17,14 +17,19 @@ testify <- function(x, f, group)
   f <- eval(f[[2]])
   p <- tryCatch(f(x ~ group)$p.value[1],
                 error = function(e) {message(e);NaN})
+
   if (is.factor(x))
-    data.frame(p = c(p, NA %>% rep(nlevels(x))),
-               test = c(fun, NA %>% rep(nlevels(x))),
+  {
+    data.frame(p = c(p, rep(NA, nlevels(x))),
+               test = c(fun, rep(NA, nlevels(x))),
                row.names = NULL, check.names = F, stringsAsFactors = F)
+  }
   else
+  {
     data.frame(p = p,
                test = fun,
                row.names = NULL, check.names = F, stringsAsFactors = F)
+  }
 }
 
 
@@ -53,6 +58,7 @@ tests_auto <- function(var, grp)
     all_normal <- all(tapply(var, grp, is.normal))
 
     if (nlevels(grp) == 2)
+    {
       if (all_normal)
       {
         if (tryCatch(stats::var.test(var ~ grp)$p.value > .1, warning = function(e) F, error = function(e) F)) ~t.test(., var.equal = T)
@@ -61,6 +67,7 @@ tests_auto <- function(var, grp)
       else ~wilcox.test
     }
     else
+    {
       if (all_normal)
       {
         if (tryCatch(stats::bartlett.test(var ~ grp)$p.value > .1, warning = function(e) F, error = function(e) F)) ~oneway.test(., var.equal = T)

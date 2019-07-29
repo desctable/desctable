@@ -19,12 +19,13 @@ statColumn <- function(stat, data)
 statTable <- function(data, stats)
 {
   # Call the stats arg_function passed, or use the provided list as-is
-  if (is.function(stats))
-    stats = stats(data)
+  if (is.function(stats)) stats = stats(data)
 
   stats %>%
     lapply(statColumn, data) %>%
-    data.frame(check.names = F, row.names = NULL, stringsAsFactors = F)
+    data.frame(check.names = F,
+               row.names = NULL,
+               stringsAsFactors = F)
 }
 
 
@@ -64,7 +65,10 @@ varColumn <- function(data, labels = NULL)
                          position = factors_idx)
   }
 
-  data.frame(Variables = base_names, check.names = F, row.names = NULL, stringsAsFactors = F)
+  data.frame(Variables = base_names,
+             check.names = F,
+             row.names = NULL,
+             stringsAsFactors = F)
 }
 
 

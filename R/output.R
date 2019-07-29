@@ -49,8 +49,7 @@ pander.desctable <- function(x = NULL,
                              emphasize.rownames = F,
                              ...)
 {
-  if (is.null(digits))
-    digits <- pander::panderOptions("digits")
+  if (is.null(digits)) digits <- pander::panderOptions("digits")
 
   x$Variables$Variables <- gsub("\\*\\*(.*?)\\*\\*: \\*(.*?)\\*", "&nbsp;&nbsp;&nbsp;&nbsp;\\2", x$Variables$Variables)
 

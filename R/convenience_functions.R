@@ -7,10 +7,8 @@
 #' @return A nlevels(x) + 1 length vector of percentages
 percent <- function(x)
 {
-  if (x %>% is.factor())
-    c(NA, summary(x, maxsum = Inf) / length(x)) * 100
-  else
-    NA
+  if (is.factor(x)) c(NA, summary(x, maxsum = Inf) / length(x)) * 100
+  else NA
 }
 
 
@@ -194,8 +192,10 @@ fisher.test <- function(x, y, workspace, hybrid, control, or, alternative, conf.
 
 
 #' @rdname fisher.test
-fisher.test.default <- function(x, ...) stats::fisher.test(x, ...)
-
+fisher.test.default <- function(x, ...)
+{
+  stats::fisher.test(x, ...)
+}
 
 #' @rdname fisher.test
 fisher.test.formula <- function(x,

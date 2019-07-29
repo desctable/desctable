@@ -34,17 +34,17 @@ statify.default <- function(x, f)
   # If it is a numeric, return f(x) if it behaves as expected (ONE value), or fail with NA
   if (is.factor(x))
   {
-    if (length(res) == nlevels(x) + 1)
-      res
+    if (length(res) == nlevels(x) + 1) res
     else if (length(res) == 1)
+    {
       c(res, lapply(levels(x), function(lvl)
                     {
                       tryCatch(f(x[x == lvl]),
                                warning = function(e) suppressWarnings(f(x[x == lvl])),
                                error = function(e) NA)
                     }) %>% unlist)
-    else
-      rep(NA, nlevels(x) + 1)
+    }
+    else rep(NA, nlevels(x) + 1)
   } else
   {
     if (length(res) == 1)
@@ -62,11 +62,9 @@ statify.default <- function(x, f)
 statify.formula <- function(x, f)
 {
   # if expression quoted with ~, evaluate the expression
-  if (length(f) == 2)
-    eval(f[[2]])
+  if (length(f) == 2) eval(f[[2]])
   # else parse the formula (cond ~ T | F)
-  else
-    statify.default(x, parse_formula(x, f))
+  else statify.default(x, parse_formula(x, f))
 }
 
 
@@ -145,27 +143,32 @@ stats_auto <- function(data)
     unlist() %>%
     any() -> fact
 
-  if (fact & normal & !nonnormal)
-    stats_normal(data)
-  else if (fact & !normal & nonnormal)
-    stats_nonnormal(data)
+  if (fact & normal & !nonnormal) stats_normal(data)
+  else if (fact & !normal & nonnormal) stats_nonnormal(data)
   else if (fact & !normal & !nonnormal)
+  {
     list("N" = length,
          "%" = percent)
+  }
   else if (!fact & normal & nonnormal)
+  {
     list("N" = length,
          "Mean" = is.normal ~ mean,
          "sd" = is.normal ~ sd,
          "Med" = stats::median,
          "IQR" = is.factor ~ NA | IQR)
+  }
   else if (!fact & normal & !nonnormal)
+  {
     list("N" = length,
          "Mean" = mean,
          "sd" = stats::sd)
+  }
   else if (!fact & !normal & nonnormal)
+  {
     list("N" = length,
          "Med" = stats::median,
          "IQR" = IQR)
-  else
-    stats_default(data)
+  }
+  else stats_default(data)
 }

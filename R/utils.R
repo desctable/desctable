@@ -188,6 +188,7 @@ header <- function(desctable, output = c("pander", "datatable", "dataframe"))
     {
       head <- c(head_datatable(head), list(nm %>% lapply(htmltools::tags$th)))
       head[[1]] <- c(list(htmltools::tags$th(rowspan = length(head))), head[[1]])
+
       head %>%
         lapply(htmltools::tags$tr) %>%
         htmltools::tags$thead() %>%
@@ -209,11 +210,10 @@ headerList <- function(desctable)
   if (is.data.frame(desctable)) length(desctable)
   else
   {
-    lapply(desctable, headerList) -> rec
-    if (is.integer(rec[[1]]))
-      attr(rec, "colspan") <- rec %>% unlist() %>% sum()
-    else
-      attr(rec, "colspan") <- rec %>% lapply(attr, "colspan") %>% unlist %>% sum
+    rec <- lapply(desctable, headerList)
+
+    if (is.integer(rec[[1]])) attr(rec, "colspan") <- rec %>% unlist() %>% sum()
+    else attr(rec, "colspan") <- rec %>% lapply(attr, "colspan") %>% unlist() %>% sum()
 
     rec
   }
@@ -228,7 +228,9 @@ flatten_desctable <- function(desctable)
 {
   if (is.data.frame(desctable)) desctable
   else
+  {
     desctable %>%
       lapply(flatten_desctable) %>%
       Reduce(f = cbind)
+  }
 }
