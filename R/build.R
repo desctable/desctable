@@ -42,33 +42,26 @@ statTable <- function(data, stats)
 #' @return A dataframe with one variable named "Variables", a character vector of variable names/labels and levels
 varColumn <- function(data, labels = NULL)
 {
-# Replace variable names by their labels, if they exist
-  names(data) -> base_names
+  # Replace variable names by their labels, if they exist
+  base_names <- names(data)
   base_names[base_names %in% names(labels)] <- labels[base_names[base_names %in% names(labels)]]
 
   # Insert levels for factors after the variable name
-  if (any(data %>% lapply(is.factor) %>% unlist()))
+  data %>%
+    lapply(is.factor) %>%
+    unlist() -> factors
+
+  if (any(factors))
   {
-    data %>%
-      lapply(is.factor) %>%
-      unlist() %>%
-      which() -> factors_idx
+    factors_idx <- which(factors)
 
     base_names[factors_idx] <- paste0("**", base_names[factors_idx], "**")
-    factor_levels <-
-      factors_idx %>%
-      lapply(function(x)
-             {
-                paste0(base_names[x],
-                       ": ",
-                       "*",
-                       levels(data[[x]]),
-                       "*")
-             })
 
-    insert(x = base_names,
-           y = factor_levels,
-           position = factors_idx) -> base_names
+    factor_levels <- lapply(factors_idx, function(x) paste0(base_names[x], ": ", "*", levels(data[[x]]), "*"))
+
+    base_names <- insert(x = base_names,
+                         y = factor_levels,
+                         position = factors_idx)
   }
 
   data.frame(Variables = base_names, check.names = F, row.names = NULL, stringsAsFactors = F)
@@ -264,7 +257,7 @@ subTable <- function(df, stats, tests, grps)
       stats::setNames(subNames(grps[[1]], df)) -> stats
 
     # Create the subtable tests
-    testColumn(df, tests, grps[[1]]) -> pvalues
+    pvalues <- testColumn(df, tests, grps[[1]])
 
     c(stats, tests = list(pvalues))
   }

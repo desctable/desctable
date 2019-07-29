@@ -169,8 +169,7 @@ datatable.desctable <- function(data,
 
   header <- data %>% header("datatable")
 
-  data %>%
-  flatten_desctable() -> flat
+  flat <- flatten_desctable(data)
 
   if (!is.null(digits))
     flat <- flat %>% lapply(prettyNum, digits = digits) %>% lapply(gsub, pattern = "^NA$", replacement = "")

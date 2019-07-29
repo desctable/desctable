@@ -137,8 +137,8 @@ stats_auto <- function(data)
   }
   else
   {
-    any(shapiro) -> normal
-    any(!shapiro) -> nonnormal
+    normal <- any(shapiro)
+    nonnormal <- any(!shapiro)
   }
 
   any(data %>% lapply(is.factor) %>% unlist()) -> fact

@@ -165,7 +165,7 @@ header <- function(desctable, output = c("pander", "datatable", "dataframe"))
       c("\u00A0", head_pander(head) %>% paste(nm, sep = "<br/>"))
     } else if (output == "datatable")
     {
-      c(head_datatable(head), list(nm %>% lapply(htmltools::tags$th))) -> head
+      head <- c(head_datatable(head), list(nm %>% lapply(htmltools::tags$th)))
       head[[1]] <- c(list(htmltools::tags$th(rowspan = length(head))), head[[1]])
       head %>%
         lapply(htmltools::tags$tr) %>%
