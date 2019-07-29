@@ -7,8 +7,7 @@
 #' @param y A vector or list of vectors to insert into x
 #' @param position The position / vector of positions to insert vector(s) y in vector x
 #' @return The combined vector
-insert <- function(x, y, position)
-{
+insert <- function(x, y, position) {
   # y is supposed to be a list of vectors. If it is a single vector, make it a simple list containing that vector
   if (!is.list(y)) y <- list(y)
 
@@ -36,8 +35,7 @@ insert <- function(x, y, position)
 #'
 #' @param x Object to set the "desctable" class to
 #' @return The object with the class "desctable"
-set_desctable_class <- function(x)
-{
+set_desctable_class <- function(x) {
   class(x) <- "desctable"
 
   x
@@ -59,31 +57,26 @@ set_desctable_class <- function(x)
 #' @param x The variable to test it on
 #' @param f A formula to parse
 #' @return A function to use as a stat/test
-parse_formula <- function(x, f)
-{
-  parse_f <- function(x)
-  {
+parse_formula <- function(x, f) {
+  parse_f <- function(x) {
     if (length(x) == 1) as.character(x)
-    else
-    {
-      if (as.character(x[[1]]) == "~")
-      {
+    else {
+      if (as.character(x[[1]]) == "~") {
         paste0("if (", parse_f(x[[2]]), "(x)) ",
                "{",
                parse_f(x[[3]]),
                "}")
-      } else if (as.character(x[[1]]) == "|")
-      {
+      } else if (as.character(x[[1]]) == "|") {
         paste0(parse_f(x[[2]]),
                "} else ",
                "{",
                parse_f(x[[3]]))
-      } else if (as.character(x[[1]]) == "(")
-      {
+      } else if (as.character(x[[1]]) == "(") {
         parse_f(x[[2]])
       }
     }
   }
+
   eval(parse(text = parse_f(f)))
 }
 
@@ -92,16 +85,13 @@ parse_formula <- function(x, f)
 #'
 #' @param head A headerList object
 #' @return A names vector
-head_pander <- function(head)
-{
-  if (is.integer(head[[1]]))
-  {
+head_pander <- function(head) {
+  if (is.integer(head[[1]])) {
     head %>%
       names %>%
       lapply(function(x){c(x, rep("", head[[x]] - 1))}) %>%
       unlist()
-  } else
-  {
+  } else {
     paste(head %>%
             names() %>%
             lapply(function(x){c(x, rep("", attr(head[[x]], "colspan") - 1))}) %>%
@@ -118,12 +108,10 @@ head_pander <- function(head)
 #'
 #' @param head A headerList object
 #' @return An htmltools$tags object containing the header
-head_datatable <- function(head)
-{
+head_datatable <- function(head) {
   TRs <- list()
 
-  while (is.list(head[[1]]))
-  {
+  while (is.list(head[[1]])) {
     TR <- purrr::map2(names(head), lapply(head, attr, "colspan"), ~htmltools::tags$th(.x, colspan = .y))
 
     TRs <- c(TRs, list(TR))
@@ -138,16 +126,13 @@ head_datatable <- function(head)
 #'
 #' @param head A headerList object
 #' @return A names vector
-head_dataframe <- function(head)
-{
-  if (is.integer(head[[1]]))
-  {
+head_dataframe <- function(head) {
+  if (is.integer(head[[1]])) {
     head %>%
       names() %>%
       lapply(function(x){rep(x, head[[x]])}) %>%
       unlist()
-  } else
-  {
+  } else {
     paste(head %>%
             names() %>%
             lapply(function(x){rep(x, attr(head[[x]], "colspan"))}) %>%
@@ -168,8 +153,7 @@ head_dataframe <- function(head)
 #' @param desctable A desctable object
 #' @param output An output format for the header
 #' @return A header object in the output format
-header <- function(desctable, output = c("pander", "datatable", "dataframe"))
-{
+header <- function(desctable, output = c("pander", "datatable", "dataframe")) {
   desctable[-1] %>%
     flatten_desctable() %>%
     data.frame(check.names = F) %>%
@@ -177,28 +161,21 @@ header <- function(desctable, output = c("pander", "datatable", "dataframe"))
 
   desctable <- desctable[-1]
 
-  if (length(desctable) == 1)
-  {
-    if (output == "datatable")
-    {
+  if (length(desctable) == 1) {
+    if (output == "datatable") {
       c("\u00A0", nm) %>%
         lapply(htmltools::tags$th) %>%
         htmltools::tags$tr() %>%
         htmltools::tags$thead() %>%
         htmltools::tags$table(class = "display")
-    }
-    else c("\u00A0", nm)
-  }
-  else
-  {
+    } else c("\u00A0", nm)
+  } else {
     head <- headerList(desctable)
 
-    if (output == "pander")
-    {
+    if (output == "pander") {
       c("\u00A0", head_pander(head) %>%
         paste(nm, sep = "<br/>"))
-    } else if (output == "datatable")
-    {
+    } else if (output == "datatable") {
       head <- c(head_datatable(head), list(nm %>% lapply(htmltools::tags$th)))
       head[[1]] <- c(list(htmltools::tags$th(rowspan = length(head))), head[[1]])
 
@@ -206,8 +183,7 @@ header <- function(desctable, output = c("pander", "datatable", "dataframe"))
         lapply(htmltools::tags$tr) %>%
         htmltools::tags$thead() %>%
         htmltools::tags$table(class = "display")
-    } else if (output == "dataframe")
-    {
+    } else if (output == "dataframe") {
       c("\u00A0", head_dataframe(head) %>% paste(nm, sep = " / "))
     }
   }
@@ -218,15 +194,13 @@ header <- function(desctable, output = c("pander", "datatable", "dataframe"))
 #'
 #' @param desctable A desctable
 #' @return A nested list of headers with colspans
-headerList <- function(desctable)
-{
+headerList <- function(desctable) {
   if (is.data.frame(desctable)) length(desctable)
-  else
-  {
+  else {
     rec <- lapply(desctable, headerList)
 
     if (is.integer(rec[[1]])) attr(rec, "colspan") <- rec %>% unlist() %>% sum()
-    else attr(rec, "colspan") <- rec %>% lapply(attr, "colspan") %>% unlist() %>% sum()
+    else                      attr(rec, "colspan") <- rec %>% lapply(attr, "colspan") %>% unlist() %>% sum()
 
     rec
   }
@@ -237,11 +211,9 @@ headerList <- function(desctable)
 #'
 #' @param desctable A desctable object
 #' @return A flat dataframe
-flatten_desctable <- function(desctable)
-{
+flatten_desctable <- function(desctable) {
   if (is.data.frame(desctable)) desctable
-  else
-  {
+  else {
     desctable %>%
       lapply(flatten_desctable) %>%
       Reduce(f = cbind)

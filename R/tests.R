@@ -7,8 +7,7 @@
 #' @param f The function to try to apply, or a formula combining two functions
 #' @param group Grouping factor
 #' @return The results for the function applied on the vector, compatible with the format of the result table
-testify <- function(x, f, group)
-{
+testify <- function(x, f, group) {
   # Extract the name of the function
   f %>%
     deparse() %>%
@@ -21,18 +20,12 @@ testify <- function(x, f, group)
                 error = function(e) {message(e);NaN})
 
   # Return the correct number of rows depending on the variable type
-  if (is.factor(x))
-  {
-    data.frame(p = c(p, rep(NA, nlevels(x))),
-               test = c(fun, rep(NA, nlevels(x))),
-               row.names = NULL, check.names = F, stringsAsFactors = F)
-  }
-  else
-  {
-    data.frame(p = p,
-               test = fun,
-               row.names = NULL, check.names = F, stringsAsFactors = F)
-  }
+  if (is.factor(x)) data.frame(p = c(p, rep(NA, nlevels(x))),
+                               test = c(fun, rep(NA, nlevels(x))),
+                               row.names = NULL, check.names = F, stringsAsFactors = F)
+  else              data.frame(p = p,
+                               test = fun,
+                               row.names = NULL, check.names = F, stringsAsFactors = F)
 }
 
 
@@ -46,37 +39,28 @@ testify <- function(x, f, group)
 #' @param grp The variable for the groups
 #' @return A statistical test function
 #' @export
-tests_auto <- function(var, grp)
-{
+tests_auto <- function(var, grp) {
   grp <- factor(grp)
 
-  if (nlevels(grp) < 2) ~no.test
-  else if (is.factor(var))
-  {
-    if (tryCatch(fisher.test(var ~ grp)$p.value %>% is.numeric(), error = function(e) F)) ~fisher.test
-    else ~chisq.test
-  }
-  else
-  {
+  if (nlevels(grp) < 2)                                                                                             ~no.test
+  else if (is.factor(var)) {
+    if (tryCatch(is.numeric(fisher.test(var ~ grp)$p.value), error = function(e) F))                                ~fisher.test
+    else                                                                                                            ~chisq.test
+  } else {
     all_normal <- all(tapply(var, grp, is.normal))
 
-    if (nlevels(grp) == 2)
-    {
-      if (all_normal)
-      {
-        if (tryCatch(stats::var.test(var ~ grp)$p.value > .1, warning = function(e) F, error = function(e) F)) ~t.test(., var.equal = T)
-        else ~t.test(., var.equal = F)
+    if (nlevels(grp) == 2) {
+      if (all_normal) {
+        if (tryCatch(stats::var.test(var ~ grp)$p.value > .1, warning = function(e) F, error = function(e) F))      ~t.test(., var.equal = T)
+        else                                                                                                        ~t.test(., var.equal = F)
       }
-      else ~wilcox.test
-    }
-    else
-    {
-      if (all_normal)
-      {
+      else                                                                                                          ~wilcox.test
+    } else {
+      if (all_normal) {
         if (tryCatch(stats::bartlett.test(var ~ grp)$p.value > .1, warning = function(e) F, error = function(e) F)) ~oneway.test(., var.equal = T)
-        else ~oneway.test(., var.equal = F)
+        else                                                                                                        ~oneway.test(., var.equal = F)
       }
-      else ~kruskal.test
+      else                                                                                                          ~kruskal.test
     }
   }
 }

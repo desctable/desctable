@@ -6,10 +6,9 @@
 #' @param x A factor
 #' @export
 #' @return A nlevels(x) + 1 length vector of percentages
-percent <- function(x)
-{
+percent <- function(x) {
   if (is.factor(x)) c(NA, summary(x, maxsum = Inf) / length(x)) * 100
-  else NA
+  else              NA
 }
 
 
@@ -19,8 +18,7 @@ percent <- function(x)
 #' @param x A vector
 #' @return The IQR
 #' @export
-IQR <- function(x)
-{
+IQR <- function(x) {
   base::diff(stats::quantile(x, c(0.25, 0.75), na.rm = T))
 }
 
@@ -33,8 +31,7 @@ IQR <- function(x)
 #' @param x A numerical vector
 #' @export
 #' @return A boolean
-is.normal <- function(x)
-{
+is.normal <- function(x) {
   if (!is.numeric(x)) F
   else if (length(stats::na.omit(x)) >= 30) tryCatch(stats::shapiro.test(x)$p.value > .1, error = function(e) F)
   else F
@@ -186,15 +183,13 @@ is.normal <- function(x)
 #' ###
 #' }
 #' @export
-fisher.test <- function(x, y, workspace, hybrid, control, or, alternative, conf.int, conf.level, simulate.p.value, B)
-{
+fisher.test <- function(x, y, workspace, hybrid, control, or, alternative, conf.int, conf.level, simulate.p.value, B) {
   UseMethod("fisher.test")
 }
 
 
 #' @rdname fisher.test
-fisher.test.default <- function(x, ...)
-{
+fisher.test.default <- function(x, ...) {
   stats::fisher.test(x, ...)
 }
 
@@ -209,19 +204,18 @@ fisher.test.formula <- function(x,
                                 conf.int = T,
                                 conf.level = .95,
                                 simulate.p.value = F,
-                                B = 2000)
-{
+                                B = 2000) {
   stats::fisher.test(x = eval(x[[2]], envir = parent.frame()),
-                      y = eval(x[[3]], envir = parent.frame()),
-                      workspace = workspace,
-                      hybrid = hybrid,
-                      control = control,
-                      or = or,
-                      alternative = alternative,
-                      conf.int = conf.int,
-                      conf.level = conf.level,
-                      simulate.p.value = simulate.p.value,
-                      B = B)
+                     y = eval(x[[3]], envir = parent.frame()),
+                     workspace = workspace,
+                     hybrid = hybrid,
+                     control = control,
+                     or = or,
+                     alternative = alternative,
+                     conf.int = conf.int,
+                     conf.level = conf.level,
+                     simulate.p.value = simulate.p.value,
+                     B = B)
 }
 
 
@@ -349,8 +343,7 @@ fisher.test.formula <- function(x,
 #' ###
 #' }
 #' @export
-chisq.test <- function(x, y, correct, p, rescale.p, simulate.p.value, B)
-{
+chisq.test <- function(x, y, correct, p, rescale.p, simulate.p.value, B) {
   UseMethod("chisq.test")
 }
 
@@ -366,15 +359,14 @@ chisq.test.formula <- function(x,
                                p = rep(1/length(x), length(x)),
                                rescale.p = F,
                                simulate.p.value = F,
-                               B = 2000)
-{
+                               B = 2000) {
   stats::chisq.test(x = eval(x[[2]], envir = parent.frame()),
-                     y = eval(x[[3]], envir = parent.frame()),
-                     correct = correct,
-                     p = p,
-                     rescale.p = rescale.p,
-                     simulate.p.value = simulate.p.value,
-                     B = B)
+                    y = eval(x[[3]], envir = parent.frame()),
+                    correct = correct,
+                    p = p,
+                    rescale.p = rescale.p,
+                    simulate.p.value = simulate.p.value,
+                    B = B)
 }
 
 
@@ -383,8 +375,7 @@ chisq.test.formula <- function(x,
 #' @param formula An anova formula (\code{variable ~ grouping variable})
 #' @seealso \code{\link{oneway.test}}
 #' @export
-ANOVA <- function(formula)
-{
+ANOVA <- function(formula) {
   stats::oneway.test(formula, var.equal = T)
 }
 
@@ -393,7 +384,6 @@ ANOVA <- function(formula)
 #'
 #' An empty test
 #' @param formula A formula
-no.test <- function(formula)
-{
+no.test <- function(formula) {
   data.frame(p.value = NA)
 }
