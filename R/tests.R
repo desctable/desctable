@@ -9,15 +9,18 @@
 #' @return The results for the function applied on the vector, compatible with the format of the result table
 testify <- function(x, f, group)
 {
+  # Extract the name of the function
   f %>%
     deparse() %>%
     Reduce(f = paste0) %>%
     substring(2) -> fun
 
+  # Try the function
   f <- eval(f[[2]])
   p <- tryCatch(f(x ~ group)$p.value[1],
                 error = function(e) {message(e);NaN})
 
+  # Return the correct number of rows depending on the variable type
   if (is.factor(x))
   {
     data.frame(p = c(p, rep(NA, nlevels(x))),

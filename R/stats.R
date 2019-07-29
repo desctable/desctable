@@ -23,6 +23,7 @@ statify <- function(x, f)
 #' @export
 statify.default <- function(x, f)
 {
+  # Discard NA values
   x <- stats::na.omit(x)
 
   # Try f(x), silent warnings and fail with NA
@@ -31,7 +32,6 @@ statify.default <- function(x, f)
                   error = function(e) NA)
 
   # If x is a factor and f(x) behaves as expected (nlevel + total value), return f(x), or apply f(x) on each level, or fail with n+1 NA
-  # If it is a numeric, return f(x) if it behaves as expected (ONE value), or fail with NA
   if (is.factor(x))
   {
     if (length(res) == nlevels(x) + 1) res
@@ -45,6 +45,7 @@ statify.default <- function(x, f)
                     }) %>% unlist)
     }
     else rep(NA, nlevels(x) + 1)
+  # If it is a numeric, return f(x) if it behaves as expected (ONE value), or fail with NA
   } else
   {
     if (length(res) == 1)
@@ -143,32 +144,20 @@ stats_auto <- function(data)
     unlist() %>%
     any() -> fact
 
-  if (fact & normal & !nonnormal) stats_normal(data)
-  else if (fact & !normal & nonnormal) stats_nonnormal(data)
-  else if (fact & !normal & !nonnormal)
-  {
-    list("N" = length,
-         "%" = percent)
-  }
-  else if (!fact & normal & nonnormal)
-  {
-    list("N" = length,
-         "Mean" = is.normal ~ mean,
-         "sd" = is.normal ~ sd,
-         "Med" = stats::median,
-         "IQR" = is.factor ~ NA | IQR)
-  }
-  else if (!fact & normal & !nonnormal)
-  {
-    list("N" = length,
-         "Mean" = mean,
-         "sd" = stats::sd)
-  }
-  else if (!fact & !normal & nonnormal)
-  {
-    list("N" = length,
-         "Med" = stats::median,
-         "IQR" = IQR)
-  }
-  else stats_default(data)
+  if (fact & normal & !nonnormal)       stats_normal(data)
+  else if (fact & !normal & nonnormal)  stats_nonnormal(data)
+  else if (fact & !normal & !nonnormal) list("N" = length,
+                                             "%" = percent)
+  else if (!fact & normal & nonnormal)  list("N" = length,
+                                             "Mean" = is.normal ~ mean,
+                                             "sd" = is.normal ~ sd,
+                                             "Med" = stats::median,
+                                             "IQR" = is.factor ~ NA | IQR)
+  else if (!fact & normal & !nonnormal) list("N" = length,
+                                             "Mean" = mean,
+                                             "sd" = stats::sd)
+  else if (!fact & !normal & nonnormal) list("N" = length,
+                                             "Med" = stats::median,
+                                             "IQR" = IQR)
+  else                                  stats_default(data)
 }

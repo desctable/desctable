@@ -1,20 +1,33 @@
 #' Insert a vector y inside another vector x at position
 #'
-#' @param x A vector
-#' @param y A vector or list of vectors
+#' The vectors in the y list will be inserted
+#' at positions respectively *after* the x[position] element of x
+#'
+#' @param x A vector to be inserted into
+#' @param y A vector or list of vectors to insert into x
 #' @param position The position / vector of positions to insert vector(s) y in vector x
 #' @return The combined vector
 insert <- function(x, y, position)
 {
+  # y is supposed to be a list of vectors. If it is a single vector, make it a simple list containing that vector
   if (!is.list(y)) y <- list(y)
 
+  # Stop if there is not as many positions as vectors to insert
   stopifnot(length(y) == length(position))
 
+  # Create an empty return vector that will contain the partition of x and the inserts
   result <- vector("list", 2 * length(position) + 1)
+
+  # Split x in groups between the insert positions
   old <- split(x, cumsum(seq_along(x) %in% (position + 1)))
+
+  # Insert the x splits at odd positions in result
   result[seq(from = 1, by = 2, length.out = length(old))] <- old
+
+  # Insert the y inserts at even positions in results
   result[c(F, T)] <- y
 
+  # Return a simple vector
   unlist(result)
 }
 

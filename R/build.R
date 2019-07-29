@@ -1,10 +1,19 @@
 #' Generate one statistic for all variables
 #'
+#' Use one stat function (made safe using statify) on all the data
+#' to produce a single statistics column.
+#'
+#' The result is either a numeric vector, or a character vector if
+#' the content of the column is not made entirely of numbers.
+#' 
 #' @param stat The statistic to use
 #' @param data The dataframe to apply the statistic to
 #' @return A vector for one statistic column
 statColumn <- function(stat, data)
 {
+  # Apply one statified stat function to every variable in the data
+  # Return a simple vector for the column
+  # Statify checks types and output for the stat function. Returns a numeric vector or a character vector if needed.
   data %>%
     lapply(statify, stat) %>%
     unlist()
@@ -13,14 +22,21 @@ statColumn <- function(stat, data)
 
 #' Generate the table of all statistics for all variables
 #'
+#' If stats is a list of functions, use them.
+#' If it is a single function, use it with the entire data as
+#' its argument to produce a list of statistical functions to use.
+#'
 #' @param data The dataframe to apply the statistic to
 #' @param stats A list of named statistics to use
 #' @return A dataframe of all statistics for all variables
 statTable <- function(data, stats)
 {
-  # Call the stats arg_function passed, or use the provided list as-is
+  # If stats is a function, apply it to the data to obtain a list of stat functions
+  # Else use the function list as-is
   if (is.function(stats)) stats = stats(data)
 
+  # Compute a statColumn for every stat function in stats
+  # Assemble the result in a dataframe
   stats %>%
     lapply(statColumn, data) %>%
     data.frame(check.names = F,
@@ -43,23 +59,29 @@ statTable <- function(data, stats)
 #' @return A dataframe with one variable named "Variables", a character vector of variable names/labels and levels
 varColumn <- function(data, labels = NULL)
 {
-  # Replace variable names by their labels, if they exist
+  # Every variable name that exists in the labels is to be replaced with its corresponding label
+  # Labels for non-existing variables are ignored
+  # Variables with no label are not replaced and used as-is
   base_names <- names(data)
   base_names[base_names %in% names(labels)] <- labels[base_names[base_names %in% names(labels)]]
 
-  # Insert levels for factors after the variable name
+  # Check if there are factors
   data %>%
     lapply(is.factor) %>%
     unlist() -> factors
 
+  # Insert levels for factors after the variable name
   if (any(factors))
   {
     factors_idx <- which(factors)
 
+    # Factor names in **bold**
     base_names[factors_idx] <- paste0("**", base_names[factors_idx], "**")
 
+    # Factor levels in *italic*
     factor_levels <- lapply(factors_idx, function(x) paste0(base_names[x], ": ", "*", levels(data[[x]]), "*"))
 
+    # Insert the factor levels after each factor name
     base_names <- insert(x = base_names,
                          y = factor_levels,
                          position = factors_idx)
@@ -158,7 +180,7 @@ desctable <- function(data, stats, tests, labels)
 #' @export
 desctable.default <- function(data, stats = stats_auto, tests, labels = NULL)
 {
-  # Build the complete table
+  # Assemble the Variables and the statTable in a single desctable object
   list(Variables = varColumn(data, labels),
        stats = statTable(data, stats)) %>%
   set_desctable_class()
@@ -173,7 +195,7 @@ desctable.grouped_df <- function(data, stats = stats_auto, tests = tests_auto, l
   grps <- dplyr::groups(data)
   data <- dplyr::ungroup(data)
 
-  # Build the complete table recursively, assign "desctable" class
+  # Assemble the Variables (excluding the grouping ones) and the subTables recursively in a single desctable object
   c(Variables = list(varColumn(data[!names(data) %in% (grps %>% lapply(as.character) %>% unlist())], labels)),
     subTable(data, stats, tests, grps)) %>%
     set_desctable_class()
@@ -211,6 +233,10 @@ testColumn <- function(df, tests, grp)
 
   df <- df[!names(df) %in% as.character(grp)]
 
+  # If tests is a function, apply it to the data and the grouping factor to produce a list of tests
+  # If there is an .auto element in the list of tests, apply the function as previously to select the relevant test
+  # If there is a .default element, use it as tests
+  # Else fall back on kruskal.test
   if (is.function(tests))
   {
     ftests <- lapply(df, tests, factor(group))
@@ -219,13 +245,16 @@ testColumn <- function(df, tests, grp)
   else if (!is.null(tests$.default)) ftests <- lapply(df, function(x){tests$.default})
   else ftests <- lapply(df, function(x){stats::kruskal.test})
 
+  # Select the forced (named) tests
   tests %>%
     names() %>%
     setdiff(".auto") %>%
     intersect(names(df)) -> forced_tests
 
+  # Assemble the complete list of tests to compute
   ftests[names(ftests) %in% forced_tests][forced_tests] <- tests[forced_tests]
 
+  # Compute the tests (made safe with testify) on the variable, using the grouping variable
   df %>%
     purrr::map2(ftests, testify, group) %>%
     Reduce(f = cbind)
@@ -241,7 +270,7 @@ testColumn <- function(df, tests, grp)
 #' @return A nested list of statTables and testColumns
 subTable <- function(df, stats, tests, grps)
 {
-  # Final group, make tests
+  # Final group, compute tests
   if (length(grps) == 1)
   {
     group <- factor(eval(grps[[1]], df))

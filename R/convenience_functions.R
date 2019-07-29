@@ -2,6 +2,7 @@
 #'
 #' Return a compatible vector of length nlevels(x) + 1
 #' to print the percentages of each level of a factor
+#'
 #' @param x A factor
 #' @export
 #' @return A nlevels(x) + 1 length vector of percentages
