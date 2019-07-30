@@ -67,10 +67,10 @@ statify <- function(x, f) {
 stats_default <- function(data) {
   list("N" = length,
        "%" = percent,
-       "Mean" = is.normal ~ mean,
-       "sd" = is.normal ~ sd,
+       "Mean" = ~if (is.normal(.)) mean(.),
+       "sd" = ~if (is.normal(.)) sd(.),
        "Med" = stats::median,
-       "IQR" = is.factor ~ NA | IQR)
+       "IQR" = ~if (!is.factor(.)) IQR(.))
 }
 
 
@@ -90,7 +90,7 @@ stats_nonnormal <- function(data) {
   list("N" = length,
        "%" = percent,
        "Median" = stats::median,
-       "IQR" = is.factor ~ NA | IQR)
+       "IQR" = ~if (!is.factor(.)) IQR(.))
 }
 
 
@@ -120,10 +120,10 @@ stats_auto <- function(data) {
   else if (fact & !normal & !nonnormal) list("N" = length,
                                              "%" = percent)
   else if (!fact & normal & nonnormal)  list("N" = length,
-                                             "Mean" = is.normal ~ mean,
-                                             "sd" = is.normal ~ sd,
+                                             "Mean" = ~if (is.normal(.)) mean(.),
+                                             "sd" = ~if (is.normal(.)) sd(.),
                                              "Med" = stats::median,
-                                             "IQR" = is.factor ~ NA | IQR)
+                                             "IQR" = ~if (!is.factor(.)) IQR(.))
   else if (!fact & normal & !nonnormal) list("N" = length,
                                              "Mean" = mean,
                                              "sd" = stats::sd)
