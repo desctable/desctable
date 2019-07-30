@@ -4,18 +4,17 @@
 #' Applying the function on a numerical vector should return one value
 #' Applying the function on a factor should return nlevels + 1 value, or one value per factor level
 #' @param x A vector
-#' @param f The function to try to apply, or a formula combining two functions
+#' @param f The formula applying the function
 #' @param group Grouping factor
 #' @return The results for the function applied on the vector, compatible with the format of the result table
 testify <- function(x, f, group) {
   # Extract the name of the function
-  f %>%
-    deparse() %>%
-    Reduce(f = paste0) %>%
-    substring(2) -> fun
+  fun <- as.character(f)[2]
+
+  # Get the function (as formula)
+  f <- rlang::as_function(f)
 
   # Try the function
-  f <- eval(f[[2]])
   p <- tryCatch(f(x ~ group)$p.value[1],
                 error = function(e) {message(e);NaN})
 
