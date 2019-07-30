@@ -17,7 +17,8 @@ Imports:
     dplyr,
     DT,
     htmltools,
-    pander
+    pander,
+    rlang
 Suggests:
     knitr,
     rmarkdown,
