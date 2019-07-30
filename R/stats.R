@@ -14,15 +14,11 @@
 #' @export
 #' @return The results for the function applied on the vector, compatible with the format of the result table
 statify <- function(x, f) {
-  UseMethod("statify", f)
-}
-
-
-#' @rdname statify
-#' @export
-statify.default <- function(x, f) {
   # Discard NA values
   x <- stats::na.omit(x)
+
+  # Use rlang to parse function or formula (as in map, etc.)
+  f <- rlang::as_function(f)
 
   # Try f(x), silent warnings and fail with NA
   res <- tryCatch(f(x),
@@ -48,16 +44,6 @@ statify.default <- function(x, f) {
     }
     else NA
   }
-}
-
-
-#' @rdname statify
-#' @export
-statify.formula <- function(x, f) {
-  # if expression quoted with ~, evaluate the expression
-  if (length(f) == 2) eval(f[[2]])
-  # else parse the formula (cond ~ T | F)
-  else statify.default(x, parse_formula(x, f))
 }
 
 
