@@ -11,11 +11,13 @@ testify <- function(x, f, group) {
   # Extract the name of the function
   fun <- as.character(f)[2]
 
-  # Get the function (as formula)
-  f <- rlang::as_function(f)
+  fun <- sub("\\(?<=s*\\.\\s*,?\\s*", "", fun)
+  fun <- sub("\\(\\)", "", fun)
 
-  # Try the function
-  p <- tryCatch(f(x ~ group)$p.value[1],
+  # Get the function from formula
+  # and execute with grouping
+  . <- x ~ group
+  p <- tryCatch(eval(f[[2]])$p.value[1],
                 error = function(e) {message(e);NaN})
 
   # Return the correct number of rows depending on the variable type
