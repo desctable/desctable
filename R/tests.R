@@ -11,7 +11,7 @@ testify <- function(x, f, group) {
   # Extract the name of the function
   fun <- as.character(f)[2]
 
-  fun <- sub("\\(?<=s*\\.\\s*,?\\s*", "", fun)
+  fun <- sub("(?<=\\()s*\\.\\s*,?\\s*", "", fun, perl = T)
   fun <- sub("\\(\\)", "", fun)
 
   # Get the function from formula
