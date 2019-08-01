@@ -245,8 +245,7 @@ testColumn <- function(df, tests, grp) {
   ftests[names(ftests) %in% forced_tests][forced_tests] <- tests[forced_tests]
 
   # Compute the tests (made safe with testify) on the variable, using the grouping variable
-  df %>%
-    purrr::map2(ftests, testify, group) %>%
+  mapply(testify, df, ftests, MoreArgs = list(group = group), SIMPLIFY = F) %>%
     Reduce(f = rbind)
 }
 
