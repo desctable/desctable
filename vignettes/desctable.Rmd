@@ -98,7 +98,7 @@ How does it work, and how can you adapt this behavior to your needs?
     * statistical functions
     * formulas describing conditions to use a statistical function.
 
-For formulas, please note the use of `as_function` function from package **rlang** to retrieve the user input. As a leverage of tidyverse, the **(.)** argument can be used in anonymous functions or named one, prefixing the function by a **~**.
+As a leverage of tidyverse, tidy formulas can be used to compute the statistical descriptions.
 
 ### Automatic function
 
@@ -283,7 +283,7 @@ But what if you want to pick a specific test for a specific variable, or change 
   * an automatic function to select appropriate statistical test functions
   * or a named list of statistical test functions
 
-The named list can contain named functions such as `t.test` prefixed with *~* but also pipelines using *pipe* character from **magrittr** and **(.)** argument. Please note, the necessity to use **~** before any function, due to use of **rlang** `as_function`  function.
+The named list can contain named functions such as `t.test` prefixed with *~*. Please note the necessity to use **~** before any function as a leverage of tidyverse formulas.
 
 ### Automatic function
 
@@ -346,43 +346,3 @@ The conditions are that the function
 * returns an object with a `p.value` element.
 
 Several convenience function are provided: formula versions for `chisq.test` and `fisher.test` using generic S3 methods (thus the behavior of standard calls to `chisq.test` and `fisher.test` are not modified), and `ANOVA`, a partial application of `oneway.test` with parameter *var.equal* = T.
-
-# Tips and tricks
-
-In the *stats* argument, you can not only feed function names, but even arbitrary function definitions, functional sequences (a feature provided with the pipe (`%>%`)), or partial applications (with the **purrr** package):
-
-```{r}
-mtcars %>%
-  desctable(stats = list("N"              = length,
-                         "Sum of squares" = ~sum(.^2),
-                         "Q1"             = ~quantile(., prob = .25),
-                         "Q3"             = purrr::partial(quantile, probs = .75))) %>%
-  datatable()
-```
-<br>
-
-In the *tests* arguments, you can also provide function definitions, functional sequences, and partial applications in the formulas:
-```{r}
-iris %>%
-  group_by(Species) %>%
-  desctable(tests = list(.auto = tests_auto,
-                         Sepal.Width = ~oneway.test(., var.equal = F),
-                         Petal.Length = ~oneway.test(.,var.equal = T),
-                         Sepal.Length = ~purrr::partial(oneway.test, var.equal = T))) %>%
-  datatable()
-```
-<br>
-
-This allows you to modulate the behavior of `desctable` in every detail, such as using paired tests, or non *htest* tests.
-```{r}
-# This is a contrived example, which would be better solved with a dedicated function
-library(survival)
-
-bladder$surv <- Surv(bladder$stop, bladder$event)
-
-bladder %>%
-  group_by(rx) %>%
-  desctable(tests = list(.default = ~wilcox.test(.),
-                         surv = ~survdiff(.) %>% .$chisq %>% pchisq(1, lower.tail = F) %>% list(p.value = .))) %>%
-  datatable()
-```
