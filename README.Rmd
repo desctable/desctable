@@ -114,7 +114,8 @@ How does it work, and how can you adapt this behavior to your needs?
   * or a named list of
     * statistical functions
     * formulas describing conditions to use a statistical function.
-
+    
+For formulas, please note the use of `as_function` function from package **rlang** to retrieve the user input. As a leverage of tidyverse, the **(.)** argument can be used in anonymous functions or named one, prefixing the function by a **~**.
 
 ### Automatic function
 
@@ -158,21 +159,14 @@ This is necessary for most statistical functions to be useful, and makes **N** (
 
 ### Conditional formulas
 
-The general form of these formulas is
-
-```{r, eval = F}
-predicate_function ~ stat_function_if_TRUE | stat_function_if_FALSE
-```
-
-A predicate function is any function returning either `TRUE` or `FALSE` when applied on a vector, such as `is.factor`, `is.numeric`, and `is.logical`.  
+These formulas use the `if/else` statements to permit multiple tests upon the type of variable. They can use functions such as `is.factor`, `is.numeric`, and `is.logical`.  
 **desctable** provides the `is.normal` function to test for normality (it is equivalent to `length(na.omit(x)) > 30 & shapiro.test(x)$p.value > .1`).
 
 The *FALSE* option can be omitted and `NA` will be produced if the condition in the predicate is not met.
 
-These statements can be nested using parentheses.  
 For example:
 
-`is.factor ~ percent | (is.normal ~ mean)`
+`~if(is.factor(.)) percent(.) else if (is.normal(.)) mean(.))`
 
 will either use `percent` if the variable is a factor, or `mean` if and only if the variable is normally distributed.
 
@@ -181,9 +175,10 @@ You can mix "bare" statistical functions and formulas in the list defining the s
 ```{r}
 iris %>%
   desctable(stats = list("N"      = length,
-                         "%/Mean" = is.factor ~ percent | (is.normal ~ mean),
-                         "Median" = is.normal ~ NA | median)) %>%
-  pander()
+                         "%/Mean" = ~if (is.factor(.)) percent(.)
+                         else if (is.normal(.)) mean(.),
+                         "Median" = ~if(!is.normal(.)) median(.))) %>%
+  datatable()
 ```
 <br>
 
@@ -304,6 +299,8 @@ But what if you want to pick a specific test for a specific variable, or change 
   * an automatic function to select appropriate statistical test functions
   * or a named list of statistical test functions
 
+The named list can contain named functions such as `t.test` prefixed with *~* but also pipelines using *pipe* character from **magrittr** and **(.)** argument. Please note, the necessity to use **~** before any function, due to use of **rlang** `as_function`  function.
+
 ### Automatic function
 
 This is the default, using the `tests_auto` function provided in the package.
@@ -340,7 +337,7 @@ This is done using list items named as the variable and containing a single-term
 iris %>%
   group_by(Petal.Length > 5) %>%
   desctable(tests = list(.auto   = tests_auto,
-                         Species = ~chisq.test)) %>%
+                         Species = ~chisq.test(.))) %>%
   pander()
 ```
 <br>
@@ -349,8 +346,8 @@ iris %>%
 mtcars %>%
   dplyr::mutate(am = factor(am, labels = c("Automatic", "Manual"))) %>%
   group_by(am) %>%
-  desctable(tests = list(.default = ~wilcox.test,
-                         mpg      = ~t.test)) %>%
+  desctable(tests = list(.default = ~wilcox.test(.),
+                         mpg      = ~t.test(.))) %>%
   pander()
 ```
 <br>
@@ -373,8 +370,8 @@ In the *stats* argument, you can not only feed function names, but even arbitrar
 ```{r}
 mtcars %>%
   desctable(stats = list("N"              = length,
-                         "Sum of squares" = function(x) sum(x^2),
-                         "Q1"             = . %>% quantile(prob = .25),
+                         "Sum of squares" = ~sum(.^2),
+                         "Q1"             = ~quantile(.,prob = .25),
                          "Q3"             = purrr::partial(quantile, probs = .75))) %>%
   pander()
 ```
@@ -385,8 +382,8 @@ In the *tests* arguments, you can also provide function definitions, functional 
 iris %>%
   group_by(Species) %>%
   desctable(tests = list(.auto = tests_auto,
-                         Sepal.Width = ~function(f) oneway.test(f, var.equal = F),
-                         Petal.Length = ~. %>% oneway.test(var.equal = T),
+                         Sepal.Width = ~oneway.test(., var.equal = F),
+                         Petal.Length = ~oneway.test(.,var.equal = T),
                          Sepal.Length = ~purrr::partial(oneway.test, var.equal = T))) %>%
   pander()
 ```
@@ -401,7 +398,7 @@ bladder$surv <- Surv(bladder$stop, bladder$event)
 
 bladder %>%
   group_by(rx) %>%
-  desctable(tests = list(.default = ~wilcox.test,
-                         surv = ~. %>% survdiff %>% .$chisq %>% pchisq(1, lower.tail = F) %>% list(p.value = .))) %>%
+  desctable(tests = list(.default = ~wilcox.test(.),
+                         surv = ~survdiff(.) %>% .$chisq %>% pchisq(1, lower.tail = F) %>% list(p.value = .))) %>%
   pander()
 ```
