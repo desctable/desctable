@@ -155,7 +155,7 @@ header <- function(desctable, output = c("pander", "datatable", "dataframe")) {
 #'
 #' @param desctable a desctable
 #' @return a nested list of headers with colspans
-headerlist <- function(desctable) {
+headerList <- function(desctable) {
   if (is.data.frame(desctable)) length(desctable)
   else {
     rec <- lapply(desctable, headerList)
