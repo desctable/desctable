@@ -13,61 +13,51 @@
 #' @param x A vector
 #' @export
 #' @return The results for the function applied on the vector, compatible with the format of the result table
-statify <- function(x, f)
-{
+statify <- function(x, f) {
   UseMethod("statify", f)
 }
 
 
 #' @rdname statify
 #' @export
-statify.default <- function(x, f)
-{
-  x <- x %>% stats::na.omit()
+statify.default <- function(x, f) {
+  # Discard NA values
+  x <- stats::na.omit(x)
 
   # Try f(x), silent warnings and fail with NA
-  res <- tryCatch(x %>% f,
-                  warning = function(e) suppressWarnings(x %>% f),
+  res <- tryCatch(f(x),
+                  warning = function(e) suppressWarnings(f(x)),
                   error = function(e) NA)
 
   # If x is a factor and f(x) behaves as expected (nlevel + total value), return f(x), or apply f(x) on each level, or fail with n+1 NA
-  # If it is a numeric, return f(x) if it behaves as expected (ONE value), or fail with NA
-  if (x %>% is.factor)
-  {
-    if (length(res) == nlevels(x) + 1)
-      res
-    else if (length(res) == 1)
-      c(res, lapply(levels(x), function(lvl)
-                    {
+  if (is.factor(x)) {
+    if (length(res) == nlevels(x) + 1) res
+    else if (length(res) == 1) {
+      c(res, lapply(levels(x), function(lvl) {
                       tryCatch(f(x[x == lvl]),
                                warning = function(e) suppressWarnings(f(x[x == lvl])),
                                error = function(e) NA)
                     }) %>% unlist)
-    else
-      rep(NA, nlevels(x) + 1)
-  } else
-  {
-    if (length(res) == 1)
-      if (res %>% is.numeric | res %>% is.na)
-        res
-      else
-        res %>% as.character
-    else
-      NA
+    }
+    else rep(NA, nlevels(x) + 1)
+  # If it is a numeric, return f(x) if it behaves as expected (ONE value), or fail with NA
+  } else {
+    if (length(res) == 1) {
+      if (is.numeric(res) | is.na(res)) res
+      else as.character(res)
+    }
+    else NA
   }
 }
 
 
 #' @rdname statify
 #' @export
-statify.formula <- function(x, f)
-{
+statify.formula <- function(x, f) {
   # if expression quoted with ~, evaluate the expression
-  if (length(f) == 2)
-    eval(f[[2]])
+  if (length(f) == 2) eval(f[[2]])
   # else parse the formula (cond ~ T | F)
-  else
-    statify.default(x, parse_formula(x, f))
+  else statify.default(x, parse_formula(x, f))
 }
 
 
@@ -88,8 +78,7 @@ statify.formula <- function(x, f)
 #' @param data The dataframe to apply the statistic to
 #' @return A list of statistics to use, potentially assessed from the dataframe
 #' @export
-stats_default <- function(data)
-{
+stats_default <- function(data) {
   list("N" = length,
        "%" = percent,
        "Mean" = is.normal ~ mean,
@@ -101,8 +90,7 @@ stats_default <- function(data)
 
 #' @rdname stats_default
 #' @export
-stats_normal <- function(data)
-{
+stats_normal <- function(data) {
   list("N" = length,
        "%" = percent,
        "Mean" = mean,
@@ -112,8 +100,7 @@ stats_normal <- function(data)
 
 #' @rdname stats_default
 #' @export
-stats_nonnormal <- function(data)
-{
+stats_nonnormal <- function(data) {
   list("N" = length,
        "%" = percent,
        "Median" = stats::median,
@@ -123,47 +110,39 @@ stats_nonnormal <- function(data)
 
 #' @rdname stats_default
 #' @export
-stats_auto <- function(data)
-{
+stats_auto <- function(data) {
   data %>%
     Filter(f = is.numeric) %>%
     lapply(is.normal) %>%
     unlist() -> shapiro
 
-  if (length(shapiro) == 0)
-  {
+  if (length(shapiro) == 0) {
     normal <- F
     nonnormal <- F
-  }
-  else
-  {
-    any(shapiro) -> normal
-    any(!shapiro) -> nonnormal
+  } else {
+    normal <- any(shapiro)
+    nonnormal <- any(!shapiro)
   }
 
-  any(data %>% lapply(is.factor) %>% unlist()) -> fact
+  data %>%
+    lapply(is.factor) %>%
+    unlist() %>%
+    any() -> fact
 
-  if (fact & normal & !nonnormal)
-    stats_normal(data)
-  else if (fact & !normal & nonnormal)
-    stats_nonnormal(data)
-  else if (fact & !normal & !nonnormal)
-    list("N" = length,
-         "%" = percent)
-  else if (!fact & normal & nonnormal)
-    list("N" = length,
-         "Mean" = is.normal ~ mean,
-         "sd" = is.normal ~ sd,
-         "Med" = stats::median,
-         "IQR" = is.factor ~ NA | IQR)
-  else if (!fact & normal & !nonnormal)
-    list("N" = length,
-         "Mean" = mean,
-         "sd" = stats::sd)
-  else if (!fact & !normal & nonnormal)
-    list("N" = length,
-         "Med" = stats::median,
-         "IQR" = IQR)
-  else
-    stats_default(data)
+  if (fact & normal & !nonnormal)       stats_normal(data)
+  else if (fact & !normal & nonnormal)  stats_nonnormal(data)
+  else if (fact & !normal & !nonnormal) list("N" = length,
+                                             "%" = percent)
+  else if (!fact & normal & nonnormal)  list("N" = length,
+                                             "Mean" = is.normal ~ mean,
+                                             "sd" = is.normal ~ sd,
+                                             "Med" = stats::median,
+                                             "IQR" = is.factor ~ NA | IQR)
+  else if (!fact & normal & !nonnormal) list("N" = length,
+                                             "Mean" = mean,
+                                             "sd" = stats::sd)
+  else if (!fact & !normal & nonnormal) list("N" = length,
+                                             "Med" = stats::median,
+                                             "IQR" = IQR)
+  else                                  stats_default(data)
 }

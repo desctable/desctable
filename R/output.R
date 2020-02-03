@@ -4,9 +4,8 @@
 #' @param ... Additional print parameters
 #' @return A flat dataframe
 #' @export
-print.desctable <- function(x, ...)
-{
-  print(x %>% as.data.frame())
+print.desctable <- function(x, ...) {
+  print(as.data.frame(x))
 }
 
 
@@ -16,13 +15,15 @@ print.desctable <- function(x, ...)
 #' @param ... Additional as.data.frame parameters
 #' @return A flat dataframe
 #' @export
-as.data.frame.desctable <- function(x, ...)
-{
+as.data.frame.desctable <- function(x, ...) {
+  # Discard "markdown" formatting of variable names
   x$Variables$Variables <- gsub("\\*\\*(.*?)\\*\\*", "\\1", x$Variables$Variables)
   x$Variables$Variables <- gsub("\\*(.*?)\\*", "\\1", x$Variables$Variables)
 
-  header <- x %>% header("dataframe")
+  # Create a dataframe header
+  header <- header(x, "dataframe")
 
+  # Make a standard dataframe
   x %>%
     flatten_desctable() %>%
     data.frame(check.names = F, ...) %>%
@@ -47,15 +48,16 @@ pander.desctable <- function(x = NULL,
                              keep.line.breaks = T,
                              split.tables = Inf,
                              emphasize.rownames = F,
-                             ...)
-{
-  if (is.null(digits))
-    digits <- pander::panderOptions("digits")
+                             ...) {
+  if (is.null(digits)) digits <- pander::panderOptions("digits")
 
+  # Discard "markdown" and insert 4 NbSp before factor levels
   x$Variables$Variables <- gsub("\\*\\*(.*?)\\*\\*: \\*(.*?)\\*", "&nbsp;&nbsp;&nbsp;&nbsp;\\2", x$Variables$Variables)
 
-  header <- x %>% header("pander")
+  # Create a pander header
+  header <- header(x, "pander")
 
+  # Make a dataframe and push it to pandoc
   x %>%
     flatten_desctable %>%
     data.frame(check.names = F, stringsAsFactors = F) %>%
@@ -107,8 +109,7 @@ pander.desctable <- function(x = NULL,
 #' ###
 #' @inheritParams DT::datatable
 #' @export
-datatable <- function(data, ...)
-{
+datatable <- function(data, ...) {
   UseMethod("datatable", data)
 }
 
@@ -130,8 +131,7 @@ datatable.default <- function(data,
                               autoHideNavigation = getOption("DT.autoHideNavigation", NULL),
                               selection = c("multiple", "single", "none"),
                               extensions = list(),
-                              plugins = NULL, ...)
-{
+                              plugins = NULL, ...) {
   DT::datatable(data, options = options, class = class, callback = callback, caption = caption, filter = filter, escape = escape, style = style, width = width, height = height, elementId = elementId, fillContainer = fillContainer, autoHideNavigation = autoHideNavigation, selection = selection, extensions = extensions, plugins = plugins, ...)
 }
 
@@ -162,19 +162,26 @@ datatable.desctable <- function(data,
                                 extensions = c("FixedHeader", "FixedColumns", "Buttons"),
                                 plugins = NULL,
                                 rownames = F,
-                                digits = 2, ...)
-{
+                                digits = 2, ...) {
+  # Discard "markdown" and insert 4 NbSp before factor levels
   data$Variables$Variables <- gsub("\\*\\*(.*?)\\*\\*: \\*(.*?)\\*", "&nbsp;&nbsp;&nbsp;&nbsp;\\2", data$Variables$Variables)
   data$Variables$Variables <- gsub("\\*\\*(.*?)\\*\\*", "<b>\\1</b>", data$Variables$Variables)
 
-  header <- data %>% header("datatable")
+  # Create a datatable header
+  header <- header(data, "datatable")
 
-  data %>%
-  flatten_desctable() -> flat
+  # Flatten desctable
+  flat <- flatten_desctable(data)
 
+  # Replace NAs and apply digits arg
   if (!is.null(digits))
-    flat <- flat %>% lapply(prettyNum, digits = digits) %>% lapply(gsub, pattern = "^NA$", replacement = "")
+  {
+    flat %>%
+      lapply(prettyNum, digits = digits) %>%
+      lapply(gsub, pattern = "^NA$", replacement = "") -> flat
+  }
 
+  # Make a dataframe and push it to datatable, with its custom header
   flat %>%
     data.frame(check.names = F, stringsAsFactors = F) %>%
     DT::datatable(container = header,

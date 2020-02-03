@@ -1,3 +1,9 @@
+Version 0.1.8
+
+- Code cleanup:
+  - use RStudio style guidelines for all code and docs
+  - use fewer tidyverse functions internally, drop `purrr` dependancy
+
 Version 0.1.7
 
 - Vignette and README with RStudio style guidelines
