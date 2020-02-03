@@ -122,7 +122,7 @@ varColumn <- function(data, labels = NULL)
 #' @export
 #' @examples
 #' iris %>%
-#'   desctable
+#'   desctable()
 #'
 #' # Does the same as stats_auto here
 #' iris %>%

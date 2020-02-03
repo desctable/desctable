@@ -6,14 +6,35 @@
 \alias{fisher.test.formula}
 \title{Fisher's Exact Test for Count Data}
 \usage{
-fisher.test(x, y, workspace, hybrid, control, or, alternative, conf.int,
-  conf.level, simulate.p.value, B)
+fisher.test(
+  x,
+  y,
+  workspace,
+  hybrid,
+  control,
+  or,
+  alternative,
+  conf.int,
+  conf.level,
+  simulate.p.value,
+  B
+)
 
 \method{fisher.test}{default}(x, ...)
 
-\method{fisher.test}{formula}(x, y = NULL, workspace = 200000,
-  hybrid = F, control = list(), or = 1, alternative = "two.sided",
-  conf.int = T, conf.level = 0.95, simulate.p.value = F, B = 2000)
+\method{fisher.test}{formula}(
+  x,
+  y = NULL,
+  workspace = 200000,
+  hybrid = F,
+  control = list(),
+  or = 1,
+  alternative = "two.sided",
+  conf.int = T,
+  conf.level = 0.95,
+  simulate.p.value = F,
+  B = 2000
+)
 }
 \arguments{
 \item{x}{either a two-dimensional contingency table in matrix form, a factor object, or a formula of the form \code{lhs ~ rhs} where \code{lhs} and \code{rhs} are factors.}
