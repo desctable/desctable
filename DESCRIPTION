@@ -1,7 +1,8 @@
 Package: desctable
 Title: Produce Descriptive and Comparative Tables Easily
 Version: 0.1.7
-Authors@R: person("Maxime", "Wack", email = "maximewack@free.fr", role = c("aut", "cre"))
+Authors@R: c(person("Maxime", "Wack", email = "maximewack@free.fr", role = c("aut", "cre")),
+             person("Adrien", "Boukobza", email = "hadrien_b@hotmail.fr", role = c("aut")))
 Description: Easily create descriptive and comparative tables.
     It makes use and integrates directly with the tidyverse family of packages, and pipes.
     Tables are produced as data frames/lists of data frames for easy manipulation after creation,
@@ -24,5 +25,5 @@ Suggests:
     rmarkdown,
     purrr,
     survival
-RoxygenNote: 6.1.1
+RoxygenNote: 7.0.2
 VignetteBuilder: knitr

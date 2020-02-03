@@ -4,9 +4,16 @@
 \alias{pander.desctable}
 \title{Pander method for desctable}
 \usage{
-pander.desctable(x = NULL, digits = 2, justify = "left",
-  missing = "", keep.line.breaks = T, split.tables = Inf,
-  emphasize.rownames = F, ...)
+pander.desctable(
+  x = NULL,
+  digits = 2,
+  justify = "left",
+  missing = "",
+  keep.line.breaks = T,
+  split.tables = Inf,
+  emphasize.rownames = F,
+  ...
+)
 }
 \arguments{
 \item{x}{A desctable}
