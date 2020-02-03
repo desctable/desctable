@@ -8,26 +8,48 @@
 \usage{
 datatable(data, ...)
 
-\method{datatable}{default}(data, options = list(), class = "display",
-  callback = DT::JS("return table;"), caption = NULL,
-  filter = c("none", "bottom", "top"), escape = TRUE,
-  style = "default", width = NULL, height = NULL, elementId = NULL,
+\method{datatable}{default}(
+  data,
+  options = list(),
+  class = "display",
+  callback = DT::JS("return table;"),
+  caption = NULL,
+  filter = c("none", "bottom", "top"),
+  escape = TRUE,
+  style = "default",
+  width = NULL,
+  height = NULL,
+  elementId = NULL,
   fillContainer = getOption("DT.fillContainer", NULL),
   autoHideNavigation = getOption("DT.autoHideNavigation", NULL),
-  selection = c("multiple", "single", "none"), extensions = list(),
-  plugins = NULL, ...)
+  selection = c("multiple", "single", "none"),
+  extensions = list(),
+  plugins = NULL,
+  ...
+)
 
-\method{datatable}{desctable}(data, options = list(paging = F, info = F,
-  search = F, dom = "Brtip", fixedColumns = T, fixedHeader = T, buttons =
-  c("copy", "excel")), class = "display",
-  callback = DT::JS("return table;"), caption = NULL,
-  filter = c("none", "bottom", "top"), escape = FALSE,
-  style = "default", width = NULL, height = NULL, elementId = NULL,
+\method{datatable}{desctable}(
+  data,
+  options = list(paging = F, info = F, search = F, dom = "Brtip", fixedColumns = T,
+    fixedHeader = T, buttons = c("copy", "excel")),
+  class = "display",
+  callback = DT::JS("return table;"),
+  caption = NULL,
+  filter = c("none", "bottom", "top"),
+  escape = FALSE,
+  style = "default",
+  width = NULL,
+  height = NULL,
+  elementId = NULL,
   fillContainer = getOption("DT.fillContainer", NULL),
   autoHideNavigation = getOption("DT.autoHideNavigation", NULL),
   selection = c("multiple", "single", "none"),
   extensions = c("FixedHeader", "FixedColumns", "Buttons"),
-  plugins = NULL, rownames = F, digits = 2, ...)
+  plugins = NULL,
+  rownames = F,
+  digits = 2,
+  ...
+)
 }
 \arguments{
 \item{data}{a data object (either a matrix or a data frame)}
@@ -65,10 +87,15 @@ to escape the whole table, and \code{FALSE} means not to escape it;
 alternatively, you can specify numeric column indices or column names to
 indicate which columns to escape, e.g. \code{1:5} (the first 5 columns),
 \code{c(1, 3, 4)}, or \code{c(-1, -3)} (all columns except the first and
-third), or \code{c('Species', 'Sepal.Length')}}
+third), or \code{c('Species', 'Sepal.Length')}; since the row names take
+the first column to display, you should add the numeric column indices
+by one when using \code{rownames}}
 
 \item{style}{the style name (\url{http://datatables.net/manual/styling/});
-currently only \code{'default'} and \code{'bootstrap'} are supported}
+currently only \code{'default'}, \code{'bootstrap'}, and
+\code{'bootstrap4'} are supported. Note that DT doesn't contain the theme
+files so in order to display the style correctly, you have to link
+the necessary files in the header.}
 
 \item{width}{Width/Height in pixels (optional, defaults to automatic
 sizing)}
@@ -99,7 +126,8 @@ extensions (\url{https://datatables.net/extensions/index})}
 
 \item{plugins}{a character vector of the names of DataTables plug-ins
 (\url{https://rstudio.github.io/DT/plugins.html}).  Note that only those
-plugins supported by the \code{DT} package can be used here.}
+plugins supported by the \code{DT} package can be used here. You can see
+the available plugins by calling \code{DT:::available_plugins()}}
 
 \item{rownames}{\code{TRUE} (show row names) or \code{FALSE} (hide row names)
 or a character vector of row names; by default, the row names are displayed

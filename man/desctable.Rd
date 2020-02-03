@@ -8,11 +8,9 @@
 \usage{
 desctable(data, stats, tests, labels)
 
-\method{desctable}{default}(data, stats = stats_auto, tests,
-  labels = NULL)
+\method{desctable}{default}(data, stats = stats_auto, tests, labels = NULL)
 
-\method{desctable}{grouped_df}(data, stats = stats_auto,
-  tests = tests_auto, labels = NULL)
+\method{desctable}{grouped_df}(data, stats = stats_auto, tests = tests_auto, labels = NULL)
 }
 \arguments{
 \item{data}{The dataframe to analyze}
