@@ -1,3 +1,7 @@
+Version 0.1.9
+
+- Fix in default options for datatable output to follow DT update
+
 Version 0.1.8
 
 - Code cleanup:
