@@ -30,7 +30,7 @@ datatable(data, ...)
 
 \method{datatable}{desctable}(
   data,
-  options = list(paging = F, info = F, search = F, dom = "Brtip", fixedColumns = T,
+  options = list(paging = F, info = F, search = list(), dom = "Brtip", fixedColumns = T,
     fixedHeader = T, buttons = c("copy", "excel")),
   class = "display",
   callback = DT::JS("return table;"),
