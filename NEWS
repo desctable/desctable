@@ -1,6 +1,7 @@
 Version 0.1.9
 
 - Fix in default options for datatable output to follow DT update
+- Fix pander export for R ≥ 4.0.0
 
 Version 0.1.8
 
