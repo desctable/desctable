@@ -7,7 +7,7 @@ output: github_document
 knitr::opts_chunk$set(message = F, warning = F)
 ```
 
-[![Travis-CI Build Status](https://travis-ci.org/MaximeWack/desctable.svg?branch=master)](https://travis-ci.org/MaximeWack/desctable)  [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/desctable)](https://cran.r-project.org/package=desctable) [![CRAN RStudio mirror downloads](http://cranlogs.r-pkg.org/badges/desctable)](http://www.r-pkg.org/pkg/desctable)
+[![Travis-CI Build Status](https://travis-ci.org/MaximeWack/desctable.svg?branch=master)](https://travis-ci.org/MaximeWack/desctable)  [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/desctable)](https://cran.r-project.org/package=desctable) [![CRAN RStudio mirror downloads](http://cranlogs.r-pkg.org/badges/desctable)](https://www.r-pkg.org:443/pkg/desctable)
 
 # Introduction
 
