@@ -2,14 +2,12 @@
 title: "desctable usage vignette"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{desctable usage}
+  %\VignetteIndexEntry{desctable usage vignette}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
 
 ```{r, echo = F, message = F, warning = F}
-library(pander)
-library(DT)
 library(desctable)
 
 options(DT.options = list(#scrollX = T,
@@ -72,8 +70,6 @@ mtcars %>%
   datatable()
 ```
 <br>
-You need to load these two packages first (and prior to **desctable** for **DT**) if you want to use them.
-
 Calls to `pander` and `datatable` with "regular" dataframes will not be affected by the defaults used in the package, and you can modify these defaults for **desctable** objects.
 
 Subsequent outputs in this vignette section will use **DT**. The `datatable` wrapper function for desctable objects comes with some default options and formatting such as freezing the row names and table header, export buttons, and rounding of values. Both `pander` and `datatable` wrapper take a *digits* argument to set the number of decimals to show. (`pander` uses the *digits*, *justify* and *missing* arguments of `pandoc.table`, whereas `datatable` calls `prettyNum` with the `digits` parameter, and removes `NA` values. You can set `digits = NULL` if you want the full table and format it yourself)
