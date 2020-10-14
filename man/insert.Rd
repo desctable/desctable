@@ -7,9 +7,9 @@
 insert(x, y, position)
 }
 \arguments{
-\item{x}{A vector}
+\item{x}{A vector to be inserted into}
 
-\item{y}{A vector or list of vectors}
+\item{y}{A vector or list of vectors to insert into x}
 
 \item{position}{The position / vector of positions to insert vector(s) y in vector x}
 }
@@ -17,5 +17,6 @@ insert(x, y, position)
 The combined vector
 }
 \description{
-Insert a vector y inside another vector x at position
+The vectors in the y list will be inserted
+at positions respectively *after* the x[position] element of x
 }

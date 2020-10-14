@@ -15,5 +15,10 @@ statColumn(stat, data)
 A vector for one statistic column
 }
 \description{
-Generate one statistic for all variables
+Use one stat function (made safe using statify) on all the data
+to produce a single statistics column.
+}
+\details{
+The result is either a numeric vector, or a character vector if
+the content of the column is not made entirely of numbers.
 }
