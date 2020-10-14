@@ -9,7 +9,8 @@ Description: Easily create descriptive and comparative tables.
     Tables are produced as data frames/lists of data frames for easy manipulation after creation,
     and ready to be saved as csv, or piped to DT::datatable() or pander::pander() to integrate into reports.
 Depends:
-    R (>= 3.2.3)
+    R (>= 3.2.3),
+    pander
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
@@ -18,8 +19,7 @@ BugReports: https://github.com/maximewack/desctable/issues
 Imports:
     dplyr,
     DT,
-    htmltools,
-    pander
+    htmltools
 Suggests:
     knitr,
     rmarkdown,
