@@ -5,6 +5,7 @@
 \alias{reexports}
 \alias{\%>\%}
 \alias{group_by}
+\alias{pander}
 \title{Objects exported from other packages}
 \keyword{internal}
 \description{
@@ -13,5 +14,7 @@ below to see their documentation.
 
 \describe{
   \item{dplyr}{\code{\link[dplyr:reexports]{\%>\%}}, \code{\link[dplyr]{group_by}}}
+
+  \item{pander}{\code{\link[pander]{pander}}}
 }}
 
