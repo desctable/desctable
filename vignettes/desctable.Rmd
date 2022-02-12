@@ -2,14 +2,12 @@
 title: "desctable usage vignette"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{desctable usage}
+  %\VignetteIndexEntry{desctable usage vignette}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
 
 ```{r, echo = F, message = F, warning = F}
-library(pander)
-library(DT)
 library(desctable)
 
 options(DT.options = list(#scrollX = T,

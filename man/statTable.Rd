@@ -15,5 +15,7 @@ statTable(data, stats)
 A dataframe of all statistics for all variables
 }
 \description{
-Generate the table of all statistics for all variables
+If stats is a list of functions, use them.
+If it is a single function, use it with the entire data as
+its argument to produce a list of statistical functions to use.
 }

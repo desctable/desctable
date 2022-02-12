@@ -79,7 +79,7 @@ pander.desctable <- function(x = NULL,
 #' @note
 #' You are recommended to escape the table content for security reasons (e.g. XSS attacks) when using this function in Shiny or any other dynamic web applications.
 #' @references
-#' See \url{http://rstudio.github.io/DT} for the full documentation.
+#' See \url{https://rstudio.github.io/DT} for the full documentation.
 #' @examples
 #' library(DT)
 #'
@@ -142,7 +142,7 @@ datatable.default <- function(data,
 datatable.desctable <- function(data,
                                 options = list(paging = F,
                                                info = F,
-                                               search = F,
+                                               search = list(),
                                                dom = "Brtip",
                                                fixedColumns = T,
                                                fixedHeader = T,

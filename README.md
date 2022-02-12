@@ -5,9 +5,10 @@ Desctable
 Status](https://travis-ci.org/MaximeWack/desctable.svg?branch=master)](https://travis-ci.org/MaximeWack/desctable)
 [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/desctable)](https://cran.r-project.org/package=desctable)
 [![CRAN RStudio mirror
-downloads](http://cranlogs.r-pkg.org/badges/desctable)](http://www.r-pkg.org/pkg/desctable)
+downloads](http://cranlogs.r-pkg.org/badges/desctable)](https://www.r-pkg.org:443/pkg/desctable)
 
-# Introduction
+Introduction
+============
 
 Desctable is a comprehensive descriptive and comparative tables
 generator for R.
@@ -24,16 +25,17 @@ the pipe (`%>%`)).
 Enter **desctable**, a package built with the following objectives in
 mind:
 
-  - generate descriptive and comparative statistics tables with nesting
-  - keep the syntax as simple as possible
-  - have good reasonable defaults
-  - be entirely customizable, using standard R tools and functions
-  - produce the simplest (as a data structure) output possible
-  - provide helpers for different outputs
-  - integrate with “modern” R usage, and the **tidyverse** set of tools
-  - apply functional paradigms
+-   generate descriptive and comparative statistics tables with nesting
+-   keep the syntax as simple as possible
+-   have good reasonable defaults
+-   be entirely customizable, using standard R tools and functions
+-   produce the simplest (as a data structure) output possible
+-   provide helpers for different outputs
+-   integrate with “modern” R usage, and the **tidyverse** set of tools
+-   apply functional paradigms
 
-# Installation
+Installation
+============
 
 Install from CRAN with
 
@@ -43,27 +45,22 @@ or install the development version from github with
 
     devtools::install_github("maximewack/desctable")
 
-# Loading
+Loading
+=======
 
-``` r
-# If you were to use DT, load it first
-library(DT)
-
-library(desctable)
-library(pander) # pander can be loaded at any time
-```
+    library(desctable)
 
 It is recommended to read this manual through its vignette:
 
-``` r
-vignette("desctable")
-```
+    vignette("desctable")
 
------
+------------------------------------------------------------------------
 
-# Descriptive tables
+Descriptive tables
+==================
 
-## Simple usage
+Simple usage
+------------
 
 **desctable** uses and exports the pipe (`%>%`) operator (from packages
 **magrittr** and **dplyr** fame), though it is not mandatory to use it.
@@ -73,10 +70,8 @@ function.
 
 When used on a data.frame, it returns a descriptive table:
 
-``` r
-iris %>%
-  desctable()
-```
+    iris %>%
+      desctable()
 
     ##                         N        %     Mean        sd  Med IQR
     ## 1        Sepal.Length 150       NA       NA        NA 5.80 1.3
@@ -88,9 +83,7 @@ iris %>%
     ## 7 Species: versicolor  50 33.33333       NA        NA   NA  NA
     ## 8  Species: virginica  50 33.33333       NA        NA   NA  NA
 
-``` r
-desctable(mtcars)
-```
+    desctable(mtcars)
 
     ##          N      Mean        sd     Med       IQR
     ## 1   mpg 32 20.090625 6.0269481  19.200   7.37500
@@ -113,7 +106,8 @@ functions depending on the type and distribution of the variables in the
 data, and applies those statistical functions only on the relevant
 variables.
 
-## Output
+Output
+------
 
 The object produced by `desctable` is in fact a list of data.frames,
 with a “desctable” class.  
@@ -121,11 +115,9 @@ Methods for reduction to a simple dataframe (`as.data.frame`,
 automatically used for printing), conversion to markdown (`pander`), and
 interactive html output with **DT** (`datatable`) are provided:
 
-``` r
-iris %>%
-  desctable() %>%
-  pander()
-```
+    iris %>%
+      desctable() %>%
+      pander()
 
 |              | N   | %  | Mean | sd   | Med | IQR |
 | :----------- | :-- | :- | :--- | :--- | :-- | :-- |
@@ -152,8 +144,8 @@ header, export buttons, and rounding of values. Both `pander` and
 `datatable` wrapper take a *digits* argument to set the number of
 decimals to show. (`pander` uses the *digits*, *justify* and *missing*
 arguments of `pandoc.table`, whereas `datatable` calls `prettyNum` with
-the `digits` parameter, and removes `NA` values. You can set `digits =
-NULL` if you want the full table and format it yourself)
+the `digits` parameter, and removes `NA` values. You can set
+`digits = NULL` if you want the full table and format it yourself)
 
 Subsequent outputs in this README will use **pander**.
 
@@ -162,10 +154,10 @@ Subsequent outputs in this README will use **pander**.
 `desctable` automatically chooses statistical functions if none is
 provided, using the following algorithm:
 
-  - always show N
-  - if there are factors, show %
-  - if there are normally distributed variables, show Mean and SD
-  - if there are non-normally distributed variables, show Median and IQR
+-   always show N
+-   if there are factors, show %
+-   if there are normally distributed variables, show Mean and SD
+-   if there are non-normally distributed variables, show Median and IQR
 
 For each variable in the table, compute the relevant statistical
 functions in that list (non-applicable functions will safely return
@@ -202,19 +194,17 @@ package: `stats_auto`, `stats_default`, `stats_normal`,
 
 You can also provide your own automatic function, which needs to
 
-  - accept a dataframe as its argument (whether to use this dataframe or
+-   accept a dataframe as its argument (whether to use this dataframe or
     not in the function is your choice), and
-  - return a named list of statistical functions to use, as defined in
+-   return a named list of statistical functions to use, as defined in
     the subsequent paragraphs.
 
-<!-- end list -->
+<!-- -->
 
-``` r
-# Strictly equivalent to iris %>% desctable() %>% pander()
-iris %>%
-  desctable(stats = stats_auto) %>%
-  pander()
-```
+    # Strictly equivalent to iris %>% desctable() %>% pander()
+    iris %>%
+      desctable(stats = stats_auto) %>%
+      pander()
 
 |              | N   | %  | Mean | sd   | Med | IQR |
 | :----------- | :-- | :- | :--- | :--- | :-- | :-- |
@@ -277,11 +267,9 @@ applied to factors, as is needed for the `percent` function.
 As mentioned above, they need to be used inside a **named list**, such
 as
 
-``` r
-mtcars %>%
-  desctable(stats = list("N" = length, "Mean" = mean, "SD" = sd)) %>%
-  pander()
-```
+    mtcars %>%
+      desctable(stats = list("N" = length, "Mean" = mean, "SD" = sd)) %>%
+      pander()
 
 |      | N  | Mean | SD   |
 | :--- | :- | :--- | :--- |
@@ -330,24 +318,22 @@ You don’t need to provide labels for all the variables, and extra labels
 will be silently discarded. This allows you to define a “global” labels
 vector and use it for multiple tables even after variable selections.
 
-``` r
-mtlabels <- c(mpg  = "Miles/(US) gallon",
-              cyl  = "Number of cylinders",
-              disp = "Displacement (cu.in.)",
-              hp   = "Gross horsepower",
-              drat = "Rear axle ratio",
-              wt   = "Weight (1000 lbs)",
-              qsec = "¼ mile time",
-              vs   = "V/S",
-              am   = "Transmission",
-              gear = "Number of forward gears",
-              carb = "Number of carburetors")
+    mtlabels <- c(mpg  = "Miles/(US) gallon",
+                  cyl  = "Number of cylinders",
+                  disp = "Displacement (cu.in.)",
+                  hp   = "Gross horsepower",
+                  drat = "Rear axle ratio",
+                  wt   = "Weight (1000 lbs)",
+                  qsec = "¼ mile time",
+                  vs   = "V/S",
+                  am   = "Transmission",
+                  gear = "Number of forward gears",
+                  carb = "Number of carburetors")
 
-mtcars %>%
-  dplyr::mutate(am = factor(am, labels = c("Automatic", "Manual"))) %>%
-  desctable(labels = mtlabels) %>%
-  pander()
-```
+    mtcars %>%
+      dplyr::mutate(am = factor(am, labels = c("Automatic", "Manual"))) %>%
+      desctable(labels = mtlabels) %>%
+      pander()
 
 |                         | N  | %  | Mean | sd   | Med | IQR  |
 | :---------------------- | :- | :- | :--- | :--- | :-- | :--- |
@@ -367,24 +353,24 @@ mtcars %>%
 
 <br>
 
------
+------------------------------------------------------------------------
 
-# Comparative tables
+Comparative tables
+==================
 
-## Simple usage
+Simple usage
+------------
 
 Creating a comparative table (between groups defined by a factor) using
 `desctable` is as easy as creating a descriptive table.
 
 It leverages the `group_by` function from **dplyr**:
 
-``` r
-iris %>%
-  group_by(Species) %>%
-  desctable() -> iris_by_Species
+    iris %>%
+      group_by(Species) %>%
+      desctable() -> iris_by_Species
 
-iris_by_Species
-```
+    iris_by_Species
 
     ##                Species: setosa (n=50) / N Species: setosa (n=50) / Mean
     ## 1 Sepal.Length                         50                         5.006
@@ -446,9 +432,7 @@ You can also see the grouping headers by inspecting the resulting
 object, which is a nested list of dataframes, each dataframe being named
 after the grouping factor and its levels (with sample size for each).
 
-``` r
-str(iris_by_Species)
-```
+    str(iris_by_Species)
 
     ## List of 5
     ##  $ Variables                 :'data.frame':  4 obs. of  1 variable:
@@ -480,13 +464,11 @@ str(iris_by_Species)
 
 You can specify groups based on any variable, not only factors:
 
-``` r
-# With pander output
-mtcars %>%
-  group_by(cyl) %>%
-  desctable() %>%
-  pander()
-```
+    # With pander output
+    mtcars %>%
+      group_by(cyl) %>%
+      desctable() %>%
+      pander()
 
 |      | cyl: 4 (n=11)<br/>N | <br/>Med | <br/>IQR | cyl: 6 (n=7)<br/>N | <br/>Med | <br/>IQR | cyl: 8 (n=14)<br/>N | <br/>Med | <br/>IQR | tests<br/>p | <br/>test    |
 | :--- | :------------------ | :------- | :------- | :----------------- | :------- | :------- | :------------------ | :------- | :------- | :---------- | :----------- |
@@ -505,12 +487,10 @@ mtcars %>%
 
 You can also specify groups based on an expression
 
-``` r
-iris %>%
-  group_by(Petal.Length > 5) %>%
-  desctable() %>%
-  pander()
-```
+    iris %>%
+      group_by(Petal.Length > 5) %>%
+      desctable() %>%
+      pander()
 
 |              | Petal.Length \> 5: FALSE (n=108)<br/>N | <br/>% | <br/>Mean | <br/>sd | <br/>Med | <br/>IQR | Petal.Length \> 5: TRUE (n=42)<br/>N | <br/>% | <br/>Mean | <br/>sd | <br/>Med | <br/>IQR | tests<br/>p                   | <br/>test   |
 | :----------- | :------------------------------------- | :----- | :-------- | :------ | :------- | :------- | :----------------------------------- | :----- | :-------- | :------ | :------- | :------- | :---------------------------- | :---------- |
@@ -527,13 +507,11 @@ iris %>%
 
 Multiple nested groups are also possible:
 
-``` r
-mtcars %>%
-  dplyr::mutate(am = factor(am, labels = c("Automatic", "Manual"))) %>%
-  group_by(vs, am, cyl) %>%
-  desctable() %>%
-  pander()
-```
+    mtcars %>%
+      dplyr::mutate(am = factor(am, labels = c("Automatic", "Manual"))) %>%
+      group_by(vs, am, cyl) %>%
+      desctable() %>%
+      pander()
 
 |      | vs: 0 (n=18)<br/>am: Automatic (n=12)<br/>cyl: 8 (n=12)<br/>N | <br/><br/><br/>Med | <br/><br/><br/>IQR | <br/><br/>tests<br/>p | <br/><br/><br/>test | <br/>am: Manual (n=6)<br/>cyl: 4 (n=1)<br/>N | <br/><br/><br/>Med | <br/><br/><br/>IQR | <br/><br/>cyl: 6 (n=3)<br/>N | <br/><br/><br/>Med | <br/><br/><br/>IQR | <br/><br/>cyl: 8 (n=2)<br/>N | <br/><br/><br/>Med | <br/><br/><br/>IQR | <br/><br/>tests<br/>p | <br/><br/><br/>test | vs: 1 (n=14)<br/>am: Automatic (n=7)<br/>cyl: 4 (n=3)<br/>N | <br/><br/><br/>Med | <br/><br/><br/>IQR | <br/><br/>cyl: 6 (n=4)<br/>N | <br/><br/><br/>Med | <br/><br/><br/>IQR | <br/><br/>tests<br/>p | <br/><br/><br/>test | <br/>am: Manual (n=7)<br/>cyl: 4 (n=7)<br/>N | <br/><br/><br/>Med | <br/><br/><br/>IQR | <br/><br/>tests<br/>p | <br/><br/><br/>test |
 | :--- | :------------------------------------------------------------ | :----------------- | :----------------- | :-------------------- | :------------------ | :------------------------------------------- | :----------------- | :----------------- | :--------------------------- | :----------------- | :----------------- | :--------------------------- | :----------------- | :----------------- | :-------------------- | :------------------ | :---------------------------------------------------------- | :----------------- | :----------------- | :--------------------------- | :----------------- | :----------------- | :-------------------- | :------------------ | :------------------------------------------- | :----------------- | :----------------- | :-------------------- | :------------------ |
@@ -555,30 +533,31 @@ level.
 Statistical tests are automatically selected depending on the data and
 the grouping factor.
 
-## Advanced usage
+Advanced usage
+--------------
 
 `desctable` automatically chooses statistical functions if none is
 provided, using the following algorithm:
 
-  - if the variable is a factor, use `fisher.test`
-  - if the grouping factor has only one level, use the provided
+-   if the variable is a factor, use `fisher.test`
+-   if the grouping factor has only one level, use the provided
     `no.test` (which does nothing)
-  - if the grouping factor has two levels
-      - and the variable presents homoskedasticity (p value for
-        `var.test` \> .1) and normality of distribution in both groups,
-        use `t.test(var.equal = T)`
-      - and the variable does not present homoskedasticity (p value for
-        `var.test` \< .1) but normality of distribution in both groups,
-        use `t.test(var.equal = F)`
-      - else use `wilcox.test`
-  - if the grouping factor has more than two levels
-      - and the variable presents homoskedasticity (p value for
-        `bartlett.test` \> .1) and normality of distribution in all
+-   if the grouping factor has two levels
+    -   and the variable presents homoskedasticity (p value for
+        `var.test` &gt; .1) and normality of distribution in both
+        groups, use `t.test(var.equal = T)`
+    -   and the variable does not present homoskedasticity (p value for
+        `var.test` &lt; .1) but normality of distribution in both
+        groups, use `t.test(var.equal = F)`
+    -   else use `wilcox.test`
+-   if the grouping factor has more than two levels
+    -   and the variable presents homoskedasticity (p value for
+        `bartlett.test` &gt; .1) and normality of distribution in all
         groups, use `oneway.test(var.equal = T)`
-      - and the variable does not present homoskedasticity (p value for
-        `bartlett.test` \< .1) but normality of distribution in all
+    -   and the variable does not present homoskedasticity (p value for
+        `bartlett.test` &lt; .1) but normality of distribution in all
         groups, use `oneway.test(var.equal = F)`
-      - else use `kruskal.test`
+    -   else use `kruskal.test`
 
 You can specify the statistical test functions yourself with the *tests*
 argument. This argument can either be:
@@ -599,8 +578,8 @@ the package.
 
 You can also provide your own automatic function, which needs to
 
-  - accept a variable and a grouping factor as its arguments, and
-  - return a single-term formula containing a statistical test function.
+-   accept a variable and a grouping factor as its arguments, and
+-   return a single-term formula containing a statistical test function.
 
 This function will be used on every variable and every grouping factor
 to determine the appropriate test.
@@ -670,9 +649,9 @@ mechanism is a bit different from the *stats* argument.
 
 The list must contain either `.auto` or `.default`.
 
-  - `.auto` needs to be an automatic function, such as `tests_auto`. It
+-   `.auto` needs to be an automatic function, such as `tests_auto`. It
     will be used by default on all variables to select a test
-  - `.default` needs to be a single-term formula containing a
+-   `.default` needs to be a single-term formula containing a
     statistical test function that will be used on all variables
 
 You can also provide overrides to use specific tests for specific
@@ -733,10 +712,10 @@ in R can be used.
 
 The conditions are that the function
 
-  - accepts a formula (`variable ~ grouping_variable`) as a first
+-   accepts a formula (`variable ~ grouping_variable`) as a first
     positional argument (as is the case with most tests, like `t.test`),
     and
-  - returns an object with a `p.value` element.
+-   returns an object with a `p.value` element.
 
 Several convenience function are provided: formula versions for
 `chisq.test` and `fisher.test` using generic S3 methods (thus the

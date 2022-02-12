@@ -30,8 +30,8 @@ datatable(data, ...)
 
 \method{datatable}{desctable}(
   data,
-  options = list(paging = F, info = F, search = F, dom = "Brtip", fixedColumns = T,
-    fixedHeader = T, buttons = c("copy", "excel")),
+  options = list(paging = F, info = F, search = list(), dom = "Brtip", fixedColumns =
+    T, fixedHeader = T, buttons = c("copy", "excel")),
   class = "display",
   callback = DT::JS("return table;"),
   caption = NULL,
@@ -57,14 +57,14 @@ datatable(data, ...)
 \item{...}{arguments passed to \code{format}.}
 
 \item{options}{a list of initialization options (see
-\url{http://datatables.net/reference/option/}); the character options
+\url{https://datatables.net/reference/option/}); the character options
 wrapped in \code{\link[htmlwidgets]{JS}()} will be treated as literal
 JavaScript code instead of normal character strings; you can also set
 options globally via \code{\link{options}(DT.options = list(...))}, and
 global options will be merged into this \code{options} argument if set}
 
 \item{class}{the CSS class(es) of the table; see
-\url{http://datatables.net/manual/styling/classes}}
+\url{https://datatables.net/manual/styling/classes}}
 
 \item{callback}{the body of a JavaScript callback function with the argument
 \code{table} to be applied to the DataTables instance (i.e. \code{table})}
@@ -91,7 +91,7 @@ third), or \code{c('Species', 'Sepal.Length')}; since the row names take
 the first column to display, you should add the numeric column indices
 by one when using \code{rownames}}
 
-\item{style}{the style name (\url{http://datatables.net/manual/styling/});
+\item{style}{the style name (\url{https://datatables.net/manual/styling/});
 currently only \code{'default'}, \code{'bootstrap'}, and
 \code{'bootstrap4'} are supported. Note that DT doesn't contain the theme
 files so in order to display the style correctly, you have to link
@@ -115,11 +115,12 @@ when the number of total records is less than the page size.}
 \item{selection}{the row/column selection mode (single or multiple selection
 or disable selection) when a table widget is rendered in a Shiny app;
 alternatively, you can use a list of the form \code{list(mode = 'multiple',
-selected = c(1, 3, 8), target = 'row')} to pre-select rows; the element
+selected = c(1, 3, 8), target = 'row', selectable = c(-2, -3))} to
+pre-select rows and control the selectable range; the element
 \code{target} in the list can be \code{'column'} to enable column
 selection, or \code{'row+column'} to make it possible to select both rows
 and columns (click on the footer to select columns), or \code{'cell'} to
-select cells}
+select cells. See details section for more info.}
 
 \item{extensions}{a character vector of the names of the DataTables
 extensions (\url{https://datatables.net/extensions/index})}
@@ -180,5 +181,5 @@ datatable(data.frame(x = Sys.time()))
 ###
 }
 \references{
-See \url{http://rstudio.github.io/DT} for the full documentation.
+See \url{https://rstudio.github.io/DT} for the full documentation.
 }
