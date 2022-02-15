@@ -18,11 +18,10 @@ statify <- function(x, f) {
   x <- stats::na.omit(x)
 
   ## Deprecate conditional formula
-  if (length(f) > 2)
-    stop("Conditional formulas are deprecated. Replace `~ {cond} | {if_T} | {if_F}` with `~ if({cond}) {if_T} then {if_F}`")
-
-  # Use rlang to parse function or formula (as in map, etc.)
-  f <- rlang::as_function(f)
+  if (length(f) == 3)
+    f <- parse_formula(x, f)
+  else
+    f <- rlang::as_function(f)
 
   # Try f(x), silent warnings and fail with NA
   res <- tryCatch(f(x),

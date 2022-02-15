@@ -13,6 +13,11 @@ statColumn <- function(stat, data) {
   # Apply one statified stat function to every variable in the data
   # Return a simple vector for the column
   # Statify checks types and output for the stat function. Returns a numeric vector or a character vector if needed.
+  if (length(stat) == 3)
+    warning("Conditional formulas are deprecated and will be removed in 1.0.0
+purrr::map style formulas are used now.
+For example, `is.normal ~ mean | median` becomes `~ if (is.normal(.)) mean(.) else median(.)`")
+
   data %>%
     lapply(statify, stat) %>%
     unlist()
