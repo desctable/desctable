@@ -20,7 +20,6 @@ Imports:
     dplyr,
     DT,
     htmltools,
-    pander,
     rlang
 Suggests:
     knitr,

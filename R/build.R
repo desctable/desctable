@@ -145,7 +145,7 @@ varColumn <- function(data, labels = NULL) {
 #'                          "Mean"   = ~ if (is.normal(.)) mean(.),
 #'                          "sd"     = ~ if (is.normal(.)) sd(.),
 #'                          "Med"    = stats::median,
-#'                          "IQR"    = ~ if(!is.factor(.)) IQR(.))
+#'                          "IQR"    = ~ if(!is.factor(.)) IQR(.)))
 #'
 #' # With labels
 #' mtcars %>% desctable(labels = c(hp  = "Horse Power",
