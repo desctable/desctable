@@ -42,6 +42,45 @@ set_desctable_class <- function(x) {
 }
 
 
+#' Parse a formula
+#'
+#' Parse a formula defining the conditions to pick a stat/test
+#'
+#' Parse a formula defining the conditions to pick a stat/test
+#' and return the function to use.
+#' The formula is to be given in the form of
+#' conditional ~ T | F
+#' and conditions can be nested such as
+#' conditional1 ~ (conditional2 ~ T | F) | F
+#' The FALSE option can be omitted, and the TRUE can be replaced with NA
+#'
+#' @param x The variable to test it on
+#' @param f A formula to parse
+#' @return A function to use as a stat/test
+parse_formula <- function(x, f) {
+  parse_f <- function(x) {
+    if (length(x) == 1) as.character(x)
+    else {
+      if (as.character(x[[1]]) == "~") {
+        paste0("if (", parse_f(x[[2]]), "(x)) ",
+               "{",
+               parse_f(x[[3]]),
+               "}")
+      } else if (as.character(x[[1]]) == "|") {
+        paste0(parse_f(x[[2]]),
+               "} else ",
+               "{",
+               parse_f(x[[3]]))
+      } else if (as.character(x[[1]]) == "(") {
+        parse_f(x[[2]])
+      }
+    }
+  }
+
+  eval(parse(text = parse_f(f)))
+}
+
+
 #' Build the header for pander
 #'
 #' @param head A headerList object
