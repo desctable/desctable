@@ -287,7 +287,7 @@ You can specify the statistical test functions yourself with the *tests* argumen
   * a function for automatic selection of appropriate statistical test functions, depending on the data
   * a named list of statistical test functions
 
-Please note that the statistical test functions **need** to be given as *formulas* so as to capture the name of the test to display in the table.
+Please note that the statistical test functions **must** be given as *formulas* so as to capture the name of the test to display in the table.
 **purrr** style formulas are also accepted, as with the statistical functions.
 This also allows to specify optional arguments of such functions, and go around non-standard test functions (see **Statistical test functions**).
 
@@ -355,7 +355,6 @@ iris %>%
   desctable(tests = list(.auto = tests_auto,
                          Petal.Width = ~oneway.test(., var.equal = T)))
 ```
-
 <br>
 
 As with statistical functions, **any** statistical test function defined in R can be used.

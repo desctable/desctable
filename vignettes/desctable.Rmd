@@ -99,13 +99,13 @@ You can specify the statistical functions yourself with the *stats* argument. Th
 The functions/formulas leverage the **tidyverse** way of working with anonymous functions, i.e.:
 
 If a *function*, is is used as is.
-If a *formula*, e.g. '~ .x + 1', it is converted to a function. There are three ways to refer to the arguments:
+If a *formula*, e.g. '~ .x + 1' or `~ . + 1`, it is converted to a function. There are three ways to refer to the arguments:
 
   * For a single argument function, use '.'
   * For a two argument function, use '.x' and '.y'
   * For more arguments, use '..1', '..2', '..3' etc
 
-This syntax allows you to create very compact anonymous functions.
+This syntax allows you to create very compact anonymous functions, and is the same as in the `map` family of functions from **purrr**.
 
 ### Automatic function
 
@@ -273,7 +273,8 @@ You can specify the statistical test functions yourself with the *tests* argumen
   * a function for automatic selection of appropriate statistical test functions, depending on the data
   * a named list of statistical test functions
 
-Please note that the statistical test functions **need** to be given as *formulas* (to capture the name of the test to display in the table)
+Please note that the statistical test functions **must** be given as *formulas* so as to capture the name of the test to display in the table.
+**purrr** style formulas are also actepted, as with the statistical functions.
 This also allows to specify optional arguments of such functions, and go around non-standard test functions (see **Statistical test functions**).
 
 ### Automatic function
@@ -318,7 +319,7 @@ This is done using list items named as the variable and containing a single-term
 iris %>%
   group_by(Petal.Length > 5) %>%
   desctable(tests = list(.auto   = tests_auto,
-                         Species = ~chisq.test(.))) %>%
+                         Species = ~chisq.test)) %>%
   datatable()
 ```
 <br>
@@ -327,13 +328,20 @@ iris %>%
 mtcars %>%
   dplyr::mutate(am = factor(am, labels = c("Automatic", "Manual"))) %>%
   group_by(am) %>%
-  desctable(tests = list(.default = ~wilcox.test(.),
-                         mpg      = ~t.test(.))) %>%
+  desctable(tests = list(.default = ~wilcox.test,
+                         mpg      = ~t.test)) %>%
   datatable()
 ```
-<br>
 
-You might wonder why the formula expression. That is needed to capture the test name, and to provide it in the resulting table.
+Here's an example of **purrr** style function:
+
+```{r}
+iris %>%
+  group_by(Petal.Length > 5) %>%
+  desctable(tests = list(.auto = tests_auto,
+                         Petal.Width = ~oneway.test(., var.equal = T)))
+```
+<br>
 
 As with statistical functions, **any** statistical test function defined in R can be used.
 
