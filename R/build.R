@@ -21,7 +21,7 @@ statColumn <- function(stat, data) {
 
 #' Generate the table of all statistics for all variables
 #'
-#' If stats is a list of functions, use them.
+#' If stats is a list of functions or purrr::map like formulas, use them.
 #' If it is a single function, use it with the entire data as
 #' its argument to produce a list of statistical functions to use.
 #'
@@ -106,18 +106,18 @@ varColumn <- function(data, labels = NULL) {
 #' @section Stats:
 #' The stats can be a function which takes a dataframe and returns a list of statistical functions to use.
 #'
-#' stats can also be a named list of statistical functions, or formulas.
+#' stats can also be a named list of statistical functions, or purrr::map like formulas.
 #'
-#' The names will be used as column names in the resulting table. If an element of the list is a function, it will be used as-is for the stats. If an element of the list is a formula, it can be used to conditionally use stats depending on the variable.
-#'
-#' The general form is \code{condition ~ T | F}, and can be nested, such as \code{is.factor ~ percent | (is.normal ~ mean | median)}, for example.
+#' The names will be used as column names in the resulting table. If an element of the list is a function, it will be used as-is for the stats.
 #'
 #' @section Tests:
 #' The tests can be a function which takes a variable and a grouping variable, and returns an appropriate statistical test to use in that case.
 #'
-#' tests can also be a named list of statistical test functions, associating the name of a variable in the data, and a test to use specifically for that variable.
+#' tests can also be a named list of statistical test functions, associating the name of a variable in the data and a test to use specifically for that variable.
 #'
-#' That test name must be expressed as a single-term formula (e.g. \code{~t.test}). You don't have to specify tests for all the variables: a default test for all other variables can be defined with the name \code{.default}, and an automatic test can be defined with the name \code{.auto}.
+#' That test name must be expressed as a single-term formula (e.g. \code{~t.test}), or a purrr::map like formula
+#' (e.g. \code{~t.test(., var.equal = T)}). You don't have to specify tests for all the variables: a default test for
+#' all other variables can be defined with the name \code{.default}, and an automatic test can be defined with the name \code{.auto}.
 #'
 #' If data is a grouped dataframe (using \code{group_by}), subtables are created and statistic tests are performed over each sub-group.
 #'
@@ -142,10 +142,10 @@ varColumn <- function(data, labels = NULL) {
 #' # Does the same as stats_auto here
 #' iris %>%
 #'   desctable(stats = list("N"      = length,
-#'                          "%/Mean" = is.factor ~ percent | (is.normal ~ mean),
-#'                          "sd"     = is.normal ~ sd,
-#'                          "Med"    = is.normal ~ NA | median,
-#'                          "IQR"    = is.normal ~ NA | IQR))
+#'                          "Mean"   = ~ if (is.normal(.)) mean(.),
+#'                          "sd"     = ~ if (is.normal(.)) sd(.),
+#'                          "Med"    = stats::median,
+#'                          "IQR"    = ~ if(!is.factor(.)) IQR(.)))
 #'
 #' # With labels
 #' mtcars %>% desctable(labels = c(hp  = "Horse Power",
@@ -245,8 +245,7 @@ testColumn <- function(df, tests, grp) {
   ftests[names(ftests) %in% forced_tests][forced_tests] <- tests[forced_tests]
 
   # Compute the tests (made safe with testify) on the variable, using the grouping variable
-  df %>%
-    purrr::map2(ftests, testify, group) %>%
+  mapply(testify, df, ftests, MoreArgs = list(group = group), SIMPLIFY = F) %>%
     Reduce(f = rbind)
 }
 

@@ -14,15 +14,15 @@
 #' @export
 #' @return The results for the function applied on the vector, compatible with the format of the result table
 statify <- function(x, f) {
-  UseMethod("statify", f)
-}
-
-
-#' @rdname statify
-#' @export
-statify.default <- function(x, f) {
   # Discard NA values
   x <- stats::na.omit(x)
+
+  ## Deprecate conditional formula
+  if (length(f) > 2)
+    stop("Conditional formulas are deprecated. Replace `~ {cond} | {if_T} | {if_F}` with `~ if({cond}) {if_T} then {if_F}`")
+
+  # Use rlang to parse function or formula (as in map, etc.)
+  f <- rlang::as_function(f)
 
   # Try f(x), silent warnings and fail with NA
   res <- tryCatch(f(x),
@@ -51,16 +51,6 @@ statify.default <- function(x, f) {
 }
 
 
-#' @rdname statify
-#' @export
-statify.formula <- function(x, f) {
-  # if expression quoted with ~, evaluate the expression
-  if (length(f) == 2) eval(f[[2]])
-  # else parse the formula (cond ~ T | F)
-  else statify.default(x, parse_formula(x, f))
-}
-
-
 #' Functions to create a list of statistics to use in desctable
 #'
 #' These functions take a dataframe as argument and return a list of statistcs in the form accepted by desctable.
@@ -81,10 +71,10 @@ statify.formula <- function(x, f) {
 stats_default <- function(data) {
   list("N" = length,
        "%" = percent,
-       "Mean" = is.normal ~ mean,
-       "sd" = is.normal ~ sd,
+       "Mean" = ~if (is.normal(.)) mean(.),
+       "sd" = ~if (is.normal(.)) sd(.),
        "Med" = stats::median,
-       "IQR" = is.factor ~ NA | IQR)
+       "IQR" = ~if (!is.factor(.)) IQR(.))
 }
 
 
@@ -104,7 +94,7 @@ stats_nonnormal <- function(data) {
   list("N" = length,
        "%" = percent,
        "Median" = stats::median,
-       "IQR" = is.factor ~ NA | IQR)
+       "IQR" = ~if (!is.factor(.)) IQR(.))
 }
 
 
@@ -134,10 +124,10 @@ stats_auto <- function(data) {
   else if (fact & !normal & !nonnormal) list("N" = length,
                                              "%" = percent)
   else if (!fact & normal & nonnormal)  list("N" = length,
-                                             "Mean" = is.normal ~ mean,
-                                             "sd" = is.normal ~ sd,
+                                             "Mean" = ~if (is.normal(.)) mean(.),
+                                             "sd" = ~if (is.normal(.)) sd(.),
                                              "Med" = stats::median,
-                                             "IQR" = is.factor ~ NA | IQR)
+                                             "IQR" = ~if (!is.factor(.)) IQR(.))
   else if (!fact & normal & !nonnormal) list("N" = length,
                                              "Mean" = mean,
                                              "sd" = stats::sd)
