@@ -2,16 +2,16 @@
 % Please edit documentation in R/utils.R
 \name{headerList}
 \alias{headerList}
-\title{Build a header list object}
+\title{build a header list object}
 \usage{
 headerList(desctable)
 }
 \arguments{
-\item{desctable}{A desctable}
+\item{desctable}{a desctable}
 }
 \value{
-A nested list of headers with colspans
+a nested list of headers with colspans
 }
 \description{
-Build a header list object
+build a header list object
 }
