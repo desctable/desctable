@@ -1,3 +1,8 @@
+Version 0.2.0
+
+- Add support for purrr::map-like formulas for statistical and test functions
+- "conditional" formulas are no longer supported. Replace `~ is.normal ~ mean | median` with `~ if (is.normal(.)) mean(.) else median(.)`
+
 Version 0.1.9
 
 - Fix in default options for datatable output to follow DT update
