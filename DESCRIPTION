@@ -1,6 +1,6 @@
 Package: desctable
 Title: Produce Descriptive and Comparative Tables Easily
-Version: 0.1.9
+Version: 0.2.0
 Authors@R: c(person("Maxime", "Wack", email = "maximewack@free.fr", role = c("aut", "cre")),
              person("Adrien", "Boukobza", email = "hadrien_b@hotmail.fr", role = c("aut")),
              person("Yihui", "Xie", email = "xieyihui@gmail.com", role = c("ctb")))
@@ -19,11 +19,12 @@ BugReports: https://github.com/maximewack/desctable/issues
 Imports:
     dplyr,
     DT,
-    htmltools
+    htmltools,
+    rlang
 Suggests:
     knitr,
     rmarkdown,
     purrr,
     survival
-RoxygenNote: 7.1.1
+RoxygenNote: 7.1.2
 VignetteBuilder: knitr

@@ -42,20 +42,20 @@ labels must be given in the form c(unquoted_variable_name = "label")
 
 The stats can be a function which takes a dataframe and returns a list of statistical functions to use.
 
-stats can also be a named list of statistical functions, or formulas.
+stats can also be a named list of statistical functions, or purrr::map like formulas.
 
-The names will be used as column names in the resulting table. If an element of the list is a function, it will be used as-is for the stats. If an element of the list is a formula, it can be used to conditionally use stats depending on the variable.
-
-The general form is \code{condition ~ T | F}, and can be nested, such as \code{is.factor ~ percent | (is.normal ~ mean | median)}, for example.
+The names will be used as column names in the resulting table. If an element of the list is a function, it will be used as-is for the stats.
 }
 
 \section{Tests}{
 
 The tests can be a function which takes a variable and a grouping variable, and returns an appropriate statistical test to use in that case.
 
-tests can also be a named list of statistical test functions, associating the name of a variable in the data, and a test to use specifically for that variable.
+tests can also be a named list of statistical test functions, associating the name of a variable in the data and a test to use specifically for that variable.
 
-That test name must be expressed as a single-term formula (e.g. \code{~t.test}). You don't have to specify tests for all the variables: a default test for all other variables can be defined with the name \code{.default}, and an automatic test can be defined with the name \code{.auto}.
+That test name must be expressed as a single-term formula (e.g. \code{~t.test}), or a purrr::map like formula
+(e.g. \code{~t.test(., var.equal = T)}). You don't have to specify tests for all the variables: a default test for
+all other variables can be defined with the name \code{.default}, and an automatic test can be defined with the name \code{.auto}.
 
 If data is a grouped dataframe (using \code{group_by}), subtables are created and statistic tests are performed over each sub-group.
 }
@@ -72,10 +72,10 @@ iris \%>\%
 # Does the same as stats_auto here
 iris \%>\%
   desctable(stats = list("N"      = length,
-                         "\%/Mean" = is.factor ~ percent | (is.normal ~ mean),
-                         "sd"     = is.normal ~ sd,
-                         "Med"    = is.normal ~ NA | median,
-                         "IQR"    = is.normal ~ NA | IQR))
+                         "Mean"   = ~ if (is.normal(.)) mean(.),
+                         "sd"     = ~ if (is.normal(.)) sd(.),
+                         "Med"    = stats::median,
+                         "IQR"    = ~ if(!is.factor(.)) IQR(.)))
 
 # With labels
 mtcars \%>\% desctable(labels = c(hp  = "Horse Power",

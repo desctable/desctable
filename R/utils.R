@@ -112,13 +112,13 @@ head_datatable <- function(head) {
   TRs <- list()
 
   while (is.list(head[[1]])) {
-    TR <- purrr::map2(names(head), lapply(head, attr, "colspan"), ~htmltools::tags$th(.x, colspan = .y))
+    TR <- mapply(function(x, y) htmltools::tags$th(x, colspan = y), names(head), lapply(head, attr, "colspan"), SIMPLIFY = F)
 
     TRs <- c(TRs, list(TR))
     head <- purrr::flatten(head)
   }
 
-  c(TRs, list(purrr::map2(names(head), head, ~htmltools::tags$th(.x, colspan = .y))))
+  c(TRs, list(mapply(function(x, y) htmltools::tags$th(x, colspan = y), names(head), head, SIMPLIFY = F)))
 }
 
 
@@ -190,10 +190,10 @@ header <- function(desctable, output = c("pander", "datatable", "dataframe")) {
 }
 
 
-#' Build a header list object
+#' build a header list object
 #'
-#' @param desctable A desctable
-#' @return A nested list of headers with colspans
+#' @param desctable a desctable
+#' @return a nested list of headers with colspans
 headerList <- function(desctable) {
   if (is.data.frame(desctable)) length(desctable)
   else {
