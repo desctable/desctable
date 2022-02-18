@@ -173,6 +173,10 @@ varColumn <- function(data, labels = NULL) {
 #'   group_by(Petal.Length > 5) %>%
 #'   desctable(tests = list(.auto = tests_auto, Species = ~chisq.test))
 desctable <- function(data, stats, tests, labels) {
+  warning("desctable is deprecated and will be removed in 1.0.0
+
+Use the new `desc_*` family of functions to build your table.
+For example: iris %>% group_by(Species) %>% desc_table() %>% desc_tests()", )
   UseMethod("desctable", data)
 }
 
