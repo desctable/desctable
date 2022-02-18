@@ -6,6 +6,3 @@ dplyr::`%>%`
 #' @importFrom dplyr group_by
 #' @export
 dplyr::group_by
-
-#' @importFrom pander pander
-pander::pander
