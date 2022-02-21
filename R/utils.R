@@ -29,3 +29,25 @@ insert <- function(x, y, position) {
   # Return a simple vector
   unlist(result)
 }
+
+#' Is the object possibly a desctable?
+#'
+#' Check if the object is produced by desc_table.
+#' Return a string:
+#' - simple
+#' - grouped
+#' or FALSE if not a desctable
+#'
+#' @param desctable A potential desctable to check
+#' @return The type of desctable or FALSE
+which.desctable <- function(desctable)
+{
+  attributes <- list()
+
+  if (all(c("data", ".stats", ".vars") %in% names(desctable)))
+    "grouped"
+  else if (is.data.frame(desctable) & ("Variables" %in% names(desctable)))
+    "simple"
+  else
+    ""
+}
