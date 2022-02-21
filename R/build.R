@@ -133,5 +133,88 @@ testColumn <- function(df, tests, grp) {
 }
 
 
+#' Generate a statistics table
 #'
+#' Generate a statistics table with the chosen statistical functions, and tests if given a \code{"grouped"} dataframe.
+#'
+#' @section Stats:
+#' The stats can be a function which takes a dataframe and returns a list of statistical functions to use.
+#'
+#' stats can also be a named list of statistical functions, or purrr::map like formulas.
+#'
+#' The names will be used as column names in the resulting table. If an element of the list is a function, it will be used as-is for the stats.
+#' @section Labels:
+#' labels is an option named character vector used to make the table prettier.
+#'
+#' If given, the variable names for which there is a label will be replaced by their corresponding label.
+#'
+#' Not all variables need to have a label, and labels for non-existing variables are ignored.
+#'
+#' labels must be given in the form c(unquoted_variable_name = "label")
+#'
+#' @section Output:
+#' The output is either a dataframe in the case of a simple descriptive table,
+#' or nested dataframes in the case of a comparative table.
+#'
+#' @param data The dataframe to analyze
+#' @param stats A list of named statistics to apply to each element of the dataframe, or a function returning a list of named statistics
+#' @return A desctable object, which prints to a table of statistics for all variables
+#' @seealso \code{\link{stats_auto}}
+#' @seealso \code{\link{desc_tests}}
+#' @seealso \code{\link{desc_output}}
+#' @export
+#' @examples
+#' iris %>%
+#'   desc_table()
+#'
+#' # Does the same as stats_auto here
+#' iris %>%
+#'   desc_table(stats = list("N"      = length,
+#'                          "Mean"   = ~ if (is.normal(.)) mean(.),
+#'                          "sd"     = ~ if (is.normal(.)) sd(.),
+#'                          "Med"    = stats::median,
+#'                          "IQR"    = ~ if(!is.factor(.)) IQR(.)))
+#'
+#' # With grouping on a factor
+#' iris %>%
+#'   group_by(Species) %>%
+#'   desc_table(stats = stats_default)
+desc_table <- function(data, stats, labels) {
+  UseMethod("desc_table", data)
+}
+
+
+#' @rdname desc_table
+#' @export
+desc_table.default <- function(data, stats, labels) {
+  stop("`desc_table` must be called on a data.frame")
+}
+
+
+#' @rdname desc_table
+#' @export
+desc_table.data.frame <- function(data, stats = stats_auto, labels = NULL) {
+  # Assemble the Variables and the statTable in a single desctable object
+  cbind(varColumn(data, labels),
+        statTable(data, stats))
+}
+
+
+#' @rdname desc_table
+#' @export
+desc_table.grouped_df <- function(data, stats = stats_auto, labels = NULL) {
+  # Get groups then ungroup dataframe
+  grps <- dplyr::groups(data)
+
+  if (length(grps) > 1) {
+    warning("Only the first group will be used")
+    data <- dplyr::ungroup(data, !!! grps[-1])
+  }
+
+  desctable <- tidyr::nest(data)
+  desctable$.stats <- lapply(desctable$data, statTable, stats)
+  desctable$.vars <- list(varColumn(data[!names(data) %in% (grps %>% lapply(as.character) %>% unlist())], labels))
+
+  desctable
+}
 }

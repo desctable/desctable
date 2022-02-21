@@ -20,7 +20,8 @@ Imports:
     dplyr,
     DT,
     htmltools,
-    rlang
+    rlang,
+    tidyr
 Suggests:
     knitr,
     rmarkdown,
