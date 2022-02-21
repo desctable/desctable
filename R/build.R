@@ -217,4 +217,22 @@ desc_table.grouped_df <- function(data, stats = stats_auto, labels = NULL) {
 
   desctable
 }
+
+
+#' Add tests to a desc_table
+#'
+#' @param data a desc_table
+#' @param tests A list of statistical tests to use when calling desc_table with a grouped_df
+#' @return A desc_table with tests
+#' @export
+desc_tests <- function(desctable, tests = tests_auto) {
+  if (which.desctable(desctable) != "grouped")
+    stop("Unexpected input. `desc_tests` is to be used on the result of `desc_table` on a grouped dataframe.\n
+For example: iris %>% group_by(Species) %>% desc_table() %>% desc_tests")
+
+  fulldata <- tidyr::unnest(subset(desctable, select = -c(.stats, .vars)), data)
+
+  desctable$.tests <- list(testColumn(fulldata, tests, as.symbol(names(desctable)[1])))
+
+  desctable
 }
