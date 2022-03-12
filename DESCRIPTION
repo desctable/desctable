@@ -21,7 +21,8 @@ Imports:
     DT,
     htmltools,
     rlang,
-    tidyr
+    tidyr,
+    utils
 Suggests:
     knitr,
     rmarkdown,
