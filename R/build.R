@@ -13,7 +13,7 @@ statColumn <- function(stat, data) {
   # Apply one statified stat function to every variable in the data
   # Return a simple vector for the column
   # Statify checks types and output for the stat function. Returns a numeric vector or a character vector if needed.
-  if (length(stat) == 3)
+  if (length(stat) == 3)                                                        # remove after 1.0
     warning("Conditional formulas are deprecated and will be removed in 1.0.0
 
 purrr::map style formulas are used now.
@@ -37,7 +37,7 @@ For example, `is.normal ~ mean | median` becomes `~ if (is.normal(.)) mean(.) el
 statTable <- function(data, stats) {
   # If stats is a function, apply it to the data to obtain a list of stat functions
   # Else use the function list as-is
-  if (is.function(stats)) stats = stats(data)
+  if (is.function(stats)) stats = stats(data)                                   # remove after 1.0
 
   # Compute a statColumn for every stat function in stats
   # Assemble the result in a dataframe
@@ -111,7 +111,7 @@ testColumn <- function(df, tests, grp) {
   # If there is an .auto element in the list of tests, apply the function as previously to select the relevant test
   # If there is a .default element, use it as tests
   # Else fall back on kruskal.test
-  if (is.function(tests)) {
+  if (is.function(tests)) {                                                     # remove after 1.0
     ftests <- lapply(df, tests, factor(group))
     tests <- ftests
   }  else if (!is.null(tests$.default)) ftests <- lapply(df, function(x){tests$.default})

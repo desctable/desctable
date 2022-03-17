@@ -18,7 +18,7 @@ statify <- function(x, f) {
   x <- stats::na.omit(x)
 
   ## Deprecate conditional formula
-  if (length(f) == 3)
+  if (length(f) == 3)                                                           # remove after 1.0
     f <- parse_formula(x, f)
   else
     f <- rlang::as_function(f)
