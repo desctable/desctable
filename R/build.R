@@ -181,23 +181,23 @@ testColumn <- function(df, tests, grp) {
 #' iris %>%
 #'   group_by(Species) %>%
 #'   desc_table(.auto = stats_default)
-desc_table <- function(data, .auto, .labels, ...) {
+desc_table <- function(data, ..., .auto, .labels) {
   UseMethod("desc_table", data)
 }
 
 
 #' @rdname desc_table
 #' @export
-desc_table.default <- function(data, .auto, .labels, ...) {
+desc_table.default <- function(data, ..., .auto, .labels) {
   stop("`desc_table` must be called on a data.frame")
 }
 
 
 #' @rdname desc_table
 #' @export
-desc_table.data.frame <- function(data, .auto = stats_auto, .labels = NULL, ...) {
+desc_table.data.frame <- function(data, ..., .labels = NULL, .auto = stats_auto) {
 
-  stats <- list(...)
+  stats <- rlang::dots_list(..., .named = T)
 
   if (length(stats) == 0 & is.null(.auto)) {
     stop("desc_table needs at least one statistic function, or an automatic function in .stats_auto")
@@ -213,7 +213,7 @@ desc_table.data.frame <- function(data, .auto = stats_auto, .labels = NULL, ...)
 
 #' @rdname desc_table
 #' @export
-desc_table.grouped_df <- function(data, .auto = stats_auto, .labels = NULL, ...) {
+desc_table.grouped_df <- function(data, ..., .auto = stats_auto, .labels = NULL) {
   # Get groups then ungroup dataframe
   grps <- dplyr::groups(data)
 
@@ -222,7 +222,7 @@ desc_table.grouped_df <- function(data, .auto = stats_auto, .labels = NULL, ...)
     data <- dplyr::ungroup(data, !!! grps[-1])
   }
 
-  stats <- list(...)
+  stats <- rlang::dots_list(..., .named = T)
 
   desctable <- tidyr::nest(data)
 
