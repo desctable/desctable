@@ -114,9 +114,9 @@ testColumn <- function(df, tests, grp) {
   if (is.function(tests)) {
     ftests <- lapply(df, tests, factor(group))
     tests <- ftests
-  } else if (!is.null(tests$.auto))  ftests <- lapply(df, tests$.auto, factor(group))
-  else if (!is.null(tests$.default)) ftests <- lapply(df, function(x){tests$.default})
-  else                               ftests <- lapply(df, function(x){stats::kruskal.test})
+  }  else if (!is.null(tests$.default)) ftests <- lapply(df, function(x){tests$.default})
+  else if (!is.null(tests$.auto))       ftests <- lapply(df, tests$.auto, factor(group))
+  else                                  ftests <- lapply(df, function(x){stats::kruskal.test})
 
   # Select the forced (named) tests
   tests %>%
@@ -246,16 +246,29 @@ desc_table.grouped_df <- function(data, .auto = stats_auto, .labels = NULL, ...)
 
 #' Add tests to a desc_table
 #'
-#' @param data a desc_table
-#' @param tests A list of statistical tests to use when calling desc_table with a grouped_df
+#' @param desctable a desc_table
+#' @param ... A list of statistical tests to use when calling desc_table with a grouped_df
+#' @param .auto A function to automatically determine the appropriate tests
+#' @param .default A default fallback test
 #' @return A desc_table with tests
 #' @export
-desc_tests <- function(desctable, tests = tests_auto) {
+desc_tests <- function(desctable, .auto = tests_auto, .default = NULL, ...) {
   if (which.desctable(desctable) != "grouped")
-    stop("Unexpected input. `desc_tests` is to be used on the result of `desc_table` on a grouped dataframe.\n
+    stop("Unexpected input. `desc_tests` must be used on the output of `desc_table` on a grouped dataframe.\n
 For example: iris %>% group_by(Species) %>% desc_table() %>% desc_tests")
 
-  fulldata <- tidyr::unnest(subset(desctable, select = -c(.stats, .vars)), data)
+  fulldata <- tidyr::unnest(desctable, "data")
+  fulldata$.tests <- NULL
+  fulldata$.stats <- NULL
+  fulldata$.vars <- NULL
+
+  tests <- list(...)
+
+  if (!(all(names(desctable$data[[1]]) %in% names(tests))) & is.null(.auto) & is.null(.default)) {
+    stop("desc_tests needs either a full specification of tests, or include a .auto or a .default function for non specified-tests")
+  } else {
+    tests <- c(list(...), list(.auto = .auto, .default = .default))
+  }
 
   desctable$.tests <- list(testColumn(fulldata, tests, as.symbol(names(desctable)[1])))
 
