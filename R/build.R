@@ -157,7 +157,9 @@ testColumn <- function(df, tests, grp) {
 #' or nested dataframes in the case of a comparative table.
 #'
 #' @param data The dataframe to analyze
-#' @param stats A list of named statistics to apply to each element of the dataframe, or a function returning a list of named statistics
+#' @param .auto A function to automatically determine appropriate statistics
+#' @param .labels A named character vector of variable labels
+#' @param ...  list of named statistics to apply to each element of the dataframe, or a function returning a list of named statistics
 #' @return A desctable object, which prints to a table of statistics for all variables
 #' @seealso \code{\link{stats_auto}}
 #' @seealso \code{\link{desc_tests}}
@@ -169,40 +171,49 @@ testColumn <- function(df, tests, grp) {
 #'
 #' # Does the same as stats_auto here
 #' iris %>%
-#'   desc_table(stats = list("N"      = length,
-#'                          "Mean"   = ~ if (is.normal(.)) mean(.),
-#'                          "sd"     = ~ if (is.normal(.)) sd(.),
-#'                          "Med"    = stats::median,
-#'                          "IQR"    = ~ if(!is.factor(.)) IQR(.)))
+#'   desc_table("N"      = length,
+#'              "Mean"   = ~ if (is.normal(.)) mean(.),
+#'              "sd"     = ~ if (is.normal(.)) sd(.),
+#'              "Med"    = stats::median,
+#'              "IQR"    = ~ if(!is.factor(.)) IQR(.))
 #'
 #' # With grouping on a factor
 #' iris %>%
 #'   group_by(Species) %>%
-#'   desc_table(stats = stats_default)
-desc_table <- function(data, stats, labels) {
+#'   desc_table(.auto = stats_default)
+desc_table <- function(data, .auto, .labels, ...) {
   UseMethod("desc_table", data)
 }
 
 
 #' @rdname desc_table
 #' @export
-desc_table.default <- function(data, stats, labels) {
+desc_table.default <- function(data, .auto, .labels, ...) {
   stop("`desc_table` must be called on a data.frame")
 }
 
 
 #' @rdname desc_table
 #' @export
-desc_table.data.frame <- function(data, stats = stats_auto, labels = NULL) {
+desc_table.data.frame <- function(data, .auto = stats_auto, .labels = NULL, ...) {
+
+  stats <- list(...)
+
+  if (length(stats) == 0 & is.null(.auto)) {
+    stop("desc_table needs at least one statistic function, or an automatic function in .stats_auto")
+  } else if (length(stats) == 0) {
+    stats <- .auto(data)
+  }
+
   # Assemble the Variables and the statTable in a single desctable object
-  cbind(varColumn(data, labels),
+  cbind(varColumn(data, .labels),
         statTable(data, stats))
 }
 
 
 #' @rdname desc_table
 #' @export
-desc_table.grouped_df <- function(data, stats = stats_auto, labels = NULL) {
+desc_table.grouped_df <- function(data, .auto = stats_auto, .labels = NULL, ...) {
   # Get groups then ungroup dataframe
   grps <- dplyr::groups(data)
 
@@ -211,9 +222,23 @@ desc_table.grouped_df <- function(data, stats = stats_auto, labels = NULL) {
     data <- dplyr::ungroup(data, !!! grps[-1])
   }
 
+  stats <- list(...)
+
   desctable <- tidyr::nest(data)
-  desctable$.stats <- lapply(desctable$data, statTable, stats)
-  desctable$.vars <- list(varColumn(data[!names(data) %in% (grps %>% lapply(as.character) %>% unlist())], labels))
+
+  if (length(stats) == 0 & is.null(.auto)) {
+    stop("desc_table needs at least one statistic function, or an automatic function in .stats_auto")
+  } else if (length(stats) == 0) {
+    stats <- lapply(desctable$data, .auto)
+  }
+
+  if (is.list(stats[[1]])) {
+    desctable$.stats <- mapply(statTable, desctable$data, stats, SIMPLIFY = F)
+  } else {
+    desctable$.stats <- lapply(desctable$data, statTable, stats)
+  }
+
+  desctable$.vars <- list(varColumn(data[!names(data) %in% (grps %>% lapply(as.character) %>% unlist())], .labels))
 
   desctable
 }
