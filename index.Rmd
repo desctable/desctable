@@ -1,0 +1,79 @@
+---
+title: "Desctable"
+output: github_document
+---
+
+```{r, echo = F, message = F, warning = F}
+knitr::opts_chunk$set(message = F, warning = F)
+```
+
+[![Travis-CI Build Status](https://travis-ci.org/desctable/desctable.svg?branch=master)](https://travis-ci.org/desctable/desctable)  [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/desctable)](https://cran.r-project.org/package=desctable) [![CRAN RStudio mirror downloads](http://cranlogs.r-pkg.org/badges/desctable)](https://www.r-pkg.org:443/pkg/desctable)
+
+**Warning to existing users**  
+*This version introduces a new API that should make the creation of tables more flexible.  
+The old API is still present but in a deprecated mode.  
+See the roadmap below, and the website for the new usage.  
+Suggestions about this change are welcome !*
+
+---
+
+# Introduction
+
+Desctable aims to be a simple and expressive interface to building statistical tables in R.
+
+# Installation
+
+Install from CRAN with
+
+```
+install.packages("desctable")
+```
+
+or install the development version from github with
+
+```
+devtools::install_github("desctable/desctable")
+```
+
+# Basic usage
+
+Load the package
+
+```{r}
+library(desctable)
+```
+
+Simply apply `desc_table` on a dataframe or a grouped dataframe to get a statistical table
+
+```{r}
+iris %>%
+  desc_table()
+```
+
+Declare the statistics you want to see, and give them the name of your choice
+
+```{r}
+iris %>%
+  desc_table("N" = length,
+             "%" = percent,
+             mean,
+             sd)
+```
+
+Create comparative tables, compute statistical tests and output to `pander` for crisp markdown rendering!
+
+```{r}
+mtcars %>%
+  dplyr::mutate(cyl = factor(cyl),
+                vs = factor(vs, labels = c("V-shaped", "straight")),
+                am = factor(am, labels = c("automatic", "manual"))) %>%
+  group_by(am) %>%
+  desc_table(N = length,
+             "%" = percent,
+             "Median" = median,
+             IQR) %>%
+  desc_tests(vs = ~chisq.test) %>%
+  desc_output("pander")
+```
+
+Read more in the [vignette](articles/desctable.html) !
