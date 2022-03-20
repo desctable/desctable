@@ -1,0 +1,127 @@
+---
+title: "desctable usage vignette"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{desctable usage vignette}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, echo = F, message = F, warning = F}
+library(desctable)
+
+options(DT.options = list(#scrollX = T,
+                          info = F,
+                          search = F,
+                          dom = "Brtip",
+                          fixedColumns = T))
+knitr::opts_chunk$set(message = F, warning = F, screenshot.force = F)
+```
+Desctable aims to be a simple and expressive interface to building statistical tables in R.
+
+# Descriptive tables
+
+## Simple
+
+Creating a descriptive table with desctable is as easy as
+
+```{r}
+iris %>%
+  desc_table()
+```
+<br>
+
+By default, `desc_table` will select the most appropriate statistics for the given table, but you can choose your own as easily
+
+```{r}
+mtcars %>%
+  desc_table(N = length,
+             mean,
+             sd)
+```
+
+As you can see with `N = length`, you can give a meaningful name to the column instead of the name of the function.  
+You are not limited in your options, and can use any statistical function that exists in R, even your own!
+
+You can also use `purrr::map`-like formulas, for example to get the first and third quartiles here
+
+```{r}
+iris %>%
+  desc_table(N = length,
+             "%" = percent,
+             Q1 = ~ quantile(., .25),
+             Med = median,
+             Q3 = ~ quantile(., .75))
+```
+
+## By group
+
+You can also create nested descriptive tables by applying `group_by` on your dataframe
+
+```{r}
+iris %>%
+  group_by(Species) %>%
+  desc_table()
+```
+
+However, because of the grouping, you can see the resulting object is not a simple data frame, but a nested dataframe (see tidyr::nest and tidyr::unnest).  
+*desctable* provides output functions to format this object to various outputs.  
+Right now, desctable supports `data.frame`, `pander`, and `DT` outputs. These output functions will also round numerical values, as well as p values for tests (we'll see `desc_tests` a bit later).
+
+```{r}
+mtcars %>%
+  group_by(am) %>%
+  desc_table() %>%
+  desc_output("df")
+```
+
+```{r}
+mtcars %>%
+  group_by(am) %>%
+  desc_table() %>%
+  desc_output("pander")
+```
+
+```{r}
+mtcars %>%
+  group_by(am) %>%
+  desc_table() %>%
+  desc_output("DT")
+```
+
+# Comparative tables
+
+You can add tests to a grouped descriptive desctable
+
+```{r}
+iris %>%
+  group_by(Petal.Length > 5) %>%
+  desc_table() %>%
+  desc_tests() %>%
+  desc_output("DT")
+```
+
+By default, `desc_tests` will select the most appropriate statistical tests for the given table, but you can choose your own as easily.
+For example, to compare Sepal.Width using a Student's t test
+
+```{r}
+iris %>%
+  group_by(Petal.Length > 5) %>%
+  desc_table(mean, sd, median, IQR) %>%
+  desc_tests(Sepal.Width = ~t.test) %>%
+  desc_output("DT")
+```
+
+Note that the name of the test **must** be prepended with a tilde (`~`) in all cases!
+
+You can also use `purrr::map`-like formulas to change tests options
+
+```{r}
+iris %>%
+  group_by(Petal.Length > 5) %>%
+  desc_table(mean, sd, median, IQR) %>%
+  desc_tests(Sepal.Width = ~t.test(., var.equal = T)) %>%
+  desc_output("DT")
+```
+
+See the [tips and tricks](tips.html) to go further.
