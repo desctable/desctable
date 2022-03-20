@@ -1,6 +1,6 @@
 Package: desctable
 Title: Produce Descriptive and Comparative Tables Easily
-Version: 0.2.0
+Version: 0.3.0
 Authors@R: c(person("Maxime", "Wack", email = "maximewack@free.fr", role = c("aut", "cre")),
              person("Adrien", "Boukobza", email = "hadrien_b@hotmail.fr", role = c("aut")),
              person("Yihui", "Xie", email = "xieyihui@gmail.com", role = c("ctb")))
