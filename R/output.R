@@ -1,12 +1,26 @@
-##' Output a desctable to the desired target
+##' Output a desctable to the desired target format
+##'
+##' Output a simple or grouped desctable to a different formats.
+##' Currently available formats are\itemize{
+##'   \item data.frame ("df")
+##'   \item pander ("pander")
+##'   \item datatable ("DT")
+##' }
+##'
+##' All numerical values will be rounded to the digits argument.
+##' If statistical tests are presents, p values below 1E-digits will be replaced with "≤ 1E-digits"
+##' (eg. "≤ 0.01" for values below 0.01 when digits = 2)
 ##'
 ##' @title desc_output
 ##' @param desctable The desctable to output
-##' @param target The desired target. One of ~df~, ~pander~, or ~DT~.
-##' @param digits The number of digits to display. The p values will be simplified under 10^-digits
-##' @param ... Other arguments to pass to data.frame, pander::pander, or DT::datatable
+##' @param target The desired target. One of "df", "pander", or "DT".
+##' @param digits The number of digits to display. The p values will be simplified under 1E-digits
+##' @param ... Other arguments to pass to \code{data.frame}, \code{pander::pander}, or \code{DT::datatable}
 ##' @return The output object (or corresponding side effect)
 ##' @export
+##' @seealso \code{\link[DT]{datatable}}
+##' @seealso \code{\link[pander]{pander}}
+##' @family desc_table core functions
 desc_output <- function(desctable, target = c("df", "pander", "DT"), digits = 2, ...) {
   switch(which.desctable(desctable),
          simple = switch(target,

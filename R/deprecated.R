@@ -46,6 +46,7 @@ pander::pander
 #' @seealso \code{\link{pander.desctable}}
 #' @seealso \code{\link{datatable.desctable}}
 #' @export
+#' @keywords deprecated
 #' @examples
 #' iris %>%
 #'   desctable()
@@ -117,6 +118,7 @@ desctable.grouped_df <- function(data, stats = stats_auto, tests = tests_auto, l
 #' @param grp Grouping factor
 #' @param df Dataframe containing the grouping factor
 #' @return A character vector with the names for the subtables
+#' @keywords deprecated internal
 subNames <- function(grp, df) {
   paste0(as.character(grp),
          ": ",
@@ -134,6 +136,7 @@ subNames <- function(grp, df) {
 #' @param tests Tests list/function to use
 #' @param grps List of symbols for grouping factors
 #' @return A nested list of statTables and testColumns
+#' @keywords deprecated internal
 subTable <- function(df, stats, tests, grps) {
   # Final group, compute tests
   if (length(grps) == 1) {
@@ -167,6 +170,7 @@ subTable <- function(df, stats, tests, grps) {
 #' @param ... Additional print parameters
 #' @return A flat dataframe
 #' @export
+#' @keywords deprecated
 print.desctable <- function(x, ...) {
   print(as.data.frame(x))
 }
@@ -178,6 +182,7 @@ print.desctable <- function(x, ...) {
 #' @param ... Additional as.data.frame parameters
 #' @return A flat dataframe
 #' @export
+#' @keywords deprecated
 as.data.frame.desctable <- function(x, ...) {
   # Discard "markdown" formatting of variable names
   x$Variables$Variables <- gsub("\\*\\*(.*?)\\*\\*", "\\1", x$Variables$Variables)
@@ -204,6 +209,7 @@ as.data.frame.desctable <- function(x, ...) {
 #' @inheritParams pander::pandoc.table
 #' @seealso \code{\link{pandoc.table}}
 #' @export
+#' @keywords deprecated
 pander.desctable <- function(x = NULL,
                              digits = 2,
                              justify = "left",
@@ -272,6 +278,7 @@ pander.desctable <- function(x = NULL,
 #' ###
 #' @inheritParams DT::datatable
 #' @export
+#' @keywords deprecated
 datatable <- function(data, ...) {
   UseMethod("datatable", data)
 }
@@ -370,6 +377,7 @@ datatable.desctable <- function(data,
 #'
 #' @param x Object to set the "desctable" class to
 #' @return The object with the class "desctable"
+#' @keywords deprecated internal
 set_desctable_class <- function(x) {
   class(x) <- "desctable"
 
@@ -392,6 +400,7 @@ set_desctable_class <- function(x) {
 #' @param x The variable to test it on
 #' @param f A formula to parse
 #' @return A function to use as a stat/test
+#' @keywords deprecated internal
 parse_formula <- function(x, f) {
   parse_f <- function(x) {
     if (length(x) == 1) as.character(x)
@@ -420,6 +429,7 @@ parse_formula <- function(x, f) {
 #'
 #' @param head A headerList object
 #' @return A names vector
+#' @keywords deprecated internal
 head_pander <- function(head) {
   if (is.integer(head[[1]])) {
     head %>%
@@ -443,6 +453,7 @@ head_pander <- function(head) {
 #'
 #' @param head A headerList object
 #' @return An htmltools$tags object containing the header
+#' @keywords deprecated internal
 head_datatable <- function(head) {
   TRs <- list()
 
@@ -461,6 +472,7 @@ head_datatable <- function(head) {
 #'
 #' @param head A headerList object
 #' @return A names vector
+#' @keywords deprecated internal
 head_dataframe <- function(head) {
   if (is.integer(head[[1]])) {
     head %>%
@@ -488,6 +500,7 @@ head_dataframe <- function(head) {
 #' @param desctable A desctable object
 #' @param output An output format for the header
 #' @return A header object in the output format
+#' @keywords deprecated internal
 header <- function(desctable, output = c("pander", "datatable", "dataframe")) {
   desctable[-1] %>%
     flatten_desctable() %>%
@@ -529,6 +542,7 @@ header <- function(desctable, output = c("pander", "datatable", "dataframe")) {
 #'
 #' @param desctable a desctable
 #' @return a nested list of headers with colspans
+#' @keywords deprecated internal
 headerList <- function(desctable) {
   if (is.data.frame(desctable)) length(desctable)
   else {
@@ -546,6 +560,7 @@ headerList <- function(desctable) {
 #'
 #' @param desctable A desctable object
 #' @return A flat dataframe
+#' @keywords deprecated internal
 flatten_desctable <- function(desctable) {
   if (is.data.frame(desctable)) desctable
   else {

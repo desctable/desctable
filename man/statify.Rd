@@ -26,3 +26,4 @@ Applying the function on a factor should return nlevels + 1 value, or one value 
 
 See \code{parse_formula} for the usage for formulaes.
 }
+\keyword{internal}

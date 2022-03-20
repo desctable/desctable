@@ -19,3 +19,4 @@ A numeric vector of pvalues
 \description{
 Create the pvalues column
 }
+\keyword{internal}

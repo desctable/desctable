@@ -7,6 +7,7 @@
 #' @param f The function to try to apply, or a formula combining two functions
 #' @param group Grouping factor
 #' @return The results for the function applied on the vector, compatible with the format of the result table
+#' @keywords internal
 testify <- function(x, f, group) {
   # Extract the name of the function
   f %>%

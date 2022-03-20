@@ -13,6 +13,7 @@
 #' @param x A vector
 #' @export
 #' @return The results for the function applied on the vector, compatible with the format of the result table
+#' @keywords internal
 statify <- function(x, f) {
   # Discard NA values
   x <- stats::na.omit(x)

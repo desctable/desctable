@@ -7,6 +7,7 @@
 #' @param y A vector or list of vectors to insert into x
 #' @param position The position / vector of positions to insert vector(s) y in vector x
 #' @return The combined vector
+#' @keywords internal
 insert <- function(x, y, position) {
   # y is supposed to be a list of vectors. If it is a single vector, make it a simple list containing that vector
   if (!is.list(y)) y <- list(y)
@@ -40,6 +41,7 @@ insert <- function(x, y, position) {
 #'
 #' @param desctable A potential desctable to check
 #' @return The type of desctable or FALSE
+#' @keywords internal
 which.desctable <- function(desctable)
 {
   attributes <- list()
