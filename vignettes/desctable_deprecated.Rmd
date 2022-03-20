@@ -1,8 +1,8 @@
 ---
-title: "desctable usage vignette"
+title: "desctable usage vignette (deprecated)"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{desctable usage vignette}
+  %\VignetteIndexEntry{desctable usage vignette (deprecated)}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
