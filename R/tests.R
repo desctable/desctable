@@ -32,11 +32,12 @@ testify <- function(x, f, group) {
 }
 
 
-#' Functions to choose a statistical test
+#' Function to choose a statistical test
 #'
-#' These functions take a variable and a grouping variable as arguments, and return a statistcal test to use, expressed as a single-term formula.
+#' This function takes a variable and a grouping variable as arguments, and returns a statistcal test to use, expressed as a single-term formula.
 #'
-#' Currently, only \code{tests_auto} is defined, and picks between t test, wilcoxon, anova, kruskal-wallis and fisher depending on the number of groups, the type of the variable, the normality and homoskedasticity of the distributions.
+#' This function uses appropriate non-parametric tests depending on the number of levels (wilcoxon.test for two levels
+#' and kruskal.test for more), and fisher.test with fallback on chisq.test on error for factors.
 #'
 #' @param var The variable to test
 #' @param grp The variable for the groups
@@ -45,25 +46,15 @@ testify <- function(x, f, group) {
 tests_auto <- function(var, grp) {
   grp <- factor(grp)
 
-  if (nlevels(grp) < 2)                                                                                             ~no.test
+  if (nlevels(grp) < 2)
+    ~no.test
   else if (is.factor(var)) {
-    if (tryCatch(is.numeric(fisher.test(var ~ grp)$p.value), error = function(e) F))                                ~fisher.test
-    else                                                                                                            ~chisq.test
-  } else {
-    all_normal <- all(tapply(var, grp, is.normal))
-
-    if (nlevels(grp) == 2) {
-      if (all_normal) {
-        if (tryCatch(stats::var.test(var ~ grp)$p.value > .1, warning = function(e) F, error = function(e) F))      ~t.test(., var.equal = T)
-        else                                                                                                        ~t.test(., var.equal = F)
-      }
-      else                                                                                                          ~wilcox.test
-    } else {
-      if (all_normal) {
-        if (tryCatch(stats::bartlett.test(var ~ grp)$p.value > .1, warning = function(e) F, error = function(e) F)) ~oneway.test(., var.equal = T)
-        else                                                                                                        ~oneway.test(., var.equal = F)
-      }
-      else                                                                                                          ~kruskal.test
-    }
-  }
+    if (tryCatch(is.numeric(fisher.test(var ~ grp)$p.value), error = function(e) F))
+      ~fisher.test
+    else
+      ~chisq.test
+  } else if (nlevels(grp) == 2)
+    ~wilcox.test
+  else
+    ~kruskal.test
 }
