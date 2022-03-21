@@ -50,88 +50,42 @@ statify <- function(x, f) {
 }
 
 
-#' Functions to create a list of statistics to use in desctable
+#' Function to create a list of statistics to use in desctable
 #'
-#' These functions take a dataframe as argument and return a list of statistcs in the form accepted by desctable.
+#' This function takes a dataframe as argument and returns a list of statistcs in the form accepted by desctable.
 #'
-#' Already defined are
-#' \enumerate{
-#' \item stats_default with length, \%, mean, sd, med and IQR
-#' \item stats_normal with length, \%, mean and sd
-#' \item stats_nonnormal with length, %, median and IQR
-#' \item stats_auto, which picks stats depending of the data
-#' }
-#'
-#' You can define your own automatic functions, as long as they take a dataframe as argument and return a list of functions or formulas defining conditions to use a stat function.
+#' You can define your own automatic function, as long as it takes a dataframe as argument and returns a list of functions, or formulas defining conditions to use a stat function.
 #'
 #' @param data The dataframe to apply the statistic to
-#' @return A list of statistics to use, potentially assessed from the dataframe
-#' @export
-stats_default <- function(data) {
-  list("N" = length,
-       "%" = percent,
-       "Mean" = ~if (is.normal(.)) mean(.),
-       "sd" = ~if (is.normal(.)) sd(.),
-       "Med" = stats::median,
-       "IQR" = ~if (!is.factor(.)) IQR(.))
-}
-
-
-#' @rdname stats_default
-#' @export
-stats_normal <- function(data) {
-  list("N" = length,
-       "%" = percent,
-       "Mean" = mean,
-       "sd" = stats::sd)
-}
-
-
-#' @rdname stats_default
-#' @export
-stats_nonnormal <- function(data) {
-  list("N" = length,
-       "%" = percent,
-       "Median" = stats::median,
-       "IQR" = ~if (!is.factor(.)) IQR(.))
-}
-
-
-#' @rdname stats_default
+#' @return A list of statistics to use, assessed from the content of the dataframe
 #' @export
 stats_auto <- function(data) {
   data %>%
-    Filter(f = is.numeric) %>%
-    lapply(is.normal) %>%
-    unlist() -> shapiro
-
-  if (length(shapiro) == 0) {
-    normal <- F
-    nonnormal <- F
-  } else {
-    normal <- any(shapiro)
-    nonnormal <- any(!shapiro)
-  }
+    lapply(is.numeric) %>%
+    unlist() %>%
+    any -> numeric
 
   data %>%
     lapply(is.factor) %>%
     unlist() %>%
     any() -> fact
 
-  if (fact & normal & !nonnormal)       stats_normal(data)
-  else if (fact & !normal & nonnormal)  stats_nonnormal(data)
-  else if (fact & !normal & !nonnormal) list("N" = length,
-                                             "%" = percent)
-  else if (!fact & normal & nonnormal)  list("N" = length,
-                                             "Mean" = ~if (is.normal(.)) mean(.),
-                                             "sd" = ~if (is.normal(.)) sd(.),
-                                             "Med" = stats::median,
-                                             "IQR" = ~if (!is.factor(.)) IQR(.))
-  else if (!fact & normal & !nonnormal) list("N" = length,
-                                             "Mean" = mean,
-                                             "sd" = stats::sd)
-  else if (!fact & !normal & nonnormal) list("N" = length,
-                                             "Med" = stats::median,
-                                             "IQR" = IQR)
-  else                                  stats_default(data)
+  stats <- list("Min"  = min,
+                "Q1"   = ~quantile(., .25),
+                "Med"  = stats::median,
+                "Mean" = mean,
+                "Q3"   = ~quantile(., .75),
+                "Max"  = max,
+                "sd"   = stats::sd,
+                "IQR"  = IQR)
+
+  if (fact & numeric)
+    c(list("N" = length,
+           "%" = percent),
+      stats)
+  else if (fact & !numeric)
+    list("N" = length,
+         "%" = percent)
+  else if (!fact & numeric)
+    stats
 }

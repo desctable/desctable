@@ -554,3 +554,38 @@ flatten_desctable <- function(desctable) {
       Reduce(f = cbind)
   }
 }
+
+#' Define a list of default statistics
+#'
+#' @param data A dataframe
+#' @return A list of statistical functions
+#' @export
+#' @keywords deprecated
+stats_default <- function(data) {
+  list("N" = length,
+       "%" = percent,
+       "Mean" = ~if (is.normal(.)) mean(.),
+       "sd" = ~if (is.normal(.)) sd(.),
+       "Med" = stats::median,
+       "IQR" = ~if (!is.factor(.)) IQR(.))
+}
+
+
+#' @rdname stats_default
+#' @export
+stats_normal <- function(data) {
+  list("N" = length,
+       "%" = percent,
+       "Mean" = mean,
+       "sd" = stats::sd)
+}
+
+
+#' @rdname stats_default
+#' @export
+stats_nonnormal <- function(data) {
+  list("N" = length,
+       "%" = percent,
+       "Median" = stats::median,
+       "IQR" = ~if (!is.factor(.)) IQR(.))
+}
