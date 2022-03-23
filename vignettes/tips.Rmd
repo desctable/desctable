@@ -1,0 +1,208 @@
+---
+title: "desctable tips"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{desctable tips}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, echo = F, message = F, warning = F}
+library(desctable)
+```
+
+Here is collection of tips and tricks to go further with *desctable*
+
+# 
+
+## 
+
+### Label variables
+
+You can define labels for variables using the `.labels` argument in `desc_table`
+
+```{r}
+labels <- c(mpg   = "Miles/(US) gallon",
+            cyl   = "Number of cylinders",
+            disp  = "Displacement (cu.in.)",
+            hp    = "Gross horsepower",
+            drat  = "Rear axle ratio",
+            wt    = "Weight (1000 lbs)",
+            qsec  = "1/4 mile time",
+            vs    = "Engine",
+            am    = "Transmission",
+            gear  = "Number of forward gears",
+            CARBURATOR = "Number of carburetors")
+
+mtcars %>%
+  desc_table(.labels = labels) %>%
+  desc_output("DT")
+```
+
+As you can see with `CARBURATOR` instead of `carb`, not all variables need to have a label, and unused labels are discarded.
+
+### Default statistics
+
+`desc_table` chooses its own statistics this way:
+
+- always show `N = length`
+- show `"%" = percent` if there is at least a factor
+- show `min`, `max`, `Q1`, `Q3`, `median`, `mean`, `sd`, `IQR` if there is at least a numeric
+
+### Defining your own default statistics
+
+You can define your own automatic statistic function using the `.auto` argument in `desc_table`.  
+This function should accept one argument, the table to choose statistics for (in the case of a grouped dataframe the subtables will be passed to the function). It should return a list of statistics.  
+Here is the code of `stats_auto`, the default value of `.auto`
+
+```{r, eval = F}
+stats_auto <- function(data) {
+  data %>%
+    lapply(is.numeric) %>%
+    unlist() %>%
+    any -> numeric
+
+  data %>%
+    lapply(is.factor) %>%
+    unlist() %>%
+    any() -> fact
+
+  stats <- list("Min"  = min,
+                "Q1"   = ~quantile(., .25),
+                "Med"  = stats::median,
+                "Mean" = mean,
+                "Q3"   = ~quantile(., .75),
+                "Max"  = max,
+                "sd"   = stats::sd,
+                "IQR"  = IQR)
+
+  if (fact & numeric)
+    c(list("N" = length,
+           "%" = percent),
+      stats)
+  else if (fact & !numeric)
+    list("N" = length,
+         "%" = percent)
+  else if (!fact & numeric)
+    stats
+}
+```
+
+### Reuse a list of defined statistics
+
+If you often reuse the same statistics for multiple tables and you don't want to repeat yourself, you can splice a list to `desc_table` using the `rlang::!!!` operator
+
+```{r}
+stats = list(N = length,
+             Mean = mean,
+             SD = sd)
+
+mtcars %>%
+  desc_table(!!!stats) %>%
+  desc_output("DT")
+
+```
+
+When splicing, all stats need to be explicitly named
+
+```{r}
+stats2 = list(N = length,
+              mean,
+              sd)
+
+mtcars %>%
+  desc_table(!!!stats2) %>%
+  desc_output("DT")
+
+```
+
+You can also define a "dumb" automatic function
+
+```{r}
+default_stats <- function(data)
+{
+  list(N = length,
+       mean,
+       sd)
+}
+```
+
+### Default statistical tests
+
+`desc_table` chooses its own statistical tests this way:
+
+- if the variable is a factor, use `fisher.test`
+  - if `fisher.test` fails, fallback on `chisq.test`
+- if the variable is numeric, use
+  - `wilcoxon.test` if there are two groups
+  - `kruskal.test` if there are more than two groups
+
+### Defining your own default statistical tests
+
+You can define your own automatic statistic function using the `.auto` argument in `desc_tests`.  
+This function should accept two arguments, the variable to compare and the grouping variable, and return a statistical test that accepts a `formula` argument and returns an object with a `p.value` element.  
+Here is the code of `tests_auto`, the default value of `.auto`
+
+```{r, eval = F}
+tests_auto <- function(var, grp) {
+  grp <- factor(grp)
+
+  if (nlevels(grp) < 2)
+    ~no.test
+  else if (is.factor(var)) {
+    if (tryCatch(is.numeric(fisher.test(var ~ grp)$p.value), error = function(e) F))
+      ~fisher.test
+    else
+      ~chisq.test
+  } else if (nlevels(grp) == 2)
+    ~wilcox.test
+  else
+    ~kruskal.test
+}
+```
+
+You can also provide a default statistical test using the `.default` argument
+
+```{r}
+mtcars %>%
+  group_by(am) %>%
+  desc_table(mean, sd) %>%
+  desc_tests(.default = ~t.test) %>%
+  desc_output("DT")
+```
+
+Note that as with named tests, it is necessary to prepend the test name with a tilde (`~`).
+
+You can still choose individual tests when you define either a `.auto` or a `.default` test
+
+```{r, warning = F}
+mtcars %>%
+  group_by(am) %>%
+  desc_table(mean, sd, median, IQR) %>%
+  desc_tests(.default = ~t.test, carb = ~wilcox.test) %>%
+  desc_output("DT")
+```
+
+Note that if a `.default` test is provided, `.auto` is ignored.
+
+### Output options
+
+You can set the number of significant digits to display with the `digits` argument.
+The p values are truncated at 1E-digits.
+
+```{r}
+iris %>%
+  group_by(Species) %>%
+  desc_table(mean, sd) %>%
+  desc_tests() %>%
+  desc_output("DT", digits = 10)
+```
+
+Any additional argument given to `desc_output` will be carried to the output function
+
+```{r}
+iris %>%
+  group_by(Species) %>%
+  desc_table(mean, sd) %>%
+  desc_output("DT", filter = "top")
+```
