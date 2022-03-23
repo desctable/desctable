@@ -1,0 +1,3 @@
+[submodule "website"]
+	path = docs
+	url = git@github.com:desctable/desctable.github.io
