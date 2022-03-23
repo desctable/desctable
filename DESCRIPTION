@@ -6,8 +6,7 @@ Authors@R: c(person("Maxime", "Wack", email = "maximewack@free.fr", role = c("au
              person("Yihui", "Xie", email = "xieyihui@gmail.com", role = c("ctb")))
 Description: Easily create descriptive and comparative tables.
     It makes use and integrates directly with the tidyverse family of packages, and pipes.
-    Tables are produced as data frames/lists of data frames for easy manipulation after creation,
-    and ready to be saved as csv, or piped to DT::datatable() or pander::pander() to integrate into reports.
+    Tables are produced as (nested) dataframes for easy manipulation.
 Depends:
     R (>= 3.2.3),
     pander
@@ -15,7 +14,7 @@ License: GPL-3
 Encoding: UTF-8
 LazyData: true
 URL: https://desctable.github.io
-BugReports: https://github.com/maximewack/desctable/issues
+BugReports: https://github.com/desctable/desctable/issues
 Imports:
     dplyr,
     DT,

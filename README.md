@@ -2,10 +2,12 @@ Desctable
 ================
 
 [![Travis-CI Build
-Status](https://travis-ci.org/desctable/desctable.svg?branch=master)](https://travis-ci.org/desctable/desctable)
+Status](https://travis-ci.org/desctable/desctable.svg?branch=master)](https://travis-ci.org/desctable/desctable)  
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/desctable)](https://cran.r-project.org/package=desctable)
 [![CRAN RStudio mirror
 downloads](http://cranlogs.r-pkg.org/badges/desctable)](https://www.r-pkg.org:443/pkg/desctable)
+[![CRAN RStudio mirror total
+downloads](http://cranlogs.r-pkg.org/badges/grand-total/desctable)](https://www.r-pkg.org:443/pkg/desctable)
 
 **Warning to existing users**  
 *This version introduces a new API that should make the creation of
