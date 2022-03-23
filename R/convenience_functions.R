@@ -19,7 +19,8 @@ percent <- function(x) {
 #' @return The IQR
 #' @export
 IQR <- function(x) {
-  base::diff(stats::quantile(x, c(0.25, 0.75), na.rm = T))
+  if (!is.factor(x))
+    base::diff(stats::quantile(x, c(0.25, 0.75), na.rm = T))
 }
 
 

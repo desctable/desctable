@@ -22,3 +22,4 @@ to produce a single statistics column.
 The result is either a numeric vector, or a character vector if
 the content of the column is not made entirely of numbers.
 }
+\keyword{internal}

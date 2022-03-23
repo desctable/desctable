@@ -21,3 +21,4 @@ Transform a function into a valid test function for the table
 Applying the function on a numerical vector should return one value
 Applying the function on a factor should return nlevels + 1 value, or one value per factor level
 }
+\keyword{internal}

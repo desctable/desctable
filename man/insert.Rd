@@ -20,3 +20,4 @@ The combined vector
 The vectors in the y list will be inserted
 at positions respectively *after* the x[position] element of x
 }
+\keyword{internal}

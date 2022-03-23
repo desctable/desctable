@@ -2,7 +2,7 @@
 % Please edit documentation in R/tests.R
 \name{tests_auto}
 \alias{tests_auto}
-\title{Functions to choose a statistical test}
+\title{Function to choose a statistical test}
 \usage{
 tests_auto(var, grp)
 }
@@ -15,8 +15,9 @@ tests_auto(var, grp)
 A statistical test function
 }
 \description{
-These functions take a variable and a grouping variable as arguments, and return a statistcal test to use, expressed as a single-term formula.
+This function takes a variable and a grouping variable as arguments, and returns a statistcal test to use, expressed as a single-term formula.
 }
 \details{
-Currently, only \code{tests_auto} is defined, and picks between t test, wilcoxon, anova, kruskal-wallis and fisher depending on the number of groups, the type of the variable, the normality and homoskedasticity of the distributions.
+This function uses appropriate non-parametric tests depending on the number of levels (wilcoxon.test for two levels
+and kruskal.test for more), and fisher.test with fallback on chisq.test on error for factors.
 }

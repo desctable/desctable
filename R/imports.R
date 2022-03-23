@@ -7,5 +7,7 @@ dplyr::`%>%`
 #' @export
 dplyr::group_by
 
-#' @importFrom pander pander
-pander::pander
+
+#' @importFrom rlang !!!
+#' @export
+rlang::`!!!`

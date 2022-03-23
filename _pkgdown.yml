@@ -1,0 +1,40 @@
+url: ~
+template:
+  bootstrap: 5
+reference:
+- title: Core desctable functions
+  desc: |
+    Functions to define and render tables
+  contents:
+  - desc_table
+  - desc_tests
+  - desc_output
+- title: Deprecated API
+  desc: |
+    Previous API for desctable, that will be deprecated with version 1.0
+  contents:
+  - desctable
+  - print.desctable
+  - as.data.frame.desctable
+  - pander.desctable
+  - datatable
+  - stats_default
+- title: Convenience functions
+  desc: |
+    Functions to facilitate frequent operations
+- subtitle: stats
+  contents:
+  - IQR
+  - percent
+  - is.normal
+- subtitle: tests
+  contents:
+  - no.test
+  - chisq.test
+  - fisher.test
+  - ANOVA
+- subtitle: automatic functions
+  contents:
+  - stats_auto
+  - tests_auto
+
