@@ -6,6 +6,7 @@
 \alias{pander}
 \alias{\%>\%}
 \alias{group_by}
+\alias{!!!}
 \title{Objects exported from other packages}
 \keyword{internal}
 \description{
@@ -16,5 +17,7 @@ below to see their documentation.
   \item{dplyr}{\code{\link[dplyr:reexports]{\%>\%}}, \code{\link[dplyr]{group_by}}}
 
   \item{pander}{\code{\link[pander]{pander}}}
+
+  \item{rlang}{\code{\link[rlang:splice-operator]{!!!}}}
 }}
 

@@ -6,3 +6,8 @@ dplyr::`%>%`
 #' @importFrom dplyr group_by
 #' @export
 dplyr::group_by
+
+
+#' @importFrom rlang !!!
+#' @export
+rlang::`!!!`
