@@ -1,6 +1,5 @@
 ## Test environments
-* archlinux 64bits, R 3.4.0
-* centOS 6 64 bits, R 3.4.0
+* archlinux 64bits, R 4.1.3
 * win-builder (devel and release)
 
 ## R CMD check results

@@ -12,7 +12,6 @@ Depends:
     pander
 License: GPL-3
 Encoding: UTF-8
-LazyData: true
 URL: https://desctable.github.io
 BugReports: https://github.com/desctable/desctable/issues
 Imports:

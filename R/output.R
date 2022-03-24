@@ -8,8 +8,8 @@
 ##' }
 ##'
 ##' All numerical values will be rounded to the digits argument.
-##' If statistical tests are presents, p values below 1E-digits will be replaced with "≤ 1E-digits"
-##' (eg. "≤ 0.01" for values below 0.01 when digits = 2)
+##' If statistical tests are presents, p values below 1E-digits will be replaced with "< 1E-digits"
+##' (eg. "< 0.01" for values below 0.01 when digits = 2)
 ##'
 ##' @title desc_output
 ##' @param desctable The desctable to output
@@ -65,7 +65,7 @@ output_df_grouped <- function(desctable, digits, ...) {
     tests$p[tests$p < 10^-digits] <- 10^-digits
     prettyNum(tests$p, digits = digits) %>%
       gsub(pattern = "^NA$", replacement = "") %>%
-      gsub(pattern = "^(0.0*1)$", replacement = "\u2264 \\1") -> tests$p
+      gsub(pattern = "^(0.0*1)$", replacement = "< \\1") -> tests$p
 
     table <- cbind(table, tests)
   }
@@ -117,7 +117,7 @@ output_pander_grouped <- function(desctable, digits, ...) {
     tests$p[tests$p < 10^-digits] <- 10^-digits
     prettyNum(tests$p, digits = digits) %>%
       gsub(pattern = "^NA$", replacement = "") %>%
-      gsub(pattern = "^(0.0*1)$", replacement = "\u2264 \\1") -> tests$p
+      gsub(pattern = "^(0.0*1)$", replacement = "< \\1") -> tests$p
 
     table <- cbind(table, tests)
   }
@@ -182,7 +182,7 @@ output_DT_grouped <- function(desctable, digits, ...) {
     tests$p[tests$p < 10^-digits] <- 10^-digits
     prettyNum(tests$p, digits = digits) %>%
       gsub(pattern = "^NA$", replacement = "") %>%
-      gsub(pattern = "^(0.0*1)$", replacement = "\u2264 \\1") -> tests$p
+      gsub(pattern = "^(0.0*1)$", replacement = "< \\1") -> tests$p
 
     table <- cbind(table, tests)
   }
