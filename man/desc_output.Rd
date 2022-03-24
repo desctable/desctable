@@ -30,8 +30,8 @@ Currently available formats are\itemize{
 }
 
 All numerical values will be rounded to the digits argument.
-If statistical tests are presents, p values below 1E-digits will be replaced with "≤ 1E-digits"
-(eg. "≤ 0.01" for values below 0.01 when digits = 2)
+If statistical tests are presents, p values below 1E-digits will be replaced with "< 1E-digits"
+(eg. "< 0.01" for values below 0.01 when digits = 2)
 }
 \seealso{
 \code{\link[DT]{datatable}}
