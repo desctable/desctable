@@ -108,11 +108,9 @@ For example, to compare Sepal.Width using a Student's t test
 iris %>%
   group_by(Petal.Length > 5) %>%
   desc_table(mean, sd, median, IQR) %>%
-  desc_tests(Sepal.Width = ~t.test) %>%
+  desc_tests(Sepal.Width = t.test) %>%
   desc_output("DT")
 ```
-
-Note that the name of the test **must** be prepended with a tilde (`~`) in all cases!
 
 You can also use `purrr::map`-like formulas to change tests options
 

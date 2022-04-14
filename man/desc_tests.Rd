@@ -23,10 +23,7 @@ Add test statistics to a grouped desc_table, with the tests specified as \code{v
 }
 \section{Tests}{
 
-The statistical test functions to use in the table are passed as additional named arguments. Tests must be preceded
-by a formula tilde (\code{~}).
-\code{name = ~test} will apply test \code{test} to variable \code{name}.
-
+The statistical test functions to use in the table are passed as additional named arguments.
 Any R test function can be used, as long as it returns an object containing a \code{p.value} element, which is the
 case for most tests returning an object of class  \code{htest}.
 
@@ -38,8 +35,8 @@ compute a t test without the Welch correction.
 iris \%>\%
   group_by(Species) \%>\%
   desc_table() \%>\%
-  desc_tests(Sepal.Length = ~kruskal.test,
-             Sepal.Width  = ~oneway.test,
+  desc_tests(Sepal.Length = kruskal.test,
+             Sepal.Width  = oneway.test,
              Petal.Length = ~oneway.test(., var.equal = T),
              Petal.Length = ~oneway.test(., var.equal = F))
 }

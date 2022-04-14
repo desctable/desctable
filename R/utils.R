@@ -53,3 +53,18 @@ which.desctable <- function(desctable)
   else
     ""
 }
+
+##' Quote an argument in a formula if it is not already a formula
+##'
+##' The argument must have been captured unevaluated first
+##' 
+##' @param deparsed The unevaluated argument (with rlang::enexprs)
+##' @param orig The evaluated argument
+##' @return A formula
+formula_quote <- function(deparsed, orig)
+{
+  if (as.character(deparsed)[1] == "~")
+    orig
+  else
+    as.formula(paste0("~", as.character(deparsed)))
+}

@@ -266,10 +266,7 @@ desc_table.grouped_df <- function(data, ..., .auto = stats_auto, .labels = NULL)
 #' Add test statistics to a grouped desc_table, with the tests specified as \code{variable = test}.
 #'
 #' @section Tests:
-#' The statistical test functions to use in the table are passed as additional named arguments. Tests must be preceded
-#' by a formula tilde (\code{~}).
-#' \code{name = ~test} will apply test \code{test} to variable \code{name}.
-#'
+#' The statistical test functions to use in the table are passed as additional named arguments.
 #' Any R test function can be used, as long as it returns an object containing a \code{p.value} element, which is the
 #' case for most tests returning an object of class  \code{htest}.
 #'
@@ -290,8 +287,8 @@ desc_table.grouped_df <- function(data, ..., .auto = stats_auto, .labels = NULL)
 #' iris %>%
 #'   group_by(Species) %>%
 #'   desc_table() %>%
-#'   desc_tests(Sepal.Length = ~kruskal.test,
-#'              Sepal.Width  = ~oneway.test,
+#'   desc_tests(Sepal.Length = kruskal.test,
+#'              Sepal.Width  = oneway.test,
 #'              Petal.Length = ~oneway.test(., var.equal = T),
 #'              Petal.Length = ~oneway.test(., var.equal = F))
 desc_tests <- function(desctable, .auto = tests_auto, .default = NULL, ...) {
@@ -304,12 +301,18 @@ For example: iris %>% group_by(Species) %>% desc_table() %>% desc_tests")
   fulldata$.stats <- NULL
   fulldata$.vars <- NULL
 
-  tests <- list(...)
+  ## Capture unevaluated function name to transform into a formula for testify
+  ## If already a formula, keep the evaluated formula
+  tests <- mapply(formula_quote,
+                  rlang::enexprs(...),
+                  list(...))
+
+  .default <- formula_quote(rlang::enexpr(.default), .default)
 
   if (!(all(names(desctable$data[[1]]) %in% names(tests))) & is.null(.auto) & is.null(.default)) {
     stop("desc_tests needs either a full specification of tests, or include a .auto or a .default function for non specified-tests")
   } else {
-    tests <- c(list(...), list(.auto = .auto, .default = .default))
+    tests <- c(tests, list(.auto = .auto, .default = .default))
   }
 
   desctable$.tests <- list(testColumn(fulldata, tests, as.symbol(names(desctable)[1])))

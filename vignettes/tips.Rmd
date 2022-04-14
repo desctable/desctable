@@ -148,16 +148,16 @@ tests_auto <- function(var, grp) {
   grp <- factor(grp)
 
   if (nlevels(grp) < 2)
-    ~no.test
+    ~no.test(.)
   else if (is.factor(var)) {
     if (tryCatch(is.numeric(fisher.test(var ~ grp)$p.value), error = function(e) F))
-      ~fisher.test
+      ~fisher.test(.)
     else
-      ~chisq.test
+      ~chisq.test(.)
   } else if (nlevels(grp) == 2)
-    ~wilcox.test
+    ~wilcox.test(.)
   else
-    ~kruskal.test
+    ~kruskal.test(.)
 }
 ```
 
@@ -167,11 +167,9 @@ You can also provide a default statistical test using the `.default` argument
 mtcars %>%
   group_by(am) %>%
   desc_table(mean, sd) %>%
-  desc_tests(.default = ~t.test) %>%
+  desc_tests(.default = t.test) %>%
   desc_output("DT")
 ```
-
-Note that as with named tests, it is necessary to prepend the test name with a tilde (`~`).
 
 You can still choose individual tests when you define either a `.auto` or a `.default` test
 
@@ -179,7 +177,7 @@ You can still choose individual tests when you define either a `.auto` or a `.de
 mtcars %>%
   group_by(am) %>%
   desc_table(mean, sd, median, IQR) %>%
-  desc_tests(.default = ~t.test, carb = ~wilcox.test) %>%
+  desc_tests(.default = t.test, carb = wilcox.test) %>%
   desc_output("DT")
 ```
 
