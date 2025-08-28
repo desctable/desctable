@@ -44,16 +44,16 @@ fisher.test(
 \item{workspace}{an integer specifying the size of the workspace
     used in the network algorithm.  In units of 4 bytes.  Only used for
     non-simulated p-values larger than \eqn{2 \times 2}{2 by 2} tables.
-    Since \R version 3.5.0, this also increases the internal stack size
-    which allows larger problems to be solved, however sometimes needing
-    hours.  In such cases, \code{simulate.p.values=TRUE} may be more
+    This also increases the internal stack size
+    which allows larger problems to be solved, sometimes needing
+    hours.  In such cases, \code{simulate.p.values = TRUE} may be more
     reasonable.}
 
 \item{hybrid}{a logical. Only used for larger than \eqn{2 \times 2}{2 by 2}
     tables, in which cases it indicates whether the exact probabilities
     (default) or a hybrid approximation thereof should be computed.}
 
-\item{control}{a list with named components for low level algorithm
+\item{control}{a list with named components for low-level algorithm
     control.  At present the only one used is \code{"mult"}, a positive
     integer \eqn{\ge 2} with default 30 used only for larger than
     \eqn{2 \times 2}{2 by 2} tables.  This says how many times as much
@@ -81,7 +81,7 @@ fisher.test(
       2}{2 by 2} tables.}
 
 \item{B}{an integer specifying the number of replicates used in the
-    Monte Carlo test.}
+    Monte Carlo test when \code{simulate.p.value} is true.}
 
 \item{...}{additional params to feed to original fisher.test}
 }

@@ -190,11 +190,13 @@ fisher.test <- function(x, y, workspace, hybrid, control, or, alternative, conf.
 
 
 #' @rdname fisher.test
+#' @export
 fisher.test.default <- function(x, ...) {
   stats::fisher.test(x, ...)
 }
 
 #' @rdname fisher.test
+#' @export
 fisher.test.formula <- function(x,
                                 y = NULL,
                                 workspace = 200000,
@@ -348,12 +350,12 @@ chisq.test <- function(x, y, correct, p, rescale.p, simulate.p.value, B) {
   UseMethod("chisq.test")
 }
 
-
 #' @rdname chisq.test
+#' @export
 chisq.test.default <- stats::chisq.test
 
 #' @rdname chisq.test
-
+#' @export
 chisq.test.formula <- function(x,
                                y = NULL,
                                correct = T,

@@ -4,7 +4,7 @@
 \alias{desc_output}
 \title{desc_output}
 \usage{
-desc_output(desctable, target = c("df", "pander", "DT"), digits = 2, ...)
+desc_output(desctable, target = c("df", "pander", "DT", "gt"), digits = 2, ...)
 }
 \arguments{
 \item{desctable}{The desctable to output}
