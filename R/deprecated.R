@@ -207,7 +207,7 @@ as.data.frame.desctable <- function(x, ...) {
 #'
 #' @param x A desctable
 #' @inheritParams pander::pandoc.table
-#' @seealso \code{\link{pandoc.table}}
+#' @seealso \code{\link[pander]{pandoc.table}}
 #' @export
 #' @keywords deprecated
 pander.desctable <- function(x = NULL,

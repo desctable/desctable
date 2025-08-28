@@ -2,7 +2,7 @@ Desctable
 ================
 
 [![Travis-CI Build
-Status](https://travis-ci.org/desctable/desctable.svg?branch=master)](https://travis-ci.org/desctable/desctable)  
+Status](https://app.travis-ci.com/desctable/desctable.svg?branch=master)](https://app.travis-ci.com/desctable/desctable)  
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/desctable)](https://cran.r-project.org/package=desctable)
 [![CRAN RStudio mirror
 downloads](http://cranlogs.r-pkg.org/badges/desctable)](https://www.r-pkg.org:443/pkg/desctable)
@@ -54,8 +54,8 @@ comparative tables, allowing easier manipulation by the user.
 
 ## Next
 
--   Add a `desc_output` for {gt}
--   Implement a way to make tables for survival analysis.
--   Implement a way to make tables for multivariate models.
--   Allow univariate tests for simple tables
--   add a column for totals in grouped tables
+- Add a `desc_output` for {gt}
+- Implement a way to make tables for survival analysis.
+- Implement a way to make tables for multivariate models.
+- Allow univariate tests for simple tables
+- add a column for totals in grouped tables

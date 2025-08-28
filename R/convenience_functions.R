@@ -55,7 +55,7 @@ is.normal <- function(x) {
 #' computations are based on a C version of the FORTRAN subroutine
 #' FEXACT which implements the network developed by Mehta and Patel
 #' (1986) and improved by Clarkson, Fan and Joe (1993).  The FORTRAN
-#' code can be obtained from \url{http://www.netlib.org/toms/643}.
+#' code can be obtained from \url{https://www.netlib.org/toms/643}.
 #' Note this fails (with an error message) when the entries of the
 #' table are too large.  (It transposes the table if necessary so it
 #' has no more rows than columns.  One constraint is that the product
@@ -190,11 +190,13 @@ fisher.test <- function(x, y, workspace, hybrid, control, or, alternative, conf.
 
 
 #' @rdname fisher.test
+#' @export
 fisher.test.default <- function(x, ...) {
   stats::fisher.test(x, ...)
 }
 
 #' @rdname fisher.test
+#' @export
 fisher.test.formula <- function(x,
                                 y = NULL,
                                 workspace = 200000,
@@ -348,12 +350,12 @@ chisq.test <- function(x, y, correct, p, rescale.p, simulate.p.value, B) {
   UseMethod("chisq.test")
 }
 
-
 #' @rdname chisq.test
+#' @export
 chisq.test.default <- stats::chisq.test
 
 #' @rdname chisq.test
-
+#' @export
 chisq.test.formula <- function(x,
                                y = NULL,
                                correct = T,
